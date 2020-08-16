@@ -3,16 +3,15 @@
     ref="code"
     class="code"
     :class="{ready: cmReady, completed: isCompleted, heatMap: heatMapReady}"
+    @keydown.capture.prevent="onKeyDown"
   >
     <codemirror
-      id="codemirror"
       ref="codemirror"
       v-model="codeText"
+      class="codemirror"
       :options="cmOptions"
       @ready="onCmReady"
-      @keydown="onKeyDown"
-      @changes="onCmCodeChange"
-      @beforeChange="onCmBeforeChange"
+
       @blur="onUnFocus"
     />
 
@@ -57,7 +56,9 @@ export default {
       heatMapReady: false,
       toFix: 0,
       markers: [],
-      currentLineNr: 0,
+      currentLine: 0,
+      currentChar: 0,
+      correctCharsInLine: 0,
       currentChange: {},
       stats: {
         history: [],
@@ -70,7 +71,7 @@ export default {
     ...mapGetters(['language', 'options', 'codeInfo', 'customCode']),
     cmOptions() {
       return {
-        undoDepth: 0,
+        // undoDepth: 0,
         tabSize: this.tabWidth,
         styleActiveLine: false,
         lineNumbers: this.options.lineNumbers,
@@ -86,8 +87,8 @@ export default {
         autocorrect: false,
         showCursorWhenSelecting: true,
         theme: this.options.selectedTheme,
-        cursorScrollMargin: 200,
-        // scrollbarStyle: null,
+        // cursorScrollMargin: 200,
+        readOnly: true,
         extraKeys: {
           Backspace: () => {
             console.log(`backspace: ${this.toFix}`);
@@ -98,21 +99,21 @@ export default {
           },
           Tab: () => {}, // TODO soft tab
           Enter: () => {
-            if (!this.stats.oneThirdTime && this.currentLineNr === Math.floor(this.codeInfo.lines / 3)) {
+            if (!this.stats.oneThirdTime && this.currentLine === Math.floor(this.codeInfo.lines / 3)) {
               this.stats.oneThirdCharsCount = 0 - 1; // TODO
               this.stats.oneThirdTime = this.timeElapsed();
-            } else if (!this.stats.lastThirdStartTime && this.currentLineNr === Math.floor(this.codeInfo.lines / 3 * 2)) {
+            } else if (!this.stats.lastThirdStartTime && this.currentLine === Math.floor(this.codeInfo.lines / 3 * 2)) {
               this.stats.lastThirdCharsCount = this.codeText.length - 0 - 1; // TODO
               this.stats.lastThirdStartTime = this.timeElapsed();
             }
           },
         },
         Insert: () => {
-          if (this.currentLineNr < this.codeInfo.lines) {
+          if (this.currentLine < this.codeInfo.lines) {
             this.toFix = 0;
             this.stats.cheat = true;
 
-            this.currentLineNr += 1;
+            this.currentLine += 1;
           }
         },
         // disable keys
@@ -144,7 +145,7 @@ export default {
           this.popUpClickable = true;
         }
       } else {
-        // this.0Cm.focus(); TODO
+        this.cm.focus();
         this.popUpClickable = false;
       }
       this.showPopUp = action;
@@ -156,20 +157,107 @@ export default {
       this.fixHeight();
       window.addEventListener('resize', this.fixHeight);
 
-      cm.setOption('readOnly', true);
+      // cm.setOption('readOnly', true);
     },
-    onKeyDown() {
+    onKeyDown(ev) {
+      console.log(ev);
+      // const allowedKeys = 'qwertyuiopasdfghjklzxcvbnm1234567890!@#$%^&*()-=_+[]{};\'\\:"|,./<>?`~';
+      const handleEnter = () => {
+        // const markers = this.cm.findMarksAt({ line: this.currentLine, ch: 0 });
+        // console.log(markers);
+        const expectedText = this.cm.getLine(this.currentLine);
+        // console.green(expectedText);
+        if (this.correctCharsInLine === expectedText.length) {
+          this.cm.execCommand('goCharRight');
+          this.currentChar = 0;
+          this.correctCharsInLine = 0;
+          this.currentLine += 1;
+        }
+      };
 
+      if (ev.key === 'Shift') {
+        // prevent double event
+      } else if (ev.key === 'Insert') {
+        this.cm.execCommand('goLineEnd');
+        this.cm.execCommand('goCharRight');
+        this.cm.markText(
+          { line: this.currentLine, ch: this.currentChar },
+          { line: this.currentLine, ch: this.cm.getLine(this.currentLine).length + 1 },
+          { className: 'correct' },
+        );
+        this.currentLine += 1;
+        this.currentChar = 0;
+        this.correctCharsInLine = 0;
+      } else if (ev.key === 'End') {
+        this.cm.execCommand('goDocEnd');
+        this.cm.markText(
+          { line: 0, ch: 0 },
+          { line: this.codeInfo.lines + 1, ch: 1 },
+          { className: 'correct' },
+        );
+        this.currentLine = this.codeInfo.lines - 1;
+        this.currentChar = this.cm.getLine(this.currentLine);
+        this.correctCharsInLine = this.currentChar;
+        this.completed();
+      } else if (ev.key === 'Enter') {
+        handleEnter();
+      } else if (ev.key === 'Backspace') {
+        if (this.toFix) {
+          this.toFix -= 1;
+          this.cm.execCommand('goCharLeft');
+          this.cm.execCommand('undo'); // clear marker
+          this.currentChar -= 1;
+          console.blue(`Deleted tofix: ${this.toFix}`);
+        } else {
+          console.blue('Blocked Nothing to fix');
+        }
+      } else {
+        const lineText = this.cm.getLine(this.currentLine);
+        if (this.currentChar !== lineText.length) { // block too long lines
+          const expectedChar = lineText[this.currentChar];
+          if (ev.key === expectedChar) {
+            console.green(`correct '${ev.key}'`);
+            if (this.toFix) {
+              console.red(`blocked unfixed mistakes: ${this.toFix}`);
+            } else {
+              this.cm.markText(
+                { line: this.currentLine, ch: this.currentChar },
+                { line: this.currentLine, ch: this.currentChar + 1 },
+                { className: 'correct' },
+              );
+              this.cm.execCommand('goCharRight');
+              this.currentChar += 1;
+              this.correctCharsInLine += 1;
+
+              if (this.currentLine + 1 === this.codeInfo.lines && this.correctCharsInLine === this.cm.getLine(this.currentLine).length) {
+                this.completed();
+              }
+            }
+          } else {
+            this.toFix += 1;
+            console.red(`wrong: ${this.toFix}`);
+            this.cm.markText(
+              { line: this.currentLine, ch: this.currentChar },
+              { line: this.currentLine, ch: this.currentChar + 1 },
+              { className: 'mistake', addToHistory: true },
+            );
+            this.cm.execCommand('goCharRight');
+            this.currentChar += 1;
+          }
+        } else {
+          console.red('overshoot');
+        }
+      }
     },
     onUnFocus(_, ev) {
       if (!this.isCompleted) {
+        this.cm.focus(); // dev
         if (ev.relatedTarget !== null) {
-          console.green(ev.relatedTarget.tagName);
           if (ev.relatedTarget.tagName !== 'BUTTON' && ev.relatedTarget.tagName !== 'A') {
-            this.popUp(true, 'Resume');
+            // this.popUp(true, 'Resume'); // dev
           }
         } else {
-          this.popUp(true, 'Resume');
+          // this.popUp(true, 'Resume');
         }
       }
     },
@@ -194,7 +282,7 @@ export default {
     onCmBeforeChange(_, change) {
       // console.log(`change origin: ${change.origin}`);
       const o = change.origin;
-      if (o === 'undo' || o === 'cut' || o === 'paste') {
+      if (o === 'cut' || o === 'paste') {
         console.log('UNALLOWED EVENT');
         change.cancel();
         if (o === 'cut') {
@@ -302,9 +390,14 @@ export default {
     },
     start(interval) {
       clearInterval(interval);
+      this.cm.markText(
+        { line: 0, ch: 0 },
+        { line: this.codeInfo.lines + 1, ch: 1 },
+        { className: 'bugfix' },
+      );
       this.popUp(false, 'START');
       this.started = true;
-      // this.0Cm.focus(); TODO
+      this.cm.focus();
       console.log('START');
       this.stats.startTime = Date.now();
     },
@@ -327,7 +420,7 @@ export default {
         } else if (this.countdown === 0) {
           this.start(interval);
         }
-      }, 500);
+      }, 100);
 
 
       // console.log('loadMode ', Date.now());
@@ -394,7 +487,8 @@ export default {
               break;
             }
           }
-          this.cm.markText(from, to, { className: 'mark' });
+          this.cm.markText(from, to, { className: 'mistake' });
+          console.log(this.cm.getAllMarks);
         }
       }
       // console.log('heatmap ready', this.timeElapsed());
@@ -415,36 +509,14 @@ export default {
 .code
   height: 100%
   opacity: 0
-  // pointer-events: none !important
+  pointer-events: none
   position: relative
+  outline: none
   transition: opacity .5s ease-in
   transition-delay: .7s
 
   &.ready
     opacity: 1
-
-  ::v-deep
-    .CodeMirror-line
-      line-break: anywhere !important
-
-    .mark
-      background-color: rgba(255, 255, 255, .3)
-
-    .CodeMirror
-
-      .CodeMirror-scroll
-        padding-right: .7em
-        &::-webkit-scrollbar
-          display: none
-
-      .CodeMirror-vscrollbar
-        &::-webkit-scrollbar
-          width: $gap / 2
-        &::-webkit-scrollbar-thumb
-          background: linear-gradient(to top, $purple-gradient-colors)
-        &::-webkit-scrollbar-track
-          background-color: $grid-color
-
 
   // #0 ::v-deep
   //   .underScore
@@ -458,45 +530,58 @@ export default {
   //     opacity: 0
 
 
-.codemirror ::v-deep .CodeMirror-line
-  z-index: 0
-  opacity: 0.7
-  filter: saturate(80%)
-  transition: opacity 2s, filter 2s
+.codemirror ::v-deep
+
+  .CodeMirror-line
+    line-break: anywhere !important // TODO propably not needed
+    // z-index: 0
+    // opacity: 0.7
+    // filter: saturate(80%)
+    transition: opacity 2s, filter 2s
+
+    span > span
+      transition: filter 1s ease-out
+      filter: grayscale(40%) brightness(80%)
+
+    .correct
+      filter: none
+
+    .mistake
+      background-color: rgba(255, 255, 255, .3)
+
+
+  .CodeMirror-scroll
+    padding-right: .7em
+
+  .CodeMirror-vscrollbar
+    &::-webkit-scrollbar
+      width: $gap / 2
+    &::-webkit-scrollbar-thumb
+      background: linear-gradient(to top, $purple-gradient-colors)
+    &::-webkit-scrollbar-track
+      background-color: $grid-color
+
 
 
 .completed
-  .codemirror ::v-deep .CodeMirror-code span
-    color: transparent !important
+  .codemirror ::v-deep
 
-  ::v-deep .mark
-    background-color: transparent
-    transition: margin $nav-trans-dur $nav-trans-timing, padding $nav-trans-dur $nav-trans-timing, background-color .5s ease-out 1s, box-shadow .5s ease-out 1s
+    .mistake
+      background-color: transparent
+      transition: margin $nav-trans-dur $nav-trans-timing, padding $nav-trans-dur $nav-trans-timing, background-color .5s ease-out 1s, box-shadow .5s ease-out 1s
 
 
 
 .heatMap
   .codemirror
-    opacity: 1
     ::v-deep
-      .CodeMirror-line
+      .mistake
+        background-color: $grid-color
+        box-shadow: -2px 2px 8px 0px rgba(0,0,0,.6)
+        // outline: 0.2em solid $grid-color
+        padding: 0.1em 0.2em
+        // margin: 0.2em
         opacity: 1
-      .CodeMirror-linenumber
-        opacity: 0
-
-  // #0 ::v-deep
-  //   .CodeMirror, CodeMirror-gutters
-  //     background: transparent
-  //   .CodeMirror-linenumber
-  //     opacity: 1
-
-  ::v-deep .mark
-    background-color: $grid-color
-    box-shadow: -2px 2px 8px 0px rgba(0,0,0,.6)
-    // outline: 0.2em solid $grid-color
-    padding: 0.1em 0.2em
-    // margin: 0.2em
-    opacity: 1
 
 
 @keyframes opacity-enter

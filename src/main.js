@@ -37,9 +37,13 @@ window.addEventListener('message', (e) => {
   }
 });
 
-console.blue = (msg) => {
-  console.log(`%c${msg}`, 'color: #00cdff');
+console.red = (msg) => {
+  console.log(`%c${msg}`, 'color: #f44336');
 };
 console.green = (msg) => {
   console.log(`%c${msg}`, 'color: #00dd00');
 };
+console.blue = (msg) => {
+  console.log(`%c${msg}`, 'color: #00cdff');
+};
+
