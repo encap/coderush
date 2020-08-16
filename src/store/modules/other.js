@@ -43,7 +43,6 @@ const actions = {
       codeInfo.tabSize = state.customCode.lines;
       codeInfo.lines = state.customCode.lines;
     } else {
-      console.log(rootState);
       codeInfo = rootState.options.language.files[fileIndex];
     }
     commit('SET_CODE_INFO', codeInfo);

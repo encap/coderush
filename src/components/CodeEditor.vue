@@ -2,27 +2,20 @@
   <div
     ref="code"
     class="code"
-    :class="{ready: editorsReady, completed: isCompleted, heatMap: heatMapReady}"
+    :class="{ready: cmReady, completed: isCompleted, heatMap: heatMapReady}"
   >
     <codemirror
-      id="original"
-      ref="original"
-      v-model="originalCode"
+      id="codemirror"
+      ref="codemirror"
+      v-model="codeText"
       :options="cmOptions"
-      @ready="onOriginalCmReady"
+      @ready="onCmReady"
+      @keydown="onKeyDown"
+      @changes="onCmCodeChange"
+      @beforeChange="onCmBeforeChange"
+      @blur="onUnFocus"
     />
 
-    <codemirror
-      id="editor"
-      ref="editor"
-      v-model="editorCode"
-      :options="cmOptions"
-      @ready="onEditorCmReady"
-      @changes="onCmCodeChange"
-      @beforeChange="onBeforeChange"
-      @blur="onUnFocus"
-      @scroll="onScroll"
-    />
     <div class="pop-up" :class="{hidden: !showPopUp, clickable: popUpClickable, 'small-font': popUpText.length > 15}">
       <h2 @click="popUp(false)">
         {{ popUpText }}
@@ -56,13 +49,11 @@ export default {
       showPopUp: true,
       popUpClickable: false,
       popUpText: 3,
-      originalCm: {},
-      editorCm: {},
-      originalCode: '',
-      editorCode: '',
+      cm: {},
+      codeText: '',
       started: false,
       isCompleted: false,
-      editorsReady: false,
+      cmReady: false,
       heatMapReady: false,
       toFix: 0,
       markers: [],
@@ -95,95 +86,49 @@ export default {
         autocorrect: false,
         showCursorWhenSelecting: true,
         theme: this.options.selectedTheme,
-        // cursorScrollMargin: 200,
+        cursorScrollMargin: 200,
         // scrollbarStyle: null,
         extraKeys: {
           Backspace: () => {
             console.log(`backspace: ${this.toFix}`);
             if (this.toFix > 0) {
-              this.editorCm.execCommand('delCharBefore');
+              // TODO
               this.toFix -= 1;
             }
           },
-          Tab: () => this.editorCm.execCommand('insertSoftTab'),
+          Tab: () => {}, // TODO soft tab
           Enter: () => {
-            if (this.editorCm.getLine(this.currentLineNr).slice(0, -1) === this.originalCm.getLine(this.currentLineNr)) {
-              // console.blue('go line down');
-              this.currentLineNr += 1;
-
-
-              if (this.currentLineNr + 1 === this.codeInfo.lines) {
-                this.editorCm.replaceRange('', { line: this.currentLineNr - 1, ch: 999 }, { line: this.codeInfo.lines + 1 });
-
-                this.editorCm.replaceSelection('\n');
-              } else {
-                this.editorCm.replaceSelection('\n');
-                // this.editorCm.startOperation();
-                this.editorCm.execCommand('goLineDown');
-                this.editorCm.execCommand('deleteLine');
-                this.editorCm.execCommand('goLineUp');
-              }
-
-              if (!this.originalCm.getLine(this.currentLineNr)) {
-                // dont show underscore on empty line
-                this.hiddenUnderscore = this.editorCm.markText({ line: this.currentLineNr, ch: 0 }, { line: this.currentLineNr, ch: 1 }, { className: 'underScoreHidden' });
-              } else {
-                if (this.hiddenUnderscore) {
-                  this.hiddenUnderscore.clear();
-                }
-                if (this.options.autoIndent) {
-                  const indentText = this.originalCm.getLine(this.currentLineNr).match('[^\\S]*')[0];
-                  this.editorCm.replaceSelection(indentText);
-                }
-              }
-
-              if (!this.stats.oneThirdTime && this.currentLineNr === Math.floor(this.codeInfo.lines / 3)) {
-                this.stats.oneThirdCharsCount = this.editorCode.length - 1;
-                this.stats.oneThirdTime = this.timeElapsed();
-              } else if (!this.stats.lastThirdStartTime && this.currentLineNr === Math.floor(this.codeInfo.lines / 3 * 2)) {
-                this.stats.lastThirdCharsCount = this.originalCode.length - this.editorCode.length - 1;
-                this.stats.lastThirdStartTime = this.timeElapsed();
-              }
+            if (!this.stats.oneThirdTime && this.currentLineNr === Math.floor(this.codeInfo.lines / 3)) {
+              this.stats.oneThirdCharsCount = 0 - 1; // TODO
+              this.stats.oneThirdTime = this.timeElapsed();
+            } else if (!this.stats.lastThirdStartTime && this.currentLineNr === Math.floor(this.codeInfo.lines / 3 * 2)) {
+              this.stats.lastThirdCharsCount = this.codeText.length - 0 - 1; // TODO
+              this.stats.lastThirdStartTime = this.timeElapsed();
             }
           },
-          Insert: () => {
-            if (this.currentLineNr < this.codeInfo.lines) {
-              this.toFix = 0;
-              this.stats.cheat = true;
-
-              const text = this.originalCm.getLine(this.currentLineNr);
-              if (this.hiddenUnderscore) {
-                this.hiddenUnderscore.clear();
-              }
-              if (this.currentLineNr + 1 === this.codeInfo.lines) {
-                this.editorCm.replaceRange(text, { line: this.currentLineNr, ch: 0 }, { line: this.currentLineNr + 1, ch: 9999 });
-                this.editorCm.execCommand('goLineDown');
-                this.completed();
-              } else {
-                this.editorCm.replaceRange('', { line: this.currentLineNr }, { line: this.currentLineNr + 1 });
-                this.editorCm.replaceSelection('\n');
-                this.editorCm.scrollIntoView(null);
-
-                this.editorCm.replaceRange(text, { line: this.currentLineNr, ch: 0 }, { line: this.currentLineNr, ch: 9999 });
-              }
-              this.currentLineNr += 1;
-            }
-          },
-          // disable keys
-          Up: () => {},
-          Down: () => {},
-          Left: () => {},
-          Right: () => {},
-          Delete: () => {},
-          Home: () => { this.completed(); },
-          End: () => {
-            this.editorCode = this.originalCode;
-            this.completed(false);
-          },
-          PageUp: () => {},
-          PageDown: () => {},
-          'Ctrl-A': () => {},
         },
+        Insert: () => {
+          if (this.currentLineNr < this.codeInfo.lines) {
+            this.toFix = 0;
+            this.stats.cheat = true;
+
+            this.currentLineNr += 1;
+          }
+        },
+        // disable keys
+        Up: () => {},
+        Down: () => {},
+        Left: () => {},
+        Right: () => {},
+        Delete: () => {},
+        Home: () => { this.completed(); },
+        End: () => {
+          // TODO
+          this.completed(false);
+        },
+        PageUp: () => {},
+        PageDown: () => {},
+        'Ctrl-A': () => {},
       };
     },
     tabWidth() {
@@ -199,22 +144,22 @@ export default {
           this.popUpClickable = true;
         }
       } else {
-        this.editorCm.focus();
+        // this.0Cm.focus(); TODO
         this.popUpClickable = false;
       }
       this.showPopUp = action;
     },
-    onOriginalCmReady(cm) {
-      cm.setOption('readOnly', true);
-      this.originalCm = cm;
-      // console.log('originalCmReady ', Date.now());
-    },
-    onEditorCmReady(cm) {
-      this.editorCm = cm;
-      // console.log('editorCmReady ', Date.now());
+    onCmReady(cm) {
+      this.cm = cm;
+
+      this.init(); // TODO
       this.fixHeight();
-      this.init();
       window.addEventListener('resize', this.fixHeight);
+
+      cm.setOption('readOnly', true);
+    },
+    onKeyDown() {
+
     },
     onUnFocus(_, ev) {
       if (!this.isCompleted) {
@@ -228,26 +173,12 @@ export default {
         }
       }
     },
-    onScroll() {
-      // this.originalCm.scrollIntoView(this.editorCm.getCursor(), this.cmOptions.cursorScrollMargin);
-      const scrollInfo = this.editorCm.getScrollInfo();
-      console.green(`SCROLL ${scrollInfo.top}`);
-
-      this.originalCm.scrollTo(0, scrollInfo.top);
-    },
     fixHeight() {
       if (this.timeout) window.clearTimeout(this.timeout);
       this.timeout = window.setTimeout(() => {
-        console.log(this.$refs);
         const height = `${this.$refs.code.offsetHeight}px`;
-        const editorScroll = this.$refs.editor.$el.getElementsByClassName('CodeMirror-scroll')[0];
-        console.blue(height);
-        editorScroll.style.maxHeight = height;
-        // editorScroll.style.width = `${this.$refs.codemirror.$el.offsetWidth}px`;
-        const originalScroll = this.$refs.original.$el.getElementsByClassName('CodeMirror-scroll')[0];
-        console.log();
-        originalScroll.style.maxHeight = height;
-        // originalScroll.style.width = `${this.$refs.codemirror.$el.offsetWidth}px`;
+        const scroll = this.$refs.codemirror.$el.getElementsByClassName('CodeMirror-scroll')[0];
+        scroll.style.maxHeight = height;
       }, 100);
     },
     registerKeyStrokes(ev) {
@@ -260,7 +191,7 @@ export default {
         meta: ev.metaKey,
       };
     },
-    onBeforeChange(_, change) {
+    onCmBeforeChange(_, change) {
       // console.log(`change origin: ${change.origin}`);
       const o = change.origin;
       if (o === 'undo' || o === 'cut' || o === 'paste') {
@@ -268,9 +199,10 @@ export default {
         change.cancel();
         if (o === 'cut') {
           // codemirror lib edgecase
-          this.editorCm.execCommand('goLineUp');
-          this.originalCm.execCommand('goLineUp');
-          this.editorCm.execCommand('goLineEnd');
+          // this.0Cm.execCommand('goLineUp');
+          // this.0Cm.execCommand('goLineEnd');
+          // this.cm.execCommand('goLineUp'); TODO
+
         }
       } else if (change.origin !== 'setValue') {
         const from = {
@@ -286,7 +218,7 @@ export default {
           ch: from.ch + text.length,
         };
 
-        const expectedText = this.originalCm.getRange(from, to);
+        const expectedText = this.cm.getRange(from, to);
 
         this.currentChange = {
           ...this.currentChange,
@@ -298,12 +230,7 @@ export default {
         };
 
         if (text !== '' && this.started) {
-          if (this.editorCm.getLine(this.currentLineNr).length - 1 >= this.originalCm.getLine(this.currentLineNr).length) {
-            console.log(`cancel change end of line ${this.originalCm.getLine(this.currentLineNr).length}`);
-            this.currentChange.type = 'lineEnd';
-
-            change.cancel();
-          } else if (text !== expectedText) {
+          if (text !== expectedText) {
             console.warn(`'${text}' dont match '${expectedText}'`);
 
             this.toFix += text.length;
@@ -335,8 +262,7 @@ export default {
     },
     async onCmCodeChange(_, [change]) {
       if (this.toFix > 0 && this.currentTextMark.length === 3) {
-        // console.warn(`NEW MARKER: line: ${this.currentTextMark[0].line}, from: ${this.currentTextMark[0].ch}, to: ${this.currentTextMark[1].ch}`);
-        this.markers.unshift(this.editorCm.markText(...this.currentTextMark));
+        // this.markers.unshift(this.0Cm.markText(...this.currentTextMark)); TODO
         this.currentTextMark = [];
       }
       if (this.started && !this.stats.firstCharTime) {
@@ -354,7 +280,7 @@ export default {
       this.stats.history.push(this.currentChange);
       this.currentChange = {};
 
-      if (this.toFix === 0 && this.editorCode.length - 1 === this.originalCode.length && this.editorCode.slice(0, -1) === this.originalCode) {
+      if (this.toFix === 0 && 0 - 1 === this.codeText.length && this.codeText === 0) { // TODO code checks
         this.completed();
       }
     },
@@ -378,10 +304,9 @@ export default {
       clearInterval(interval);
       this.popUp(false, 'START');
       this.started = true;
-      this.editorCm.focus();
+      // this.0Cm.focus(); TODO
       console.log('START');
       this.stats.startTime = Date.now();
-      this.$refs.editor.$el.addEventListener('keydown', this.registerKeyStrokes);
     },
     init() {
       const initTime = Date.now();
@@ -389,7 +314,7 @@ export default {
         this.countdown -= 0.5;
         this.popUpText = Math.ceil(this.countdown);
         if (this.countdown === 2) {
-          if (!this.editorsReady || !this.originalCode) {
+          if (!this.cmReady || !this.codeText) {
             this.countdown += 0.5;
             console.warn(Date.now() - initTime);
             if ((Date.now() - initTime) / 1000 < 5) {
@@ -400,32 +325,18 @@ export default {
             }
           }
         } else if (this.countdown === 0) {
-          for (let i = 2; i <= this.codeInfo.lines; i += 1) {
-            this.editorCode += '\n';
-          }
-
-          this.$nextTick(() => {
-            this.editorCm.replaceSelection(this.options.underScore ? '_' : ' ');
-
-            if (this.options.underScore) {
-              this.editorCm.markText({ line: this.currentLineNr, ch: 0 }, { line: this.currentLineNr, ch: 1 }, { className: 'underScore' });
-            }
-            this.editorCm.execCommand('goColumnLeft');
-            this.start(interval);
-          });
+          this.start(interval);
         }
       }, 500);
 
 
       // console.log('loadMode ', Date.now());
 
-      Promise.all([this.getCode(), loadTheme(this.options.selectedTheme), loadMode(this.originalCm, this.language.mode)])
+      Promise.all([this.getCode(), loadTheme(this.options.selectedTheme), loadMode(this.cm, this.language.mode)])
         .then((resp) => {
           // console.log(resp);
-          [this.originalCode] = resp;
-          // when mode files are downloaded set mode on editor too
-          this.editorCm.setOption('mode', this.language.mode);
-          this.editorsReady = true;
+          [this.codeText] = resp;
+          this.cmReady = true;
         })
         .catch((err) => {
           clearInterval(interval);
@@ -444,17 +355,15 @@ export default {
 
       this.popUp(true, 'Congratulations');
       // console.warn('COMPLETED');
-      this.editorCm.setOption('readOnly', true);
       this.$socket.client.emit('completed', Date.now());
-      this.$refs.editor.$el.removeEventListener('mousedown', this.registerKeyStrokes);
 
-      this.editorCm.setOption('cursorBlinkRate', -1);
+      // this.0Cm.setOption('cursorBlinkRate', -1); TODO
 
       if (currentStats) {
         this.stats = {
           ...this.stats,
           timeFromFirstInput: this.timeElapsed(),
-          codeLength: this.editorCode.length,
+          codeLength: 0, // TODO
           file: this.codeInfo,
         };
       } else {
@@ -485,7 +394,7 @@ export default {
               break;
             }
           }
-          this.editorCm.markText(from, to, { className: 'mark' });
+          this.cm.markText(from, to, { className: 'mark' });
         }
       }
       // console.log('heatmap ready', this.timeElapsed());
@@ -532,36 +441,24 @@ export default {
         &::-webkit-scrollbar
           width: $gap / 2
         &::-webkit-scrollbar-thumb
-          background: transparent
-        &::-webkit-scrollbar-track
-          background-color: transparent
-
-
-
-#editor
-  position: absolute
-  top: 0
-  width: 100%
-  ::v-deep
-    .underScore
-      display: inline-block
-      font-size: 0.9em
-      transform: translateY(4px) !important
-      filter: saturate(70%)
-    .underScoreHidden
-      opacity: 0
-    .CodeMirror-linenumber
-      opacity: 0
-    .CodeMirror-vscrollbar
-        &::-webkit-scrollbar
-          width: $gap / 2
-        &::-webkit-scrollbar-thumb
           background: linear-gradient(to top, $purple-gradient-colors)
         &::-webkit-scrollbar-track
           background-color: $grid-color
 
 
-#original ::v-deep .CodeMirror-line
+  // #0 ::v-deep
+  //   .underScore
+  //     display: inline-block
+  //     font-size: 0.9em
+  //     transform: translateY(4px) !important
+  //     filter: saturate(70%)
+  //   .underScoreHidden
+  //     opacity: 0
+  //   .CodeMirror-linenumber
+  //     opacity: 0
+
+
+.codemirror ::v-deep .CodeMirror-line
   z-index: 0
   opacity: 0.7
   filter: saturate(80%)
@@ -569,7 +466,7 @@ export default {
 
 
 .completed
-  #original ::v-deep .CodeMirror-code span
+  .codemirror ::v-deep .CodeMirror-code span
     color: transparent !important
 
   ::v-deep .mark
@@ -579,7 +476,7 @@ export default {
 
 
 .heatMap
-  #original
+  .codemirror
     opacity: 1
     ::v-deep
       .CodeMirror-line
@@ -587,11 +484,11 @@ export default {
       .CodeMirror-linenumber
         opacity: 0
 
-  #editor ::v-deep
-    .CodeMirror, CodeMirror-gutters
-      background: transparent
-    .CodeMirror-linenumber
-      opacity: 1
+  // #0 ::v-deep
+  //   .CodeMirror, CodeMirror-gutters
+  //     background: transparent
+  //   .CodeMirror-linenumber
+  //     opacity: 1
 
   ::v-deep .mark
     background-color: $grid-color

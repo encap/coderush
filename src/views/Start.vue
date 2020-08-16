@@ -117,7 +117,6 @@ export default {
       this.uploadCodeText = value ? 'Cancel' : 'Use your own code';
     },
     run() {
-      console.log('run');
       if (!this.language.name) {
         this.$refs.languagesList.selectRandom();
       }
