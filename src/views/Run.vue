@@ -127,7 +127,7 @@ export default {
 
 <style lang="sass" scoped>
 main
-  height: 400px
+  height: calc(100vh - #{2 * $gap})
   max-width: 1300px
   width: 100%
   position: relative

@@ -71,11 +71,11 @@ export default {
     ...mapGetters(['language', 'options', 'codeInfo', 'customCode']),
     cmOptions() {
       return {
-        // undoDepth: 0,
+        undoDepth: 0,
         tabSize: this.tabWidth,
         styleActiveLine: false,
         lineNumbers: this.options.lineNumbers,
-        styleSelectedText: false,
+        styleSelectedText: true,
         lineWrapping: true,
         matchBrackets: false,
         dragDrop: false,
@@ -87,49 +87,8 @@ export default {
         autocorrect: false,
         showCursorWhenSelecting: true,
         theme: this.options.selectedTheme,
-        // cursorScrollMargin: 200,
+        cursorScrollMargin: 100,
         readOnly: true,
-        extraKeys: {
-          Backspace: () => {
-            console.log(`backspace: ${this.toFix}`);
-            if (this.toFix > 0) {
-              // TODO
-              this.toFix -= 1;
-            }
-          },
-          Tab: () => {}, // TODO soft tab
-          Enter: () => {
-            if (!this.stats.oneThirdTime && this.currentLine === Math.floor(this.codeInfo.lines / 3)) {
-              this.stats.oneThirdCharsCount = 0 - 1; // TODO
-              this.stats.oneThirdTime = this.timeElapsed();
-            } else if (!this.stats.lastThirdStartTime && this.currentLine === Math.floor(this.codeInfo.lines / 3 * 2)) {
-              this.stats.lastThirdCharsCount = this.codeText.length - 0 - 1; // TODO
-              this.stats.lastThirdStartTime = this.timeElapsed();
-            }
-          },
-        },
-        Insert: () => {
-          if (this.currentLine < this.codeInfo.lines) {
-            this.toFix = 0;
-            this.stats.cheat = true;
-
-            this.currentLine += 1;
-          }
-        },
-        // disable keys
-        Up: () => {},
-        Down: () => {},
-        Left: () => {},
-        Right: () => {},
-        Delete: () => {},
-        Home: () => { this.completed(); },
-        End: () => {
-          // TODO
-          this.completed(false);
-        },
-        PageUp: () => {},
-        PageDown: () => {},
-        'Ctrl-A': () => {},
       };
     },
     tabWidth() {
@@ -155,28 +114,99 @@ export default {
 
       this.init(); // TODO
       this.fixHeight();
-      window.addEventListener('resize', this.fixHeight);
 
       // cm.setOption('readOnly', true);
     },
     onKeyDown(ev) {
       console.log(ev);
       // const allowedKeys = 'qwertyuiopasdfghjklzxcvbnm1234567890!@#$%^&*()-=_+[]{};\'\\:"|,./<>?`~';
+
       const handleEnter = () => {
-        // const markers = this.cm.findMarksAt({ line: this.currentLine, ch: 0 });
-        // console.log(markers);
         const expectedText = this.cm.getLine(this.currentLine);
         // console.green(expectedText);
         if (this.correctCharsInLine === expectedText.length) {
           this.cm.execCommand('goCharRight');
-          this.currentChar = 0;
-          this.correctCharsInLine = 0;
           this.currentLine += 1;
+          if (this.options.autoIndent) {
+            this.cm.execCommand('goLineStartSmart');
+            this.currentChar = this.cm.getCursor().ch;
+            this.correctCharsInLine = this.currentChar;
+          } else {
+            this.currentChar = 0;
+            this.correctCharsInLine = 0;
+          }
+          if (this.options.underScore) {
+            this.cm.markText(
+              { line: this.currentLine, ch: this.currentChar },
+              { line: this.currentLine, ch: this.currentChar + 1 },
+              {
+                className: 'next-char', clearOnEnter: true, inclusiveRight: true,
+              },
+            );
+          }
         }
       };
 
-      if (ev.key === 'Shift') {
-        // prevent double event
+      const handleWrite = (key) => {
+        const lineText = this.cm.getLine(this.currentLine);
+        if (this.currentChar !== lineText.length) { // block too long lines
+          const expectedChar = lineText[this.currentChar];
+          console.blue(`expected: '${expectedChar}'`);
+          if (key === expectedChar) {
+            console.green(`correct '${key}'`);
+            if (this.toFix) {
+              console.red(`blocked unfixed mistakes: ${this.toFix}`);
+            } else {
+              this.cm.markText(
+                { line: this.currentLine, ch: this.currentChar },
+                { line: this.currentLine, ch: this.currentChar + 1 },
+                { className: 'correct' },
+              );
+              this.cm.execCommand('goCharRight');
+              this.currentChar += 1;
+              this.correctCharsInLine += 1;
+
+
+
+              if (this.currentLine + 1 === this.codeInfo.lines && this.correctCharsInLine === this.cm.getLine(this.currentLine).length) {
+                this.completed();
+              } else if (this.options.underScore) {
+                if (this.currentChar !== lineText.length) {
+                  this.cm.markText(
+                    { line: this.currentLine, ch: this.currentChar },
+                    { line: this.currentLine, ch: this.currentChar + 1 },
+                    { className: 'next-char', clearOnEnter: true, inclusiveRight: true },
+                  );
+                } else {
+                  // it can confuse the playerinp
+                  // const char = this.cm.getLine(this.currentLine + 1).match('[^\\S]*')[0].length;
+                  // this.cm.markText(
+                  //   { line: this.currentLine + 1, ch: char },
+                  //   { line: this.currentLine + 1, ch: char + 1 },
+                  //   { className: 'next-char', clearOnEnter: true, inclusiveRight: true },
+                  // );
+                }
+              }
+            }
+          } else {
+            this.toFix += 1;
+            console.red(`wrong: ${this.toFix}`);
+            const marker = this.cm.markText(
+              { line: this.currentLine, ch: this.currentChar },
+              { line: this.currentLine, ch: this.currentChar + 1 },
+              { className: 'mistake' },
+            );
+            this.markers.push(marker);
+            this.cm.execCommand('goCharRight');
+            this.currentChar += 1;
+          }
+        } else {
+          console.red('overshoot');
+        }
+      };
+
+      if (ev.key === 'Shift' || ev.key === 'Alt' || ev.ctrlKey || ev.metaKey || ev.key.slice(0, 5) === 'Arrow') {
+        // prevent double event and block keys
       } else if (ev.key === 'Insert') {
         this.cm.execCommand('goLineEnd');
         this.cm.execCommand('goCharRight');
@@ -205,48 +235,35 @@ export default {
         if (this.toFix) {
           this.toFix -= 1;
           this.cm.execCommand('goCharLeft');
-          this.cm.execCommand('undo'); // clear marker
+          // this.cm.execCommand('undo'); // clear marker
+          const marker = this.markers.pop();
+          console.log(marker);
+          marker.className = 'mark';
+          const position = marker.find();
+          this.cm.markText(position.from, position.to, { className: 'correctedMistake' });
+          marker.clear();
           this.currentChar -= 1;
           console.blue(`Deleted tofix: ${this.toFix}`);
-        } else {
-          console.blue('Blocked Nothing to fix');
-        }
-      } else {
-        const lineText = this.cm.getLine(this.currentLine);
-        if (this.currentChar !== lineText.length) { // block too long lines
-          const expectedChar = lineText[this.currentChar];
-          if (ev.key === expectedChar) {
-            console.green(`correct '${ev.key}'`);
-            if (this.toFix) {
-              console.red(`blocked unfixed mistakes: ${this.toFix}`);
-            } else {
-              this.cm.markText(
-                { line: this.currentLine, ch: this.currentChar },
-                { line: this.currentLine, ch: this.currentChar + 1 },
-                { className: 'correct' },
-              );
-              this.cm.execCommand('goCharRight');
-              this.currentChar += 1;
-              this.correctCharsInLine += 1;
-
-              if (this.currentLine + 1 === this.codeInfo.lines && this.correctCharsInLine === this.cm.getLine(this.currentLine).length) {
-                this.completed();
-              }
-            }
-          } else {
-            this.toFix += 1;
-            console.red(`wrong: ${this.toFix}`);
+          if (this.toFix === 0 && this.options.underScore) {
             this.cm.markText(
               { line: this.currentLine, ch: this.currentChar },
               { line: this.currentLine, ch: this.currentChar + 1 },
-              { className: 'mistake', addToHistory: true },
+              {
+                className: 'next-char', clearOnEnter: true, inclusiveRight: true,
+              },
             );
-            this.cm.execCommand('goCharRight');
-            this.currentChar += 1;
           }
         } else {
-          console.red('overshoot');
+          console.blue('Blocked Nothing to fix');
         }
+      } else if (ev.key === 'Tab') {
+        for (let i = 0; i < this.tabWidth; i += 1) {
+          this.cm.startOperation();
+          handleWrite(' ', ev);
+          this.cm.endOperation();
+        }
+      } else {
+        handleWrite(ev.key, ev);
       }
     },
     onUnFocus(_, ev) {
@@ -262,131 +279,11 @@ export default {
       }
     },
     fixHeight() {
-      if (this.timeout) window.clearTimeout(this.timeout);
-      this.timeout = window.setTimeout(() => {
-        const height = `${this.$refs.code.offsetHeight}px`;
-        const scroll = this.$refs.codemirror.$el.getElementsByClassName('CodeMirror-scroll')[0];
-        scroll.style.maxHeight = height;
-      }, 100);
-    },
-    registerKeyStrokes(ev) {
-      this.currentKeyEv = {
-        key: ev.key,
-        keyCode: ev.keyCode,
-        shift: ev.shiftKey,
-        alt: ev.altKey,
-        ctrl: ev.ctrlKey,
-        meta: ev.metaKey,
-      };
-    },
-    onCmBeforeChange(_, change) {
-      // console.log(`change origin: ${change.origin}`);
-      const o = change.origin;
-      if (o === 'cut' || o === 'paste') {
-        console.log('UNALLOWED EVENT');
-        change.cancel();
-        if (o === 'cut') {
-          // codemirror lib edgecase
-          // this.0Cm.execCommand('goLineUp');
-          // this.0Cm.execCommand('goLineEnd');
-          // this.cm.execCommand('goLineUp'); TODO
-
-        }
-      } else if (change.origin !== 'setValue') {
-        const from = {
-          line: change.from.line,
-          ch: change.from.ch,
-        };
-
-        const text = change.text[0];
-        console.log(`change '${text}'`);
-
-        const to = {
-          line: from.line,
-          ch: from.ch + text.length,
-        };
-
-        const expectedText = this.cm.getRange(from, to);
-
-        this.currentChange = {
-          ...this.currentChange,
-          time: this.timeElapsed(),
-          position: {
-            from,
-            to,
-          },
-        };
-
-        if (text !== '' && this.started) {
-          if (text !== expectedText) {
-            console.warn(`'${text}' dont match '${expectedText}'`);
-
-            this.toFix += text.length;
-
-            this.currentTextMark = [
-              from,
-              to,
-              { className: 'mark' },
-            ];
-
-            this.currentChange = {
-              ...this.currentChange,
-              type: 'mistake',
-              fixQueuePos: this.toFix,
-              expectedText,
-            };
-          } else if (this.toFix > 0) {
-            // force user to correct previous mistakes
-            console.log('fix mistakes first');
-            this.currentChange.type = 'leftUnfixed';
-            change.cancel();
-          } else {
-            this.currentChange.type = 'correct';
-          }
-        } else {
-          this.currentChange.type = 'backspace';
-        }
-      }
-    },
-    async onCmCodeChange(_, [change]) {
-      if (this.toFix > 0 && this.currentTextMark.length === 3) {
-        // this.markers.unshift(this.0Cm.markText(...this.currentTextMark)); TODO
-        this.currentTextMark = [];
-      }
-      if (this.started && !this.stats.firstCharTime) {
-        this.stats.firstCharTime = Date.now();
-      }
-
-      if (this.currentChange.type === 'correct' || this.currentChange.type === 'mistake') {
-        this.currentChange = {
-          ...this.currentChange,
-          ...this.currentKeyEv,
-          text: change.text[0],
-        };
-      }
-
-      this.stats.history.push(this.currentChange);
-      this.currentChange = {};
-
-      if (this.toFix === 0 && 0 - 1 === this.codeText.length && this.codeText === 0) { // TODO code checks
-        this.completed();
-      }
-    },
-    async getCode() {
-      if (!this.codeInfo.name) {
-        return this.customCode.text;
-      }
-      const url = `${process.env.VUE_APP_URL}/code/${this.language.name.replace('#', '_sharp')}/${this.codeInfo.name}.${this.language.ext}`;
-      try {
-        const resp = await axios.get(url);
-        return resp.data;
-      } catch (err) {
-        if (err.request) {
-          throw new Error('No internet');
-        } else {
-          throw err;
-        }
-      }
+      const height = `${this.$refs.code.offsetHeight}px`;
+      console.blue(`height: ${height}`);
+      const scroll = this.$refs.codemirror.$el.getElementsByClassName('CodeMirror-scroll')[0];
+      console.log(scroll);
+      scroll.style.maxHeight = height;
     },
     start(interval) {
       clearInterval(interval);
@@ -395,7 +292,14 @@ export default {
         { line: this.codeInfo.lines + 1, ch: 1 },
         { className: 'bugfix' },
       );
-      this.popUp(false, 'START');
+      if (this.options.underScore) {
+        this.cm.markText(
+          { line: this.currentLine, ch: this.currentChar },
+          { line: this.currentLine, ch: this.currentChar + 1 },
+          { className: 'next-char', clearOnEnter: true, inclusiveRight: true },
+        );
+      }
+      this.popUp(false, 'WRITE');
       this.started = true;
       this.cm.focus();
       console.log('START');
@@ -445,7 +349,7 @@ export default {
       if (this.$route.path === '/results') {
         return;
       }
-
+      this.cm.setOption('readOnly', 'nocursor');
       this.popUp(true, 'Congratulations');
       // console.warn('COMPLETED');
       this.$socket.client.emit('completed', Date.now());
@@ -473,25 +377,131 @@ export default {
       this.isCompleted = true;
       setTimeout(this.generateHeatMap, 60);
     },
-    generateHeatMap() {
-      const arr = this.stats.history;
-      for (let i = 1; i < arr.length; i += 1) {
-        let from;
-        let to;
-        if (arr[i].type === 'mistake') {
-          from = arr[i].position.from;
-          for (let j = i + 1; j < arr.length; j += 1) {
-            if (arr[j].type !== 'mistake') {
-              to = arr[j - 1].position.to;
-              i = j;
-              break;
-            }
-          }
-          this.cm.markText(from, to, { className: 'mistake' });
-          console.log(this.cm.getAllMarks);
+    registerKeyStrokes(ev) {
+      this.currentKeyEv = {
+        key: ev.key,
+        keyCode: ev.keyCode,
+        shift: ev.shiftKey,
+        alt: ev.altKey,
+        ctrl: ev.ctrlKey,
+        meta: ev.metaKey,
+      };
+    },
+    onCmBeforeChange(_, change) {
+      const from = {
+        line: change.from.line,
+        ch: change.from.ch,
+      };
+
+      const text = change.text[0];
+      console.log(`change '${text}'`);
+
+      const to = {
+        line: from.line,
+        ch: from.ch + text.length,
+      };
+
+      const expectedText = this.cm.getRange(from, to);
+
+      this.currentChange = {
+        ...this.currentChange,
+        time: this.timeElapsed(),
+        position: {
+          from,
+          to,
+        },
+      };
+
+      if (text !== '' && this.started) {
+        if (text !== expectedText) {
+          console.warn(`'${text}' dont match '${expectedText}'`);
+
+          this.toFix += text.length;
+
+          this.currentTextMark = [
+            from,
+            to,
+            { className: 'mark' },
+          ];
+
+          this.currentChange = {
+            ...this.currentChange,
+            type: 'mistake',
+            fixQueuePos: this.toFix,
+            expectedText,
+          };
+        } else if (this.toFix > 0) {
+          // force user to correct previous mistakes
+          console.log('fix mistakes first');
+          this.currentChange.type = 'leftUnfixed';
+          change.cancel();
+        } else {
+          this.currentChange.type = 'correct';
+        }
+      } else {
+        this.currentChange.type = 'backspace';
+      }
+    },
+    async onCmCodeChange(_, [change]) {
+      if (this.toFix > 0 && this.currentTextMark.length === 3) {
+        // this.markers.unshift(this.0Cm.markText(...this.currentTextMark)); TODO
+        this.currentTextMark = [];
+      }
+      if (this.started && !this.stats.firstCharTime) {
+        this.stats.firstCharTime = Date.now();
+      }
+
+      if (this.currentChange.type === 'correct' || this.currentChange.type === 'mistake') {
+        this.currentChange = {
+          ...this.currentChange,
+          ...this.currentKeyEv,
+          text: change.text[0],
+        };
+      }
+
+      this.stats.history.push(this.currentChange);
+      this.currentChange = {};
+
+      if (this.toFix === 0 && 0 - 1 === this.codeText.length && this.codeText === 0) { // TODO code checks
+        this.completed();
+      }
+    },
+    async getCode() {
+      if (!this.codeInfo.name) {
+        return this.customCode.text;
+      }
+      const url = `${process.env.VUE_APP_URL}/code/${this.language.name.replace('#', '_sharp')}/${this.codeInfo.name}.${this.language.ext}`;
+      try {
+        const resp = await axios.get(url);
+        return resp.data;
+      } catch (err) {
+        if (err.request) {
+          throw new Error('No internet');
+        } else {
+          throw err;
         }
       }
-      // console.log('heatmap ready', this.timeElapsed());
+    },
+
+    generateHeatMap() {
+      // const arr = this.stats.history;
+      // for (let i = 1; i < arr.length; i += 1) {
+      //   let from;
+      //   let to;
+      //   if (arr[i].type === 'mistake') {
+      //     from = arr[i].position.from;
+      //     for (let j = i + 1; j < arr.length; j += 1) {
+      //       if (arr[j].type !== 'mistake') {
+      //         to = arr[j - 1].position.to;
+      //         i = j;
+      //         break;
+      //       }
+      //     }
+      //     this.cm.markText(from, to, { className: 'mistake' });
+      //     console.log(this.cm.getAllMarks);
+      //   }
+      // }
+      // // console.log('heatmap ready', this.timeElapsed());
       setTimeout(() => {
         this.heatMapReady = true;
         this.$router.replace('/results');
@@ -515,6 +525,7 @@ export default {
   transition: opacity .5s ease-in
   transition-delay: .7s
 
+
   &.ready
     opacity: 1
 
@@ -531,20 +542,38 @@ export default {
 
 
 .codemirror ::v-deep
+  .CodeMirror
+
+  .CodeMirror-gutters
+    border: none
+  .CodeMirror-cursor
+    border-left: 1px solid #FFCC00
+    opacity: 1
+    border-right: none
+
+  .CodeMirror-selected
+    background: transparent
+
+  .CodeMirror-linenumber
+    font-size: 20px
+    line-height: 22px
+    font-weight: normal
 
   .CodeMirror-line
-    line-break: anywhere !important // TODO propably not needed
-    // z-index: 0
-    // opacity: 0.7
-    // filter: saturate(80%)
-    transition: opacity 2s, filter 2s
+    // line-break: anywhere !important
 
     span > span
       transition: filter 1s ease-out
       filter: grayscale(40%) brightness(80%)
+      font-size: 20px
+      line-height: 22px
+      font-weight: normal
 
     .correct
       filter: none
+
+    .next-char
+      border-bottom: 2px solid white
 
     .mistake
       background-color: rgba(255, 255, 255, .3)
@@ -555,11 +584,11 @@ export default {
 
   .CodeMirror-vscrollbar
     &::-webkit-scrollbar
-      width: $gap / 2
+      width: $gap / 2 !important
     &::-webkit-scrollbar-thumb
-      background: linear-gradient(to top, $purple-gradient-colors)
+      background: linear-gradient(to top, $purple-gradient-colors) !important
     &::-webkit-scrollbar-track
-      background-color: $grid-color
+      background-color: $grid-color !important
 
 
 
@@ -573,9 +602,11 @@ export default {
 
 
 .heatMap
+  pointer-events: auto
+
   .codemirror
     ::v-deep
-      .mistake
+      .correctedMistake
         background-color: $grid-color
         box-shadow: -2px 2px 8px 0px rgba(0,0,0,.6)
         // outline: 0.2em solid $grid-color

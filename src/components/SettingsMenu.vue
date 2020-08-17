@@ -69,7 +69,7 @@
         <div class="slider" />
       </label>
       <label>
-        <span>Number the lines</span>
+        <span>Show line numbers</span>
         <input v-model="lineNumbers" type="checkbox">
         <div class="slider" />
       </label>
