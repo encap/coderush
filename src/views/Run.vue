@@ -109,7 +109,7 @@ export default {
       }
     },
     finish() {
-      this.$refs.codeEditor.completed();
+      this.$refs.codeEditor.completed(true);
     },
     completed(stats) {
       this.stats = stats;

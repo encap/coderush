@@ -130,23 +130,33 @@ export default {
       return this.history.filter((change) => change.type === 'mistake');
     },
     mistakes() {
-      console.log(JSON.parse(JSON.stringify(this.mistakesHistory)));
-      return this.mistakesHistory.map((mistake) => ({
-        keyCode: mistake.keyCode,
-        key: mistake.key,
-        shift: mistake.shift,
-        expectedText: mistake.expectedText,
-      })).reduce((acc, mistake) => {
-        if (
-          mistake.shift
-        && mistake.expectedText !== ' '
-        && (mistake.key.toLowerCase() === mistake.expectedText || !Number.isNaN(mistake.expectedText))) {
-          acc.push({
-            keyCode: 16,
-            key: 'Shift',
-            expectedText: mistake.expectedText,
-            text: mistake.text,
-          });
+      // console.log(JSON.parse(JSON.stringify(this.mistakesHistory)));
+      return this.mistakesHistory.reduce((acc, mistake) => {
+        if (mistake.shift && mistake.expectedText !== ' ') {
+          if (mistake.text.toLowerCase() === mistake.expectedText
+          || (mistake.text.match(/[~!@#$%^&*()_+{}:"|<>?]/)
+            && mistake.expectedText.match(/[`1234567890-=[\];'\\,./]/)
+          )) {
+            console.blue(`Shift Wasn't needed: '${mistake.text}' '${mistake.expectedText}'`);
+
+            acc.push({
+              keyCode: 16,
+              key: 'Shift',
+              expectedText: mistake.expectedText,
+              text: mistake.text,
+            });
+          } else if (mistake.text === mistake.expectedText.toLowerCase()
+          || (mistake.text.match(/[`1234567890-=[\];'\\,./]/)
+            && mistake.expectedText.match(/[~!@#$%^&*()_+{}:"|<>?]/)
+          )) {
+            console.blue(`Shift Expected: '${mistake.text}' '${mistake.expectedText}'`);
+            acc.push({
+              ...mistake,
+              expectedText: 'Shift',
+            });
+          } else {
+            acc.push(mistake);
+          }
         } else {
           acc.push(mistake);
         }
@@ -245,21 +255,21 @@ export default {
               if (mistake.keyCode === key.keyCode) {
                 const text = mistake.expectedText;
                 acc.count += 1;
-                if (
-                  !mistake.shift
-                  && ((key.content.length === 2
-                      && key.content[0].toUpperCase() === text)
-                    || (key.content.length === 1
-                      && key.content.toUpperCase() === text)
-                  )) {
-                  acc.expected.push('16');
-                } else {
-                  const keyEl = this.$refs.keyboard
-                    .querySelector(`[id][content*="${text}" i]`);
+                // if (
+                //   !mistake.shift
+                //   && ((key.content.length === 2
+                //       && key.content[0].toUpperCase() === text)
+                //     || (key.content.length === 1
+                //       && key.content.toUpperCase() === text)
+                //   )) {
+                //   acc.expected.push('16');
+                // } else {
+                const keyEl = this.$refs.keyboard
+                  .querySelector(`[id][content*="${CSS.escape(text)}" i]`);
                   // console.log(keyEl);
                   // console.assert(keyEl.id);
-                  acc.expected.push(keyEl.id);
-                }
+                acc.expected.push(keyEl.id);
+                // }
               }
               return acc;
             }, { expected: [], count: 0 });

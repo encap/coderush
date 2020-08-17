@@ -1,17 +1,20 @@
 <template>
   <div>
     <h1>{{ format(WPM, 0, 1) }} WPM = {{ format(CPM, 0, 1) }} CPM</h1>
-    <h2>{{ stats.codeLength }} correct in {{ format(stats.timeFromFirstInput, 1) }} sec</h2>
+    <h2>{{ correctInputsLength }} / {{ stats.history.length }} clicks correct in {{ format(stats.timeFromFirstInput, 1) }}s</h2>
     <h3>Starting speed: {{ format(oneThirdWPM, 0, 1) }} WPM</h3>
-    <h3>Final speed: {{ format(lastThirdWPM, 0, 1) }} WPM</h3>
+    <h3 v-if="!stats.earlyFinish">
+      Final speed: {{ format(lastThirdWPM, 0, 1) }} WPM
+    </h3>
     <h4>Start reaction time (excluded from results): {{ format(startReactionTime, 0, 1) }} ms</h4>
     <h4>Input intervals: {{ format(keyPressAvgInterval, 0, 1) }} ms</h4>
+    <h4>Correct input intervals: {{ format(correctKeyPressAvgInterval, 0, 1) }} ms</h4>
     <div v-if="mistakes.length" class="mistakes">
       <h2>Total errors: {{ mistakes.length }} / {{ stats.history.length - 1 }} ({{ format(mistakesToClicksRatio, 1, 100) }} %)</h2>
       <ul>
         <li>Time wasted by mistakes: {{ format(totalTimeLost) }} s</li>
-        <li>The speed of counting down that time {{ format(WPMWithoutTimeLost, 0, 1) }} WPM</li>
-        <li>Most mistakes in a row: {{ mostMistakesInARow }} znaków</li>
+        <li>Speed counting down that time {{ format(WPMWithoutTimeLost, 0, 1) }} WPM</li>
+        <li>Most mistakes in a row: {{ mostMistakesInARow }} mistakes</li>
         <li>Longest correction time: {{ format(longestTimeOfCorrection) }} s</li>
       </ul>
     </div>
@@ -39,8 +42,14 @@ export default {
   },
   computed: {
     ...mapGetters(['room']),
+    correctCharsLength() {
+      return this.history.filter((change) => change.type === 'correct').length;
+    },
+    correctInputsLength() {
+      return this.history.filter((change) => change.type === 'correct' || change.type === 'backspace').length;
+    },
     CPM() {
-      return this.stats.codeLength / this.format(this.stats.timeFromFirstInput, 4) * 60;
+      return this.correctCharsLength / this.format(this.stats.timeFromFirstInput, 4) * 60;
     },
     WPM() {
       return this.CPM / 5;
@@ -92,7 +101,7 @@ export default {
       return this.correctionTimes.reduce((acc, value) => acc + value, 0);
     },
     WPMWithoutTimeLost() {
-      return this.stats.codeLength / this.format(this.stats.timeFromFirstInput - this.totalTimeLost, 4) * 60 / 5;
+      return this.correctCharsLength / this.format(this.stats.timeFromFirstInput - this.totalTimeLost, 4) * 60 / 5;
     },
     longestTimeOfCorrection() {
       return this.correctionTimes.reduce((acc, value) => Math.max(acc, value), 0);
@@ -101,7 +110,10 @@ export default {
       return this.stats.firstCharTime - this.stats.startTime;
     },
     keyPressAvgInterval() {
-      return this.stats.codeLength / this.stats.timeFromFirstInput;
+      return this.stats.timeFromFirstInput / this.history.length;
+    },
+    correctKeyPressAvgInterval() {
+      return this.stats.timeFromFirstInput / this.correctInputsLength;
     },
   },
   mounted() {
