@@ -27,7 +27,7 @@
           >
         </label>
       </div>
-      <p v-if="language.index && !editorReady ">
+      <p v-show="language.index && !editorReady ">
         Loading...
       </p>
     </div>
@@ -102,7 +102,7 @@ export default {
   mounted() {
     console.log('Activated');
     console.log(this.language.index);
-    if (this.language.index) {
+    if (this.language.name) {
       loadMode(this.cm, this.language.mode);
       this.editorReady = true;
     }
@@ -114,6 +114,7 @@ export default {
     onCmReady(cm) {
       console.log('cm ready');
       this.cm = cm;
+      cm.focus();
       this.fixHeight();
       window.addEventListener('resize', this.fixHeight);
     },

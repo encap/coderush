@@ -2,7 +2,7 @@
   <div
     ref="code"
     class="code"
-    :class="{ready: cmReady, completed: isCompleted, heatMap: heatMapReady}"
+    :class="{ready: cmReady, completed: isCompleted}"
     @keydown.capture.prevent="onKeyDown"
   >
     <codemirror
@@ -16,9 +16,14 @@
     />
 
     <div class="pop-up" :class="{hidden: !showPopUp, clickable: popUpClickable, 'small-font': popUpText.length > 15}">
-      <h2 @click="popUp(false)">
-        {{ popUpText }}
-      </h2>
+      <div>
+        <h2 @click="popUp(false)">
+          {{ popUpText }}
+        </h2>
+        <p v-show="isCompleted">
+          Loading your results...
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -53,8 +58,8 @@ export default {
       started: false,
       isCompleted: false,
       cmReady: false,
-      heatMapReady: false,
       toFix: 0,
+      rightMostMistakeMarked: false,
       markers: [],
       currentLine: 0,
       currentChar: 0,
@@ -105,8 +110,8 @@ export default {
           this.popUpClickable = true;
         }
       } else {
-        this.cm.focus();
         this.popUpClickable = false;
+        this.cm.focus();
       }
       this.showPopUp = action;
     },
@@ -263,7 +268,9 @@ export default {
 
 
 
-      if (ev.key === 'Insert') {
+      if (ev.key === 'Escape') {
+        this.popUp(true, 'Resume');
+      } else if (ev.key === 'Insert') {
         this.cm.execCommand('goLineEnd');
         this.cm.execCommand('goCharRight');
         this.cm.markText(
@@ -300,9 +307,11 @@ export default {
           const marker = this.markers.pop();
           console.log(marker);
           const position = marker.find();
-          // TODO connect siblings
-          this.cm.markText(position.from, position.to, { className: 'correctedMistake' });
+
           marker.clear();
+
+
+
           this.currentChar -= 1;
           this.currentChange = {
             ...this.currentChange,
@@ -310,14 +319,40 @@ export default {
             fixQueuePos: this.toFix,
           };
           console.blue(`Deleted tofix: ${this.toFix}`);
-          if (this.toFix === 0 && this.options.underScore) {
-            this.cm.markText(
-              { line: this.currentLine, ch: this.currentChar },
-              { line: this.currentLine, ch: this.currentChar + 1 },
-              {
-                className: 'next-char', clearOnEnter: true, inclusiveRight: true,
-              },
-            );
+          if (this.toFix > 0) {
+            console.blue('TOFIX > 0');
+            if (this.rightMostMistakeMarked) {
+              console.blue('middle');
+              this.cm.markText(position.from, position.to, { className: 'corrected middle' });
+            } else {
+              console.blue('rightMost');
+              this.cm.markText(position.from, position.to, { className: 'corrected right-most' });
+              this.rightMostMistakeMarked = true;
+            }
+          } else {
+            console.green(`TOFIX = 0 ${position.from.ch} ${position.to.ch}`);
+
+            if (this.rightMostMistakeMarked) {
+              console.blue('left-most');
+              this.rightMostMistakeMarked = false;
+              this.cm.markText(position.from, position.to, { className: 'corrected left-most' });
+            } else {
+              console.blue('alone');
+
+              this.cm.markText(position.from, position.to, { className: 'corrected alone' });
+            }
+
+
+
+            if (this.options.underScore) {
+              this.cm.markText(
+                { line: this.currentLine, ch: this.currentChar },
+                { line: this.currentLine, ch: this.currentChar + 1 },
+                {
+                  className: 'next-char', clearOnEnter: true, inclusiveRight: true,
+                },
+              );
+            }
           }
         } else {
           console.blue('Blocked Nothing to fix');
@@ -340,14 +375,17 @@ export default {
       this.currentChange = {};
     },
     onUnFocus(_, ev) {
+      console.red('blur');
       if (!this.isCompleted && ev) {
-        this.cm.focus(); // dev
+        // this.cm.focus(); // dev
         if (ev.relatedTarget !== null) {
           if (ev.relatedTarget.tagName !== 'BUTTON' && ev.relatedTarget.tagName !== 'A') {
-            // this.popUp(true, 'Resume'); // dev
+            this.popUp(true, 'Resume'); // dev
+          } else if (ev.relatedTarget.className === 'disconnect-btn') {
+            this.cm.focus();
           }
         } else {
-          // this.popUp(true, 'Resume');
+          this.popUp(true, 'Resume');
         }
       }
     },
@@ -357,6 +395,25 @@ export default {
       const scroll = this.$refs.codemirror.$el.getElementsByClassName('CodeMirror-scroll')[0];
       console.log(scroll);
       scroll.style.maxHeight = height;
+    },
+    async getCode() {
+      if (!this.codeInfo.name) {
+        return this.customCode.text;
+      }
+      const url = `${process.env.VUE_APP_URL}/code/${this.language.name.replace('#', '_sharp')}/${this.codeInfo.name}.${this.language.ext}`;
+      try {
+        const resp = await axios.get(url);
+        return resp.data;
+      } catch (err) {
+        if (err.request) {
+          throw new Error('No internet');
+        } else {
+          throw err;
+        }
+      }
+    },
+    timeElapsed() {
+      return Date.now() - this.stats.firstCharTime;
     },
     start(interval) {
       clearInterval(interval);
@@ -404,7 +461,7 @@ export default {
 
       Promise.all([this.getCode(), loadTheme(this.options.selectedTheme), loadMode(this.cm, this.language.mode)])
         .then((resp) => {
-          // console.log(resp);
+        // console.log(resp);
           [this.codeText] = resp;
           this.cmReady = true;
         })
@@ -423,7 +480,7 @@ export default {
         return;
       }
       this.cm.setOption('readOnly', 'nocursor');
-      this.popUp(true, 'Congratulations');
+      this.popUp(true, forced ? 'Too long, uh?' : 'Congratulations');
       this.$socket.client.emit('completed', Date.now());
 
       if (currentStats) {
@@ -448,52 +505,10 @@ export default {
 
       this.$emit('completed', this.stats);
       this.isCompleted = true;
-      setTimeout(this.generateHeatMap, 60);
-    },
-    async getCode() {
-      if (!this.codeInfo.name) {
-        return this.customCode.text;
-      }
-      const url = `${process.env.VUE_APP_URL}/code/${this.language.name.replace('#', '_sharp')}/${this.codeInfo.name}.${this.language.ext}`;
-      try {
-        const resp = await axios.get(url);
-        return resp.data;
-      } catch (err) {
-        if (err.request) {
-          throw new Error('No internet');
-        } else {
-          throw err;
-        }
-      }
-    },
-
-    generateHeatMap() {
-      // const arr = this.stats.history;
-      // for (let i = 1; i < arr.length; i += 1) {
-      //   let from;
-      //   let to;
-      //   if (arr[i].type === 'mistake') {
-      //     from = arr[i].position.from;
-      //     for (let j = i + 1; j < arr.length; j += 1) {
-      //       if (arr[j].type !== 'mistake') {
-      //         to = arr[j - 1].position.to;
-      //         i = j;
-      //         break;
-      //       }
-      //     }
-      //     this.cm.markText(from, to, { className: 'mistake' });
-      //     console.log(this.cm.getAllMarks);
-      //   }
-      // }
-      // // console.log('heatmap ready', this.timeElapsed());
       setTimeout(() => {
-        this.heatMapReady = true;
         this.$router.replace('/results');
         this.popUp(false);
       }, 2000);
-    },
-    timeElapsed() {
-      return Date.now() - this.stats.firstCharTime;
     },
   },
 };
@@ -575,26 +590,37 @@ export default {
 
 
 .completed
+  pointer-events: auto
   .codemirror ::v-deep
 
-    .mistake
-      background-color: transparent
-      transition: margin $nav-trans-dur $nav-trans-timing, padding $nav-trans-dur $nav-trans-timing, background-color .5s ease-out 1s, box-shadow .5s ease-out 1s
+    .CodeMirror-line
 
+      span > span
+        transition: filter 1s ease-out 2s
 
+      .next-char
+        border-bottom: none
 
-.heatMap
-  pointer-events: auto
-
-  .codemirror
-    ::v-deep
-      .correctedMistake
-        background-color: $grid-color
-        box-shadow: -2px 2px 8px 0px rgba(0,0,0,.6)
-        // outline: 0.2em solid $grid-color
-        padding: 0.1em 0.2em
-        // margin: 0.2em
+      .corrected
+        background-color: lighten($grid-color, 4%)
         opacity: 1
+        display: inline-block
+        filter: none
+        padding: 0.1em 0
+
+        transition: padding $nav-trans-dur $nav-trans-timing 2s, background-color .4s ease-out 3s
+
+        // $shadow-color: rgba(0,0,0,.6)
+        //maintain that order
+        &.alone
+          padding: 0.1em 0.2em
+
+        &.left-most
+          padding-left: 0.2em
+
+        &.right-most
+          padding-right: 0.2em
+
 
 
 @keyframes opacity-enter
@@ -625,10 +651,11 @@ export default {
   opacity: 1
   animation: opacity-enter .7s ease-out forwards
   cursor: default
+  text-align: center
 
   &.hidden
     pointer-events: none
-    animation: opacity-leave .7s linear forwards .1s
+    animation: opacity-leave .4s ease-out forwards
 
   &.clickable
     // pointer-events: all
@@ -640,5 +667,9 @@ export default {
     h2
       max-width: 50vw
       text-align: center
+
+  p
+    font-size: 2rem
+    transform: translateY(4rem)
 
 </style>

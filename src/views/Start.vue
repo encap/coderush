@@ -1,5 +1,5 @@
 <template>
-  <div class="start">
+  <div class="start" tabindex="0" @keydown.enter.capture="handleEnter">
     <main class="middle">
       <div ref="scroll" class="upload-scroll">
         <SettingsMenu ref="settings" class="settings-menu" />
@@ -81,6 +81,9 @@ export default {
     }
   },
   methods: {
+    handleEnter() {
+      console.blue('ENTER');
+    },
     useCustomCode(value) {
       console.warn('usecustomcode', value);
       if (value) {
@@ -170,6 +173,7 @@ export default {
   justify-content: flex-end
   flex-basis: 0
   height: calc(100vh - 2 * #{$gap})
+  outline: none
 
 .middle
   position: relative

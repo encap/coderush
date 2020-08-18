@@ -5,16 +5,16 @@
     </button>
 
     <div class="links" :class="{'room-connected': room.connected}">
-      <router-link to="/" class="link">
+      <button class="link" @click="mainPage(true)">
         <fa :icon="['fas', 'play']" :class="{flip: $route.path === '/run'}" />
         <span class="btn-text">
           Start
         </span>
-      </router-link>
+      </button>
       <div class="line" />
       <button class="link language" @click="$store.commit('USER_LANGUAGE')">
-        <fa v-if="userLanguage" :icon="['fas', 'globe-americas']" />
-        <fa v-else :icon="['fas', 'globe-europe']" />
+        <fa v-show="userLanguage" :icon="['fas', 'globe-americas']" />
+        <fa v-show="!userLanguage" :icon="['fas', 'globe-europe']" />
         <span class="btn-text">
           {{ userLanguage ? 'English Here' : 'Polska wersja' }}
         </span>
@@ -35,7 +35,7 @@
       </router-link>
     </div>
     <div class="room">
-      <div v-if="!room.connected" class="roomNotConnected">
+      <div v-show="!room.connected" class="roomNotConnected">
         <p class="room-text">
           Play with your friends:
         </p>
@@ -47,10 +47,11 @@
             type="text"
             placeholder="Room name"
             @input="resetInfoMsg"
+            @keydown.enter="handleEnter"
           >
         </div>
 
-        <div v-if="roomName" class="buttons">
+        <div v-show="roomName" class="buttons">
           <button :disabled="roomName === ''" @click="checkRoom('create')">
             <span class="btn-text">
               Create
@@ -65,25 +66,26 @@
         </div>
 
 
-
-        <div v-if="askForPlayerName" class="nick-actions">
+        <div v-show="askForPlayerName" class="nick-actions">
           <div class="playerName">
             <fa :icon="['fas', 'user']" />
             <input
+              ref="playerNameInput"
               v-model="playerName"
               maxlength="14"
               type="text"
               placeholder="Nick"
               @input="resetInfoMsg"
+              @keydown.enter="handleEnter"
             >
           </div>
           <div class="buttons">
-            <button v-if="action === 'create'" :disabled="!playerName" @click="createRoom">
+            <button v-show="action === 'create'" :disabled="!playerName" @click="createRoom">
               <span class="btn-text">
                 Ok
               </span>
             </button>
-            <button v-else :disabled="playerName === ''" @click="checkPlayerName">
+            <button v-show="action === 'join'" :disabled="playerName === ''" @click="checkPlayerName">
               <span class="btn-text">
                 Join room
               </span>
@@ -100,7 +102,7 @@
           {{ roomInfoMsg }}
         </p>
       </div>
-      <div v-else class="roomConnected">
+      <div v-show="room.connected" class="roomConnected">
         <div class="roomNameContainer">
           <h2>{{ room.name }}</h2>
           <button class="disconnect-btn" @click="disconnect(true)">
@@ -126,7 +128,11 @@
               :value="`${origin}/join/${roomName}`"
             >
           </div>
-          <button class="close-btn" @click="showRoomLink = false">
+          <button
+            ref="closeInfoBtn"
+            class="close-btn"
+            @click.enter="showRoomLink = false"
+          >
             <span class="btn-text">
               Close
             </span>
@@ -159,6 +165,7 @@ export default {
       roomName: '',
       playerName: '',
       roomInfoMsg: '',
+      action: '',
       showRoomCreator: false,
       showRoomLink: true,
       askForPlayerName: false,
@@ -186,6 +193,7 @@ export default {
           owner: true,
         },
       }]);
+      setTimeout(() => this.$refs.closeInfoBtn.focus(), 100);
     },
     room_exist() {
       if (this.action === 'create') {
@@ -194,11 +202,13 @@ export default {
         this.disconnect();
       } else {
         this.askForPlayerName = true;
+        setTimeout(() => this.$refs.playerNameInput.focus(), 100);
       }
     },
     room_dont_exist() {
       if (this.action === 'create') {
         this.askForPlayerName = true;
+        setTimeout(() => this.$refs.playerNameInput.focus(), 100);
       } else {
         console.error('ROOM DONT EXIST');
         this.roomInfoMsg = `Room "${this.roomName}" doesn't exist.`;
@@ -223,10 +233,27 @@ export default {
   },
   methods: {
     mainPage() {
-      if (this.room.owner) {
+      if (this.$route.path === '/') {
+        if (this.language.name && !this.room.connected) {
+          this.$emit('start');
+        }
+      } else if (this.room.owner) {
         this.$socket.client.emit('reset');
+        this.$router.push('/');
+      } else {
+        this.$router.push('/');
       }
-      this.$router.push('/');
+    },
+    handleEnter() {
+      if (this.askForPlayerName) {
+        if (this.action === 'create') {
+          this.createRoom();
+        } else {
+          this.checkPlayerName();
+        }
+      } else {
+        this.checkRoom('create');
+      }
     },
     checkRoom(action) {
       this.action = action;

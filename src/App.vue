@@ -2,7 +2,7 @@
   <div id="app" ref="app">
     <template v-if="!tooSmall">
       <aside ref="navLeft" class="nav-left" :class="{thin: isPlaying, wide: room.connected }">
-        <NavBar :class="[{thin: isPlaying }]" />
+        <NavBar :class="[{thin: isPlaying }]" @start="$children[1].run()" />
       </aside>
       <main>
         <keep-alive :exclude="['Run', 'Results']">
@@ -107,10 +107,6 @@ main
 
 button, a, input[type="checkbox"], input[type="radio"]
   cursor: pointer
-
-option
-  color: purple
-  background: none
 
 .CodeMirror, .CodeMirror-gutters
   font-size: 1.5rem

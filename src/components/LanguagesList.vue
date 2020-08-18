@@ -7,10 +7,12 @@
         placeholder="Search"
         class="searchInput"
         maxlength="12"
+        autofocus
+        @keydown.enter.stop="selectFirstFromSearch"
       >
       <div>
-        <span v-if="searchText && filteredList.length === languagesList.length" class="nothing-found-text">(nothing found)</span>
-        <button v-if="searchText" class="clear-btn" @click="clear">
+        <span v-show="searchText && filteredList.length === languagesList.length" class="nothing-found-text">(nothing found)</span>
+        <button v-show="searchText" class="clear-btn" @click="clear">
           Clear
         </button>
       </div>
@@ -39,9 +41,8 @@
           :value="languagesList[filteredLanguage.index]"
           @input="setRoomLanguage"
         >
-        <span class="stat"><span>41</span><span>WPM</span></span>
         <span class="language-name">{{ filteredLanguage.name.replace('_', ' ') }}</span>
-        <span class="stat"><span>24</span><span><fa :icon="['fas', 'play']" /></span></span>
+        <span class="stat"><span>24</span><fa class="icon" :icon="['fas', 'users']" /></span>
       </label>
     </div>
   </div>
@@ -103,6 +104,14 @@ export default {
         if (this.room.owner) {
           this.$socket.client.emit('languageChange', index);
         }
+      }
+    },
+    selectFirstFromSearch() {
+      console.green('ENTER');
+      if (this.filteredList.length !== 0 && this.filteredList.length < this.languagesList.length) {
+        [this.language] = this.filteredList;
+      } else {
+        this.clear();
       }
     },
     setRoomLanguage(ev) {
@@ -187,14 +196,21 @@ export default {
     opacity: 0.85
 
 .stat
-  padding: 0.2em
+  right: 0
+  width: 3em
+  height: 100%
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  flex-wrap: wrap
+  position: absolute
+  padding: 0.5em 0.3em
   opacity: 0
   color: $grey
   font-size: 0.9em
-  width: 3em
-  display: flex
-  flex-direction: column
-  justify-content: space-between
+
+
 
 .language:hover > .stat
   opacity: 1

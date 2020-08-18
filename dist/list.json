@@ -29,7 +29,8 @@
     "name": "Bash",
     "ext": "sh",
     "mode": "clike",
-    "files": []
+    "files": [
+    ]
   },
   {
     "name": "C",

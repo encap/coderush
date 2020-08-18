@@ -1,52 +1,65 @@
 <template>
   <main
-    :key="resetKey"
+    :key="resetSelfKey"
     @keydown.alt="resetSelf"
   >
     <div class="top-bar">
-      <div v-if="requestReset" class="requestReset">
-        <h2>Room owner wants to start a new game</h2>
-        <p>You will be moved to lobby</p>
-        <button @click="$router.push('/')">
-          OK
-        </button>
-        <button @click="disconnect">
-          Leave room
-        </button>
-      </div>
-      <div class="info">
-        <div class="languageName">
-          <h2>{{ languageName }}</h2>
+      <template v-if="requestReset">
+        <div class="info">
+          <div class="codeInfo">
+            <h2>Room owner wants to start a new game</h2>
+            <p>You will be moved to lobby</p>
+          </div>
         </div>
-        <div class="codeInfo">
-          <p v-if="codeInfo.name">
-            {{ codeInfo.name }}.{{ language.ext }}
-          </p>
-          <p>{{ codeSource }}</p>
+        <div class="buttons">
+          <button @click="$router.push('/')">
+            OK
+          </button>
+          <button class="disconnect-btn" @click="disconnect">
+            Leave room and code
+          </button>
         </div>
-      </div>
-      <div class="buttons">
-        <button class="reset" :disabled="room.connected" @click="reset">
-          Reset
-        </button>
-        <button class="finish" :disabled="room.connected" @click="finish">
-          Finish now
-        </button>
-      </div>
+      </template>
+      <template v-else>
+        <div class="info">
+          <div class="languageName">
+            <h2>{{ languageName }}</h2>
+          </div>
+          <div class="codeInfo">
+            <p v-if="codeInfo.name">
+              {{ codeInfo.name }}.{{ language.ext }}
+            </p>
+            <p>{{ codeSource }}</p>
+          </div>
+        </div>
+        <div class="buttons">
+          <button class="reset" :disabled="room.connected" @click="reset">
+            Restart
+          </button>
+          <button
+            v-show="$route.path !== '/results'"
+            class="finish"
+            :disabled="room.connected"
+            @click="finish"
+          >
+            Finish now
+          </button>
+        </div>
+      </template>
     </div>
+
 
     <!-- Changing key remounts component -->
     <CodeEditor
       v-if="language.name"
       ref="codeEditor"
-      :key="componentKey"
+      :key="resetEditorKey"
       class="code-editor"
       @reset="reset"
       @completed="completed"
     />
-    <transition>
-      <Results v-if="$route.path === '/results' && stats" :stats="stats" />
-    </transition>
+
+    <Results v-if="$route.path === '/results' && stats" :stats="stats" class="results" />
   </main>
 </template>
 
@@ -63,8 +76,8 @@ export default {
   },
   data() {
     return {
-      componentKey: 1,
-      resetKey: 1,
+      resetSelfKey: 1,
+      resetEditorKey: 1,
       stats: false,
       requestReset: false,
 
@@ -97,13 +110,15 @@ export default {
   },
   methods: {
     reset() {
-      this.componentKey += 1;
       if (this.$route.path === '/results') {
+        this.resetSelfKey += 1;
         this.$router.push('/run');
+      } else {
+        this.resetEditorKey += 1;
       }
     },
     resetSelf() {
-      this.resetKey += 1;
+      this.resetSelfKey += 1;
       if (this.$route.path === '/results') {
         this.$router.push('/run');
       }
@@ -127,7 +142,7 @@ export default {
 
 <style lang="sass" scoped>
 main
-  height: calc(100vh - #{2 * $gap})
+  min-height: calc(100vh - #{2 * $gap})
   max-width: 1300px
   width: 100%
   position: relative
@@ -135,8 +150,9 @@ main
   display: flex
   justify-content: flex-start
 
-  .codeEditor
+  .code-editor
     flex-grow: 1
+    margin: 1rem 0
 
 .top-bar
   display: flex
@@ -145,7 +161,6 @@ main
   position: relative
   animation: opacity-enter .5s ease-out forwards .7s
   animation-fill-mode: both
-  margin-bottom: 1rem
 
   .info
     position: relative
@@ -168,7 +183,8 @@ main
     flex-shrink: 0
     button
       text-align: center
-      width: 150px
+      min-width: 150px
+      padding: 0 0.5em
       height: 47px
       background: $grid-color
       margin-left: max(10px, calc(20vw - 210px))
@@ -179,6 +195,10 @@ main
     opacity: 0
   to
     opacity: 1
+
+
+.results
+  width: 100%
 
 
 </style>
