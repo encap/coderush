@@ -211,6 +211,8 @@ h2
 
   &::-webkit-scrollbar-track
     background-color: $grid-color
+  &::-webkit-scrollbar-corner
+    background-color: $grid-color
 
 
   label

@@ -216,6 +216,8 @@ export default {
       background: linear-gradient(to top, $purple-gradient-colors)
     &::-webkit-scrollbar-track
       background-color: $grid-color
+    &::-webkit-scrollbar-corner
+      background-color: $grid-color
 
 .ready
   opacity: 1

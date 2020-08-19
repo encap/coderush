@@ -74,7 +74,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['language', 'options', 'codeInfo', 'customCode']),
+    ...mapGetters(['language', 'options', 'codeInfo', 'customCode', 'room']),
     cmOptions() {
       return {
         undoDepth: 0,
@@ -393,7 +393,6 @@ export default {
       const height = `${this.$refs.code.offsetHeight}px`;
       console.blue(`height: ${height}`);
       const scroll = this.$refs.codemirror.$el.getElementsByClassName('CodeMirror-scroll')[0];
-      console.log(scroll);
       scroll.style.maxHeight = height;
     },
     async getCode() {
@@ -481,7 +480,9 @@ export default {
       }
       this.cm.setOption('readOnly', 'nocursor');
       this.popUp(true, forced ? 'Too long, uh?' : 'Congratulations');
-      this.$socket.client.emit('completed', Date.now());
+      if (this.room.connected) {
+        this.$socket.client.emit('completed', Date.now());
+      }
 
       if (currentStats) {
         this.stats = {
@@ -497,11 +498,7 @@ export default {
         this.stats = stats;
       }
 
-
-      console.blue(`TOTAL TIME: ${this.stats.timeFromFirstInput}`);
       console.log(JSON.parse(JSON.stringify(this.stats)));
-      console.log(stats);
-
 
       this.$emit('completed', this.stats);
       this.isCompleted = true;
@@ -586,6 +583,8 @@ export default {
       background: linear-gradient(to top, $purple-gradient-colors) !important
     &::-webkit-scrollbar-track
       background-color: $grid-color !important
+    &::-webkit-scrollbar-corner
+      background-color: $grid-color !important
 
 
 
@@ -610,7 +609,6 @@ export default {
 
         transition: padding $nav-trans-dur $nav-trans-timing 2s, background-color .4s ease-out 3s
 
-        // $shadow-color: rgba(0,0,0,.6)
         //maintain that order
         &.alone
           padding: 0.1em 0.2em
@@ -669,6 +667,8 @@ export default {
       text-align: center
 
   p
+    animation: opacity-enter .5s ease-out forwards .7s
+    animation-fill-mode: backwards
     font-size: 2rem
     transform: translateY(4rem)
 

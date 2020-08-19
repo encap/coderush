@@ -59,7 +59,12 @@
       @completed="completed"
     />
 
-    <Results v-if="$route.path === '/results' && stats" :stats="stats" class="results" />
+    <Results
+      v-if="stats"
+      v-show="$route.path === '/results' && stats"
+      :stats="stats"
+      class="results"
+    />
   </main>
 </template>
 

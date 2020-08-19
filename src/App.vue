@@ -72,6 +72,23 @@ export default {
 
 body
   font-family: sans-serif
+  margin: 0
+  background: radial-gradient(at top left, $navy-grey ,$light-navy)
+  background-repeat: no-repeat
+  background-attachment: fixed
+  overflow: auto
+  &::-webkit-scrollbar
+      width: $gap / 2
+  &::-webkit-scrollbar-thumb
+    background: $washed-purple
+    background: linear-gradient(to bottom,  $washed-purple, mix($washed-purple, $grid-color, 60%))
+  &::-webkit-scrollbar-track
+    background-color: $grid-color
+  &::-webkit-scrollbar-corner
+    background-color: $grid-color
+
+
+
 
 #app
   position: relative
@@ -79,7 +96,6 @@ body
   min-height: 100vh
   color: $white
   padding: $gap
-  background: radial-gradient(at top left, $navy-grey ,$light-navy)
   display: flex
   justify-content: space-between
 

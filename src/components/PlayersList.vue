@@ -7,7 +7,7 @@
     <ol>
       <li v-for="player in sortedPlayers" :key="player.name">
         <span :class="{ owner: player.owner, me: player.name === room.myName && !room.owner, winner: player.name === room.winner }">{{ player.name }}{{ player.name === room.myName ? ' (You)' : '' }} {{ player.ready && player.connected ? '✔' : '' }} {{ player.connected ? '🌐' : '❎' }}</span>
-        <span v-if="$route.path === '/results' && room.ready">{{ player.stats.wpm }} WPM {{ player.stats.mistaskesCount || 0 }} Errors</span>
+        <span v-if="$route.path === '/results' && room.ready">{{ player.stats.time }}s {{ player.stats.wpm }} WPM</span>
       </li>
     </ol>
   </div>
@@ -21,7 +21,6 @@ export default {
   computed: {
     ...mapGetters(['room', 'players']),
     playersArray() {
-      console.error('UPDATE PLAYERARRAY');
       console.warn(this.players);
       return Object.entries(this.players).map(([name, data]) => ({ name, ...data }));
     },

@@ -36,6 +36,16 @@ $nav-size: 270px
 $purple-gradient-colors: $purple, mix($light-purple, $grid-color, 80)
 $blue-gradient-colors: $light-blue, mix($light-blue, $grid-color, 30)
 
+
+@mixin navbar-mouse-effect
+  transition: background-color .15s ease-in-out
+
+  &:hover
+    background-color: rgba($white, .1)
+
+  &:active
+    background-color: rgba($white, .2)
+
 @mixin shadow($alpha: .3, $blur: 6px )
   box-shadow: 0 0 $blur rgba(black, $alpha)
 

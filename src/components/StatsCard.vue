@@ -120,7 +120,7 @@ export default {
     if (this.room.connected) {
       this.$socket.client.emit('completedStats', {
         wpm: this.format(this.WPM, 0, 1),
-        mistakesCount: this.mistakes.length,
+        time: this.stats.timeFromFirstInput,
       });
     }
   },
