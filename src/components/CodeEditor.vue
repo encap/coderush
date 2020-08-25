@@ -40,7 +40,7 @@ import 'codemirror/lib/codemirror.css';
 // import 'codemirror/addon/selection/active-line';
 
 // eslint-disable-next-line no-unused-vars
-import stats from '../stats';
+import stats from '../stats2';
 
 export default {
   components: {
@@ -134,6 +134,13 @@ export default {
           this.cm.execCommand('goCharRight');
           this.currentLine += 1;
           console.warn(this.currentLine);
+
+          this.currentChange = {
+            ...this.currentChange,
+            type: 'correct',
+            text: 'Enter',
+          };
+
           if (!this.stats.oneThirdTime && this.currentLine === Math.floor(this.codeInfo.lines / 3)) {
             console.green('one third');
             const oneThirdText = this.cm.getRange(
@@ -153,6 +160,7 @@ export default {
             this.stats.lastThirdCharsCount = lastThirdText.length;
             this.stats.lastThirdStartTime = this.timeElapsed();
           }
+
           if (this.options.autoIndent) {
             this.cm.execCommand('goLineStartSmart');
             this.currentChar = this.cm.getCursor().ch;
@@ -171,7 +179,11 @@ export default {
             );
           }
         } else {
-          console.error('wtf');
+          console.error('enter blocked before end of the line');
+          this.currentChange = {
+            ...this.currentChange,
+            type: 'blockedEnter',
+          };
         }
       };
 
@@ -371,7 +383,9 @@ export default {
         handleWrite(ev.key, ev);
       }
 
-      this.stats.history.push(this.currentChange);
+      if (this.currentChange.type !== 'initialType') {
+        this.stats.history.push(this.currentChange);
+      }
       this.currentChange = {};
     },
     onUnFocus(_, ev) {
@@ -475,7 +489,7 @@ export default {
         });
     },
     completed(forced = false, currentStats = true) {
-      if (this.$route.path === '/results') {
+      if (this.$route.path === '/results' || (forced && this.stats.history.length < 10)) {
         return;
       }
       this.cm.setOption('readOnly', 'nocursor');
@@ -505,7 +519,7 @@ export default {
       setTimeout(() => {
         this.$router.replace('/results');
         this.popUp(false);
-      }, 2000);
+      }, 100); // dev
     },
   },
 };
@@ -618,19 +632,6 @@ export default {
 
         &.right-most
           padding-right: 0.2em
-
-
-
-@keyframes opacity-enter
-  from
-    opacity: 0
-  to
-    opacity: 1
-@keyframes opacity-leave
-  from
-    opacity: 1
-  to
-    opacity: 0
 
 .pop-up
   position: fixed

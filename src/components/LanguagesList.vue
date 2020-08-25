@@ -129,11 +129,11 @@ export default {
   display: flex
   justify-content: space-between
   position: relative
-  margin-bottom: $grid-gap
+  margin: 0 $grid-gap
+  padding: $grid-gap
   border-bottom: $grid-gap solid $grid-color
-  width: 100%
   height: 40px
-  padding: 2 * $grid-gap
+
 
   &:focus-within
     border-image: linear-gradient(to right, $light-blue, $grid-color 90%) 1

@@ -24,7 +24,6 @@
           <input
             v-model="isReady"
             type="checkbox"
-            :disabled="!language.name && room.owner"
 
             @input="ready($event.target.checked)"
           >

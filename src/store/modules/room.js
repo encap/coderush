@@ -7,6 +7,7 @@ const state = {
     players: {},
     myName: '',
     owner: false,
+    ready: false,
   },
 };
 
@@ -19,9 +20,9 @@ const actions = {
   socket_playerDisconnected({ commit }, msg) {
     if (msg.owner) {
       commit('SET_ROOM_PROPERTY', ['connected', false]);
-      setTimeout(() => {
-        commit('SET_ROOM_PROPERTY', ['name', 'Room closed']);
-      }, 20000);
+      commit('SET_ROOM_PROPERTY', ['ready', false]);
+      console.log(this);
+      this._vm.$socket.client.disconnect();
     }
 
     commit('PLAYER_LOST_CONNECTION', {

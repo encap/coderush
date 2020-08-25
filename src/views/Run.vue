@@ -1,6 +1,7 @@
 <template>
   <main
     :key="resetSelfKey"
+    :class="{wide: stats }"
     @keydown.alt="resetSelf"
   >
     <div class="top-bar">
@@ -16,7 +17,7 @@
             OK
           </button>
           <button class="disconnect-btn" @click="disconnect">
-            Leave room and code
+            Leave room and stay here
           </button>
         </div>
       </template>
@@ -115,11 +116,11 @@ export default {
   },
   methods: {
     reset() {
+      this.stats = false;
+      this.resetEditorKey += 1;
+
       if (this.$route.path === '/results') {
-        this.resetSelfKey += 1;
         this.$router.push('/run');
-      } else {
-        this.resetEditorKey += 1;
       }
     },
     resetSelf() {
@@ -154,6 +155,9 @@ main
   flex-direction: column
   display: flex
   justify-content: flex-start
+
+  &.wide
+    max-width: 1600px
 
   .code-editor
     flex-grow: 1
@@ -195,15 +199,8 @@ main
       margin-left: max(10px, calc(20vw - 210px))
       cursor: pointer
 
-@keyframes opacity-enter
-  from
-    opacity: 0
-  to
-    opacity: 1
-
-
 .results
   width: 100%
-
+  max-width: 100%
 
 </style>

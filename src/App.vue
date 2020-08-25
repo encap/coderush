@@ -109,7 +109,7 @@ aside
   transition: transform $nav-trans-dur $nav-trans-timing 0s, min-width .5s ease-in-out
 
   &.wide:not(.thin)
-    min-width: 22vw
+    min-width: 15vw
 
   &.thin
     transition-delay: $nav-trans-dur
@@ -120,6 +120,7 @@ aside
 main
   flex-grow: 1
   position: relative
+  min-width: 550px
 
 button, a, input[type="checkbox"], input[type="radio"]
   cursor: pointer

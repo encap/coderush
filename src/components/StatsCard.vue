@@ -2,10 +2,6 @@
   <div>
     <h1>{{ format(WPM, 0, 1) }} WPM = {{ format(CPM, 0, 1) }} CPM</h1>
     <h2>{{ correctInputsLength }} / {{ stats.history.length }} clicks correct in {{ format(stats.timeFromFirstInput, 1) }}s</h2>
-    <h3>Starting speed: {{ format(oneThirdWPM, 0, 1) }} WPM</h3>
-    <h3 v-if="!stats.earlyFinish">
-      Final speed: {{ format(lastThirdWPM, 0, 1) }} WPM
-    </h3>
     <h4>Start reaction time (excluded from results): {{ format(startReactionTime, 0, 1) }} ms</h4>
     <h4>Input intervals: {{ format(keyPressAvgInterval, 0, 1) }} ms</h4>
     <h4>Correct input intervals: {{ format(correctKeyPressAvgInterval, 0, 1) }} ms</h4>
@@ -54,15 +50,6 @@ export default {
     WPM() {
       return this.CPM / 5;
     },
-    oneThirdWPM() {
-      return this.stats.oneThirdCharsCount / this.format(this.stats.oneThirdTime, 4) * 60 / 5;
-    },
-    lastThirdTime() {
-      return this.stats.timeFromFirstInput - this.stats.lastThirdStartTime;
-    },
-    lastThirdWPM() {
-      return this.stats.lastThirdCharsCount / this.format(this.lastThirdTime, 4) * 60 / 5;
-    },
     history() {
       return this.stats.history;
     },
@@ -78,13 +65,13 @@ export default {
     },
     correctionTimes() {
       const timesAcc = [];
-      for (let i = 1; i < this.history.length; i += 1) {
+      for (let i = 0; i < this.history.length; i += 1) {
         // / log(this.history[i]);
         if (this.history[i].type === 'mistake') {
           const startTime = this.history[i].time;
           // console.log(`StartTime ${startTime}; Expected '${this.history[i].expectedText}'`);
           // i+1 must be backspace or another mistake
-          for (let j = i + 2; j < this.history.length; j += 1) {
+          for (let j = i + 1; j < this.history.length; j += 1) {
             // console.log(`Looking for correction: ${this.history[j].type}`);
             if (this.history[j].type === 'correct') {
               // console.og(this.history[j].time - startTime);
@@ -133,13 +120,10 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-table
-  border-collapse: separate
-  border-spacing: 2px 4px
+div > *
+  margin: 5px 0
 
-td
-  width: 100px
-  text-align: center
-
+li
+  list-style-position: inside
 
 </style>

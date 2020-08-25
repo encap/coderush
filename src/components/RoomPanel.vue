@@ -31,35 +31,44 @@
       </div>
 
 
-      <div v-show="askForPlayerName" class="nick-actions">
-        <div class="playerName">
-          <fa :icon="['fas', 'user']" />
-          <input
-            ref="playerNameInput"
-            v-model="playerName"
-            maxlength="14"
-            type="text"
-            placeholder="Nick"
-            @input="resetInfoMsg"
-            @keydown.enter="handleEnter"
-          >
-        </div>
-        <div class="buttons">
-          <button v-show="action === 'create'" :disabled="!playerName" @click="createRoom">
-            <span class="btn-text">
-              Ok
-            </span>
-          </button>
-          <button v-show="action === 'join'" :disabled="playerName === ''" @click="checkPlayerName">
-            <span class="btn-text">
-              Join room
-            </span>
-          </button>
-          <button @click="disconnect()">
-            <span class="btn-text">
-              Close
-            </span>
-          </button>
+      <div
+        v-show="askForPlayerName"
+        class="nick-actions"
+        :class="{ popUp: popUp, 'hide-popUp': hidePopUp}"
+      >
+        <div class="wrapper">
+          <h2 v-show="popUp">
+            Enter a username to continue
+          </h2>
+          <div class="playerName">
+            <fa :icon="['fas', 'user']" />
+            <input
+              ref="playerNameInput"
+              v-model="playerName"
+              maxlength="14"
+              type="text"
+              placeholder="Nick"
+              @input="resetInfoMsg"
+              @keydown.enter="handleEnter"
+            >
+          </div>
+          <div class="buttons">
+            <button v-show="action === 'create'" :disabled="!playerName" @click="createRoom">
+              <span class="btn-text">
+                Ok
+              </span>
+            </button>
+            <button v-show="action === 'join'" :disabled="playerName === ''" @click="checkPlayerName">
+              <span class="btn-text">
+                Join room
+              </span>
+            </button>
+            <button v-show="!popUp" @click="disconnect()">
+              <span class="btn-text">
+                Close
+              </span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -129,6 +138,8 @@ export default {
       showRoomLink: true,
       askForPlayerName: false,
       origin: window.location.origin,
+      popUp: false,
+      hidePopUp: false,
     };
   },
   computed: {
@@ -186,6 +197,7 @@ export default {
   mounted() {
     if (this.$route.params.roomName) {
       this.roomName = this.$route.params.roomName;
+      this.popUp = true;
       this.checkRoom('join');
       this.$router.push('/');
     }
@@ -225,6 +237,8 @@ export default {
     joinRoom() {
       this.$socket.client.emit('joinRoom');
       this.askForPlayerName = false;
+      this.hidePopUp = true;
+      setTimeout(() => { this.popUp = false; }, 500);
     },
     disconnect(action = false) {
       this.$socket.client.close();
@@ -273,6 +287,45 @@ input
   flex-direction: column
   justify-content: space-between
 
+  .popUp
+    position: fixed
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    background-color: rgba($grid-color, .7)
+    display: flex
+    justify-content: space-around
+    align-items: center
+    pointer-events: all
+    user-select: none
+    z-index: 10
+    transition: opacity 2s ease-in-out
+
+    &.hide-popUp
+      opacity: 0
+
+    .wrapper
+      width: 50vw
+      text-align: center
+      display: flex
+      align-items: center
+      flex-wrap: wrap
+      flex-direction: column
+
+      h2
+        font-size: 2.5rem
+
+      .playerName
+        margin: 3rem 0
+      .playerName, .buttons
+        width: 40%
+        max-width: 250px
+
+      button
+        width: 100%
+        height: 35px
+
   button
     @include small-btn
 
@@ -311,6 +364,7 @@ input
 
     svg
       margin-bottom: $grid-gap
+      margin-left: 1em
 
 input::placeholder
     color: $grey

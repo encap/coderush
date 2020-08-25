@@ -26,6 +26,8 @@ module.exports = {
     'consistent-return': 'off',
     'no-param-reassign': 'off',
     'no-multiple-empty-lines': 'off',
+    'no-underscore-dangle': 'off',
+    'prefer-destructuring': 'off',
     'no-mixed-operators': [
       'warn',
       {

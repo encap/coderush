@@ -441,7 +441,7 @@ export default {
     },
     {
       "time": 13623,
-      "type": "initialType",
+      "type": "correct",
       "shift": false,
       "alt": false,
       "keyCode": 13
@@ -570,7 +570,7 @@ export default {
     },
     {
       "time": 17359,
-      "type": "initialType",
+      "type": "correct",
       "shift": false,
       "alt": false,
       "keyCode": 13
@@ -735,7 +735,7 @@ export default {
     },
     {
       "time": 23552,
-      "type": "initialType",
+      "type": "correct",
       "shift": false,
       "alt": false,
       "keyCode": 13
@@ -960,7 +960,7 @@ export default {
     },
     {
       "time": 34874,
-      "type": "initialType",
+      "type": "correct",
       "shift": false,
       "alt": false,
       "keyCode": 13
@@ -975,7 +975,7 @@ export default {
     },
     {
       "time": 36386,
-      "type": "initialType",
+      "type": "correct",
       "shift": false,
       "alt": false,
       "keyCode": 13
@@ -1142,7 +1142,7 @@ export default {
     },
     {
       "time": 45428,
-      "type": "initialType",
+      "type": "correct",
       "shift": false,
       "alt": false,
       "keyCode": 13
@@ -1229,7 +1229,7 @@ export default {
     },
     {
       "time": 49884,
-      "type": "initialType",
+      "type": "correct",
       "shift": false,
       "alt": false,
       "keyCode": 13
@@ -1244,7 +1244,7 @@ export default {
     },
     {
       "time": 51341,
-      "type": "initialType",
+      "type": "correct",
       "shift": false,
       "alt": false,
       "keyCode": 13
@@ -1307,7 +1307,7 @@ export default {
     },
     {
       "time": 55133,
-      "type": "initialType",
+      "type": "correct",
       "shift": false,
       "alt": false,
       "keyCode": 13
@@ -1468,7 +1468,7 @@ export default {
     },
     {
       "time": 61606,
-      "type": "initialType",
+      "type": "correct",
       "shift": false,
       "alt": false,
       "keyCode": 13
@@ -1675,7 +1675,7 @@ export default {
     },
     {
       "time": 67191,
-      "type": "initialType",
+      "type": "correct",
       "shift": false,
       "alt": false,
       "keyCode": 13
@@ -1690,7 +1690,7 @@ export default {
     },
     {
       "time": 68359,
-      "type": "initialType",
+      "type": "correct",
       "shift": false,
       "alt": false,
       "keyCode": 13
@@ -1899,10 +1899,11 @@ export default {
     },
     {
       "time": 76080,
-      "type": "initialType",
-      "shift": false,
+      "type": "correct",
+      "shift": true,
       "alt": false,
-      "keyCode": 13
+      "keyCode": 221,
+      "text": "}"
     }
   ],
   "cheat": false,
