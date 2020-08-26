@@ -6,6 +6,7 @@ import 'codemirror/addon/mode/overlay';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/addon/edit/closebrackets';
 import 'codemirror/addon/selection/active-line';
+import 'cm-show-invisibles/lib/show-invisibles';
 
 // make cm global so modes can properly register
 window.CodeMirror = CodeMirror;

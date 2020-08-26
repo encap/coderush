@@ -9,6 +9,7 @@
       ref="codemirror"
       v-model="codeText"
       class="codemirror"
+      :class="{showInvisibles: language.name === 'Whitespace'}"
       :options="cmOptions"
       @ready="onCmReady"
 
@@ -29,6 +30,8 @@
 </template>
 
 <script>
+/* eslint-disable no-tabs */
+
 import { mapGetters } from 'vuex';
 import axios from 'axios';
 import { codemirror } from 'vue-codemirror';
@@ -77,6 +80,8 @@ export default {
     ...mapGetters(['language', 'options', 'codeInfo', 'customCode', 'room']),
     cmOptions() {
       return {
+        showInvisibles: this.language.name === 'Whitespace',
+        maxInvisibles: 2,
         undoDepth: 0,
         tabSize: this.tabWidth,
         styleActiveLine: false,
@@ -170,9 +175,13 @@ export default {
             this.correctCharsInLine = 0;
           }
           if (this.options.underScore) {
+            let underScoreWidth = 1;
+            if (!this.options.autoIndent && this.cm.getLine(this.currentLine).slice(0, this.tabWidth) === Array(this.tabWidth).fill(' ').join('')) {
+              underScoreWidth = this.tabWidth;
+            }
             this.cm.markText(
               { line: this.currentLine, ch: this.currentChar },
-              { line: this.currentLine, ch: this.currentChar + 1 },
+              { line: this.currentLine, ch: this.currentChar + underScoreWidth },
               {
                 className: 'next-char', clearOnEnter: true, inclusiveRight: true,
               },
@@ -189,27 +198,53 @@ export default {
 
       const handleWrite = (key) => {
         const lineText = this.cm.getLine(this.currentLine);
+        console.log(`${lineText}1`);
         if (this.currentChar !== lineText.length) { // block too long lines
-          const expectedChar = lineText[this.currentChar];
-          console.blue(`expected: '${expectedChar}'`);
-          if (key === expectedChar) {
-            console.green(`correct '${key}'`);
+          let expectedText = lineText[this.currentChar];
+          console.blue(`expected: '${expectedText}'`);
+
+          let text = key;
+
+          if (key === 'Tab') {
+            text = Array(this.tabWidth).fill(' ').join('');
+            console.green(`tabText: '${text}'`);
+
+
+            if (expectedText === ' ' && this.language.name !== 'Whitespace') {
+              console.red(`test: '${lineText.slice(this.currentChart, this.currentChar + this.tabWidth)}'`);
+              if (lineText.slice(this.currentChar, this.currentChar + this.tabWidth) === text) {
+                console.log('if');
+                expectedText = text;
+                console.red(`expectedText: '${text}'`);
+              }
+            } else if (expectedText === '	') { // Tab character
+              text = '	';
+            }
+          }
+          console.green(`text: '${text}'`);
+          if (text === expectedText) {
             if (this.toFix) {
               console.red(`blocked unfixed mistakes: ${this.toFix}`);
+              this.currentChange = {
+                ...this.currentChange,
+                type: 'unfixed',
+                text,
+              };
             } else {
               this.cm.markText(
                 { line: this.currentLine, ch: this.currentChar },
-                { line: this.currentLine, ch: this.currentChar + 1 },
+                { line: this.currentLine, ch: this.currentChar + text.length },
                 { className: 'correct' },
               );
-              this.cm.execCommand('goCharRight');
-              this.currentChar += 1;
-              this.correctCharsInLine += 1;
+
+
+              this.currentChar += text.length;
+              this.correctCharsInLine += text.length;
 
               this.currentChange = {
                 ...this.currentChange,
                 type: 'correct',
-                text: key,
+                text,
               };
 
 
@@ -218,9 +253,13 @@ export default {
                 this.completed();
               } else if (this.options.underScore) {
                 if (this.currentChar !== lineText.length) {
+                  let underScoreWidth = 1;
+                  if (!this.options.autoIndent && this.cm.getLine(this.currentLine).slice(this.currentChar, this.tabWidth + this.currentChar) === Array(this.tabWidth).fill(' ').join('')) {
+                    underScoreWidth = this.tabWidth;
+                  }
                   this.cm.markText(
                     { line: this.currentLine, ch: this.currentChar },
-                    { line: this.currentLine, ch: this.currentChar + 1 },
+                    { line: this.currentLine, ch: this.currentChar + underScoreWidth },
                     { className: 'next-char', clearOnEnter: true, inclusiveRight: true },
                   );
                 } else {
@@ -239,20 +278,28 @@ export default {
             console.red(`wrong: ${this.toFix}`);
             const marker = this.cm.markText(
               { line: this.currentLine, ch: this.currentChar },
-              { line: this.currentLine, ch: this.currentChar + 1 },
+              { line: this.currentLine, ch: this.currentChar + text.length },
               { className: 'mistake' },
             );
             // TODO show missclicked char
             this.markers.push(marker);
-            this.cm.execCommand('goCharRight');
-            this.currentChar += 1;
+            this.currentChar += text.length;
             this.currentChange = {
               ...this.currentChange,
               type: 'mistake',
               fixQueuePos: this.toFix,
-              expectedText: expectedChar,
-              text: key,
+              expectedText,
+              text,
             };
+          }
+          if (text.length > 1) {
+            this.cm.startOperation();
+            for (let i = 0; i < text.length; i += 1) {
+              this.cm.execCommand('goCharRight');
+            }
+            this.cm.endOperation();
+          } else {
+            this.cm.execCommand('goCharRight');
           }
         } else {
           this.currentChange = {
@@ -263,7 +310,7 @@ export default {
         }
       };
 
-      if (ev.key === 'Shift' || ev.key === 'Alt' || ev.ctrlKey || ev.metaKey || ev.key.slice(0, 5) === 'Arrow') {
+      if (ev.key === 'Shift' || ev.key === 'CapsLock' || ev.key === 'Alt' || ev.key === 'PageUp' || ev.key === 'PageDown' || ev.key === 'ScrollLock' || ev.ctrlKey || ev.metaKey || ev.key.slice(0, 5) === 'Arrow' || (ev.key.length > 1 && ev.key[0] === 'F')) {
         // prevent double event and block keys
         return;
       }
@@ -280,7 +327,7 @@ export default {
 
 
 
-      if (ev.key === 'Escape') {
+      if (ev.key === 'Escape' || ev.key === 'Pause') {
         this.popUp(true, 'Resume');
       } else if (ev.key === 'Insert') {
         this.cm.execCommand('goLineEnd');
@@ -314,17 +361,28 @@ export default {
       } else if (ev.key === 'Backspace') {
         if (this.toFix) {
           this.toFix -= 1;
-          this.cm.execCommand('goCharLeft');
+
           // this.cm.execCommand('undo'); // clear marker
           const marker = this.markers.pop();
           console.log(marker);
           const position = marker.find();
-
+          console.log(position);
           marker.clear();
 
+          const markerLength = position.to.ch - position.from.ch;
+          if (markerLength > 1) {
+            this.cm.startOperation();
+            for (let i = 0; i < markerLength; i += 1) {
+              this.cm.execCommand('goCharLeft');
+            }
+            this.cm.endOperation();
+          } else {
+            this.cm.execCommand('goCharLeft');
+          }
 
+          console.blue(`markerLength: ${markerLength}`);
 
-          this.currentChar -= 1;
+          this.currentChar -= markerLength;
           this.currentChange = {
             ...this.currentChange,
             type: 'backspace',
@@ -357,12 +415,14 @@ export default {
 
 
             if (this.options.underScore) {
+              let underScoreWidth = 1;
+              if (!this.options.autoIndent && this.cm.getLine(this.currentLine).slice(this.currentChar, this.tabWidth + this.currentChar) === Array(this.tabWidth).fill(' ').join('')) {
+                underScoreWidth = this.tabWidth;
+              }
               this.cm.markText(
                 { line: this.currentLine, ch: this.currentChar },
-                { line: this.currentLine, ch: this.currentChar + 1 },
-                {
-                  className: 'next-char', clearOnEnter: true, inclusiveRight: true,
-                },
+                { line: this.currentLine, ch: this.currentChar + underScoreWidth },
+                { className: 'next-char', clearOnEnter: true, inclusiveRight: true },
               );
             }
           }
@@ -373,12 +433,14 @@ export default {
             type: 'blockedBackspace',
           };
         }
-      } else if (ev.key === 'Tab') {
-        for (let i = 0; i < this.tabWidth; i += 1) {
-          this.cm.startOperation();
-          handleWrite(' ', ev);
-          this.cm.endOperation();
-        }
+      // } else if (ev.key === 'Tab') {
+        // eslint-disable-next-line no-tabs
+        // handleWrite('	', ev);
+        // for (let i = 0; i < this.tabWidth; i += 1) {
+        //   this.cm.startOperation();
+        //   handleWrite(' ', ev);
+        //   this.cm.endOperation();
+        // }
       } else {
         handleWrite(ev.key, ev);
       }
@@ -389,23 +451,24 @@ export default {
       this.currentChange = {};
     },
     onUnFocus(_, ev) {
-      console.red('blur');
+      ev.preventDefault(); // DEV
+      // console.red('blur');
       if (!this.isCompleted && ev) {
-        // this.cm.focus(); // dev
-        if (ev.relatedTarget !== null) {
-          if (ev.relatedTarget.tagName !== 'BUTTON' && ev.relatedTarget.tagName !== 'A') {
-            this.popUp(true, 'Resume'); // dev
-          } else if (ev.relatedTarget.className === 'disconnect-btn') {
-            this.cm.focus();
-          }
-        } else {
-          this.popUp(true, 'Resume');
-        }
+        this.cm.focus(); // DEV
+        // if (ev.relatedTarget !== null) {
+        //   if (ev.relatedTarget.tagName !== 'BUTTON' && ev.relatedTarget.tagName !== 'A') {
+        //     this.popUp(true, 'Resume'); // dev
+        //   } else if (ev.relatedTarget.className === 'disconnect-btn') {
+        //     this.cm.focus();
+        //   }
+        // } else {
+        //   this.popUp(true, 'Resume');
+        // }
       }
     },
     fixHeight() {
       const height = `${this.$refs.code.offsetHeight}px`;
-      console.blue(`height: ${height}`);
+      // console.blue(`height: ${height}`);
       const scroll = this.$refs.codemirror.$el.getElementsByClassName('CodeMirror-scroll')[0];
       scroll.style.maxHeight = height;
     },
@@ -490,7 +553,7 @@ export default {
     },
     completed(forced = false, currentStats = true) {
       if (this.$route.path === '/results' || (forced && this.stats.history.length < 10)) {
-        return;
+        // return; DEV
       }
       this.cm.setOption('readOnly', 'nocursor');
       this.popUp(true, forced ? 'Too long, uh?' : 'Congratulations');
@@ -519,7 +582,7 @@ export default {
       setTimeout(() => {
         this.$router.replace('/results');
         this.popUp(false);
-      }, 100); // dev
+      }, 100); // DEV
     },
   },
 };
@@ -570,12 +633,16 @@ export default {
   .CodeMirror-line
     // line-break: anywhere !important
 
-    span > span
-      transition: filter 1s ease-out
-      filter: grayscale(40%) brightness(80%)
-      font-size: 20px
-      line-height: 22px
-      font-weight: normal
+    & > span
+      &::after
+        display: none
+
+      & > span
+        transition: filter 1s ease-out
+        filter: grayscale(40%) brightness(80%)
+        font-size: 20px
+        line-height: 22px
+        font-weight: normal
 
     .correct
       filter: none
@@ -600,6 +667,25 @@ export default {
     &::-webkit-scrollbar-corner
       background-color: $grid-color !important
 
+
+.showInvisibles ::v-deep
+  .CodeMirror-line
+    & > span::after
+      display: inline
+    .cm-tab
+      position: relative
+      width: 2.2em
+      &:before
+        content: "⇥"
+        position: absolute
+        top: 0
+        bottom: 0
+        left: 0
+        right: 0
+        font-size: 1.3em
+        text-align: center
+        color: #404F7D
+        transform: translateY(-0.1em) scaleX(1.5)
 
 
 .completed
