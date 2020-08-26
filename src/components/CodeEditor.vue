@@ -608,8 +608,8 @@ export default {
 
     .CodeMirror-line
 
-      span > span
-        transition: filter 1s ease-out 2s
+      // span > span
+      //   transition: filter 1s ease-out 2s
 
       .next-char
         border-bottom: none
@@ -621,7 +621,7 @@ export default {
         filter: none
         padding: 0.1em 0
 
-        transition: padding $nav-trans-dur $nav-trans-timing 2s, background-color .4s ease-out 3s
+        // transition: padding $nav-trans-dur $nav-trans-timing 2s, background-color .4s ease-out 3s
 
         //maintain that order
         &.alone
@@ -654,7 +654,7 @@ export default {
 
   &.hidden
     pointer-events: none
-    animation: opacity-leave .4s ease-out forwards
+    animation: opacity-leave .4s ease-out forwards .1s
 
   &.clickable
     // pointer-events: all

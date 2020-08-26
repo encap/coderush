@@ -1,24 +1,73 @@
 <template>
   <div>
-    <div class="flex-row">
-      <StatsCard :stats="stats" class="stats" />
-      <LinesChart :history="stats.history" class="chart lines" />
-    </div>
-    <div class="flex-row">
-      <PieChart :history="stats.history" class="chart pie" />
-      <MixedChart :stats="stats" class="chart mixed" />
+    <div class="stats">
+      <div class="flex-column left">
+        <section class="main-stats flex-item">
+          <div class="text-stats">
+            <div class="big-stats">
+              <div class="wpm">
+                <p class="unit">
+                  WPM
+                </p>
+                <h2 class="value">
+                  {{ format(WPM, 0, 1) }}
+                </h2>
+              </div>
+              <div class="cpm">
+                <p class="unit">
+                  CPM
+                </p>
+                <h2 class="value">
+                  {{ format(CPM, 0, 1) }}
+                </h2>
+              </div>
+              <div class="time">
+                <p class="unit">
+                  Time
+                </p>
+                <h2 class="value">
+                  {{ minutes ? `${minutes}:${seconds}` : `${seconds}s` }}
+                </h2>
+              </div>
+            </div>
+            <div v-if="mistakes.length" class="middle">
+              <div class="mistakes-info">
+                <p>Time wasted by mistakes: {{ format(totalTimeLost) }} s</p>
+                <p>Speed counting down that time {{ format(WPMWithoutTimeLost, 0, 1) }} WPM</p>
+                <p>Most mistakes in a row: {{ mostMistakesInARow }} mistakes</p>
+                <p>Longest correction time: {{ format(longestTimeOfCorrection) }} s</p>
+              </div>
+              <button class="share">
+                <fa :icon="['fas', 'share-alt']" size="lg" />
+              </button>
+            </div>
+            <div v-else>
+              <h3>
+                You didn't make any mistakes!
+              </h3>
+              <h3>Nothing to show here.</h3>
+            </div>
+          </div>
+          <BarChart :wpm="format(WPM, 1, 1)" class="wpm-chart" />
+        </section>
+        <PieChart v-if="mistakes.length > 0" :history="stats.history" class="flex-item chart pie" />
+      </div>
+
+
+      <div class="flex-column right">
+        <LinesChart v-if="mistakes.length > 0" :history="stats.history" class="flex-item chart lines" />
+
+        <MixedChart :stats="stats" class="flex-item chart mixed" />
+      </div>
     </div>
 
-    <VirtualKeyboard
-      :history="
-        stats.history"
-    />
+    <VirtualKeyboard v-if="mistakes.length > 0" :history="stats.history" />
   </div>
 </template>
 
 <script>
-import StatsCard from '@/components/StatsCard.vue';
 import VirtualKeyboard from '@/components/VirtualKeyboard.vue';
+import BarChart from '@/components/charts/BarChart.vue';
 import LinesChart from '@/components/charts/LinesChart.vue';
 import PieChart from '@/components/charts/PieChart.vue';
 import MixedChart from '@/components/charts/MixedChart.vue';
@@ -27,8 +76,8 @@ import MixedChart from '@/components/charts/MixedChart.vue';
 export default {
   name: 'Results',
   components: {
-    StatsCard,
     VirtualKeyboard,
+    BarChart,
     LinesChart,
     PieChart,
     MixedChart,
@@ -40,10 +89,72 @@ export default {
       required: true,
     },
   },
+  computed: {
+    history() {
+      return this.stats.history;
+    },
+    mistakes() {
+      return this.history.filter((change) => change.type === 'mistake');
+    },
+    minutes() {
+      return Math.floor(this.stats.timeFromFirstInput / 1000 / 60);
+    },
+    seconds() {
+      return Math.round((this.stats.timeFromFirstInput / 1000) % 60);
+    },
+    correctInputs() {
+      return this.history.filter((change) => change.type === 'correct').length;
+    },
+    CPM() {
+      return this.correctInputs / this.format(this.stats.timeFromFirstInput, 4) * 60;
+    },
+    WPM() {
+      return this.CPM / 5;
+    },
+    mostMistakesInARow() {
+      return this.mistakes.map((obj) => obj.fixQueuePos)
+        .reduce((acc, value) => Math.max(acc, value), 0);
+    },
+    correctionTimes() {
+      const timesAcc = [];
+      for (let i = 0; i < this.history.length; i += 1) {
+        // / log(this.history[i]);
+        if (this.history[i].type === 'mistake') {
+          const startTime = this.history[i].time;
+          // console.log(`StartTime ${startTime}; Expected '${this.history[i].expectedText}'`);
+          // i+1 must be backspace or another mistake
+          for (let j = i + 1; j < this.history.length; j += 1) {
+            // console.log(`Looking for correction: ${this.history[j].type}`);
+            if (this.history[j].type === 'correct') {
+              // console.og(this.history[j].time - startTime);
+              timesAcc.push(this.history[j].time - startTime);
+              i = j;
+              break;
+            }
+          }
+        }
+      }
+      return timesAcc;
+    },
+    WPMWithoutTimeLost() {
+      return this.correctInputs / this.format(this.stats.timeFromFirstInput - this.totalTimeLost, 4) * 60 / 5;
+    },
+    totalTimeLost() {
+      return this.correctionTimes.reduce((acc, value) => acc + value, 0);
+    },
+    longestTimeOfCorrection() {
+      return this.correctionTimes.reduce((acc, value) => Math.max(acc, value), 0);
+    },
+  },
   beforeMount() {
     if (!this.stats.timeFromFirstInput) {
       this.$router.push('/');
     }
+  },
+  methods: {
+    format(number, precision = 2, scaler = 0.001) {
+      return Math.round(number * scaler * (10 ** precision)) / (10 ** precision);
+    },
   },
 
 };
@@ -51,23 +162,85 @@ export default {
 
 <style lang="sass" scoped>
 .stats
-  min-width: 300px
-
-.flex-row
   display: flex
   justify-content: space-between
   width: 100%
-  height: 400px
+  max-width: 100%
   position: relative
 
-.chart
-  height: 100%
-  min-width: 300px
-  width: 400px
+  .flex-column
+    display: flex
+    flex-direction: column
+    justify-content: flex-start
+    min-width: 400px
+    width: 450px
+    position: relative
+
+    &.left
+      flex-shrink: 2
+
+    &.right
+      flex-grow: 1
+      margin-left: 4vw
+
+.flex-item
+  overflow: hidden
+  min-width: 100%
+  width: 100%
+  height: 400px
+  min-height: 400px
+  max-height: 400px
+  margin-bottom: 2em
   position: relative
 
 .lines, .mixed
-  margin-left: 5vw
-  flex-grow: 1
+  width: 100%
 
+.pie
+  width: 400px
+
+.big-stats
+  width: 100%
+  display: flex
+  justify-content: space-between
+  text-align: center
+  margin-bottom: 1rem
+  font-size: 3rem
+
+  .unit
+    font-size: .5em
+
+.main-stats
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+
+  .wpm-chart
+    width: 100%
+    height: 100%
+    max-height: 150px
+    flex-grow: 1
+
+  .middle
+    height: 6rem
+    display: flex
+    justify-content: space-between
+    position: relative
+    align-items: stretch
+    .mistakes-info
+      display: flex
+      justify-content: space-between
+      flex-direction: column
+    .share
+      display: block
+      height: 100%
+      width: 6rem
+      position: relative
+      text-align: center
+      background: $grid-color
+      transition: transform .5s
+
+      &:focus
+        transform-origin: right
+        transform: scale(4)
 </style>

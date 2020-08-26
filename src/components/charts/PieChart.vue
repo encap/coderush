@@ -65,10 +65,9 @@ export default {
       return {
         responsive: true,
         aspectRatio: 1,
+        maintainAspectRatio: false,
         cutoutPercentage: 40,
-        scales: {
 
-        },
       };
     },
     chartDatasets() {
@@ -80,7 +79,10 @@ export default {
             labels: [
               'Correct Input', 'Wrong Input', 'Deleting',
             ],
+            backgroundColor: ['#292a3e', '#c957e0', '#266eb7'],
             data: this.chartData,
+            borderColor: '#222',
+            borderWidth: 1,
           },
         ],
       };

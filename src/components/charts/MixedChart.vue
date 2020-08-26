@@ -53,6 +53,7 @@ export default {
             type: 'linear',
             ticks: {
               stepSize: 10000,
+              max: this.avgInputIntervals[this.avgInputIntervals.length - 1].x,
               callback: (time) => {
                 const seconds = Math.ceil(time / 1000);
                 const minutes = Math.floor(seconds / 60);
@@ -88,7 +89,7 @@ export default {
             type: 'scatter',
             label: 'Input intervals',
             data: this.inputIntervalsPoints,
-            pointBackgroundColor: 'blue',
+            pointBackgroundColor: '#266eb7',
             order: 3,
             yAxisID: 'inputIntervals',
           },
@@ -96,7 +97,7 @@ export default {
             type: 'line',
             label: 'AVG input intervals',
             data: this.avgInputIntervals,
-            borderColor: 'white',
+            borderColor: 'light-grey',
             borderWidth: 1,
             pointBorderColor: 'transparent',
             order: 2,
@@ -107,7 +108,7 @@ export default {
             label: 'WPM over time',
             data: this.wpmPoints,
             cubicInterpolationMode: 'default',
-            borderColor: 'pink',
+            borderColor: '#c957e0',
             borderWidth: 1,
             order: 3,
             yAxisID: 'wpm',

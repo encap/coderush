@@ -2,6 +2,7 @@
   <nav>
     <button class="title" @click="mainPage">
       CodeRush
+      <span class="beta">BETA</span>
     </button>
 
     <div class="links" :class="{'room-connected': room.connected}">
@@ -85,9 +86,15 @@ export default {
   font-weight: 600
   padding: 1.1rem 0
   width: 100%
+  position: relative
   transition: opacity $nav-trans-dur $nav-trans-timing $nav-trans-dur, background-color .15s ease-in-out
   @include padding-left
   @include navbar-mouse-effect
+
+  .beta
+    font-size: 13px
+    position: absolute
+    padding-left: 3px
 
 nav
   height: 100%

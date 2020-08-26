@@ -170,7 +170,6 @@ export default {
   position: relative
   display: flex
   justify-content: flex-end
-  flex-basis: 0
   height: calc(100vh - 2 * #{$gap})
   outline: none
 

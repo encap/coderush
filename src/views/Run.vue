@@ -60,12 +60,17 @@
       @completed="completed"
     />
 
-    <Results
-      v-if="stats"
+    <div
       v-show="$route.path === '/results' && stats"
-      :stats="stats"
+      ref="results"
       class="results"
-    />
+    >
+      <Results
+        v-if="stats"
+
+        :stats="stats"
+      />
+    </div>
   </main>
 </template>
 
@@ -108,6 +113,20 @@ export default {
     if (!this.language.name) {
       this.$router.push('/');
     }
+  },
+  beforeRouteUpdate(to, from, next) {
+    if (to.path === '/results') {
+      console.green('scroll');
+      setTimeout(() => {
+        this.$refs.results.scrollIntoView({
+          block: 'start',
+          inline: 'nearest',
+          behavior: 'smooth',
+        });
+      }, 100);
+    }
+
+    next();
   },
   sockets: {
     reset() {
@@ -197,10 +216,10 @@ main
       height: 47px
       background: $grid-color
       margin-left: max(10px, calc(20vw - 210px))
-      cursor: pointer
 
 .results
   width: 100%
   max-width: 100%
+  padding-top: 1rem
 
 </style>

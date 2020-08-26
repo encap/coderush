@@ -121,6 +121,7 @@ main
   flex-grow: 1
   position: relative
   min-width: 550px
+  min-width: 0
 
 button, a, input[type="checkbox"], input[type="radio"]
   cursor: pointer

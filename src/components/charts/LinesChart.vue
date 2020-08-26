@@ -62,6 +62,7 @@ export default {
             type: 'linear',
             ticks: {
               stepSize: 10000,
+              max: this.timePoints[this.timePoints.length - 1].x,
               callback: (time) => {
                 const seconds = Math.ceil(time / 1000);
                 const minutes = Math.floor(seconds / 60);
@@ -104,7 +105,7 @@ export default {
             type: 'line',
             label: '# of mistakes',
             data: this.mistakesPoints,
-            borderColor: 'pink',
+            borderColor: '#c957e0',
             borderWidth: 2,
             steppedLine: true,
             order: 1,
@@ -114,7 +115,7 @@ export default {
             type: 'line',
             label: 'Time wasted by them',
             data: this.timePoints,
-            borderColor: 'blue',
+            borderColor: '#266eb7',
             borderWidth: 2,
             cubicInterpolationMode: 'monotone',
             order: 2,

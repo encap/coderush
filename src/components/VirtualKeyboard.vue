@@ -296,7 +296,6 @@ export default {
   --min-size: 4vw
   --key-margin: .1rem
   --key-size: calc(var(--min-size) + var(--key-margin) * 2)
-  --bg-color: #2c2137
   min-width: calc(15 * var(--key-size))
   height: calc(5 * var(--key-size))
   background: transparent radial-gradient(200px 100px at var(--mouse-x) var(--mouse-y), rgba(180, 180, 180, 0.5),transparent ) no-repeat 0 0
@@ -321,11 +320,10 @@ export default {
   flex-basis: 0
   margin: 0 var(--key-margin)
   padding: 0.4rem
-  background: var(--bg-color)
+  background: $grid-color
   display: flex
   flex-direction: column
   justify-content: space-around
-  border: 1px solid rgba(110, 110, 110, 0.3)
   transition: background-color 0.3s cubic-bezier(0,.5,1,1), color 0.3s cubic-bezier(0,.5,1,1), transform .1s ease-out
 
 
@@ -339,7 +337,7 @@ span
 
 .key:active
   background: white
-  color: rgba(43, 30, 51, 1) !important
+  color: $grid-color !important
   transform: scale(.96)
 
 
