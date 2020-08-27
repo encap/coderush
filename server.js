@@ -69,7 +69,7 @@ const sendStats = () => {
       });
   }
 };
-setInterval(sendStats, 1000 * 60 * 24);
+setInterval(sendStats, 1000 * 60 * 60 * 24);
 
 
 
@@ -85,6 +85,9 @@ fs.readFile(`${PATH}/list.json`, 'utf8', (err, data) => {
   setInterval(() => {
     console.log('TIMER');
     stringifiedList = JSON.stringify(list);
+    axios.get('https://coderush.herokuapp.com/api/ping')
+      .then(res => console.log(`ping ok, status: ${res.status}`)
+      .catch(err => console.error(`Ping Error: ${err}`));
   }, 1000 * 60 * 20);
 });
 
@@ -143,6 +146,10 @@ app.post('/api/stats', cors(), (req, res) => {
   newStats = true;
   res.send('OK');
 });
+
+app.get('/api/ping', cors(), (req, res) => {
+  res.send('OK');
+})
 
 app.use(fallback('index.html', { root: PATH }));
 
@@ -279,7 +286,7 @@ const server = http.listen(PORT, () => {
 });
 
 const shutdown = () => {
-  console.warn('SHUTDOWN PENDING');
+  console.warn(`SHUTDOWN PENDING ${process.env.NODE_ENV}`);
   server.close();
   if (process.env.NODE_ENV === 'production') {
     sendStats();
@@ -287,7 +294,7 @@ const shutdown = () => {
     setTimeout(() => {
       console.warn('SHUTDOWN');
       process.exit(0);
-    }, 1000);
+    }, 2000);
   } else {
     process.exit(0);
   }
