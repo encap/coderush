@@ -54,8 +54,9 @@ const sendStats = () => {
       method: 'post',
       headers: {
         Accept: 'application/vnd.github.everest-preview+json',
-        Authorization: `Bearer ${process.env.HEROKU_API_TOKEN}`,
+        Authorization: `token ${process.env.GH_PERSONAL_TOKEN}`,
       },
+      withCredentials: true,
       data: {
         event_type: 'update-stats',
         client_payload: list,
