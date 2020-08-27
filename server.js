@@ -19,6 +19,28 @@ console.warn(PATH);
 
 let list = {};
 let stringifiedList = '';
+let newStats = false;
+
+setInterval(() => {
+  if (newStats) {
+    newStats = false;
+
+    axios.request({
+      url: 'https://api.github.com/repos/encap/coderush/dispatches',
+      method: 'post',
+      headers: {
+        Accept: 'application/vnd.github.everest-preview+json',
+        Authorization: `token ${process.env.GH_PERSONAL_TOKEN}`,
+      },
+      data: {
+        event_type: 'update-stats',
+        client_payload: list,
+      },
+    })
+      .then(() => console.log(`Stats Sent. Total: ${list.stats.total || 'ERROR'}`))
+      .catch((response) => console.Error(response));
+  }
+}, 1000 * );
 
 fs.readFile(`${PATH}/list.json`, 'utf8', (err, data) => {
   if (err) {
@@ -80,25 +102,13 @@ app.post('/upload', cors(), (req, res) => {
 app.post('/api/stats', cors(), (req, res) => {
   const stats = req.body;
   list.stats.total += 1;
-  list.stats.correctClicks += stats.correctClicks;
-  list.stats.backspaceClicks += stats.backspaceClicks;
-  list.stats.deletingTime += stats.deletingTime;
+  list.stats.correctClicks = list.stats.correctClicks + stats.correctClicks || list.stats.correctClicks;
+  list.stats.backspaceClicks = list.stats.backspaceClicks +  stats.backspaceClicks || list.stats.backspaceClicks;
+  list.stats.deletingTime = list.stats.deletingTime + stats.deletingTime || list.stats.deletingTime;
   list.languages[stats.languageIndex].total = list.languages[stats.languageIndex].total + 1 || 1;
   list.languages[stats.languageIndex].files[stats.fileIndex].total = list.languages[stats.languageIndex].files[stats.fileIndex].total + 1 || 1;
 
-  axios.request({
-    url: 'https://api.github.com/repos/encap/coderush/dispatches',
-    method: 'post',
-    headers: {
-      Accept: 'application/vnd.github.everest-preview+json',
-      Authorization: `token ${process.env.GH_PERSONAL_TOKEN}`,
-    },
-    data: {
-      event_type: 'update-stats',
-      client_payload: list,
-    },
-  }).then((response) => console.log(response)).catch((response) => console.warn(response));
-
+  newStats = true;
   res.send('OK');
 });
 
