@@ -94,7 +94,7 @@ app.post('/api/stats', cors(), (req, res) => {
       Authorization: `token ${process.env.GH_PERSONAL_TOKEN}`,
     },
     data: {
-      event_type: 'update_stats',
+      event_type: 'update-stats',
       client_payload: list,
     },
   }).then((response) => console.log(response)).catch((response) => console.warn(response));
