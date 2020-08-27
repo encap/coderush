@@ -3,6 +3,7 @@ name: Handle New Stats
 on:
   repository_dispatch:
     types: update-stats
+  workflow_dispatch:
 
 jobs:
   update-stats:
