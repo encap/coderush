@@ -86,8 +86,8 @@ fs.readFile(`${PATH}/list.json`, 'utf8', (err, data) => {
     console.log('TIMER');
     stringifiedList = JSON.stringify(list);
     axios.get('https://coderush.herokuapp.com/api/ping')
-      .then(res => console.log(`ping ok, status: ${res.status}`)
-      .catch(err => console.error(`Ping Error: ${err}`));
+      .then((res) => console.log(`ping ok, status: ${res.status}`))
+      .catch((err) => console.error(`Ping Error: ${err}`));
   }, 1000 * 60 * 20);
 });
 
@@ -149,7 +149,7 @@ app.post('/api/stats', cors(), (req, res) => {
 
 app.get('/api/ping', cors(), (req, res) => {
   res.send('OK');
-})
+});
 
 app.use(fallback('index.html', { root: PATH }));
 
