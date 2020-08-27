@@ -1,0 +1,16 @@
+name: Handle New Stats
+
+on:
+  repository_dispatch:
+    types: update-stats
+
+jobs:
+  update-stats:
+    name: Update Stats
+    runs-on: ubuntu-latest
+    - uses: actions/checkout@master
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    - name: 
