@@ -1917,6 +1917,9 @@ export default {
   "timeFromFirstInput": 76782,
   "codeLength": 216,
   "file": {
+    "languageName": 'R',
+    "languageIndex": 20,
+    "index": 0,
     "name": "factorial_of_a_number",
     "source": "datamentor.io",
     "tabSize": 2,

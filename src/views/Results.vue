@@ -181,12 +181,13 @@ export default {
       const data = {
         languageName: this.stats.file.languageName,
         languageIndex: this.stats.file.languageIndex,
-        wpm: this.format(this.WPM, 0, 0),
+        wpm: this.format(this.WPM, 0, 1),
         fileIndex: this.stats.file.index,
         correctClicks: this.correctInputs,
         backspaceClicks,
         deletingTime: this.format(deletingTime, 0),
       };
+      console.log(data);
       const url = `${window.location.origin}/api/stats`;
       axios.post(url, data)
         .then((res) => {

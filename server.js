@@ -97,7 +97,7 @@ app.post('/api/stats', cors(), (req, res) => {
       event_type: 'update_stats',
       client_payload: list,
     },
-  }).then((response) => console.log(response));
+  }).then((response) => console.log(response)).catch((response) => console.warn(response));
 
   res.send('OK');
 });
