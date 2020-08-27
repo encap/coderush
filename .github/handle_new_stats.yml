@@ -13,4 +13,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE_VERSION }}
-    - name: 
+    - name: Process update
+      run: |
+        node actions/process-stats_update.js
+    - name: Commit changes
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Automatic stats update
+        commit_user_name: Update Stats Action
+        commit_user_email: bot@github.com
+        commit_author: Bot <bot@github.com>
+        
