@@ -33,9 +33,8 @@ const toggleMaintanceMode = (toggle) => {
     },
   }).then(() => {
     console.log('Toogle 200');
-  }).catch((response) => {
+  }).catch(() => {
     console.warn('Toggle failed');
-    console.error(response);
   });
 };
 if (process.env.NODE_ENV === 'production') {
