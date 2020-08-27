@@ -476,7 +476,7 @@ export default {
       if (!this.codeInfo.name) {
         return this.customCode.text;
       }
-      const url = `${process.env.VUE_APP_URL}/code/${this.language.name.replace('#', '_sharp')}/${this.codeInfo.name}.${this.language.ext}`;
+      const url = `/code/${this.language.name.replace('#', '_sharp')}/${this.codeInfo.name}.${this.language.ext}`;
       try {
         const resp = await axios.get(url);
         return resp.data;

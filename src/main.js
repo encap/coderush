@@ -13,7 +13,7 @@ import store from './store';
 
 // Vue.mixin(trackMouse);
 
-const socket = io(process.env.VUE_APP_URL, {
+const socket = io('/', {
   autoConnect: false,
   reconnectionAttempts: 3,
   timeout: 10000,

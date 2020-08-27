@@ -16,31 +16,64 @@ const PATH = path.join(__dirname, '/dist');
 console.warn(PATH);
 
 // fs.copySync('dist', 'public', { overwrite: true, filter: (filePath) => !filePath.includes('.json') && !filePath.includes('code') });
+const toggleMaintanceMode = (toggle) => {
+  axios({
+    url: 'https://api.heroku.com/apps/coderush',
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/vnd.heroku+json; version=3',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.HEROKU_API_KEY}`,
+    },
+    withCredentials: true,
+    data: {
+      build_stack: 'heroku-18',
+      maintenance: toggle,
+      name: 'coderush',
+    },
+  }).then(() => {
+    console.log('Toogle 200');
+  }).catch((response) => {
+    console.warn('Toggle failed');
+    console.error(response);
+  });
+};
+if (process.env.NODE_ENV === 'production') {
+  toggleMaintanceMode(false);
+}
 
 let list = {};
 let stringifiedList = '';
 let newStats = false;
 
-setInterval(() => {
-  if (newStats) {
+const sendStats = () => {
+  if (newStats && process.env.NODE_ENV === 'production') {
     newStats = false;
 
-    axios.request({
+    axios({
       url: 'https://api.github.com/repos/encap/coderush/dispatches',
       method: 'post',
       headers: {
         Accept: 'application/vnd.github.everest-preview+json',
-        Authorization: `token ${process.env.GH_PERSONAL_TOKEN}`,
+        Authorization: `Bearer ${process.env.HEROKU_API_TOKEN}`,
       },
       data: {
         event_type: 'update-stats',
         client_payload: list,
       },
     })
-      .then(() => console.log(`Stats Sent. Total: ${list.stats.total || 'ERROR'}`))
-      .catch((response) => console.Error(response));
+      .then(() => {
+        console.log(`Stats Sent. Total: ${list.stats.total || 'ERROR'}`);
+      })
+      .catch((response) => {
+        console.error(response);
+      });
   }
-}, 1000 * );
+};
+setInterval(sendStats, 1000 * 60 * 24);
+
+
+
 
 fs.readFile(`${PATH}/list.json`, 'utf8', (err, data) => {
   if (err) {
@@ -103,7 +136,7 @@ app.post('/api/stats', cors(), (req, res) => {
   const stats = req.body;
   list.stats.total += 1;
   list.stats.correctClicks = list.stats.correctClicks + stats.correctClicks || list.stats.correctClicks;
-  list.stats.backspaceClicks = list.stats.backspaceClicks +  stats.backspaceClicks || list.stats.backspaceClicks;
+  list.stats.backspaceClicks = list.stats.backspaceClicks + stats.backspaceClicks || list.stats.backspaceClicks;
   list.stats.deletingTime = list.stats.deletingTime + stats.deletingTime || list.stats.deletingTime;
   list.languages[stats.languageIndex].total = list.languages[stats.languageIndex].total + 1 || 1;
   list.languages[stats.languageIndex].files[stats.fileIndex].total = list.languages[stats.languageIndex].files[stats.fileIndex].total + 1 || 1;
@@ -242,6 +275,25 @@ io.on('connection', (socket) => {
 
 const PORT = process.env.PORT || 3000;
 
-http.listen(PORT, () => {
+const server = http.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}!`);
 });
+
+const shutdown = () => {
+  console.warn('SHUTDOWN PENDING');
+  server.close();
+  if (process.env.NODE_ENV === 'production') {
+    sendStats();
+    toggleMaintanceMode(true);
+    setTimeout(() => {
+      console.warn('SHUTDOWN');
+      process.exit(0);
+    }, 1000);
+  } else {
+    process.exit(0);
+  }
+};
+
+process
+  .on('SIGTERM', shutdown)
+  .on('SIGINT', shutdown);
