@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable import/no-dynamic-require */
-import fs from 'fs';
+const fs = require('fs');
 
 console.log(process.env.GITHUB_EVENT_PATH);
 

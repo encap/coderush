@@ -25,7 +25,7 @@ const actions = {
     if (!context.state.languagesList.length) {
       try {
         const response = await axios.get('/list.json');
-        const languagesList = response.data.map((language, index) => ({ ...language, index }));
+        const languagesList = response.data.languages.map((language, index) => ({ ...language, index }));
         context.commit('SET_LANGUAGES_LIST', languagesList);
       } catch (err) {
         console.warn('LANGUAGE LIST ERROR', err);
@@ -45,6 +45,10 @@ const actions = {
     } else {
       codeInfo = rootState.options.language.files[fileIndex];
     }
+    codeInfo.index = fileIndex;
+    codeInfo.languageIndex = rootState.options.language.index;
+    codeInfo.languageName = rootState.options.language.name;
+
     commit('SET_CODE_INFO', codeInfo);
   },
 };

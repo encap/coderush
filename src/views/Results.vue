@@ -66,6 +66,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 import VirtualKeyboard from '@/components/VirtualKeyboard.vue';
 import BarChart from '@/components/charts/BarChart.vue';
 import LinesChart from '@/components/charts/LinesChart.vue';
@@ -151,9 +153,48 @@ export default {
       this.$router.push('/');
     }
   },
+  mounted() {
+    this.sendStats();
+  },
   methods: {
     format(number, precision = 2, scaler = 0.001) {
       return Math.round(number * scaler * (10 ** precision)) / (10 ** precision);
+    },
+    sendStats() {
+      let deletingTime = 0;
+      let backspaceClicks = 0;
+      for (let i = 0; i < this.history.length; i += 1) {
+        if (this.history[i].type === 'backspace') {
+          const startTime = this.history[i].time;
+          backspaceClicks += 1;
+          for (let j = i + 1; j < this.history.length; j += 1) {
+            if (this.history[j].type !== 'backspace') {
+              const endTime = this.history[j].time;
+              const time = endTime - startTime;
+              deletingTime += time;
+              i = j;
+              break;
+            }
+          }
+        }
+      }
+      const data = {
+        languageName: this.stats.file.languageName,
+        languageIndex: this.stats.file.languageIndex,
+        wpm: this.format(this.WPM, 0, 0),
+        fileIndex: this.stats.file.index,
+        correctClicks: this.correctInputs,
+        backspaceClicks,
+        deletingTime: this.format(deletingTime, 0),
+      };
+      const url = `${window.location.origin}/api/stats`;
+      axios.post(url, data)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((res) => {
+          console.warn(res);
+        });
     },
   },
 

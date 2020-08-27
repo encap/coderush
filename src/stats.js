@@ -9011,6 +9011,9 @@ export default {
     name: 'clone-it_show_hints',
     source: 'own',
     tabSize: 2,
+    index: 0,
     lines: 15,
+    languageName: 'CSS',
+    languageIndex: 7
   },
 };

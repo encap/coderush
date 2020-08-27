@@ -1,3 +1,4 @@
+const axios = require('axios');
 const fallback = require('express-history-api-fallback');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -5,6 +6,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const fs = require('fs-extra');
 const path = require('path');
+
 
 const app = express();
 const http = require('http').Server(app);
@@ -26,20 +28,13 @@ fs.readFile(`${PATH}/list.json`, 'utf8', (err, data) => {
 
   stringifiedList = data;
   list = JSON.parse(data);
+  setInterval(() => {
+    console.log('TIMER');
+    stringifiedList = JSON.stringify(list);
+  }, 1000 * 60 * 20);
 });
 
-setInterval(() => {
-  try {
-    if (list.length > 28 && list.length < 50 && list[0].files.length > 0) {
-      fs.writeJson(`${PATH}/list.json`, list, { spaces: 2 });
-    }
 
-    stringifiedList = JSON.stringify(list);
-  } catch (e) {
-    console.error('list corrupted');
-    console.dir(list);
-  }
-}, 1000 * 60);
 
 app.use(morgan('dev'));
 
@@ -68,17 +63,42 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.post('/upload', cors(), (req, res) => {
-  fs.writeFile(`${PATH}/code/${list.languages[req.body.languageIndex].name.replace('#', '_sharp')}/${req.body.name}.${req.body.ext}`, req.body.code, () => { console.log(`wrote ${req.body.name}.${req.body.ext}`); });
+  // fs.writeFile(`${PATH}/code/${list.languages[req.body.languageIndex].name.replace('#', '_sharp')}/${req.body.name}.${req.body.ext}`, req.body.code, () => { console.log(`wrote ${req.body.name}.${req.body.ext}`); });
 
-  if (!list[req.body.languageIndex].verify) {
-    list[req.body.languageIndex].verify = [];
-  }
-  list[req.body.languageIndex].verify.push({
-    name: req.body.name,
-    source: 'uploaded by contributor',
-    tabSize: req.body.tabSize,
-    numberOfLines: req.body.numberOfLines,
-  });
+  // if (!list[req.body.languageIndex].verify) {
+  //   list[req.body.languageIndex].verify = [];
+  // }
+  // list[req.body.languageIndex].verify.push({
+  //   name: req.body.name,
+  //   source: 'uploaded by contributor',
+  //   tabSize: req.body.tabSize,
+  //   numberOfLines: req.body.numberOfLines,
+  // });
+  res.send('OK');
+});
+
+app.post('/api/stats', cors(), (req, res) => {
+  const stats = req.body;
+  list.stats.total += 1;
+  list.stats.correctClicks += stats.correctClicks;
+  list.stats.backspaceClicks += stats.backspaceClicks;
+  list.stats.deletingTime += stats.deletingTime;
+  list.languages[stats.languageIndex].total = list.languages[stats.languageIndex].total + 1 || 1;
+  list.languages[stats.languageIndex].files[stats.fileIndex].total = list.languages[stats.languageIndex].files[stats.fileIndex].total + 1 || 1;
+
+  axios.request({
+    url: 'https://api.github.com/repos/encap/coderush/dispatches',
+    method: 'post',
+    headers: {
+      Accept: 'application/vnd.github.everest-preview+json',
+      Authorization: `token ${process.env.GH_PERSONAL_TOKEN}`,
+    },
+    data: {
+      event_type: 'update_stats',
+      client_payload: list,
+    },
+  }).then((response) => console.log(response));
+
   res.send('OK');
 });
 
