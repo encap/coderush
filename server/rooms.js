@@ -1,0 +1,131 @@
+const socketio = require('socket.io');
+
+module.exports = function (http) {
+  const io = socketio(http);
+
+  const rooms = {};
+
+  io.on('connection', (socket) => {
+    const { roomName } = socket.handshake.query;
+
+    if (rooms.hasOwnProperty(roomName)) {
+      socket.emit('room_exist');
+      socket.on('checkPlayerName', (playerName) => {
+        if (Object.values(rooms[roomName].players).some((player) => player.name === playerName)) {
+          socket.emit('player_name_taken');
+        } else {
+          socket.emit('player_name_avaible');
+          socket.on('joinRoom', () => {
+            console.warn(`join ROOM ${roomName}, player: ${playerName}`);
+            socket.join(roomName);
+            rooms[roomName].players[socket.id] = { connected: true };
+            rooms[roomName].players[socket.id].name = playerName;
+            socket.emit('room_state', {
+              ...rooms[roomName],
+              players: Object.values(rooms[roomName].players),
+              roomName,
+            });
+            socket.to(roomName).emit('player_joined', playerName);
+          });
+        }
+      });
+    } else {
+      socket.emit('room_dont_exist');
+      socket.on('createRoom', (data) => {
+        socket.join(data.roomName);
+        rooms[data.roomName] = { players: {}, options: data.options, languageIndex: data.langaugeIndex };
+        rooms[data.roomName].players[socket.id] = {
+          name: data.ownerName,
+          owner: true,
+          connected: true,
+        };
+        socket.emit('room_created');
+      });
+    }
+
+    socket.on('optionChange', (option) => {
+      rooms[roomName].options[option.name] = option.data;
+      socket.to(roomName).emit('option_change', option);
+    });
+
+    socket.on('languageChange', (languageIndex) => {
+      rooms[roomName].languageIndex = languageIndex;
+      socket.to(roomName).emit('language_change', languageIndex);
+    });
+
+    socket.on('playerStateChange', (currentState) => {
+      rooms[roomName].players[socket.id].ready = currentState;
+      if (rooms[roomName].players[socket.id].owner) {
+        rooms[roomName].ready = currentState;
+        io.in(roomName).emit('room_ready', currentState);
+      }
+      io.in(roomName).emit('player_state_change', {
+        playerName: rooms[roomName].players[socket.id].name,
+        currentState,
+      });
+    });
+
+    socket.on('fileIndex', (fileIndex) => {
+      socket.to(roomName).emit('file_index', fileIndex);
+    });
+
+    socket.on('customCodeData', (data) => {
+      socket.to(roomName).emit('custom_code_data', data);
+    });
+
+    socket.on('useCustomCode', (data) => {
+      console.log('sadddddddadgadf\nasdasdda');
+      socket.to(roomName).emit('use_custom_code', data);
+    });
+
+    socket.on('start', (ownerStartTime) => {
+      socket.to(roomName).emit('start', ownerStartTime);
+    });
+
+    socket.on('completed', (time) => {
+      console.log(`completed ${Date.now() - time} ms latency`);
+
+      const data = {
+        playerName: rooms[roomName].players[socket.id].name,
+        time: Date.now(),
+      };
+      io.in(roomName).emit('player_completed', data);
+    });
+
+    socket.on('completedStats', (stats) => {
+      const data = {
+        playerName: rooms[roomName].players[socket.id].name,
+        stats,
+      };
+      io.in(roomName).emit('player_stats', data);
+    });
+
+    socket.on('reset', () => {
+      if (rooms[roomName].players[socket.id].owner) {
+        console.dir(rooms[roomName]);
+        rooms[roomName].ready = false;
+        io.in(roomName).emit('reset');
+      }
+    });
+
+    socket.on('disconnecting', () => {
+      console.log('disconnect');
+      try {
+        const player = rooms[roomName].players[socket.id];
+
+        socket.to(roomName).emit('player_disconnected', {
+          playerName: player.name,
+          owner: player.owner,
+        });
+        if (player.owner) {
+          delete rooms[roomName];
+          console.warn(`room ${roomName} deleted`);
+        } else {
+          delete rooms[roomName].players[socket.id];
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  });
+};

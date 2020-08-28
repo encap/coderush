@@ -7,9 +7,10 @@
     "dev": "concurrently -r \"npm:serve\" \"npm:server\"",
     "vue-ui": "vue ui",
     "build": "vue-cli-service build",
+    "build-local": "ASSETS_PATH=/ vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "server": "DEBUG=socket.io:client* node server.js",
-    "start": "node server.js"
+    "server": "DEBUG=socket.io:client* node ./server/server.js",
+    "start": "node ./server/server.js"
   },
   "dependencies": {
     "@actions/core": "^1.2.5",

@@ -1,4 +1,8 @@
+const ASSETS_PATH = process.env.ASSETS_PATH || '/';
+
 module.exports = {
+  publicPath: ASSETS_PATH,
+  assetsDir: './static',
   css: {
     loaderOptions: {
       sass: {
