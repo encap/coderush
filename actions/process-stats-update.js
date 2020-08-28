@@ -19,6 +19,7 @@ try {
       core.endGroup();
       core.startGroup('Writing list.json');
       fs.writeFileSync('public/list.json', stringifiedList);
+      fs.writeFileSync('dist/list.json', stringifiedList);
       core.endGroup();
     } else {
       throw new Error('List corrupted!');

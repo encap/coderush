@@ -1,10 +1,7 @@
 const axios = require('axios');
-const fallback = require('express-history-api-fallback');
 const express = require('express');
 const bodyParser = require('body-parser');
-const morgan = require('morgan');
 const cors = require('cors');
-const fs = require('fs-extra');
 const path = require('path');
 
 const app = express();
@@ -40,10 +37,56 @@ if (process.env.NODE_ENV === 'production') {
   toggleMaintanceMode(false);
 }
 
-let list = {};
-let stringifiedList = '';
-let newStats = false;
+let cachedIndexHtml = '';
+const getIndexHtml = () => {
+  if (process.env.NODE_ENV === 'production') {
+    console.log('getIndexHtml');
+    axios.get('https://coderushcdn.ddns.net/index.html')
+      .then((res) => {
+        if (res.status === '200') {
+          cachedIndexHtml = res.data;
+        }
+      })
+      .catch((err) => {
+        console.warn('Error index.html not found');
+        console.error(err);
+      });
+  }
+};
 
+getIndexHtml();
+
+let list = {};
+let cachedStringifiedList = '';
+
+const getList = () => {
+  console.log('getListHtml');
+  axios.get('https://coderushcdn.ddns.net/list.json')
+    .then((res) => {
+      if (res.status === '200') {
+        list = res.data;
+        cachedStringifiedList = JSON.stringify(list);
+      }
+    })
+    .catch((err) => {
+      console.warn('Error list.json not found');
+      console.error(err);
+    });
+
+  if (process.env.NODE_ENV === 'production') {
+    setInterval(() => {
+      console.log('TIMER');
+      cachedStringifiedList = JSON.stringify(list);
+      axios.get('https://coderush.herokuapp.com/api/ping')
+        .then((res) => console.log(`ping ok, status: ${res.status}`))
+        .catch((err1) => console.error(`Ping Error: ${err1}`));
+    }, 1000 * 60 * 20);
+  }
+};
+
+getList();
+
+let newStats = false;
 const sendStats = () => {
   if (newStats && process.env.NODE_ENV === 'production') {
     newStats = false;
@@ -71,79 +114,63 @@ const sendStats = () => {
 };
 setInterval(sendStats, 1000 * 60 * 60 * 24);
 
-
-
-
-fs.readFile(`${PATH}/static/list.json`, 'utf8', (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-
-  stringifiedList = data;
-  list = JSON.parse(data);
-  setInterval(() => {
-    console.log('TIMER');
-    stringifiedList = JSON.stringify(list);
-    axios.get('https://coderush.herokuapp.com/api/ping')
-      .then((res) => console.log(`ping ok, status: ${res.status}`))
-      .catch((err1) => console.error(`Ping Error: ${err1}`));
-  }, 1000 * 60 * 20);
-});
-
-
-
-app.use(morgan('dev'));
-
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
-
-app.use(express.static(`${PATH}`));
-
 app.use(cors());
 
-app.get('/code/:lang/:file', cors(), (req, res) => {
-  console.log('FILE');
-  res.sendFile(`${PATH}/code/${req.params.lang}/${req.params.file}`);
+// send cached index.html
+app.use((req, res, next) => {
+  const match = req.originalUrl.match(/\.\w+$/);
+  const ext = match ? match[0][0] : '';
+  if ((req.method === 'GET' || req.method === 'HEAD') && (ext === '' || ext === 'html')) {
+    if (cachedIndexHtml) {
+      console.log('cachedhtml');
+      res.send(cachedIndexHtml);
+    } else {
+      console.log('file html');
+      res.sendFile('index.html', { root: PATH });
+    }
+  } else {
+    next();
+  }
 });
 
 // send cached list
-app.get('/list.json', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.end(stringifiedList);
+app.get('/list.json', (_req, res) => {
+  if (cachedStringifiedList) {
+    console.log('cachedList');
+    res.setHeader('Content-Type', 'application/json');
+    res.send(cachedStringifiedList);
+  } else {
+    console.log('file list');
+    res.sendFile('list.json', { root: PATH });
+  }
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.post('/upload', cors(), (req, res) => {
-  // fs.writeFile(`${PATH}/code/${list.languages[req.body.languageIndex].name.replace('#', '_sharp')}/${req.body.name}.${req.body.ext}`, req.body.code, () => { console.log(`wrote ${req.body.name}.${req.body.ext}`); });
-
-  // if (!list[req.body.languageIndex].verify) {
-  //   list[req.body.languageIndex].verify = [];
-  // }
-  // list[req.body.languageIndex].verify.push({
-  //   name: req.body.name,
-  //   source: 'uploaded by contributor',
-  //   tabSize: req.body.tabSize,
-  //   numberOfLines: req.body.numberOfLines,
-  // });
   res.send('OK');
 });
 
 app.post('/api/stats', cors(), (req, res) => {
-  const stats = req.body;
-  list.stats.total += 1;
-  list.stats.correctClicks = list.stats.correctClicks + stats.correctClicks || list.stats.correctClicks;
-  list.stats.backspaceClicks = list.stats.backspaceClicks + stats.backspaceClicks || list.stats.backspaceClicks;
-  list.stats.deletingTime = list.stats.deletingTime + stats.deletingTime || list.stats.deletingTime;
-  list.languages[stats.languageIndex].total = list.languages[stats.languageIndex].total + 1 || 1;
-  list.languages[stats.languageIndex].files[stats.fileIndex].total = list.languages[stats.languageIndex].files[stats.fileIndex].total + 1 || 1;
+  if (process.env.NODE_ENV === 'production') {
+    const stats = req.body;
+    list.stats.total += 1;
+    list.stats.correctClicks = list.stats.correctClicks + stats.correctClicks || list.stats.correctClicks;
+    list.stats.backspaceClicks = list.stats.backspaceClicks + stats.backspaceClicks || list.stats.backspaceClicks;
+    list.stats.deletingTime = list.stats.deletingTime + stats.deletingTime || list.stats.deletingTime;
+    list.languages[stats.languageIndex].total = list.languages[stats.languageIndex].total + 1 || 1;
+    list.languages[stats.languageIndex].files[stats.fileIndex].total = list.languages[stats.languageIndex].files[stats.fileIndex].total + 1 || 1;
 
-  newStats = true;
+    newStats = true;
+  }
+
+
   res.send('OK');
 });
 
@@ -151,8 +178,7 @@ app.get('/api/ping', cors(), (req, res) => {
   res.send('OK');
 });
 
-app.use(fallback('index.html', { root: PATH }));
-
+app.use(express.static(PATH));
 
 
 const PORT = process.env.PORT || 3000;
