@@ -1,4 +1,4 @@
-![Deploy to CDN](https://github.com/encap/coderush/workflows/deploy-to-cdn/badge.svg)
+![Deploy to CDN](https://github.com/encap/coderush/workflows/Deploy%20to%20CDN/badge.svg)
 
 # coderush
 
