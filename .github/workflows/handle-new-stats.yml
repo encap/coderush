@@ -17,7 +17,7 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
     - name: Process update
       run: |
-        node actions/process-stats_update.js
+        node actions/process-stats-update.js
     - name: Commit changes
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
