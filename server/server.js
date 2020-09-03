@@ -126,7 +126,7 @@ app.use((req, res, next) => {
 app.use(cors());
 
 app.use((req, res, next) => {
-  if (!req.secure && process.env.NODE_ENV === 'production') {
+  if (req.protocol === 'http' && process.env.NODE_ENV === 'production') {
     if (req.method === 'GET' || req.method === 'HEAD') {
       console.log('redirected to https');
       res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
