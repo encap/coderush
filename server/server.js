@@ -3,7 +3,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
-const enforce = require('express-sslify');
 
 const app = express();
 const http = require('http').Server(app);
@@ -119,7 +118,8 @@ const sendStats = () => {
 };
 setInterval(sendStats, 1000 * 60 * 5);
 
-app.enable('trust proxy');
+app.enable('trust proxy'); // heroku
+
 app.use((req, res, next) => {
   if (req.protocol === 'http' && process.env.NODE_ENV === 'production') {
     if (req.method === 'GET' || req.method === 'HEAD') {
@@ -133,18 +133,13 @@ app.use((req, res, next) => {
   }
 });
 
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(enforce.HTTPS());
-// }
-
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
+
 app.use(cors());
-
-
 
 // send cached index.html
 app.use((req, res, next) => {
