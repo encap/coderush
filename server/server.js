@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
+const enforce = require('express-sslify');
 
 const app = express();
 const http = require('http').Server(app);
@@ -125,18 +126,22 @@ app.use((req, res, next) => {
 });
 app.use(cors());
 
-app.use((req, res, next) => {
-  if (req.protocol === 'http' && process.env.NODE_ENV === 'production') {
-    if (req.method === 'GET' || req.method === 'HEAD') {
-      console.log('redirected to https');
-      res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
-    } else {
-      res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
-    }
-  } else {
-    next();
-  }
-});
+// app.use((req, res, next) => {
+//   if (req.protocol === 'http' && process.env.NODE_ENV === 'production') {
+//     if (req.method === 'GET' || req.method === 'HEAD') {
+//       console.log('redirected to https');
+//       res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
+//     } else {
+//       res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
+//     }
+//   } else {
+//     next();
+//   }
+// });
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(enforce.HTTPS());
+}
 
 // send cached index.html
 app.use((req, res, next) => {
