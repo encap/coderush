@@ -15,6 +15,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE_VERSION }}
+    - name: Install github actions
+      run: |
+        npm install @actions/core
     - name: Process update
       run: |
         node actions/process-stats-update.js
