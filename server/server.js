@@ -28,9 +28,10 @@ const toggleMaintanceMode = (toggle) => {
       name: 'coderush',
     },
   }).then(() => {
-    console.log('Toogle 200');
-  }).catch(() => {
+    console.log('Toogle success');
+  }).catch((err) => {
     console.warn('Toggle failed');
+    console.error(err);
   });
 };
 if (process.env.NODE_ENV === 'production') {
@@ -43,12 +44,14 @@ const getIndexHtml = () => {
     console.log('getIndexHtml');
     axios.get('https://coderushcdn.ddns.net/index.html')
       .then((res) => {
-        if (res.status === '200') {
+        if (res.status === 200) {
           cachedIndexHtml = res.data;
+        } else {
+          throw new Error('index.html response not 200');
         }
       })
       .catch((err) => {
-        console.warn('Error index.html not found');
+        console.warn('Error index.html');
         console.error(err);
       });
   }
@@ -63,7 +66,7 @@ const getList = () => {
   console.log('getListHtml');
   axios.get('https://coderushcdn.ddns.net/list.json')
     .then((res) => {
-      if (res.status === '200') {
+      if (res.status === 200) {
         list = res.data;
         cachedStringifiedList = JSON.stringify(list);
       }
@@ -121,6 +124,18 @@ app.use((req, res, next) => {
 });
 app.use(cors());
 
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV === 'production') {
+    if (req.method === 'GET' || req.method === 'HEAD') {
+      res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
+    } else {
+      res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
+    }
+  } else {
+    next();
+  }
+});
+
 // send cached index.html
 app.use((req, res, next) => {
   const match = req.originalUrl.match(/\.\w+$/);
@@ -140,7 +155,7 @@ app.use((req, res, next) => {
 
 // send cached list
 app.get('/list.json', (_req, res) => {
-  if (cachedStringifiedList) {
+  if (cachedStringifiedList.length > 2) { // {} empty object
     console.log('cachedList');
     res.setHeader('Content-Type', 'application/json');
     res.send(cachedStringifiedList);
