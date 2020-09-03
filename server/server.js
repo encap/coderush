@@ -111,11 +111,12 @@ const sendStats = () => {
         console.log(`Stats Sent. Total: ${list.stats.total || 'ERROR'}`);
       })
       .catch((response) => {
+        console.warn('Stats update failed');
         console.error(response);
       });
   }
 };
-setInterval(sendStats, 1000 * 60 * 60 * 24);
+setInterval(sendStats, 1000 * 60 * 5);
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
