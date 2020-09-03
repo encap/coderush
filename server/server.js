@@ -127,7 +127,7 @@ app.use(cors());
 
 app.use((req, res, next) => {
   if (process.env.NODE_ENV === 'production') {
-    if (req.method === 'GET' || req.method === 'HEAD') {
+    if (!req.secure && (req.method === 'GET' || req.method === 'HEAD')) {
       res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
     } else {
       res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
