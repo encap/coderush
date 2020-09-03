@@ -64,19 +64,19 @@ let cachedStringifiedList = '';
 
 const getList = () => {
   console.log('getListHtml');
-  axios.get('https://coderushcdn.ddns.net/list.json')
-    .then((res) => {
-      if (res.status === 200) {
-        list = res.data;
-        cachedStringifiedList = JSON.stringify(list);
-      }
-    })
-    .catch((err) => {
-      console.warn('Error list.json not found');
-      console.error(err);
-    });
-
   if (process.env.NODE_ENV === 'production') {
+    axios.get('https://coderushcdn.ddns.net/list.json')
+      .then((res) => {
+        if (res.status === 200) {
+          list = res.data;
+          cachedStringifiedList = JSON.stringify(list);
+        }
+      })
+      .catch((err) => {
+        console.warn('Error list.json not found');
+        console.error(err);
+      });
+
     setInterval(() => {
       console.log('TIMER');
       cachedStringifiedList = JSON.stringify(list);
