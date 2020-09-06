@@ -247,6 +247,16 @@ export default {
                 text,
               };
 
+              if (text.length > 1) {
+                this.cm.startOperation();
+                for (let i = 0; i < text.length; i += 1) {
+                  this.cm.execCommand('goCharRight');
+                }
+                this.cm.endOperation();
+              } else {
+                this.cm.execCommand('goCharRight');
+              }
+
 
 
               if (this.currentLine + 1 === this.codeInfo.lines && this.correctCharsInLine === this.cm.getLine(this.currentLine).length) {
@@ -291,15 +301,16 @@ export default {
               expectedText,
               text,
             };
-          }
-          if (text.length > 1) {
-            this.cm.startOperation();
-            for (let i = 0; i < text.length; i += 1) {
+
+            if (text.length > 1) {
+              this.cm.startOperation();
+              for (let i = 0; i < text.length; i += 1) {
+                this.cm.execCommand('goCharRight');
+              }
+              this.cm.endOperation();
+            } else {
               this.cm.execCommand('goCharRight');
             }
-            this.cm.endOperation();
-          } else {
-            this.cm.execCommand('goCharRight');
           }
         } else {
           this.currentChange = {
