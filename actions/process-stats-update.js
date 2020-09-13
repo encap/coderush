@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-/* eslint-disable import/no-dynamic-require */
+
 const core = require('@actions/core');
 
 const fs = require('fs');
@@ -11,7 +11,8 @@ try {
     }
     core.startGroup('Preparing list');
     console.log(JSON.stringify(data));
-    const list = data.client_payload;
+    const parsedData = JSON.parse(data);
+    const list = parsedData.client_payload;
     console.log(JSON.stringify(list, null, 2));
     if (typeof list === 'object' && typeof list.stats === 'object' && list.stats.total > 0 && list.stats.correctClicks > 0 && list.languages.length >= 33 && list.languages.length < 40 && list.languages.every((language) => language.files.length > 0 && typeof language.files[0].name === 'string')) {
       core.info(`Current total: ${list.stats.total || 'ERROR'}`);
