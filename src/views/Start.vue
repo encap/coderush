@@ -8,7 +8,9 @@
         </keep-alive>
       </div>
 
-
+      <p v-show="error" class="error">
+        {{ error }}
+      </p>
       <div class="buttons-bottom">
         <label class="button show-editor-btn">
           <span>{{ uploadCodeText }}</span>
@@ -19,7 +21,7 @@
             @input="useCustomCode($event.target.checked)"
           >
         </label>
-        <label v-if="room.connected" class="button ready-btn" :class="{ highlight: isReady }">
+        <label v-if="room.connected && !room.owner" class="button ready-btn" :class="{ highlight: isReady }">
           <span>Ready</span>
           <input
             v-model="isReady"
@@ -29,7 +31,7 @@
           >
         </label>
         <button
-          :disabled="(room.owner && playersNotReady) || (room.connected && !room.owner) || (room.owner && !isReady)"
+          :disabled="room.connected && !room.owner"
           class="button start-btn"
           :class="{ highlight: language.name }"
           @click="run"
@@ -63,12 +65,20 @@ export default {
       isReady: false,
     };
   },
+
   computed: {
     ...mapGetters(['room', 'language', 'options', 'customCode']),
-    playersNotReady() {
-      // eslint-disable-next-line no-return-assign
-      const notReadyCount = Object.values(this.room.players).reduce((acc, player) => (player.ready ? acc += 1 : acc), 0);
-      return this.room.players.length / notReadyCount < 0.4;
+    playersReady() {
+      return Object.values(this.room.players).every((player) => player.ready);
+    },
+  },
+  watch: {
+    language(current, previous) {
+      console.warn('watch');
+      console.log(previous);
+      if (previous.index) {
+        this.error = '';
+      }
     },
   },
   activated() {
@@ -121,16 +131,27 @@ export default {
     run() {
       if (!this.language.name) {
         this.$refs.languagesList.selectRandom();
+        this.error = `We picked ${this.language.name} for you. You can choose a different one from the list on the right or click start to continue`;
+        return;
       }
-      if (this.showEditor) {
-        if (this.customCode.text.length < 30 || this.customCode.lines < 4) {
-          this.error = 'Try something a little bit longer';
+
+      if (!this.error) { // second click ignores
+        if (this.showEditor && (this.customCode.text.length < 30 || this.customCode.lines < 4)) {
+          this.error = 'Provided code is too short too produce accurate results.';
           return;
         }
-        if (this.room.owner) {
-          this.$socket.client.emit('customCodeData', this.customCode);
+
+
+        if (this.room.connected && !this.playersReady) {
+          this.error = 'Some players aren\'t ready yet. Click again to ignore';
+          return;
         }
       }
+
+      if (this.showEdiotr && this.room.owner) {
+        this.$socket.client.emit('customCodeData', this.customCode);
+      }
+
       this.prepareCodeInfo();
       if (this.room.owner) {
         this.$socket.client.emit('start', Date.now());

@@ -38,6 +38,12 @@
       "ext": "sh",
       "mode": "clike",
       "files": [
+        {
+          "name": "internet_test",
+          "source": "own",
+          "tabSize": 4,
+          "lines": 27
+        }
       ]
     },
     {
