@@ -94,26 +94,26 @@ const sendStats = () => {
   if (newStats && process.env.NODE_ENV === 'production') {
     newStats = false;
 
-    axios({
-      url: 'https://api.github.com/repos/encap/coderush/dispatches',
-      method: 'post',
-      headers: {
-        Accept: 'application/vnd.github.everest-preview+json',
-        Authorization: `token ${process.env.GH_PERSONAL_TOKEN}`,
-      },
-      withCredentials: true,
-      data: {
-        event_type: 'update-stats',
-        client_payload: list,
-      },
-    })
-      .then(() => {
-        console.log(`Stats Sent. Total: ${list.stats.total || 'ERROR'}`);
-      })
-      .catch((response) => {
-        console.warn('Stats update failed');
-        console.error(response);
-      });
+    // axios({
+    //   url: 'https://api.github.com/repos/encap/coderush/dispatches',
+    //   method: 'post',
+    //   headers: {
+    //     Accept: 'application/vnd.github.everest-preview+json',
+    //     Authorization: `token ${process.env.GH_PERSONAL_TOKEN}`,
+    //   },
+    //   withCredentials: true,
+    //   data: {
+    //     event_type: 'update-stats',
+    //     client_payload: list,
+    //   },
+    // })
+    //   .then(() => {
+    //     console.log(`Stats Sent. Total: ${list.stats.total || 'ERROR'}`);
+    //   })
+    //   .catch((response) => {
+    //     console.warn('Stats update failed');
+    //     console.error(response);
+    //   });
   }
 };
 setInterval(sendStats, 1000 * 60 * 5);
@@ -188,6 +188,27 @@ app.post('/api/stats', cors(), (req, res) => {
     list.languages[stats.languageIndex].files[stats.fileIndex].total = list.languages[stats.languageIndex].files[stats.fileIndex].total + 1 || 1;
 
     newStats = true;
+
+    axios({
+      url: 'https://api.github.com/repos/encap/coderush/dispatches',
+      method: 'post',
+      headers: {
+        Accept: 'application/vnd.github.everest-preview+json',
+        Authorization: `token ${process.env.GH_PERSONAL_TOKEN}`,
+      },
+      withCredentials: true,
+      data: {
+        event_type: 'update-stats',
+        client_payload: list,
+      },
+    })
+      .then(() => {
+        console.log(`Stats Sent. Total: ${list.stats.total || 'ERROR'}`);
+      })
+      .catch((response) => {
+        console.warn('Stats update failed');
+        console.error(response);
+      });
   }
 
 
