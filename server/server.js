@@ -120,18 +120,18 @@ setInterval(sendStats, 1000 * 60 * 5);
 
 app.enable('trust proxy'); // heroku
 
-app.use((req, res, next) => {
-  if (req.protocol === 'http' && process.env.NODE_ENV === 'production') {
-    if (req.method === 'GET' || req.method === 'HEAD') {
-      console.log('redirected to https');
-      res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
-    } else {
-      res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
-    }
-  } else {
-    next();
-  }
-});
+// app.use((req, res, next) => {
+//   if (req.protocol === 'http' && process.env.NODE_ENV === 'production') {
+//     if (req.method === 'GET' || req.method === 'HEAD') {
+//       console.log('redirected to https');
+//       res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
+//     } else {
+//       res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
+//     }
+//   } else {
+//     next();
+//   }
+// });
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
