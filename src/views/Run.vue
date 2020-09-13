@@ -158,7 +158,6 @@ export default {
       this.requestReset = false;
       this.$socket.client.disconnect();
       this.$store.commit('SET_ROOM_PROPERTY', ['connected', false]);
-      this.$store.commit('SET_ROOM_PROPERTY', ['ready', false]);
     },
   },
 };

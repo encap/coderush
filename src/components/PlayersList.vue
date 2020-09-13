@@ -6,10 +6,9 @@
     </h4>
     <ol>
       <li v-for="player in sortedPlayers" :key="player.name">
-        {{ room.ready }}
         <span :class="{ owner: player.owner, me: player.name === room.myName && !room.owner, winner: player.name === room.winner }">{{ player.name }}{{ player.name === room.myName ? ' (You)' : '' }} {{ player.ready && player.connected ? '✔' : '' }} {{ player.connected ? '🌐' : '❎' }}</span>
 
-        <span v-if="$route.path === '/results' && room.ready">{{ player.stats.time }}s {{ player.stats.wpm }} WPM</span>
+        <span v-if="$route.path === '/results'">{{ player.stats.time }}s {{ player.stats.wpm }} WPM</span>
       </li>
     </ol>
   </div>
@@ -28,7 +27,7 @@ export default {
     },
     sortedPlayers() {
       console.warn('update sortedPlayers');
-      if (this.$route.path === '/results' && this.room.ready) {
+      if (this.$route.path === '/results') {
         console.log('results path');
         return this.playersArray.filter((player) => player.stats)
           .sort((p1, p2) => ((p1.time > p2.time) ? 1 : -1));

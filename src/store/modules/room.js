@@ -7,7 +7,6 @@ const state = {
     players: {},
     myName: '',
     owner: false,
-    ready: false,
   },
 };
 
@@ -20,7 +19,6 @@ const actions = {
   socket_playerDisconnected({ commit }, msg) {
     if (msg.owner) {
       commit('SET_ROOM_PROPERTY', ['connected', false]);
-      commit('SET_ROOM_PROPERTY', ['ready', false]);
       console.log(this);
       this._vm.$socket.client.disconnect();
     }
@@ -66,7 +64,6 @@ const actions = {
     commit('USE_CUSTOM_CODE', message);
   },
   socket_reset({ commit, state }) {
-    commit('SET_ROOM_PROPERTY', ['ready', false]);
     Object.keys(state.room.players).forEach((playerName) => {
       commit('RESET_PLAYER', playerName);
     });
@@ -91,9 +88,6 @@ const mutations = {
   },
   SOCKET_PLAYER_STATS(state, message) {
     Vue.set(state.room.players[message.playerName], 'stats', message.stats);
-  },
-  SOCKET_ROOM_READY(state, value) {
-    state.room.ready = value;
   },
   PLAYER_LOST_CONNECTION(state, { playerName, currentState }) {
     if (currentState === 'lostConnection') {

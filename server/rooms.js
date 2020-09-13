@@ -55,10 +55,6 @@ module.exports = function (http) {
 
     socket.on('playerStateChange', (currentState) => {
       rooms[roomName].players[socket.id].ready = currentState;
-      if (rooms[roomName].players[socket.id].owner) {
-        rooms[roomName].ready = currentState;
-        io.in(roomName).emit('room_ready', currentState);
-      }
       io.in(roomName).emit('player_state_change', {
         playerName: rooms[roomName].players[socket.id].name,
         currentState,
@@ -103,7 +99,6 @@ module.exports = function (http) {
     socket.on('reset', () => {
       if (rooms[roomName].players[socket.id].owner) {
         console.dir(rooms[roomName]);
-        rooms[roomName].ready = false;
         io.in(roomName).emit('reset');
       }
     });
