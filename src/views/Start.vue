@@ -131,8 +131,8 @@ export default {
     run() {
       if (!this.language.name) {
         this.$refs.languagesList.selectRandom();
-        this.error = `We picked ${this.language.name} for you. You can choose a different one from the list on the right or click start to continue`;
-        return;
+        // this.error = `We picked ${this.language.name} for you. You can choose a different one from the list on the right or click start to continue`;
+        // return;
       }
 
       if (!this.error) { // second click ignores
