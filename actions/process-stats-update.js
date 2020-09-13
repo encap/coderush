@@ -5,7 +5,7 @@ const core = require('@actions/core');
 const fs = require('fs');
 
 try {
-  fs.readFile(process.env.GITHUB_EVENT_PATH, (err, data) => {
+  fs.readFile(process.env.GITHUB_EVENT_PATH, 'utf8', (err, data) => {
     if (err) {
       throw new Error(`ReadFile failed ${err.message}`);
     }
