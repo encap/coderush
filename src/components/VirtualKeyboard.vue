@@ -298,7 +298,7 @@ export default {
   --key-size: calc(var(--min-size) + var(--key-margin) * 2)
   min-width: calc(15 * var(--key-size))
   height: calc(5 * var(--key-size))
-  background: transparent radial-gradient(200px 100px at var(--mouse-x) var(--mouse-y), rgba(180, 180, 180, 0.5),transparent ) no-repeat 0 0
+  @include cursor-shadow()
 
 
 .row

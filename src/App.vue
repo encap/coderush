@@ -104,7 +104,7 @@ aside
   margin-right: $gap * 2
   padding: $grid-gap
   flex-shrink: 0
-  background: transparent radial-gradient(250px at var(--mouse-x) var(--mouse-y), rgba($white, 0.2) 10%, transparent 90%) no-repeat 0 0
+  @include cursor-shadow()
   @include shadow()
   transition: transform $nav-trans-dur $nav-trans-timing 0s, min-width .5s ease-in-out
 
