@@ -30,7 +30,9 @@ jobs:
       run: npm run build
     # - name: Test
     #   run: git fetch
-    - name: ccommit
+    - name: commit
+      run: git config --global user.email "boot@github.com"
+      run: git config --global user.name "Bot"
       run: git commit -m 'build'
     - name: checkout deploy
       run: git checkout deploy
