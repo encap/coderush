@@ -12,8 +12,6 @@ jobs:
     env:
       build: ${{ !contains(github.event.head_commit.message, 'Scheduled stats update') }}
     steps:
-    - name: ECHO
-      run: echo "$build"
     - uses: actions/checkout@master
       with:
         token: ${{ secrets.GH_PERSONAL_TOKEN }}
@@ -33,8 +31,8 @@ jobs:
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
         branch: deploy
-        repository: .
-        file_pattern: server/ dist/*
+        # repository: .
+        # file_pattern: server/ dist/*
         commit_message: Vue build
         commit_user_name: Public updater
         commit_user_email: bot@github.com
