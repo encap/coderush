@@ -30,7 +30,9 @@ jobs:
       run: npm run build
     # - name: Test
     #   run: git fetch
-    - name: Test2
+    - name: ccommit
+      run: git commit -m 'build'
+    - name: checkout deploy
       run: git checkout deploy
     - name: Refs
       run: git show-ref
