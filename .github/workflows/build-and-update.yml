@@ -12,11 +12,8 @@ jobs:
     env:
       build: ${{ !contains(github.event.head_commit.message, 'Scheduled stats update') }}
     steps:
-    # - uses: actions/checkout@master
     - name: clone
       run: "git clone https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git ."
-      # with:
-        # token: ${{ secrets.GH_PERSONAL_TOKEN }}
     - name: Use Node.js
       if: env.build
       uses: actions/setup-node@v1
