@@ -27,6 +27,8 @@ jobs:
       if: env.build
       run: npm run build
     - name: Test
+      run: git fetch
+    - name: Test2
       run: git checkout deploy
     - name: Commit build
       if: env.build
