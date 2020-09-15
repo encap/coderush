@@ -32,7 +32,7 @@ jobs:
     #   run: git fetch
     - name: commit
       run: |
-        git config --global user.email "boot@github.com"
+        git config --global user.email "bot@github.com"
         git config --global user.name "Bot"
         git add .
         git commit -m 'build'
@@ -44,16 +44,10 @@ jobs:
       run: git checkout master -- "server/" "dist/"
     - name: Commit build
       if: env.build
-      uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        # repository: .
-        # file_pattern: server/ dist/*
-        commit_options: '--allow-empty'
-        skip_dirty_check: true
-        commit_message: Vue build
-        commit_user_name: Public updater
-        commit_user_email: bot@github.com
-        commit_author: Bot <bot@github.com>
+      run: |
+        git add .
+        git commit -m 'build'
+        git push
     - name: Commit new stats
       if: ${{ !env.build }}
       uses: stefanzweifel/git-auto-commit-action@v4
