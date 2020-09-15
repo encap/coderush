@@ -34,6 +34,7 @@ jobs:
       run: |
         git config --global user.email "boot@github.com"
         git config --global user.name "Bot"
+        git add .
         git commit -m 'build'
     - name: checkout deploy
       run: git checkout deploy
