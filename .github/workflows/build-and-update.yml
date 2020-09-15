@@ -53,4 +53,7 @@ jobs:
       if: ${{ !env.build }}
       run: git commit -m 'Scheduled stats update'
     - name: Commit
-      run: git push
+      run: |
+        git config --global user.email "bot@github.com"
+        git config --global user.name "Bot"
+        git push
