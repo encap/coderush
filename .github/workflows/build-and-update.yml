@@ -38,6 +38,7 @@ jobs:
       run: npm run build
     - name: Commit on master
       run: |
+        git config --global credential.helper cache
         git config --global user.email "bot@github.com"
         git config --global user.name "Bot"
         git add .
@@ -54,6 +55,5 @@ jobs:
       run: git commit -m 'Scheduled stats update'
     - name: Commit
       run: |
-        git config --global user.email "bot@github.com"
-        git config --global user.name "Bot"
+        git remote add origin https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git
         git push
