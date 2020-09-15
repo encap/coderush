@@ -27,7 +27,7 @@ jobs:
       if: env.build
       run: npm run build
     - name: Commit changes
-    if: env.build
+      if: env.build
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
         branch: deploy
@@ -37,7 +37,7 @@ jobs:
         commit_user_email: bot@github.com
         commit_author: Bot <bot@github.com>
     - name: Commit changes
-    if: !env.build
+      if: !env.build
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
         branch: deploy
