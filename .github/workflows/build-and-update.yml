@@ -12,9 +12,9 @@ jobs:
     env:
       build: ${{ !contains(github.event.head_commit.message, 'Scheduled stats update') }}
     steps:
-    - name: clone
+    - name: Clone repository
       run: "git clone https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git ."
-    - name: Use Node.js
+    - name: Setup Node.js
       if: env.build
       uses: actions/setup-node@v1
       with:
@@ -22,38 +22,24 @@ jobs:
     - name: Run npm install
       if: env.build
       run: npm install
-    - name: Run npm build script
+    - name: Vue build
       if: env.build
       run: npm run build
-    # - name: Test
-    #   run: git fetch
-    - name: commit
+    - name: Commit on master
       run: |
-        echo node_modules > .gitignore
         git config --global user.email "bot@github.com"
         git config --global user.name "Bot"
         git add .
         git commit -m 'build'
-    - name: checkout deploy
-      run: git checkout deploy
-    - name: Refs
-      run: git show-ref
-    - name: checkout master files
-      run: git checkout master -- "server/" "dist/"
+    - name: Checkout
+      run: |
+        git checkout deploy
+        git checkout master -- "server/" "dist/"
     - name: Commit build
       if: env.build
-      run: |
-        git add .
-        git commit -m 'build'
-        git push
-    - name: Commit new stats
+      run: git commit -m 'automatic deploy'
+    - name: Commit build
       if: ${{ !env.build }}
-      uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        branch: deploy
-        repository: .
-        file_pattern: server/ dist/*
-        commit_message: Scheduled stats update
-        commit_user_name: Public updater
-        commit_user_email: bot@github.com
-        commit_author: Bot <bot@github.com>
+      run: git commit -m 'scheduled stats update'
+    - name: Commit
+      run: git push
