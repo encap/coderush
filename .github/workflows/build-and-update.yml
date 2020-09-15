@@ -30,6 +30,8 @@ jobs:
       run: git fetch
     - name: Test2
       run: git checkout deploy
+    - name: Refs
+      run: git show-ref
     - name: Commit build
       if: env.build
       uses: stefanzweifel/git-auto-commit-action@v4
