@@ -30,7 +30,9 @@ jobs:
       if: env.build
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
+        token: ${{ secrets.GH_PERSONAL_TOKEN }}
         branch: deploy
+        repository: .
         file_pattern: server/ dist/*
         commit_message: Vue build
         commit_user_name: Public updater
@@ -40,7 +42,9 @@ jobs:
       if: ${{ !env.build }}
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
+        token: ${{ secrets.GH_PERSONAL_TOKEN }}
         branch: deploy
+        repository: .
         file_pattern: server/ dist/*
         commit_message: Scheduled stats update
         commit_user_name: Public updater
