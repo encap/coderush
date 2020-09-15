@@ -34,6 +34,7 @@ jobs:
         # repository: .
         # file_pattern: server/ dist/*
         commit_options: '--allow-empty'
+        skip_dirty_check: true
         commit_message: Vue build
         commit_user_name: Public updater
         commit_user_email: bot@github.com
