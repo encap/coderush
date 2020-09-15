@@ -30,7 +30,7 @@ jobs:
       if: env.build
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        # branch: deploy
+        branch: deploy
         # repository: .
         # file_pattern: server/ dist/*
         commit_options: '--allow-empty'
