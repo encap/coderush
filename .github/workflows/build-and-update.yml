@@ -28,17 +28,18 @@ jobs:
     - name: Run npm build script
       if: env.build
       run: npm run build
-    - name: Test
-      run: git fetch
+    # - name: Test
+    #   run: git fetch
     - name: Test2
       run: git checkout deploy
     - name: Refs
       run: git show-ref
+    - name: checkout master files
+      run: git checkout master -- "server/" "dist/"
     - name: Commit build
       if: env.build
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        branch: master -- "server/" "dist/"
         # repository: .
         # file_pattern: server/ dist/*
         commit_options: '--allow-empty'
