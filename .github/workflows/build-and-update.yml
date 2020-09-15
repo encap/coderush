@@ -32,9 +32,9 @@ jobs:
     #   run: git fetch
     - name: commit
       run: |
-      git config --global user.email "boot@github.com"
-      git config --global user.name "Bot"
-      git commit -m 'build'
+        git config --global user.email "boot@github.com"
+        git config --global user.name "Bot"
+        git commit -m 'build'
     - name: checkout deploy
       run: git checkout deploy
     - name: Refs
