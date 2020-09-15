@@ -1,0 +1,49 @@
+name: Vue build and update stats
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build-and-update:
+    name: Build and update stats
+    runs-on: ubuntu-latest
+    env:
+      build: ${{ !contains(github.event.head_commit.message, 'Scheduled stats update') }}
+    steps:
+    - name: ECHO
+      run: echo "$build"
+    - uses: actions/checkout@master
+    - name: Use Node.js
+      if: env.build
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12'
+    - name: Run npm install
+      if: env.build
+      run: npm install
+    - name: Run npm build script
+      if: env.build
+      run: npm run build
+    - name: Commit changes
+    if: env.build
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        branch: deploy
+        file_pattern: server/ dist/*
+        commit_message: Vue build
+        commit_user_name: Public updater
+        commit_user_email: bot@github.com
+        commit_author: Bot <bot@github.com>
+    - name: Commit changes
+    if: !env.build
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        branch: deploy
+        file_pattern: server/ dist/*
+        commit_message: Scheduled stats update
+        commit_user_name: Public updater
+        commit_user_email: bot@github.com
+        commit_author: Bot <bot@github.com>
+        

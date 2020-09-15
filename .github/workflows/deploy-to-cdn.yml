@@ -2,7 +2,7 @@ name: Deploy to CDN
 
 on:
   push:
-    branches: [ master ]
+    branches: [ deploy ]
   workflow_dispatch:
 
 jobs:
@@ -19,8 +19,15 @@ jobs:
         project_id: ${{ secrets.GCS_PROJECT_ID }}
         export_default_credentials: true
     - name: Upload
+      if: ${{ !contains(github.event.head_commit.message, 'Scheduled stats update') }}
       run: |-
         gsutil -m rsync -r -d dist gs://$GCS_BUCKET
+      env:
+        GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
+    - name: Upload only list.json
+      if: ${{ contains(github.event.head_commit.message, 'Scheduled stats update') }}
+      run: |-
+        gsutil dist/list.json gs://$GCS_BUCKET/dist/list.json
       env:
         GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
         
