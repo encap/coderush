@@ -29,6 +29,7 @@ jobs:
     #   run: git fetch
     - name: commit
       run: |
+        echo node_modules > .gitignore
         git config --global user.email "bot@github.com"
         git config --global user.name "Bot"
         git add .
