@@ -12,8 +12,13 @@ jobs:
     env:
       build: ${{ !contains(github.event.head_commit.message, 'Scheduled stats update') }}
     steps:
-    - name: Clone repository
-      run: "git clone https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git ."
+    # - name: Clone repository
+    #   run: "git clone https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git ."
+    - name: Checkout
+      uses: actions/checkout@master
+      with:
+        token: ${{ secrets.GH_PERSONAL_TOKEN }}
+        persist-credentials: false
     - name: Setup Node.js
       if: env.build
       uses: actions/setup-node@v1
@@ -37,9 +42,9 @@ jobs:
         git checkout master -- "server/" "dist/"
     - name: Commit build
       if: env.build
-      run: git commit -m 'automatic deploy'
+      run: git commit -m 'Automatic deploy'
     - name: Commit build
       if: ${{ !env.build }}
-      run: git commit -m 'scheduled stats update'
+      run: git commit -m 'Scheduled stats update'
     - name: Commit
       run: git push
