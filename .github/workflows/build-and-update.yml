@@ -19,6 +19,12 @@ jobs:
       with:
         token: ${{ secrets.GH_PERSONAL_TOKEN }}
         persist-credentials: false
+    - name: Checkout
+      uses: actions/checkout@master
+      with:
+        token: ${{ secrets.GH_PERSONAL_TOKEN }}
+        persist-credentials: false
+        ref: refs/heads/deploy
     - name: Setup Node.js
       if: env.build
       uses: actions/setup-node@v1
