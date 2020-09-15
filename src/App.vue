@@ -1,7 +1,7 @@
 <template>
   <div id="app" ref="app">
     <template v-if="!tooSmall">
-      <aside ref="navLeft" class="nav-left" :class="{thin: isPlaying, wide: room.connected }">
+      <aside ref="navLeft" class="nav-left testchange" :class="{thin: isPlaying, wide: room.connected }">
         <NavBar :class="[{thin: isPlaying }]" @start="$children[1].run()" />
       </aside>
       <main>
