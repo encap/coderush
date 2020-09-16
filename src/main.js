@@ -3,9 +3,12 @@ import VueSocketIOExt from 'vue-socket.io-extended';
 import io from 'socket.io-client';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { fab } from '@fortawesome/free-brands-svg-icons';
+
+import {
+  faUsers, faPlay, faGlobeAmericas, faGlobeEurope, faInfo, faUser, faSignOutAlt, faCopy, faShareAlt,
+} from '@fortawesome/free-solid-svg-icons';
+// import { fab } from '@fortawesome/free-brands-svg-icons';
+// import { far } from '@fortawesome/free-regular-svg-icons';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -19,7 +22,7 @@ const socket = io('/', {
   timeout: 10000,
 });
 
-library.add(fas, far, fab);
+library.add(faUsers, faPlay, faGlobeAmericas, faGlobeEurope, faInfo, faUser, faSignOutAlt, faCopy, faShareAlt);
 
 Vue.use(VueSocketIOExt, socket, { store });
 Vue.component('fa', FontAwesomeIcon);

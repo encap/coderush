@@ -15,17 +15,6 @@ jobs:
     steps:
     - name: Clone repository
       run: "git clone https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git ."
-    # - name: Checkout
-    #   uses: actions/checkout@master
-    #   with:
-    #     token: ${{ secrets.GH_PERSONAL_TOKEN }}
-    #     persist-credentials: false
-    #     ref: refs/heads/deploy
-    # - name: Checkout
-    #   uses: actions/checkout@master
-    #   with:
-    #     token: ${{ secrets.GH_PERSONAL_TOKEN }}
-    #     persist-credentials: false
     - name: Setup Node.js
       if: env.build
       uses: actions/setup-node@v1
@@ -44,16 +33,15 @@ jobs:
         git config --global user.name "Bot"
         git add .
         git commit --allow-empty -m 'build'
-    - name: Checkout
+    - name: Swith to deploy branch
       run: |
         git checkout deploy
         git checkout master -- "server/" "dist/"
     - name: Commit build
       if: env.build
       run: git commit -m 'Automatic deploy'
-    - name: Commit build
+    - name: Commit stats update
       if: ${{ !env.build }}
       run: git commit -m 'Scheduled stats update'
-    - name: Commit
-      # run: git remote add origin2 https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git
+    - name: Push for deployment
       run: git push

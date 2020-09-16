@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import NavBar from '@/components//NavBar.vue';
+import NavBar from '@/components/NavBar.vue';
 import SmallScreen from '@/views/SmallScreen.vue';
 import { mapGetters } from 'vuex';
 
