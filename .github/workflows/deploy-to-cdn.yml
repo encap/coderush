@@ -2,7 +2,8 @@ name: Deploy to CDN
 
 on:
   push:
-    branches: [ deploy ]
+    branches: 
+      - deploy
   workflow_dispatch:
 
 jobs:
