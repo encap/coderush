@@ -1,10 +1,10 @@
-const ASSETS_PATH = process.env.ASSETS_PATH || '/';
+const assetsPath = process.env.VUE_APP_ASSETS_PATH || '/';
 const zopfli = require('@gfx/zopfli');
 
 const VueWebpackReferenceGzAssetsPlugin = require('./vue-webpack-reference-gz-assets-plugin.js');
 
 module.exports = {
-  publicPath: ASSETS_PATH,
+  publicPath: assetsPath,
   css: {
     loaderOptions: {
       sass: {
