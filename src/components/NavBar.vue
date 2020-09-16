@@ -1,7 +1,7 @@
 <template>
   <nav>
     <button class="title" @click="mainPage">
-      CodeRush
+      Test change
       <span class="beta">BETA</span>
     </button>
 
