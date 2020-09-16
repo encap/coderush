@@ -39,7 +39,7 @@ jobs:
         git checkout master -- "server/" "dist/" "Procfile"
     - name: Commit build
       if: env.build
-      run: git commit -m 'Automatic deploy'
+      run: git commit --allow-empty -m 'Automatic deploy'
     - name: Commit stats update
       if: ${{ !env.build }}
       run: git commit -m 'Scheduled stats update'
