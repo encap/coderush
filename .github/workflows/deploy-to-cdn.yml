@@ -15,6 +15,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
+      with:
+        token: ${{ secrets.GH_PERSONAL_TOKEN }}
+        persist-credentials: false
     - name: Setup - gcloud / gsutil
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
