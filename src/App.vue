@@ -71,7 +71,7 @@ export default {
 
 
 body
-  font-family: sans-serif
+  font-family: Helvetica, Arial, sans-serif
   margin: 0
   background: radial-gradient(at top left, $navy-grey ,$light-navy)
   background-repeat: no-repeat

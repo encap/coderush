@@ -2,7 +2,7 @@ function showHints() {
   puzzles.innerHTML = '';
 
   shuffleArray(this.json.cssHints);
-  
+
   this.json.cssHints.forEach(hint => {
     const el = document.createElement('span');
     el.innerText = hint;
