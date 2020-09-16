@@ -24,6 +24,7 @@ module.exports = {
     compression: {
       zopfli: {
         include: /\.js$|\.css$/,
+        exclude: /code\//,
         compressionOptions: {
           numiterations: 15,
         },
