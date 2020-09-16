@@ -1,0 +1,59 @@
+name: Vue build and update stats
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build-and-update:
+    name: Build and update stats
+    runs-on: ubuntu-latest
+    env:
+      build: ${{ !contains(github.event.head_commit.message, 'Scheduled stats update') }}
+    steps:
+    # - name: Clone repository
+    #   run: "git clone https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git ."
+    - name: Checkout
+      uses: actions/checkout@master
+      with:
+        token: ${{ secrets.GH_PERSONAL_TOKEN }}
+        persist-credentials: false
+        ref: refs/heads/deploy
+    - name: Checkout
+      uses: actions/checkout@master
+      with:
+        token: ${{ secrets.GH_PERSONAL_TOKEN }}
+        persist-credentials: false
+    - name: Setup Node.js
+      if: env.build
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12'
+    - name: Run npm install
+      if: env.build
+      run: npm install
+    - name: Vue build
+      if: env.build
+      run: npm run build
+    - name: Commit on master
+      run: |
+        git config --global credential.helper cache
+        git config --global user.email "bot@github.com"
+        git config --global user.name "Bot"
+        git add .
+        git commit -m 'build'
+    - name: Checkout
+      run: |
+        git checkout deploy
+        git checkout master -- "server/" "dist/"
+    - name: Commit build
+      if: env.build
+      run: git commit -m 'Automatic deploy'
+    - name: Commit build
+      if: ${{ !env.build }}
+      run: git commit -m 'Scheduled stats update'
+    - name: Commit
+      run: |
+        git remote add origin2 https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git
+        git push origin2

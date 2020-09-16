@@ -159,7 +159,7 @@ export default {
       this.$store.commit('SET_ROOM_PROPERTY', ['players', {
         [this.playerName]: {
           connected: true,
-          ready: false,
+          ready: true,
           owner: true,
         },
       }]);

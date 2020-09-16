@@ -1,4 +1,4 @@
-name: Handle New Stats
+name: Process and commit new stats
 
 on:
   repository_dispatch:
@@ -6,25 +6,25 @@ on:
   workflow_dispatch:
 
 jobs:
-  update-stats:
-    name: Update Stats
+  main:
+    name: Main job
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: Use Node.js ${{ env.NODE_VERSION }}
+    - name: Use Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ env.NODE_VERSION }}
-    - name: Install github actions
+        node-version: '12'
+    - name: Install Github actions
       run: |
         npm install @actions/core
-    - name: Process update
+    - name: Process stats
       run: |
         node actions/process-stats-update.js
-    - name: Commit changes
+    - name: Commit changes to master
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: Automatic stats update
+        commit_message: Scheduled stats update
         commit_user_name: Update Stats Action
         commit_user_email: bot@github.com
         commit_author: Bot <bot@github.com>

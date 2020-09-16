@@ -157,7 +157,7 @@ export default {
 .list
   flex-grow: 1
   position: relative
-  background: transparent radial-gradient(250px at var(--mouse-x) var(--mouse-y), rgba($white, 0.2) 10%, transparent 90%) no-repeat 0 0
+  @include cursor-shadow()
   padding: $grid-gap
   display: grid
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
