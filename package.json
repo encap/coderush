@@ -58,6 +58,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "eslint-plugin-vue-scoped-css": "^0.3.4",
     "node-sass": "^4.14.1",
+    "progress-bar-webpack-plugin": "^2.1.0",
     "sass": "^1.26.10",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.2.1",

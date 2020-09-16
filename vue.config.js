@@ -1,6 +1,6 @@
 const assetsPath = process.env.VUE_APP_ASSETS_PATH || '';
 const zopfli = require('@gfx/zopfli');
-
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const VueWebpackReferenceGzAssetsPlugin = require('./vue-webpack-reference-gz-assets-plugin.js');
 
 module.exports = {
@@ -59,6 +59,7 @@ module.exports = {
       // }),
       // new HtmlWebpackChangeAssetsExtensionPlugin(),
       new VueWebpackReferenceGzAssetsPlugin(),
+      new ProgressBarPlugin(),
     ],
   },
   chainWebpack(config) {
@@ -66,6 +67,7 @@ module.exports = {
   },
   devServer: {
     proxy: 'http://127.0.0.1:3000',
+    progress: true,
   },
 
 };
