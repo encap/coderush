@@ -198,6 +198,14 @@ app.get('/api/ping', cors(), (req, res) => {
   res.send('OK');
 });
 
+app.use((req, res, next) => {
+  if (!(process.env.NODE_ENV === 'production') && req.originalUrl.slice(-3) === '.gz') {
+    res.header('content-encoding', 'gzip');
+    res.header('content-type', req.originalUrl.includes('js') ? 'application/javascript' : 'text/css');
+  }
+  next();
+});
+
 app.use(express.static(PATH));
 
 

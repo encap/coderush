@@ -36,7 +36,7 @@ jobs:
     - name: Swith to deploy branch
       run: |
         git checkout deploy
-        git checkout master -- "server/" "dist/"
+        git checkout master -- "server/" "dist/" "Procfile"
     - name: Commit build
       if: env.build
       run: git commit -m 'Automatic deploy'
