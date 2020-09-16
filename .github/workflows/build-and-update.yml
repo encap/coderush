@@ -42,7 +42,7 @@ jobs:
         git config --global user.email "bot@github.com"
         git config --global user.name "Bot"
         git add .
-        git commit -m 'build'
+        git commit --allow-empty -m 'build'
     - name: Checkout
       run: |
         git checkout deploy
