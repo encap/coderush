@@ -64,6 +64,7 @@ export default {
 </script>
 
 <style lang="sass">
+@import url('https://fonts.googleapis.com/css?family=Roboto')
 *
   box-sizing: border-box
   margin: 0
@@ -71,7 +72,7 @@ export default {
 
 
 body
-  font-family: Helvetica, Arial, sans-serif
+  font-family: 'Roboto', sans-serif
   margin: 0
   background: radial-gradient(at top left, $navy-grey ,$light-navy)
   background-repeat: no-repeat
