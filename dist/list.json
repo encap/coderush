@@ -76,7 +76,8 @@
         }
       ],
       "mode": "clike",
-      "name": "C++"
+      "name": "C++",
+      "total": 1
     },
     {
       "ext": "cook",
@@ -268,12 +269,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 1
+          "total": 2
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 1
+      "total": 2
     },
     {
       "ext": "js",
@@ -434,9 +435,9 @@
   ],
   "stats": {
     "avgWPM": 50,
-    "backspaceClicks": 28,
-    "correctClicks": 467,
-    "deletingTime": 9,
-    "total": 4
+    "backspaceClicks": 36,
+    "correctClicks": 684,
+    "deletingTime": 13,
+    "total": 6
   }
 }
