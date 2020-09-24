@@ -1,0 +1,443 @@
+{
+  "languages": [
+    {
+      "ext": "ts",
+      "files": [
+        {
+          "lines": 23,
+          "name": "example_component",
+          "source": "freecodecamp.org",
+          "tabSize": 2
+        }
+      ],
+      "mode": "javascript",
+      "name": "Angular"
+    },
+    {
+      "ext": "asm",
+      "files": [
+        {
+          "lines": 24,
+          "name": "disk_read",
+          "source": "github.com/ghaiklor",
+          "tabSize": 8
+        }
+      ],
+      "mode": "z80",
+      "name": "Assembly"
+    },
+    {
+      "ext": "sh",
+      "files": [
+        {
+          "lines": 27,
+          "name": "internet_test",
+          "source": "own",
+          "tabSize": 4
+        }
+      ],
+      "mode": "clike",
+      "name": "Bash"
+    },
+    {
+      "ext": "c",
+      "files": [
+        {
+          "lines": 21,
+          "name": "check_palindrome",
+          "source": "programiz.com",
+          "tabSize": 4
+        }
+      ],
+      "mode": "clike",
+      "name": "C"
+    },
+    {
+      "ext": "cs",
+      "files": [
+        {
+          "lines": 23,
+          "name": "form_mouse_event",
+          "source": "sanfoundry.com",
+          "tabSize": 4
+        }
+      ],
+      "mode": "clike",
+      "name": "C#"
+    },
+    {
+      "ext": "cpp",
+      "files": [
+        {
+          "lines": 26,
+          "name": "check_prime_number",
+          "source": "own",
+          "tabSize": 4
+        }
+      ],
+      "mode": "clike",
+      "name": "C++",
+      "total": 1
+    },
+    {
+      "ext": "cook",
+      "files": [
+        {
+          "lines": 19,
+          "name": "delicious_world",
+          "source": "dangermouse.net",
+          "tabSize": 8
+        }
+      ],
+      "mode": "ruby",
+      "name": "Chef"
+    },
+    {
+      "ext": "css",
+      "files": [
+        {
+          "lines": 28,
+          "name": "clone-it_example_level",
+          "source": "own",
+          "tabSize": 2
+        }
+      ],
+      "mode": "css",
+      "name": "CSS"
+    },
+    {
+      "ext": "go",
+      "files": [
+        {
+          "lines": 26,
+          "name": "easyMIDI_lib_function",
+          "source": "github.com/algoGuy/EasyMIDI",
+          "tabSize": 2
+        }
+      ],
+      "mode": "go",
+      "name": "Go"
+    },
+    {
+      "ext": "html",
+      "files": [
+        {
+          "lines": 17,
+          "name": "clone-it_results_menu",
+          "source": "own",
+          "tabSize": 2
+        }
+      ],
+      "mode": "xml",
+      "name": "HTML"
+    },
+    {
+      "ext": "java",
+      "files": [
+        {
+          "lines": 23,
+          "name": "random_ints_to_file",
+          "source": "cs.utexas.edu",
+          "tabSize": 4
+        }
+      ],
+      "mode": "clike",
+      "name": "Java"
+    },
+    {
+      "ext": "js",
+      "files": [
+        {
+          "lines": 15,
+          "name": "clone-it_show_hints",
+          "source": "own",
+          "tabSize": 2
+        }
+      ],
+      "mode": "javascript",
+      "name": "JavaScript"
+    },
+    {
+      "ext": "kt",
+      "files": [
+        {
+          "lines": 49,
+          "name": "location_api_long",
+          "source": "androdocs.com",
+          "tabSize": 4
+        }
+      ],
+      "mode": "python",
+      "name": "Kotlin"
+    },
+    {
+      "ext": "lgo",
+      "files": [
+        {
+          "lines": 21,
+          "name": "turtle_example",
+          "source": "michael0x2a.com",
+          "tabSize": 4
+        }
+      ],
+      "mode": "",
+      "name": "Logo"
+    },
+    {
+      "ext": "m",
+      "files": [
+        {
+          "lines": 18,
+          "name": "neural_network_example_fragment",
+          "source": "github.com/vtshitoyan/simpleNN",
+          "tabSize": 4
+        }
+      ],
+      "mode": "octave",
+      "name": "MATLAB"
+    },
+    {
+      "ext": "m",
+      "files": [
+        {
+          "lines": 20,
+          "name": "hello_world",
+          "source": "journaldev.com",
+          "tabSize": 4
+        }
+      ],
+      "mode": "clike",
+      "name": "Objective-C"
+    },
+    {
+      "ext": "pl",
+      "files": [
+        {
+          "lines": 19,
+          "name": "DNS_resolver",
+          "source": "learn.perl.org",
+          "tabSize": 2
+        }
+      ],
+      "mode": "perl",
+      "name": "Perl"
+    },
+    {
+      "ext": "php",
+      "files": [
+        {
+          "lines": 24,
+          "name": "save_to_database",
+          "source": "own",
+          "tabSize": 2
+        }
+      ],
+      "mode": "php",
+      "name": "PHP"
+    },
+    {
+      "ext": "ps1",
+      "files": [
+        {
+          "lines": 23,
+          "name": "uninstall_oneDrive",
+          "source": "github.com/Sycnex/Windows10Debloater",
+          "tabSize": 2
+        }
+      ],
+      "mode": "powershell",
+      "name": "PowerShell"
+    },
+    {
+      "ext": "py",
+      "files": [
+        {
+          "lines": 24,
+          "name": "8_queens_problem",
+          "source": "wiki.python.org",
+          "tabSize": 4
+        }
+      ],
+      "mode": "python",
+      "name": "Python"
+    },
+    {
+      "ext": "r",
+      "files": [
+        {
+          "lines": 12,
+          "name": "factorial_of_a_number",
+          "source": "datamentor.io",
+          "tabSize": 2,
+          "total": 2
+        }
+      ],
+      "mode": "r",
+      "name": "R",
+      "total": 2
+    },
+    {
+      "ext": "js",
+      "files": [
+        {
+          "lines": 24,
+          "name": "search_input",
+          "source": "github.com/ahfarmer/emoji-search",
+          "tabSize": 2
+        }
+      ],
+      "mode": "jsx",
+      "name": "React"
+    },
+    {
+      "ext": "rock",
+      "files": [
+        {
+          "lines": 26,
+          "name": "fizzBuzz_dylan_beattie",
+          "source": "codewithrockstar.com",
+          "tabSize": 8
+        }
+      ],
+      "mode": "vb",
+      "name": "Rockstar"
+    },
+    {
+      "ext": "rb",
+      "files": [
+        {
+          "lines": 14,
+          "name": "pop3",
+          "source": "java2s.com/Code/Ruby",
+          "tabSize": 2
+        }
+      ],
+      "mode": "ruby",
+      "name": "Ruby"
+    },
+    {
+      "ext": "rs",
+      "files": [
+        {
+          "lines": 22,
+          "name": "rust_example",
+          "source": "github.com/gothinkster",
+          "tabSize": 4
+        }
+      ],
+      "mode": "rust",
+      "name": "Rust"
+    },
+    {
+      "ext": "scala",
+      "files": [
+        {
+          "lines": 35,
+          "name": "patterns_example",
+          "source": "scala-lang.org",
+          "tabSize": 2
+        }
+      ],
+      "mode": "clike",
+      "name": "Scala"
+    },
+    {
+      "ext": "sql",
+      "files": [
+        {
+          "lines": 17,
+          "name": "advanced_select",
+          "source": "sqlservercentral.com",
+          "tabSize": 4
+        }
+      ],
+      "mode": "sql",
+      "name": "SQL"
+    },
+    {
+      "ext": "swift",
+      "files": [
+        {
+          "lines": 23,
+          "name": "load_webView",
+          "source": "swiftdeveloperblog.com",
+          "tabSize": 4
+        }
+      ],
+      "mode": "swift",
+      "name": "Swift"
+    },
+    {
+      "ext": "pas",
+      "files": [
+        {
+          "lines": 33,
+          "name": "camel_case",
+          "source": "progopedia.com",
+          "tabSize": 4
+        }
+      ],
+      "mode": "pascal",
+      "name": "Turbo_Pascal"
+    },
+    {
+      "ext": "vb",
+      "files": [
+        {
+          "lines": 14,
+          "name": "progress_bar",
+          "source": "vb.net-informations.com",
+          "tabSize": 4
+        }
+      ],
+      "mode": "vb",
+      "name": "VB.NET"
+    },
+    {
+      "ext": "vbs",
+      "files": [
+        {
+          "lines": 26,
+          "name": "example_timer_function",
+          "source": "freevbcode.com",
+          "tabSize": 4
+        }
+      ],
+      "mode": "vbscript",
+      "name": "VBScript"
+    },
+    {
+      "ext": "vue",
+      "files": [
+        {
+          "lines": 31,
+          "name": "codeRush_languages_list",
+          "source": "own",
+          "tabSize": 2
+        }
+      ],
+      "mode": "vue",
+      "name": "Vue"
+    },
+    {
+      "ext": "ws",
+      "files": [
+        {
+          "lines": 34,
+          "name": "hardcore_hello_world",
+          "source": "github.com/rdebath/whitespace",
+          "tabSize": 2
+        }
+      ],
+      "mode": "",
+      "name": "Whitespace"
+    }
+  ],
+  "stats": {
+    "avgWPM": 50,
+    "backspaceClicks": 36,
+    "correctClicks": 684,
+    "deletingTime": 13,
+    "total": 6
+  }
+}
