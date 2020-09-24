@@ -157,7 +157,7 @@ app.get('/list.json', (_req, res) => {
     res.send(cachedStringifiedList);
   } else {
     console.log('file list');
-    res.sendFile('list.json', { root: PATH });
+    res.sendFile('list.json', { root: __dirname });
   }
 });
 

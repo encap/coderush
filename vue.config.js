@@ -22,7 +22,7 @@ module.exports = {
   },
   pluginOptions: {
     compression: {
-      deleteOriginalAssets: true,
+      // deleteOriginalAssets: true,
       zopfli: {
         include: /\.js$|\.css$/,
         exclude: /code\//,
