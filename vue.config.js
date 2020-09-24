@@ -80,11 +80,11 @@ module.exports = {
     },
     progress: true,
     compress: false,
-    https: {
+    https: !assetsPath ? {
       key: fs.readFileSync(`${process.env.HOME}/localhost.key`),
       cert: fs.readFileSync(`${process.env.HOME}/localhost.crt`),
       ca: fs.readFileSync(`${process.env.HOME}/rootCA.crt`),
-    },
+    } : false,
   },
 
 };
