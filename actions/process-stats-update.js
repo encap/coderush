@@ -18,7 +18,7 @@ try {
       const stringifiedList = JSON.stringify(list, null, 2);
       core.endGroup();
       core.startGroup('Writing list.json');
-      fs.writeFileSync('public/list.json', stringifiedList);
+      fs.writeFileSync('server/list.json', stringifiedList);
       fs.writeFileSync('dist/list.json', stringifiedList);
       core.endGroup();
     } else {

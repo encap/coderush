@@ -22,6 +22,7 @@ module.exports = {
   },
   pluginOptions: {
     compression: {
+      deleteOriginalAssets: true,
       zopfli: {
         include: /\.js$|\.css$/,
         exclude: /code\//,
@@ -58,16 +59,26 @@ module.exports = {
       //   test: /\.js$|\.css$/,
       // }),
       // new HtmlWebpackChangeAssetsExtensionPlugin(),
-      new VueWebpackReferenceGzAssetsPlugin(),
+
       new ProgressBarPlugin(),
-    ],
+    ].concat((assetsPath ? new VueWebpackReferenceGzAssetsPlugin() : [])),
   },
   chainWebpack(config) {
     config.plugins.delete('prefetch');
   },
   devServer: {
-    proxy: 'http://127.0.0.1:3000',
+    proxy: {
+      '^/': {
+        target: 'http://127.0.0.1:3000',
+        changeOrgin: true,
+        ws: true,
+        secure: false,
+        logLevel: 'debug',
+      },
+
+    },
     progress: true,
+    compress: false,
   },
 
 };

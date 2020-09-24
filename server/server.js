@@ -1,7 +1,6 @@
 const axios = require('axios');
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const path = require('path');
 
 const app = express();
@@ -63,7 +62,7 @@ let list = {};
 let cachedStringifiedList = '';
 
 const getList = () => {
-  console.log('getListHtml');
+  console.log('getList');
   if (process.env.NODE_ENV === 'production') {
     axios.get('https://coderushcdn.ddns.net/list.json')
       .then((res) => {
@@ -133,14 +132,6 @@ app.use((req, res, next) => {
   }
 });
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
-
-app.use(cors());
-
 // send cached index.html
 app.use((req, res, next) => {
   const match = req.originalUrl.match(/\.\w+$/);
@@ -173,11 +164,11 @@ app.get('/list.json', (_req, res) => {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.post('/upload', cors(), (req, res) => {
+app.post('/upload', (req, res) => {
   res.send('OK');
 });
 
-app.post('/api/stats', cors(), (req, res) => {
+app.post('/api/stats', (req, res) => {
   if (process.env.NODE_ENV === 'production') {
     const stats = req.body;
     list.stats.total += 1;
@@ -194,7 +185,7 @@ app.post('/api/stats', cors(), (req, res) => {
   res.send('OK');
 });
 
-app.get('/api/ping', cors(), (req, res) => {
+app.get('/api/ping', (req, res) => {
   res.send('OK');
 });
 
