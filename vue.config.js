@@ -2,6 +2,7 @@ const assetsPath = process.env.VUE_APP_ASSETS_PATH || '';
 const zopfli = require('@gfx/zopfli');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const VueWebpackReferenceGzAssetsPlugin = require('./vue-webpack-reference-gz-assets-plugin.js');
+const fs = require('fs');
 
 module.exports = {
   publicPath: assetsPath,
@@ -79,6 +80,11 @@ module.exports = {
     },
     progress: true,
     compress: false,
+    https: {
+      key: fs.readFileSync(`${process.env.HOME}/localhost.key`),
+      cert: fs.readFileSync(`${process.env.HOME}/localhost.crt`),
+      ca: fs.readFileSync(`${process.env.HOME}/rootCA.crt`),
+    },
   },
 
 };
