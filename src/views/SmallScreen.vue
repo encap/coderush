@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <h2>We detected unsupported screen resolution.<br><br>Please open this app on bigger screen (1920x1080)</h2>
+      <h2>Po chuj ci CodeRush na telefonie?<br><br>We detected unsupported screen resolution.<br><br>Please open this app on bigger screen (1920x1080). </h2>
     </div>
   </div>
 </template>
