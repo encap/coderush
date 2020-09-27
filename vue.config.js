@@ -5,7 +5,7 @@ const fs = require('fs');
 const VueWebpackReferenceGzAssetsPlugin = require('./src/vue-webpack-reference-gz-assets-plugin.js');
 
 module.exports = {
-  productionSourceMap: assetsPath === '',
+  productionSourceMap: false,
   publicPath: assetsPath,
   css: {
     loaderOptions: {
@@ -53,9 +53,9 @@ module.exports = {
       // new StatsPlugin('stats.json'),
     ].concat((assetsPath ? new VueWebpackReferenceGzAssetsPlugin() : [])),
   },
-  chainWebpack(config) {
-    //  config.plugins.delete('prefetch');
-  },
+  // chainWebpack(config) {
+  //  config.plugins.delete('prefetch');
+  // },
   devServer: {
     proxy: {
       '^/': {
