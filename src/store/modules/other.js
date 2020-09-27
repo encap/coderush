@@ -24,7 +24,7 @@ const actions = {
   loadLanguagesList: async (context) => {
     if (!context.state.languagesList.length) {
       try {
-        const response = await axios.get('/list.json');
+        const response = await axios.get('/database.json');
         const languagesList = response.data.languages.map((language, index) => ({ ...language, index }));
         context.commit('SET_LANGUAGES_LIST', languagesList);
       } catch (err) {

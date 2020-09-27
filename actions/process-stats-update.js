@@ -9,20 +9,20 @@ try {
     if (err) {
       throw new Error(`ReadFile failed ${err.message}`);
     }
-    core.startGroup('Preparing list');
+    core.startGroup('Preparing database');
     const parsedData = JSON.parse(data);
-    const list = parsedData.client_payload;
-    if (typeof list === 'object' && typeof list.stats === 'object' && list.stats.total > 0 && list.stats.correctClicks > 0 && list.languages.length >= 33 && list.languages.length < 40 && list.languages.every((language) => language.files.length > 0 && typeof language.files[0].name === 'string')) {
-      core.info(`Current total: ${list.stats.total || 'ERROR'}`);
+    const database = parsedData.client_payload;
+    if (typeof database === 'object' && typeof database.stats === 'object' && database.stats.total > 0 && database.stats.correctClicks > 0 && database.languages.length >= 33 && database.languages.length < 40 && database.languages.every((language) => language.files.length > 0 && typeof language.files[0].name === 'string')) {
+      core.info(`Current total: ${database.stats.total || 'ERROR'}`);
 
-      const stringifiedList = JSON.stringify(list, null, 2);
+      const stringifiedDatabase = JSON.stringify(database, null, 2);
       core.endGroup();
-      core.startGroup('Writing list.json');
-      fs.writeFileSync('server/list.json', stringifiedList);
-      fs.writeFileSync('dist/list.json', stringifiedList);
+      core.startGroup('Writing database.json');
+      fs.writeFileSync('server/database.json', stringifiedDatabase);
+      fs.writeFileSync('dist/database.json', stringifiedDatabase);
       core.endGroup();
     } else {
-      throw new Error('List corrupted!');
+      throw new Error('Database corrupted!');
     }
   });
 } catch (error) {

@@ -58,27 +58,27 @@ const getIndexHtml = () => {
 
 getIndexHtml();
 
-let list = {};
-let cachedStringifiedList = '';
+const database = {};
+const cachedStringifiedDatabase = '';
 
-const getList = () => {
-  console.log('getList');
+const getDatabase = () => {
+  console.log('getDatabase');
   if (process.env.NODE_ENV === 'production') {
-    axios.get('https://coderushcdn.ddns.net/list.json')
+    axios.get('https://coderushcdn.ddns.net/database.json')
       .then((res) => {
         if (res.status === 200) {
-          list = res.data;
-          cachedStringifiedList = JSON.stringify(list);
+          database = res.data;
+          cachedStringifiedDatabase = JSON.stringify(database);
         }
       })
       .catch((err) => {
-        console.warn('Error list.json not found');
+        console.warn('Error database.json not found');
         console.error(err);
       });
 
     setInterval(() => {
       console.log('TIMER');
-      cachedStringifiedList = JSON.stringify(list);
+      cachedStringifiedDatabase = JSON.stringify(database);
       axios.get('https://coderush.herokuapp.com/api/ping')
         .then((res) => console.log(`ping ok, status: ${res.status}`))
         .catch((err1) => console.error(`Ping Error: ${err1}`));
@@ -86,7 +86,7 @@ const getList = () => {
   }
 };
 
-getList();
+getDatabase();
 
 let newStats = false;
 const sendStats = () => {
@@ -103,11 +103,11 @@ const sendStats = () => {
       withCredentials: true,
       data: {
         event_type: 'update-stats',
-        client_payload: list,
+        client_payload: database,
       },
     })
       .then(() => {
-        console.log(`Stats Sent. Total: ${list.stats.total || 'ERROR'}`);
+        console.log(`Stats Sent. Total: ${database.stats.total || 'ERROR'}`);
       })
       .catch((response) => {
         console.warn('Stats update failed');
@@ -149,15 +149,15 @@ app.use((req, res, next) => {
   }
 });
 
-// send cached list
-app.get('/list.json', (_req, res) => {
-  if (cachedStringifiedList.length > 2) { // {} empty object
-    console.log('cachedList');
+// send cached database
+app.get('/database.json', (_req, res) => {
+  if (cachedStringifiedDatabase.length > 2) { // {} empty object
+    console.log('cachedDatabase');
     res.setHeader('Content-Type', 'application/json');
-    res.send(cachedStringifiedList);
+    res.send(cachedStringifiedDatabase);
   } else {
-    console.log('file list');
-    res.sendFile('list.json', { root: __dirname });
+    console.log('file database');
+    res.sendFile('database.json', { root: __dirname });
   }
 });
 
@@ -171,12 +171,12 @@ app.post('/upload', (req, res) => {
 app.post('/api/stats', (req, res) => {
   if (process.env.NODE_ENV === 'production') {
     const stats = req.body;
-    list.stats.total += 1;
-    list.stats.correctClicks = list.stats.correctClicks + stats.correctClicks || list.stats.correctClicks;
-    list.stats.backspaceClicks = list.stats.backspaceClicks + stats.backspaceClicks || list.stats.backspaceClicks;
-    list.stats.deletingTime = list.stats.deletingTime + stats.deletingTime || list.stats.deletingTime;
-    list.languages[stats.languageIndex].total = list.languages[stats.languageIndex].total + 1 || 1;
-    list.languages[stats.languageIndex].files[stats.fileIndex].total = list.languages[stats.languageIndex].files[stats.fileIndex].total + 1 || 1;
+    database.stats.total += 1;
+    database.stats.correctClicks = database.stats.correctClicks + stats.correctClicks || database.stats.correctClicks;
+    database.stats.backspaceClicks = database.stats.backspaceClicks + stats.backspaceClicks || database.stats.backspaceClicks;
+    database.stats.deletingTime = database.stats.deletingTime + stats.deletingTime || database.stats.deletingTime;
+    database.languages[stats.languageIndex].total = database.languages[stats.languageIndex].total + 1 || 1;
+    database.languages[stats.languageIndex].files[stats.fileIndex].total = database.languages[stats.languageIndex].files[stats.fileIndex].total + 1 || 1;
 
     newStats = true;
   }
