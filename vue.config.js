@@ -6,6 +6,7 @@ const fs = require('fs');
 const VueWebpackReferenceGzAssetsPlugin = require('./src/vue-webpack-reference-gz-assets-plugin.js');
 
 module.exports = {
+  productionSourceMap: assetsPath === '',
   publicPath: assetsPath,
   css: {
     loaderOptions: {

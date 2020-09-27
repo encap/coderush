@@ -15,7 +15,7 @@ import 'cm-show-invisibles/lib/show-invisibles';
 // make cm global so modes can properly register
 window.CodeMirror = CodeMirror;
 
-if (!CodeMirror.modeURL) CodeMirror.modeURL = 'cm/mode/%N/%N.js';
+if (!CodeMirror.modeURL) CodeMirror.modeURL = 'cm/mode/%N/%N.js.gz';
 
 let loading = {};
 
