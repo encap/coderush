@@ -19,7 +19,6 @@ try {
       core.endGroup();
       core.startGroup('Writing database.json');
       fs.writeFileSync('server/database.json', stringifiedDatabase);
-      fs.writeFileSync('dist/database.json', stringifiedDatabase);
       core.endGroup();
     } else {
       throw new Error('Database corrupted!');
