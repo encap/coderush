@@ -14,9 +14,6 @@ import 'cm-show-invisibles/lib/show-invisibles';
 
 // make cm global so modes can properly register
 window.CodeMirror = CodeMirror;
-
-if (!CodeMirror.modeURL) CodeMirror.modeURL = `cm/mode/%N/%N.js${process.env.VUE_APP_ASSETS_PATH ? '.gz' : ''}`;
-
 let loading = {};
 
 function splitCallback(cont, n) {
@@ -63,7 +60,7 @@ CodeMirror.requireMode = (mode, cont, reject) => {
   const script = document.createElement('script');
   script.onerror = () => reject(Error('No internet'));
   script.async = true;
-  script.src = CodeMirror.modeURL.replace(/%N/g, mode);
+  script.src = `${process.env.VUE_APP_ASSETS_PATH}/cm/mode/${mode}/${mode}.js${process.env.VUE_APP_ASSETS_PATH ? '.gz' : ''}`
   // console.log(`loading: ${script.src}`);
   const others = document.getElementsByTagName('script')[0];
   loading[mode] = [cont];
@@ -113,7 +110,7 @@ const loadTheme = (name = 'material-darker') => {
 
     if (!existing) {
       const link = document.createElement('link');
-      link.href = `/cm/theme/${name}.css${process.env.VUE_APP_ASSETS_PATH ? '.gz' : ''}`;
+      link.href = `${process.env.VUE_APP_ASSETS_PATH}/cm/theme/${name}.css${process.env.VUE_APP_ASSETS_PATH ? '.gz' : ''}`;
       link.rel = 'stylesheet';
       link.id = name;
       document.head.appendChild(link);
