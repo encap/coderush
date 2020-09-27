@@ -756,7 +756,7 @@ export default {
   display: flex
   justify-content: space-around
   align-items: center
-  pointer-events: none
+  pointer-events: all
   user-select: none
   z-index: 10
   font-size: 4rem
@@ -770,7 +770,7 @@ export default {
     animation: opacity-leave .4s ease-out forwards .1s
 
   &.clickable
-    pointer-events: all
+    // pointer-events: all
     h2
       cursor: pointer
   &.small-font

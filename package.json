@@ -4,14 +4,14 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --port 80",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "build-local": "VUE_APP_ASSETS_PATH=\"\" vue-cli-service build",
     "dev": "concurrently -r \"npm:serve\" \"npm:server\"",
-    "report": "VUE_APP_ASSETS_PATH=\"\" vue-cli-service build --report",
+    "vue-ui": "vue ui",
+    "build": "vue-cli-service build",
+    "build-local": "VUE_APP_ASSETS_PATH=\"\" vue-cli-service build",
+    "lint": "vue-cli-service lint",
     "server": "DEBUG=socket.io:client* node ./server/server.js",
     "start": "node ./server/server.js",
-    "vue-ui": "vue ui"
+    "report": "VUE_APP_ASSETS_PATH=\"\" vue-cli-service build --report"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",

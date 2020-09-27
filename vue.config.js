@@ -53,9 +53,9 @@ module.exports = {
       // new StatsPlugin('stats.json'),
     ].concat((assetsPath ? new VueWebpackReferenceGzAssetsPlugin() : [])),
   },
-  // chainWebpack(config) {
-  //  config.plugins.delete('prefetch');
-  // },
+  chainWebpack(config) {
+    //  config.plugins.delete('prefetch');
+  },
   devServer: {
     proxy: {
       '^/': {
