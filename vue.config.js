@@ -2,8 +2,8 @@ const assetsPath = process.env.VUE_APP_ASSETS_PATH || '';
 const zopfli = require('@gfx/zopfli');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const fs = require('fs');
-const StatsPlugin = require('stats-webpack-plugin');
-const VueWebpackReferenceGzAssetsPlugin = require('./vue-webpack-reference-gz-assets-plugin.js');
+// const StatsPlugin = require('stats-webpack-plugin');
+const VueWebpackReferenceGzAssetsPlugin = require('./src/vue-webpack-reference-gz-assets-plugin.js');
 
 module.exports = {
   publicPath: assetsPath,
@@ -38,7 +38,6 @@ module.exports = {
     },
   },
   configureWebpack: {
-    profile: true,
     output: {
       filename: 'js/[name].js',
       chunkFilename: 'js/[name].js',
@@ -62,7 +61,7 @@ module.exports = {
       //   test: /\.js$|\.css$/,
       // }),
       // new HtmlWebpackChangeAssetsExtensionPlugin(),
-      new StatsPlugin('stats.json'),
+      // new StatsPlugin('stats.json'),
       new ProgressBarPlugin(),
     ].concat((assetsPath ? new VueWebpackReferenceGzAssetsPlugin() : [])),
   },
