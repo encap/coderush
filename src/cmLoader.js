@@ -15,7 +15,7 @@ import 'cm-show-invisibles/lib/show-invisibles';
 // make cm global so modes can properly register
 window.CodeMirror = CodeMirror;
 
-if (!CodeMirror.modeURL) CodeMirror.modeURL = 'cm/mode/%N/%N.js.gz';
+if (!CodeMirror.modeURL) CodeMirror.modeURL = `cm/mode/%N/%N.js${process.env.VUE_APP_ASSETS_PATH ? '.gz' : ''}`;
 
 let loading = {};
 
@@ -113,7 +113,7 @@ const loadTheme = (name = 'material-darker') => {
 
     if (!existing) {
       const link = document.createElement('link');
-      link.href = `/cm/theme/${name}.css.gz`;
+      link.href = `/cm/theme/${name}.css${process.env.VUE_APP_ASSETS_PATH ? '.gz' : ''}`;
       link.rel = 'stylesheet';
       link.id = name;
       document.head.appendChild(link);

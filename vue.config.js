@@ -1,6 +1,5 @@
 const assetsPath = process.env.VUE_APP_ASSETS_PATH || '';
 const zopfli = require('@gfx/zopfli');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const fs = require('fs');
 // const StatsPlugin = require('stats-webpack-plugin');
 const VueWebpackReferenceGzAssetsPlugin = require('./src/vue-webpack-reference-gz-assets-plugin.js');
@@ -25,10 +24,10 @@ module.exports = {
   },
   pluginOptions: {
     compression: {
-      // deleteOriginalAssets: true,
       zopfli: {
+        deleteOriginalAssets: true,
         include: /\.js$|\.css$/,
-        exclude: /code\//,
+        exclude: assetsPath ? /code\// : /.+/,
         compressionOptions: {
           numiterations: 15,
         },
@@ -51,24 +50,12 @@ module.exports = {
       },
     },
     plugins: [
-      // zofil compression
-      // new CompressionPlugin({
-      //   compressionOptions: {
-      //     numiterations: 15,
-      //   },
-      //   algorithm(input, compressionOptions, callback) {
-      //     return zopfli.gzip(input, compressionOptions, callback);
-      //   },
-      //   test: /\.js$|\.css$/,
-      // }),
-      // new HtmlWebpackChangeAssetsExtensionPlugin(),
       // new StatsPlugin('stats.json'),
-      new ProgressBarPlugin(),
     ].concat((assetsPath ? new VueWebpackReferenceGzAssetsPlugin() : [])),
   },
-  // chainWebpack(config) {
-  //   config.plugins.delete('prefetch');
-  // },
+  chainWebpack(config) {
+    //  config.plugins.delete('prefetch');
+  },
   devServer: {
     proxy: {
       '^/': {
