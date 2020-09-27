@@ -60,7 +60,7 @@ CodeMirror.requireMode = (mode, cont, reject) => {
   const script = document.createElement('script');
   script.onerror = () => reject(Error('No internet'));
   script.async = true;
-  script.src = `${process.env.VUE_APP_ASSETS_PATH}/cm/mode/${mode}/${mode}.js${process.env.VUE_APP_ASSETS_PATH ? '.gz' : ''}`
+  script.src = `${process.env.VUE_APP_ASSETS_PATH}/cm/mode/${mode}/${mode}.js${process.env.VUE_APP_ASSETS_PATH ? '.gz' : ''}`;
   // console.log(`loading: ${script.src}`);
   const others = document.getElementsByTagName('script')[0];
   loading[mode] = [cont];
