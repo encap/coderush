@@ -75,9 +75,12 @@
 </template>
 
 <script>
-import CodeEditor from '@/components/CodeEditor.vue';
-import Results from '@/views/Results.vue';
 import { mapGetters } from 'vuex';
+
+// const CodeEditor = () => import(/* webpackChunkName: "codeEditor" */ '@/components/CodeEditor.vue');
+import CodeEditor from '@/components/CodeEditor.vue';
+
+const Results = () => import(/* webpackChunkName: "results" */ '@/views/Results.vue');
 
 export default {
   name: 'Run',

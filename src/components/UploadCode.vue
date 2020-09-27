@@ -51,9 +51,21 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { codemirror } from 'vue-codemirror';
 import axios from 'axios';
-import { loadMode, loadTheme } from '@/cmLoader';
+// import { loadMode, loadTheme } from '@/cmLoader';
+// import { codemirror } from 'vue-codemirror';
+
+// const { codemirror } = () => import(/* webpackChunkName: "vueCodeMirror" */ 'vue-codemirror');
+// import codemirror from 'vue-codemirror/src/codemirror.vue';
+// const codemirror = () => import(/* webpackChunkName: "codemirror" */ 'vue-codemirror/src/codemirror.vue');
+let loadMode; let
+  loadTheme;
+const codemirror = () => import(/* webpackChunkName: "cmLoader" */ '@/cmLoader').then((module) => {
+  loadMode = module.loadMode;
+  loadTheme = module.loadTheme;
+  return module.default;
+});
+
 
 export default {
   name: 'UploadCode',
@@ -93,19 +105,13 @@ export default {
     async language() {
       this.editorReady = false;
       await loadMode(this.cm, this.language.mode);
+      console.green('watch');
       this.editorReady = true;
     },
-  },
-  created() {
-    loadTheme();
   },
   mounted() {
     console.log('Activated');
     console.log(this.language.index);
-    if (this.language.name) {
-      loadMode(this.cm, this.language.mode);
-      this.editorReady = true;
-    }
     if (this.code) {
       this.useCustomCode();
     }
@@ -114,6 +120,11 @@ export default {
     onCmReady(cm) {
       console.log('cm ready');
       this.cm = cm;
+      loadTheme();
+      if (this.language.name) {
+        loadMode(this.cm, this.language.mode);
+        this.editorReady = true;
+      }
       cm.focus();
       this.fixHeight();
       window.addEventListener('resize', this.fixHeight);

@@ -1,12 +1,16 @@
 // modified lazy loader for webpack
+import CodeMirror from 'codemirror';
 
-import * as CodeMirror from 'codemirror';
+import codemirror from 'vue-codemirror/src/codemirror.vue';
+// const CodeMirror = () => import(/* webpackChunkName: "codemirror" */ 'codemirror');
 import 'codemirror/addon/mode/simple';
 import 'codemirror/addon/mode/overlay';
 import 'codemirror/lib/codemirror.css';
-import 'codemirror/addon/edit/closebrackets';
+import '../public/cm/theme/material-darker.css';
 import 'codemirror/addon/selection/active-line';
 import 'cm-show-invisibles/lib/show-invisibles';
+
+// const CodeMirror = {};
 
 // make cm global so modes can properly register
 window.CodeMirror = CodeMirror;
@@ -104,17 +108,22 @@ const loadMode = async (cm, mode) => {
 };
 
 const loadTheme = (name = 'material-darker') => {
-  const existing = document.getElementById(name);
+  if (name !== 'material-darker') {
+    const existing = document.getElementById(name);
 
-  if (!existing) {
-    const link = document.createElement('link');
-    link.href = `/cm/theme/${name}.css`;
-    link.rel = 'stylesheet';
-    link.id = name;
-    document.head.appendChild(link);
+    if (!existing) {
+      const link = document.createElement('link');
+      link.href = `/cm/theme/${name}.css.gz`;
+      link.rel = 'stylesheet';
+      link.id = name;
+      document.head.appendChild(link);
+    } else {
+      return 'skip';
+    }
   } else {
     return 'skip';
   }
 };
 
 export { loadMode, loadTheme };
+export default codemirror;

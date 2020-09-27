@@ -47,8 +47,9 @@
 <script>
 import SettingsMenu from '@/components/SettingsMenu.vue';
 import LanguagesList from '@/components/LanguagesList.vue';
-import UploadCode from '@/components/UploadCode.vue';
 import { mapGetters } from 'vuex';
+import UploadCode from '@/components/UploadCode.vue';
+// const UploadCode = () => import(/* webpackChunkName: "upload-code" */ '@/components/UploadCode.vue');
 
 export default {
   name: 'Start',
@@ -108,6 +109,7 @@ export default {
           });
         }, 30);
       } else {
+        this.error = '';
         this.$store.dispatch('deleteCustomCode');
         this.$refs.settings.$el.scrollIntoView({
           block: 'start',

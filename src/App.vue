@@ -64,7 +64,6 @@ export default {
 </script>
 
 <style lang="sass">
-@import url('https://fonts.googleapis.com/css?family=Roboto')
 *
   box-sizing: border-box
   margin: 0
@@ -72,7 +71,7 @@ export default {
 
 
 body
-  font-family: 'Roboto', sans-serif
+  font-family: Arial, 'Nimbus Sans', sans-serif
   margin: 0
   background: radial-gradient(at top left, $navy-grey ,$light-navy)
   background-repeat: no-repeat
@@ -88,6 +87,8 @@ body
   &::-webkit-scrollbar-corner
     background-color: $grid-color
 
+input, textarea, button
+  font-family: inherit
 
 
 

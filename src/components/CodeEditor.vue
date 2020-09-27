@@ -1,21 +1,21 @@
 <template>
-  <div
-    ref="code"
-    class="code"
-    :class="{ready: cmReady, completed: isCompleted}"
-    @keydown.capture.prevent="onKeyDown"
-  >
-    <codemirror
-      ref="codemirror"
-      v-model="codeText"
-      class="codemirror"
-      :class="{showInvisibles: language.name === 'Whitespace'}"
-      :options="cmOptions"
-      @ready="onCmReady"
+  <div ref="container" class="container">
+    <div
+      class="code"
+      :class="{ready: cmReady, completed: isCompleted}"
+      @keydown.capture.prevent="onKeyDown"
+    >
+      <codemirror
+        ref="codemirror"
+        v-model="codeText"
+        class="codemirror"
+        :class="{showInvisibles: language.name === 'Whitespace'}"
+        :options="cmOptions"
+        @ready="onCmReady"
 
-      @blur="onUnFocus"
-    />
-
+        @blur="onUnFocus"
+      />
+    </div>
     <div class="pop-up" :class="{hidden: !showPopUp, clickable: popUpClickable, 'small-font': popUpText.length > 15}">
       <div>
         <h2 @click="popUp(false)">
@@ -34,16 +34,27 @@
 
 import { mapGetters } from 'vuex';
 import axios from 'axios';
-import { codemirror } from 'vue-codemirror';
 
-import { loadMode, loadTheme } from '@/cmLoader';
+// import { loadMode, loadTheme } from '@/cmLoader';
 
-import 'codemirror/lib/codemirror.css';
+// import { codemirror } from 'vue-codemirror';
+// import codemirror from 'vue-codemirror/src/codemirror.vue';
+import stats from '../stats2';
+
+// const { codemirror } = () => import(/* webpackChunkName: "vueCodeMirror" */ 'vue-codemirror');
 // import 'codemirror/addon/edit/closebrackets';
 // import 'codemirror/addon/selection/active-line';
 
-// eslint-disable-next-line no-unused-vars
-import stats from '../stats2';
+// const codemirror = () => import(/* webpackChunkName: "vueCodeMirror" */ 'vue-codemirror').then((module) => ({ default: module.codemirror }));
+// const codemirror2 = () => import(/* webpackChunkName: "vueCodeMirror" */ 'vue-codemirror');
+let loadMode; let
+  loadTheme;
+const codemirror = () => import(/* webpackChunkName: "cmLoader" */ '@/cmLoader').then((module) => {
+  loadMode = module.loadMode;
+  loadTheme = module.loadTheme;
+  return module.default;
+});
+
 
 export default {
   components: {
@@ -55,7 +66,7 @@ export default {
       countdown: 3,
       showPopUp: true,
       popUpClickable: false,
-      popUpText: 3,
+      popUpText: '3',
       cm: {},
       codeText: '',
       started: false,
@@ -108,6 +119,7 @@ export default {
   },
   methods: {
     popUp(action, text = this.popUpText) {
+      console.log('POPUP ', action);
       this.popUpText = text;
 
       if (action) {
@@ -478,7 +490,7 @@ export default {
       }
     },
     fixHeight() {
-      const height = `${this.$refs.code.offsetHeight}px`;
+      const height = `${this.$refs.container.offsetHeight}px`;
       // console.blue(`height: ${height}`);
       const scroll = this.$refs.codemirror.$el.getElementsByClassName('CodeMirror-scroll')[0];
       scroll.style.maxHeight = height;
@@ -535,7 +547,7 @@ export default {
               this.popUpText = 'Waiting for download...';
             } else {
               console.warn('Long loading time');
-              this.popUpText = 'It probably crashed but you can wait a few seconds just in case';
+              this.popUpText = 'Something propably crashed but you can wait a few seconds just in case';
             }
           }
         } else if (this.countdown === 0) {
@@ -600,6 +612,10 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.container
+  height: 100%
+  position: relative
+
 .code
   height: 100%
   opacity: 0

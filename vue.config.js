@@ -1,8 +1,9 @@
 const assetsPath = process.env.VUE_APP_ASSETS_PATH || '';
 const zopfli = require('@gfx/zopfli');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const VueWebpackReferenceGzAssetsPlugin = require('./vue-webpack-reference-gz-assets-plugin.js');
 const fs = require('fs');
+const StatsPlugin = require('stats-webpack-plugin');
+const VueWebpackReferenceGzAssetsPlugin = require('./vue-webpack-reference-gz-assets-plugin.js');
 
 module.exports = {
   publicPath: assetsPath,
@@ -37,6 +38,7 @@ module.exports = {
     },
   },
   configureWebpack: {
+    profile: true,
     output: {
       filename: 'js/[name].js',
       chunkFilename: 'js/[name].js',
@@ -60,13 +62,13 @@ module.exports = {
       //   test: /\.js$|\.css$/,
       // }),
       // new HtmlWebpackChangeAssetsExtensionPlugin(),
-
+      new StatsPlugin('stats.json'),
       new ProgressBarPlugin(),
     ].concat((assetsPath ? new VueWebpackReferenceGzAssetsPlugin() : [])),
   },
-  chainWebpack(config) {
-    config.plugins.delete('prefetch');
-  },
+  // chainWebpack(config) {
+  //   config.plugins.delete('prefetch');
+  // },
   devServer: {
     proxy: {
       '^/': {
@@ -80,11 +82,11 @@ module.exports = {
     },
     progress: true,
     compress: false,
-    https: !assetsPath ? {
+    https: assetsPath ? false : {
       key: fs.readFileSync(`${process.env.HOME}/localhost.key`),
       cert: fs.readFileSync(`${process.env.HOME}/localhost.crt`),
       ca: fs.readFileSync(`${process.env.HOME}/rootCA.crt`),
-    } : false,
+    },
   },
 
 };
