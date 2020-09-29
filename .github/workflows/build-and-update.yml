@@ -36,6 +36,7 @@ jobs:
     - name: Swith to deploy branch
       run: |
         git checkout deploy
+        rm -r server/ dist/
         git checkout master -- "server/" "dist/"
     - name: Commit build
       if: env.build
