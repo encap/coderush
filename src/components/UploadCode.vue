@@ -60,7 +60,7 @@ import axios from 'axios';
 // const codemirror = () => import(/* webpackChunkName: "codemirror" */ 'vue-codemirror/src/codemirror.vue');
 let loadMode; let
   loadTheme;
-const codemirror = () => import(/* webpackChunkName: "cmLoader" */ '@/cmLoader').then((module) => {
+const codemirror = () => import(/* webpackChunkName: "cmLoader" */ '@/cmLoader.js').then((module) => {
   loadMode = module.loadMode;
   loadTheme = module.loadTheme;
   return module.default;

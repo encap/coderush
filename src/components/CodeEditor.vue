@@ -49,7 +49,7 @@ import stats from '../stats2';
 // const codemirror2 = () => import(/* webpackChunkName: "vueCodeMirror" */ 'vue-codemirror');
 let loadMode; let
   loadTheme;
-const codemirror = () => import(/* webpackChunkName: "cmLoader" */ '@/cmLoader').then((module) => {
+const codemirror = () => import(/* webpackChunkName: "cmLoader" */ '@/cmLoader.js').then((module) => {
   loadMode = module.loadMode;
   loadTheme = module.loadTheme;
   return module.default;
