@@ -2,7 +2,6 @@ const assetsPath = process.env.VUE_APP_ASSETS_PATH || '';
 const zopfli = require('@gfx/zopfli');
 const fs = require('fs');
 // const StatsPlugin = require('stats-webpack-plugin');
-const VueWebpackReferenceGzAssetsPlugin = require('./src/vue-webpack-reference-gz-assets-plugin.js');
 
 module.exports = {
   productionSourceMap: false,
@@ -25,6 +24,7 @@ module.exports = {
   pluginOptions: {
     compression: {
       zopfli: {
+        filename: '[path].gz',
         deleteOriginalAssets: true,
         include: /\.js$|\.css$/,
         exclude: assetsPath ? /code\// : /.+/,
@@ -49,9 +49,6 @@ module.exports = {
         'chart.js$': 'chart.js/dist/Chart.min.js',
       },
     },
-    plugins: [
-      // new StatsPlugin('stats.json'),
-    ].concat((assetsPath ? new VueWebpackReferenceGzAssetsPlugin() : [])),
   },
   // chainWebpack(config) {
   //  config.plugins.delete('prefetch');
