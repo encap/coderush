@@ -24,11 +24,11 @@ module.exports = {
     },
   },
   pluginOptions: {
-    copy: {
-      globOptions: {
-        ignore: ['**/material-darker.css']
-      }
-    },
+    // copy: {
+    //   globOptions: {
+    //     ignore: ['**/material-darker.css']
+    //   }
+    // },
     compression: {
       zopfli: {
         filename: '[path]',
@@ -64,6 +64,7 @@ module.exports = {
       options[0][0].ignore.push('**/material-darker.css');
       return options;
     });
+
   //  config.plugins.delete('prefetch');
   },
   devServer: {
