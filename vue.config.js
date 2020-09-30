@@ -57,23 +57,23 @@ module.exports = {
   //  config.plugins.delete('prefetch');
   // },
   devServer: {
-    proxy: {
-      '^/': {
-        target: 'http://127.0.0.1:3000',
-        changeOrgin: true,
-        ws: true,
-        secure: false,
-        logLevel: 'debug',
-      },
-
-    },
+    proxy: 'http://127.0.0.1:3000',
+    // {
+    //   '^/': {
+    //     target: 'http://127.0.0.1:3000',
+    //     changeOrgin: true,
+    //     ws: true,
+    //     secure: false,
+    //     logLevel: 'debug',
+    //   },
+    // },
     progress: true,
     compress: false,
-    https: assetsPath ? false : {
-      key: fs.readFileSync(`${process.env.HOME}/localhost.key`),
-      cert: fs.readFileSync(`${process.env.HOME}/localhost.crt`),
-      ca: fs.readFileSync(`${process.env.HOME}/rootCA.crt`),
-    },
+    // https: assetsPath ? false : {
+    //   key: fs.readFileSync(`${process.env.HOME}/localhost.key`),
+    //   cert: fs.readFileSync(`${process.env.HOME}/localhost.crt`),
+    //   ca: fs.readFileSync(`${process.env.HOME}/rootCA.crt`),
+    // },
   },
 
 };
