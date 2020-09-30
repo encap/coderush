@@ -1,4 +1,3 @@
-const webpack = require('webpack')
 const zopfli = require('@gfx/zopfli');
 const fs = require('fs');
 // const StatsPlugin = require('stats-webpack-plugin');
@@ -25,10 +24,14 @@ module.exports = {
     },
   },
   pluginOptions: {
+    copy: {
+      globOptions: {
+        ignore: ['**/material-darker.css']
+      }
+    },
     compression: {
       zopfli: {
         filename: '[path]',
-        // deleteOriginalAssets: true,
         include: /\.gz$/,
         exclude: /cm\//,
         compressionOptions: {
@@ -54,23 +57,26 @@ module.exports = {
     },
     plugins: [
       // new StatsPlugin('stats.json'),
-      new webpack.IgnorePlugin({resourceRegExp: /public\/cm\//,}),
     ]
   },
-  // chainWebpack(config) {
+  chainWebpack(config) {
+    config.plugin('copy').tap(options => {
+      options[0][0].ignore.push('**/material-darker.css');
+      return options;
+    });
   //  config.plugins.delete('prefetch');
-  // },
+  },
   devServer: {
-    proxy: 'http://127.0.0.1:3000',
-    // {
-    //   '^/': {
-    //     target: 'http://127.0.0.1:3000',
-    //     changeOrgin: true,
-    //     ws: true,
-    //     secure: false,
-    //     logLevel: 'debug',
-    //   },
-    // },
+    proxy: {
+      '(^/database.json$)|(^/socket\.io/)|(^/cm/)': {
+        target: 'http://localhost:3000',
+        changeOrgin: true,
+        ws: true,
+        secure: false,
+        logLevel: 'debug',
+      },
+      
+    },
     progress: true,
     compress: false,
     // https: assetsPath ? false : {
