@@ -6,10 +6,11 @@ import codemirror from 'vue-codemirror/src/codemirror.vue';
 import 'codemirror/addon/mode/simple';
 import 'codemirror/addon/mode/overlay';
 import 'codemirror/lib/codemirror.css';
-import '../public/cm/theme/material-darker.css';
+import '../public/cm/theme/material-darker.css.gz';
 import 'codemirror/addon/selection/active-line';
 import 'cm-show-invisibles/lib/show-invisibles';
 
+const assetsPath = process.env.VUE_APP_ASSETS_PATH;
 // const CodeMirror = {};
 
 // make cm global so modes can properly register
@@ -61,7 +62,7 @@ CodeMirror.requireMode = (mode, cont, reject) => {
   script.onerror = () => reject(Error('No internet'));
   script.async = true;
   console.log('WTF');
-  script.src = `${process.env.VUE_APP_ASSETS_PATH || ''}/cm/mode/${mode}/${mode}.js${process.env.VUE_APP_ASSETS_PATH ? '.gz' : ''}`;
+  script.src = `${assetsPath || ''}/cm/mode/${mode}/${mode}.js${assetsPath ? '.gz' : ''}`;
   console.log(`loading: ${script.src}`);
   const others = document.getElementsByTagName('script')[0];
   loading[mode] = [cont];
@@ -111,7 +112,7 @@ const loadTheme = (name = 'material-darker') => {
 
     if (!existing) {
       const link = document.createElement('link');
-      link.href = `${process.env.VUE_APP_ASSETS_PATH}/cm/theme/${name}.css${process.env.VUE_APP_ASSETS_PATH ? '.gz' : ''}`;
+      link.href = `${assetsPath || ''}/cm/theme/${name}.css${assetsPath ? '.gz' : ''}`;
       link.rel = 'stylesheet';
       link.id = name;
       document.head.appendChild(link);

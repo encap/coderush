@@ -1,7 +1,10 @@
-const assetsPath = process.env.VUE_APP_ASSETS_PATH || '';
+const webpack = require('webpack')
 const zopfli = require('@gfx/zopfli');
 const fs = require('fs');
 // const StatsPlugin = require('stats-webpack-plugin');
+
+const assetsPath = process.env.VUE_APP_ASSETS_PATH || '';
+const gz = assetsPath ? '.gz' : '';
 
 module.exports = {
   productionSourceMap: false,
@@ -17,8 +20,8 @@ module.exports = {
     },
     sourceMap: true,
     extract: {
-      filename: 'css/[name].css',
-      chunkFilename: 'css/[name].css',
+      filename: `css/[name].css${gz}`,
+      chunkFilename: `css/[name].css${gz}`,
     },
   },
   pluginOptions: {
@@ -26,8 +29,8 @@ module.exports = {
       zopfli: {
         filename: '[path]',
         // deleteOriginalAssets: true,
-        include: /\.js$|\.css$/,
-        exclude: assetsPath ? /code\// : /.+/,
+        include: /\.gz$/,
+        exclude: /cm\//,
         compressionOptions: {
           numiterations: 15,
         },
@@ -39,8 +42,8 @@ module.exports = {
   },
   configureWebpack: {
     output: {
-      filename: 'js/[name].js',
-      chunkFilename: 'js/[name].js',
+      filename: `js/[name].js${gz}`,
+      chunkFilename: `js/[name].js${gz}`,
     },
     resolve: {
       alias: {
@@ -51,6 +54,7 @@ module.exports = {
     },
     plugins: [
       // new StatsPlugin('stats.json'),
+      new webpack.IgnorePlugin({resourceRegExp: /public\/cm\//,}),
     ]
   },
   // chainWebpack(config) {
