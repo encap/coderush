@@ -36,9 +36,9 @@ jobs:
         git add -f server/ dist/
         git commit --allow-empty -m 'post-buid temp commit'
     - name: Switch to deploy branch
-      run: |
-        git checkout deploy
+      run: git checkout deploy
     - name: Prepare for commit
+      run: |
         rm -r server/ dist/
         git checkout master -- "server/" "dist/"
     - name: Commit build
