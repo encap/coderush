@@ -19,8 +19,8 @@ module.exports = {
     },
     sourceMap: true,
     extract: {
-      filename: `css/[name].css${gz}`,
-      chunkFilename: `css/[name].css${gz}`,
+      filename: 'css/[name].css',
+      chunkFilename: 'css/[name].css',
     },
   },
   pluginOptions: {
@@ -32,8 +32,8 @@ module.exports = {
     compression: {
       zopfli: {
         filename: '[path]',
-        include: /\.gz$/,
-        exclude: /cm\//,
+        include: /\.js$|\.css$/,
+        exclude: /cm\/|code\//,
         compressionOptions: {
           numiterations: 15,
         },
@@ -45,8 +45,8 @@ module.exports = {
   },
   configureWebpack: {
     output: {
-      filename: `js/[name].js${gz}`,
-      chunkFilename: `js/[name].js${gz}`,
+      filename: 'js/[name].js',
+      chunkFilename: 'js/[name].js',
     },
     resolve: {
       alias: {

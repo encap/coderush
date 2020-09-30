@@ -190,7 +190,7 @@ app.get('/api/ping', (req, res) => {
 });
 
 app.use((req, res, next) => {
-  if (!(process.env.NODE_ENV === 'production') && req.originalUrl.slice(-3) === '.gz') {
+  if (!(process.env.NODE_ENV === 'production') && (req.originalUrl.slice(-3) === '.js' || req.originalUrl.slice(-3) === '.css') {
     res.header('content-encoding', 'gzip');
     res.header('content-type', req.originalUrl.includes('js') ? 'application/javascript' : 'text/css');
   }
