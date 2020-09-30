@@ -26,16 +26,19 @@ jobs:
     - name: Vue build
       if: env.build
       run: npm run build
-    - name: Commit on master
+    - name: Configure git
       run: |
         git config --global credential.helper cache
         git config --global user.email "bot@github.com"
         git config --global user.name "Bot"
-        git add .
-        git commit --allow-empty -m 'build'
-    - name: Swith to deploy branch
+    - name: Stage files
+      run: |
+        git add -f server/ dist/
+        git commit --allow-empty -m 'post-buid temp commit'
+    - name: Switch to deploy branch
       run: |
         git checkout deploy
+    - name: Prepare for commit
         rm -r server/ dist/
         git checkout master -- "server/" "dist/"
     - name: Commit build
