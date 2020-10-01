@@ -37,6 +37,14 @@ if (process.env.NODE_ENV === 'production') {
   toggleMaintanceMode(false);
 }
 
+const keepAwake = () => {
+  axios.get('https://coderush.herokuapp.com/api/ping')
+  .then((res) => console.log(`ping ok, status: ${res.status}`))
+  .catch((err1) => console.error(`Ping Error: ${err1}`));
+}
+
+setInterval(keepAwake, 1000 * 60 * 20);
+
 let cachedIndexHtml = '';
 const getIndexHtml = () => {
   if (process.env.NODE_ENV === 'production') {
@@ -56,7 +64,12 @@ const getIndexHtml = () => {
   }
 };
 
-setTimeout(getIndexHtml, 1200); // wait for cdn to update
+setTimeout(getIndexHtml, 1000 * 60 * 2); // wait for cdn to update
+
+setInterval(() => {
+  console.log('Update html cache');
+  getIndexHtml()
+}, 1000 * 60 * 60 * 24);
 
 let database = {};
 let cachedStringifiedDatabase = '';
@@ -77,16 +90,13 @@ const getDatabase = () => {
       });
 
     setInterval(() => {
-      console.log('TIMER');
+      console.log('Update database cache');
       cachedStringifiedDatabase = JSON.stringify(database);
-      axios.get('https://coderush.herokuapp.com/api/ping')
-        .then((res) => console.log(`ping ok, status: ${res.status}`))
-        .catch((err1) => console.error(`Ping Error: ${err1}`));
     }, 1000 * 60 * 20);
   }
 };
 
-getDatabase();
+setTimeout(getDatabase, 1000 * 60 * 2); // wait for cdn to update
 
 let newStats = false;
 const sendStats = () => {
