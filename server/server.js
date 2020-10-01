@@ -58,8 +58,8 @@ const getIndexHtml = () => {
 
 getIndexHtml();
 
-const database = {};
-const cachedStringifiedDatabase = '';
+let database = {};
+let cachedStringifiedDatabase = '';
 
 const getDatabase = () => {
   console.log('getDatabase');

@@ -1,9 +1,8 @@
 const zopfli = require('@gfx/zopfli');
-const fs = require('fs');
+// const fs = require('fs');
 // const StatsPlugin = require('stats-webpack-plugin');
 
 const assetsPath = process.env.VUE_APP_ASSETS_PATH || '';
-const gz = assetsPath ? '.gz' : '';
 
 module.exports = {
   productionSourceMap: false,
@@ -24,11 +23,6 @@ module.exports = {
     },
   },
   pluginOptions: {
-    // copy: {
-    //   globOptions: {
-    //     ignore: ['**/material-darker.css']
-    //   }
-    // },
     compression: {
       zopfli: {
         filename: '[path]',
@@ -57,10 +51,10 @@ module.exports = {
     },
     plugins: [
       // new StatsPlugin('stats.json'),
-    ]
+    ],
   },
   chainWebpack(config) {
-    config.plugin('copy').tap(options => {
+    config.plugin('copy').tap((options) => {
       options[0][0].ignore.push('**/material-darker.css');
       return options;
     });
@@ -68,15 +62,14 @@ module.exports = {
   //  config.plugins.delete('prefetch');
   },
   devServer: {
-    proxy: {
-      '(^/database.json$)|(^/socket\.io/)|(^/cm/)': {
-        target: 'http://localhost:3000',
-        changeOrgin: true,
-        ws: true,
-        secure: false,
-        logLevel: 'debug',
-      },
-      
+    proxy: 'http://localhost:3000',
+    before(app) {
+      app.use((req, res, next) => {
+        if (req.path.slice(0, 4) === '/cm/') {
+          res.header('content-encoding', 'gzip');
+        }
+        next();
+      });
     },
     progress: true,
     compress: false,
