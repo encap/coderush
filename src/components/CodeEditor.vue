@@ -474,13 +474,13 @@ export default {
       this.currentChange = {};
     },
     onUnFocus(_, ev) {
-      // ev.preventDefault(); // DEV
+      ev.preventDefault(); // DEV
       // console.red('blur');
       if (!this.isCompleted && ev) {
-        // this.cm.focus(); // DEV
+        this.cm.focus(); // DEV
         if (ev.relatedTarget !== null) {
           if (ev.relatedTarget.tagName !== 'BUTTON' && ev.relatedTarget.tagName !== 'A') {
-            this.popUp(true, 'Resume'); // dev
+            // this.popUp(true, 'Resume'); // dev
           } else if (ev.relatedTarget.className === 'disconnect-btn') {
             this.cm.focus();
           }
@@ -553,7 +553,7 @@ export default {
         } else if (this.countdown === 0) {
           this.start(interval);
         }
-      }, 500); // DEV 500
+      }, 100); // DEV 500
 
 
       // console.log('loadMode ', Date.now());

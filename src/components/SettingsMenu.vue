@@ -44,7 +44,7 @@
     </div>
     <div class="toggles">
       <label>
-        <span>Highlight next character</span>
+        <span>Underscore the next character</span>
         <input v-model="underScore" type="checkbox">
         <div class="slider" />
       </label>
@@ -59,7 +59,7 @@
         <div class="slider" />
       </label>
       <label>
-        <span>Only short levels</span>
+        <span>Short texts only</span>
         <input
           v-model="codeLength"
           :disabled="block"
@@ -97,7 +97,7 @@ export default {
       ],
       modesList: [
         ['Normal', 'Write down provided source code as quickly as you can.'],
-        ['Hardcore', 'Just don\'t make any mistakes.'],
+        ['Hardcore', 'You make a mistake - you lose'],
         ['CodeRush', 'See how much code you are able to write in 100 seconds'],
       ],
     };

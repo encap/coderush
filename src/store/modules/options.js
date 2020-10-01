@@ -11,7 +11,7 @@ const state = {
     selectedTheme: 'material-darker',
     selectedMode: 1,
     autoIndent: true,
-    underScore: true,
+    underScore: false,
     mode: 1,
   },
 };

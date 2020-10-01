@@ -220,7 +220,7 @@ export default {
     &::-webkit-scrollbar
       display: none
 
-  ::v-deep .CodeMirror-vscrollbar
+  ::v-deep .CodeMirror-vscrollbar, ::v-deep .CodeMirror-hscrollbar
     &::-webkit-scrollbar
       width: $gap / 2
     &::-webkit-scrollbar-thumb

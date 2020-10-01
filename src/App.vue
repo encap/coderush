@@ -81,7 +81,7 @@ body
       width: $gap / 2
   &::-webkit-scrollbar-thumb
     background: $washed-purple
-    background: linear-gradient(to bottom,  $washed-purple, mix($washed-purple, $grid-color, 60%))
+    background: linear-gradient(to top,  $washed-purple, mix($washed-purple, $grid-color, 60%))
   &::-webkit-scrollbar-track
     background-color: $grid-color
   &::-webkit-scrollbar-corner

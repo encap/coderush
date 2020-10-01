@@ -24,25 +24,28 @@
         :class="{'selected': language.index === null}"
         @click="selectRandom"
       >
-        Random
+        <span class="language-name">
+          Random
+
+        </span>
       </button>
       <label
         v-for="(filteredLanguage, index) in filteredList"
         :key="filteredLanguage.name === 'Loading...' ? index : filteredLanguage.name"
         class="language"
         :class="{'selected':language.index === filteredLanguage.index}"
+        :data-index="index"
       >
         <input
           v-model="language"
           type="radio"
           class="language-radio"
           :disabled="room.connected && !room.owner"
-          :index="filteredLanguage.index"
           :value="languagesList[filteredLanguage.index]"
           @input="setRoomLanguage"
         >
-        <span class="language-name">{{ filteredLanguage.name.replace('_', ' ') }}</span>
-        <span class="stat"><span>24</span><fa class="icon" :icon="['fas', 'users']" /></span>
+        <span class="language-name" :class="{'greyed-out': options.codeLength && !filteredLanguage.files.some((code) => code.lines <= 17 )}">{{ filteredLanguage.name.replace('_', ' ') }}</span>
+        <span class="stat"><span>{{ filteredLanguage.total || 0 }}</span><fa class="icon" :icon="['fas', 'users']" /></span>
       </label>
     </div>
   </div>
@@ -52,9 +55,6 @@
 import { mapGetters } from 'vuex';
 import { createHelpers } from 'vuex-map-fields';
 
-// The getter and mutation types we're providing
-// here, must be the same as the function names we've
-// used in the store.
 const { mapFields } = createHelpers({
   getterType: 'getLanguage',
   mutationType: 'UPDATE_LANGUAGE',
@@ -66,7 +66,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['languagesList', 'room']),
+    ...mapGetters(['languagesList', 'room', 'options']),
     ...mapFields(['language']),
     filteredList() {
       if (this.languagesList.length) {
@@ -100,10 +100,17 @@ export default {
       if (this.filteredList[index].index === this.language.index && this.filteredList.length > 1) {
         this.selectRandom();
       } else {
+        if (this.options.codeLength && !this.filteredList[index].files.some((code) => code.lines <= 17)) {
+          this.selectRandom();
+        }
         this.language = this.filteredList[index];
         if (this.room.owner) {
           this.$socket.client.emit('languageChange', index);
         }
+        this.$refs.languagesList.querySelector(`[data-index="${index}"]`).scrollIntoView({
+          block: 'center',
+          behavior: 'smooth',
+        });
       }
     },
     selectFirstFromSearch() {
@@ -165,12 +172,10 @@ export default {
   text-align: center
   overflow-y: auto
 
-.list
   &::-webkit-scrollbar
     width: $gap / 2
   &::-webkit-scrollbar-thumb
-    background: linear-gradient(to bottom, $blue-gradient-colors)
-
+    background: linear-gradient(to top, $blue-gradient-colors)
   &::-webkit-scrollbar-track
     background-color: $grid-color
 
@@ -194,32 +199,33 @@ export default {
 
   &:hover
     opacity: 0.85
+    & > .language-name
+      transform: translateX(-1.5em)
+    & > .stat
+      opacity: 1
 
-.stat
-  right: 0
-  width: 3em
-  height: 100%
-  display: flex
-  flex-direction: column
-  align-items: center
-  justify-content: center
-  flex-wrap: wrap
-  position: absolute
-  padding: 0.5em 0.3em
-  opacity: 0
-  color: $grey
-  font-size: 0.9em
+  .language-name
+    transition: transform .2s ease-in-out
+    &.greyed-out
+      color: $grey
 
+  .stat
+    position: absolute
+    right: 1em
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: space-around
+    opacity: 0
+    color: #ddd
+    font-size: 0.9em
+    transition: opacity .1s ease-out .1s
 
+    .icon
+      margin-left: 1em
 
-.language:hover > .stat
-  opacity: 1
-
-.selected
-  background-position: left
-  transition: background 0.3s ease-in-out
-
-.selected:hover > .stat
-  opacity: 0
+  &.selected
+    background-position: left
+    transition: background 0.3s ease-in-out
 
 </style>
