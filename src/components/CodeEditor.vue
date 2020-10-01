@@ -475,7 +475,6 @@ export default {
     },
     onUnFocus(_, ev) {
       if (process.env.NODE_ENV !== 'production') ev.preventDefault(); // DEV
-      // console.red('blur');
       if (!this.isCompleted && ev) {
         if (process.env.NODE_ENV !== 'production') this.cm.focus(); // DEV
         if (ev.relatedTarget !== null) {
@@ -485,7 +484,8 @@ export default {
             this.cm.focus();
           }
         } else {
-          this.popUp(true, 'Resume');
+          // eslint-disable-next-line no-lonely-if
+          if (process.env.NODE_ENV === 'production') this.popUp(true, 'Resume');
         }
       }
     },

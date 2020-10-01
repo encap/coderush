@@ -6,10 +6,6 @@
       </span>
     </div>
     <div class="settings">
-      <div v-if="$route.path === '/contribute'" class="">
-        <label>Code functionality (or product name)</label>
-        <input v-model="name" type="text">
-      </div>
       <div class="tab-settings">
         <span class="tab-text">Tab size:</span>
 
@@ -40,18 +36,11 @@
       @ready="onCmReady"
       @input="useCustomCode"
     />
-
-    <div v-if="$route.path === '/contribute'" class="buttons">
-      <button @click="sendCustomCode">
-        Send
-      </button>
-    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import axios from 'axios';
 // import { loadMode, loadTheme } from '@/cmLoader';
 // import { codemirror } from 'vue-codemirror';
 
@@ -75,8 +64,6 @@ export default {
   data() {
     return {
       code: '',
-      confirmMsg: '',
-      name: '',
       timeout: 0,
       editorReady: false,
       tabSizes: [2, 4, 8],
@@ -84,7 +71,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['room', 'languagesList', 'language']),
+    ...mapGetters(['language']),
     cmOptions() {
       return {
         tabSize: this.selectedSize,
@@ -147,31 +134,13 @@ export default {
           lines: this.numberOfLines,
           showEditor: true,
         });
-      }, 600);
+      }, 1000);
     },
-    sendCustomCode() {
-      if (this.numberOfLines >= 5) {
-        const data = {
-          code: this.code,
-          languageIndex: this.languageIndex,
-          name: this.name ? this.name : Math.floor(Math.random() * 10000),
-          ext: this.currentLanguage.ext,
-          tabSize: this.selectedSize,
-          numberOfLines: this.numberOfLines,
-        };
-        const url = `${window.location.origin}/upload`;
-        axios.post(url, data)
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((res) => {
-            console.warn(res);
-          });
-      } else {
-        console.log('CUSTOM CODE TOO SHORT');
-        this.confirmMsg = 'Code needs to be a little bit longer.';
-      }
+    clear() {
+      console.log('clear');
+      this.code = '';
     },
+
   },
 };
 </script>
@@ -179,6 +148,7 @@ export default {
 <style lang="sass" scoped>
 .tab-settings
   height: 40px
+
   .tab-size-option
     display: inline-flex
     flex-direction: column
@@ -236,4 +206,7 @@ export default {
 .buttons
   margin-top: 3em
 
+@media (max-width: 1270px)
+  .warning
+    display: none
 </style>

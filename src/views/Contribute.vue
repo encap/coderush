@@ -1,21 +1,228 @@
 <template>
-  <div>
-    <h1>Contribute to CodeRush library</h1>
-    <UploadCode />
+  <div class="container">
+    <main class="middle">
+      <h1>Contribute</h1>
+      <p>
+        Our mission is to ensure the diversity and quality of the code in which our users practice and test their skills. We do our best to ensure that there are no errors in the code but with that many languages and technologies available on CodeRush, it is not possible without your help.
+      </p>
+      <p>
+        On this page you can help expand our code database by sending us your code in a language of your choice. The "Send" button will create a PR and after verirfication your code will be publicly avaible on our GitHub repo.
+        Please don't paste a code that you did not write yourself or that is under NDA or any other code that we will not be able to use for legal resons.
+      </p>
+      <p>
+        You can also file an issue and contribute directly on <a href="https://github.com/encap/coderush#readme">our GitHub</a>
+      </p>
+      <div class="name">
+        <label>Code functionality (or product name)</label>
+        <div class="nameInputWrapper">
+          <input
+            ref="nameInput"
+            v-model="name"
+            type="text"
+            placeholder="e.g UrlHelperService"
+            class="nameInput"
+            maxlength="40"
+          >
+          <span v-show="name" class="char-limit">{{ 40 - name.length }} / 40</span>
+        </div>
+      </div>
+      <keep-alive>
+        <UploadCode ref="code" class="editor-wrapper" />
+      </keep-alive>
+
+      <p v-show="error" class="error">
+        {{ error }}
+      </p>
+
+      <div v-show="language.index" class="buttons-bottom">
+        <button class="button" @click="sendCustomCode">
+          Send
+        </button>
+        <button class="button" @click="clear">
+          Clear
+        </button>
+      </div>
+    </main>
+
+    <LanguagesList ref="languagesList" class="languages-list" />
   </div>
 </template>
 
 <script>
 import UploadCode from '@/components/UploadCode.vue';
+import LanguagesList from '@/components/LanguagesList.vue';
+
+import axios from 'axios';
+import { mapGetters } from 'vuex';
+
+
 
 export default {
   name: 'Contribute',
   components: {
     UploadCode,
+    LanguagesList,
+  },
+  data() {
+    return {
+      name: '',
+      error: '',
+    };
+  },
+  computed: {
+    ...mapGetters(['language', 'customCode']),
+  },
+  watch: {
+    name(current) {
+      if (current.length > 2) {
+        this.error = '';
+      }
+    },
+  },
+  methods: {
+    sendCustomCode() {
+      if (this.name.length < 2) {
+        this.error = 'Code name is required.';
+        this.$refs.nameInput.focus();
+        return;
+      }
+      if (this.customCode.lines >= 4 && this.customCode.text.length >= 200) {
+        this.error = '';
+        const data = {
+          code: this.customCode.text,
+          languageIndex: this.language.index,
+          name: this.name,
+          ext: this.language.ext,
+          tabSize: this.customCode.tabSize,
+          numberOfLines: this.customCode.lines,
+        };
+        const url = `${window.location.origin}/upload`;
+        axios.post(url, data)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((res) => {
+            console.warn(res);
+          });
+      } else {
+        console.log('CUSTOM CODE TOO SHORT');
+        this.error = 'Code has to have minium 4 lines and 200 characters';
+      }
+    },
+    clear() {
+      this.$refs.code.clear();
+    },
   },
 };
 </script>
 
-<style>
+<style lang="sass" scoped>
+.container
+  position: relative
+  display: flex
+  justify-content: flex-end
+  height: calc(100vh - 2 * #{$gap})
 
+.middle
+  position: relative
+  flex-basis: 0
+  flex-grow: 2
+  max-width: 50%
+  margin-right: $gap * 2
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+
+h1
+  margin: $grid-gap 0 1em
+
+a
+  color: $light-pink
+  text-decoration: underline
+
+p
+  font-size: 16px
+  line-height: 1.4
+  margin-bottom: 1em
+
+.name
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  align-items: center
+  height: 40px
+  position: relative
+  margin: 1em 0
+
+  label
+    white-space: nowrap
+    margin-right: 1em
+
+  .nameInputWrapper
+    max-width: 50%
+    display: flex
+    justify-content: space-between
+    flex-grow: 1
+    padding: $grid-gap
+    border-bottom: $grid-gap solid $grid-color
+
+    &:focus-within
+      border-image: linear-gradient(to right, $light-blue, $grid-color 90%) 1
+
+    input
+      flex-grow: 1
+
+    input::placeholder, .char-limit
+      color: $grey
+
+    .char-limit
+      margin-left: 1em
+      white-space: nowrap
+
+.editor-wrapper
+  flex-grow: 1
+  max-height: 85vh
+  overflow: hidden
+  position: relative
+  display: flex
+  flex-direction: column
+
+.languages-list
+  position: relative
+  max-width: 40%
+  flex-grow: 4
+  flex-basis: 0
+  // height: calc(100vh - 2 * #{$gap})
+  display: flex
+  flex-direction: column
+
+.buttons-bottom
+  display: flex
+  justify-content: space-between
+  align-items: flex-end
+  margin-top: $gap
+  margin-bottom: $grid-gap
+
+.button
+  display: flex
+  text-align: center
+  justify-content: space-around
+  align-items: center
+  width: 150px
+  height: 47px
+  background-color: $grid-color
+  cursor: pointer
+  flex-grow: 1
+  max-width: 250px
+  transition: background-color .15s ease-out
+
+
+  &:first-child
+    margin-right: $gap
+
+  &:hover
+    background-color: $purple
+
+  &:active
+    background-color: $pink
 </style>
