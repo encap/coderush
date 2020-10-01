@@ -474,13 +474,13 @@ export default {
       this.currentChange = {};
     },
     onUnFocus(_, ev) {
-      ev.preventDefault(); // DEV
+      if (process.env.NODE_ENV !== 'production') ev.preventDefault(); // DEV
       // console.red('blur');
       if (!this.isCompleted && ev) {
-        this.cm.focus(); // DEV
+        if (process.env.NODE_ENV !== 'production') this.cm.focus(); // DEV
         if (ev.relatedTarget !== null) {
           if (ev.relatedTarget.tagName !== 'BUTTON' && ev.relatedTarget.tagName !== 'A') {
-            // this.popUp(true, 'Resume'); // dev
+            if (process.env.NODE_ENV === 'production') this.popUp(true, 'Resume'); // dev
           } else if (ev.relatedTarget.className === 'disconnect-btn') {
             this.cm.focus();
           }
@@ -553,7 +553,7 @@ export default {
         } else if (this.countdown === 0) {
           this.start(interval);
         }
-      }, 100); // DEV 500
+      }, process.env.NODE_ENV === 'production' ? 500 : 100); // DEV 500
 
 
       // console.log('loadMode ', Date.now());
@@ -605,7 +605,7 @@ export default {
       setTimeout(() => {
         this.$router.replace('/results');
         this.popUp(false);
-      }, 2000); // DEV 2000
+      }, process.env.NODE_ENV === 'production' ? 2000 : 200); // DEV 2000
     },
   },
 };

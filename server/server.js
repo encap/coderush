@@ -56,7 +56,7 @@ const getIndexHtml = () => {
   }
 };
 
-getIndexHtml();
+setTimeout(getIndexHtml, 1200); // wait for cdn to update
 
 let database = {};
 let cachedStringifiedDatabase = '';
