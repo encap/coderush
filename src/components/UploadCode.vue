@@ -116,7 +116,7 @@ export default {
       cm.focus();
       this.$nextTick(this.fixHeight);
       window.addEventListener('resize', this.fixHeight);
-      this.$emit('cmReady')
+      this.$emit('cmReady');
     },
     fixHeight() {
       if (this.timeout) window.clearTimeout(this.timeout);

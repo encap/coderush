@@ -1,0 +1,35 @@
+name: Process code submission
+
+on:
+  repository_dispatch:
+    types: code-submission
+  workflow_dispatch:
+
+jobs:
+  main:
+    name: Main job
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12'
+    - name: Install Github actions
+      run: |
+        npm install @actions/core
+    - name: Process submission 
+      run: |
+        node actions/process-code-submission.js
+    - name: use output
+      run: |
+        echo $json_var | jq '.[].name'
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      env:
+        json_var: ${{ steps.set.outputs.json_var}}
+      with:
+        Title: ${{ echo "Code submission - $(cat $GITHUB_EVENT_PATH | jq -r '.name') by $(cat $GITHUB_EVENT_PATH | jq -r '.author')" }}
+        commit_message: ${{ echo "Code submission - $(cat $GITHUB_EVENT_PATH | jq -r '.name') by $(cat $GITHUB_EVENT_PATH | jq -r '.author')" }}
+        delete-branch: true
+        

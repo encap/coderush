@@ -6,7 +6,7 @@
         Our mission is to ensure the diversity and quality of the code in which our users practice and test their skills. We do our best to ensure that there are no errors in the code but with that many languages and technologies available on CodeRush, it is not possible without your help.
       </p>
       <p>
-        On this page you can help expand our code database by sending us your code in a language of your choice. The "Send" button will create a PR and after verirfication your code will be publicly avaible on our GitHub repo.
+        On this page you can help expand our code database by sending us your code in a language of your choice. The "Send" button will create a PR and after verirfication your code will be publicly avaible on <a href="https://github.com/encap/coderush">our GitHub repo</a> .
         Please don't paste a code that you did not write yourself or that is under NDA or any other code that we will not be able to use for legal resons.
       </p>
       <p>
@@ -38,9 +38,10 @@
           <span v-show="name" class="char-limit">{{ 25 - name.length }} / 40</span>
         </div>
       </div>
-      <keep-alive>
-        <UploadCode ref="code" class="editor-wrapper" />
-      </keep-alive>
+      <UploadCode v-if="!sent" ref="code" class="editor-wrapper" />
+      <p v-else>
+        Thank you for your contribution. Your submission will soon be listed <a href="https://github.com/encap/coderush/pulls">here</a>.
+      </p>
 
       <p v-show="error" class="error">
         {{ error }}
@@ -51,7 +52,7 @@
           Send
         </button>
         <button class="button" @click="clear">
-          Clear
+          {{ sent ? 'Submit new code' : 'Clear' }}
         </button>
       </div>
     </main>
@@ -80,6 +81,7 @@ export default {
       author: '',
       name: '',
       error: '',
+      sent: false,
     };
   },
   computed: {
@@ -104,18 +106,19 @@ export default {
         const data = {
           code: this.customCode.text,
           languageIndex: this.language.index,
-          name: this.name,
+          name: this.name.replace(' ', '_'),
           author: this.author,
-          ext: this.language.ext,
           tabSize: this.customCode.tabSize,
-          numberOfLines: this.customCode.lines,
+          lines: this.customCode.lines,
         };
         const url = `${window.location.origin}/upload`;
         axios.post(url, data)
           .then((res) => {
+            this.sent = true;
             console.log(res);
           })
           .catch((res) => {
+            this.error = 'Server error';
             console.warn(res);
           });
       } else {
@@ -125,6 +128,8 @@ export default {
     },
     clear() {
       this.$refs.code.clear();
+      this.sent = false;
+      this.name = '';
     },
   },
 };
@@ -185,7 +190,7 @@ p
     border-bottom: $grid-gap solid $grid-color
 
     &:focus-within
-      border-image: linear-gradient(to right, $light-blue, $grid-color 90%) 1
+      border-image: linear-gradient(to right, $light-purple, $grid-color 90%) 1
 
     input
       flex-grow: 1

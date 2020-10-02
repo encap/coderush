@@ -43,7 +43,7 @@ const keepAwake = () => {
       .then((res) => console.log(`ping ok, status: ${res.status}`))
       .catch((err1) => console.error(`Ping Error: ${err1}`));
   }
-}
+};
 
 setInterval(keepAwake, 1000 * 60 * 20);
 
@@ -70,7 +70,7 @@ setTimeout(getIndexHtml, 1000 * 60 * 2); // wait for cdn to update
 
 setInterval(() => {
   console.log('Update html cache');
-  getIndexHtml()
+  getIndexHtml();
 }, 1000 * 60 * 60 * 24);
 
 let database = {};
@@ -177,7 +177,32 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.post('/upload', (req, res) => {
-  res.send('OK');
+  if (typeof req.body.code === 'string' && req.body.code.length > 20) {
+    axios({
+      url: 'https://api.github.com/repos/encap/coderush/dispatches',
+      method: 'post',
+      headers: {
+        Accept: 'application/vnd.github.everest-preview+json',
+        Authorization: `token ${process.env.GH_PERSONAL_TOKEN}`,
+      },
+      withCredentials: true,
+      data: {
+        event_type: 'code-submission',
+        client_payload: req.body,
+      },
+    })
+      .then(() => {
+        console.log('Code submission succeded');
+        res.send('OK');
+      })
+      .catch((response) => {
+        console.warn('Code submission failed');
+        console.error(response);
+        res.status(response.status).send(res.data);
+      });
+  } else {
+    res.status(400).send('Invalid input');
+  }
 });
 
 app.post('/api/stats', (req, res) => {
