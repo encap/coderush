@@ -126,11 +126,13 @@
           "lines": 17,
           "name": "clone-it_results_menu",
           "source": "own",
-          "tabSize": 2
+          "tabSize": 2,
+          "total": 1
         }
       ],
       "mode": "xml",
-      "name": "HTML"
+      "name": "HTML",
+      "total": 1
     },
     {
       "ext": "java",
@@ -436,9 +438,9 @@
   ],
   "stats": {
     "avgWPM": 50,
-    "backspaceClicks": 36,
-    "correctClicks": 684,
-    "deletingTime": 13,
-    "total": 6
+    "backspaceClicks": 70,
+    "correctClicks": 1221,
+    "deletingTime": 30,
+    "total": 7
   }
 }
