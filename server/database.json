@@ -155,6 +155,15 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2
+        },
+        {
+          "author": "ItsMe",
+          "code": "close\"\n\"arbitraryJSON\": \"hahaha\"\n\"database\" : [\n    {\n      \"ext\": \"ts\",\n      \"files\": [\n        {\n          \"lines\": 23,\n          \"name\": \"example_component\",\n          \"source\": \"freecodecamp.org\",\n          \"tabSize\": 2\n        }\n      ],\n      \"mode\": \"javascript\",\n      \"name\": \"Angular\"\n    },\n    {\n      \"ext\": \"asm\",\n      \"files\": [\n        {\n          \"lines\": 24,\n          \"name\": \"disk_read\",\n          \"source\": \"github.com/ghaiklor\",\n          \"tabSize\": 8\n        }\n      ],\n      \"mode\": \"z80\",\n      \"name\": \"Assembly\"\n    },\n    {\n      \"ext\": \"sh\",\n      \"files\": [\n        {\n          \"lines\": 27,\n          \"name\": \"internet_test\",\n          \"source\": \"own\",\n          \"tabSize\": 4\n        }\n      ],\n      \"mode\": \"clike\",\n      \"name\": \"Bash\"\n    }\n],\n\"lastKey\": \"unclose",
+          "languageIndex": 11,
+          "lines": 44,
+          "name": "jsonParseTest",
+          "tabSize": 2,
+          "source": "ItsMe"
         }
       ],
       "mode": "javascript",
