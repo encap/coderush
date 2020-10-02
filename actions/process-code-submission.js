@@ -9,10 +9,8 @@ try {
     if (err) {
       throw new Error(`ReadFile failed ${err.message}`);
     }
-
-    core.info(data);
-
     const submission = JSON.parse(data).client_payload;
+
     core.info(JSON.stringify(submission, null, 2));
 
     core.startGroup('Validation');
@@ -51,6 +49,7 @@ try {
       core.exportVariable('AUTHOR', submission.author);
       core.exportVariable('LINES', submission.lines);
     } else {
+      core.endGroup();
       throw new Error('Invalid Submission!');
     }
   });
