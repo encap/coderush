@@ -12,7 +12,7 @@ try {
 
     core.info(data);
 
-    const submission = JSON.parse(data);
+    const submission = JSON.parse(data).client_payload;
     core.info(JSON.stringify(submission, null, 2));
 
     core.startGroup('Validation');
