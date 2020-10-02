@@ -4,7 +4,12 @@
       <div ref="scroll" class="upload-scroll">
         <SettingsMenu ref="settings" class="settings-menu" />
         <keep-alive>
-          <UploadCode v-if="showEditor" ref="code" @cmReady="onCmReady" class="code-editor" />
+          <UploadCode
+            v-if="showEditor"
+            ref="code"
+            class="code-editor"
+            @cmReady="onCmReady"
+          />
         </keep-alive>
       </div>
 
@@ -106,7 +111,6 @@ export default {
       if (value) {
         this.showEditor = value;
         this.$store.commit('USE_CUSTOM_CODE', true);
-
       } else {
         this.error = '';
         this.$store.dispatch('deleteCustomCode');

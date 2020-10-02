@@ -43,7 +43,7 @@ const keepAwake = () => {
       .then((res) => console.log(`ping ok, status: ${res.status}`))
       .catch((err1) => console.error(`Ping Error: ${err1}`));
   }
-}
+};
 
 setInterval(keepAwake, 1000 * 60 * 20);
 
@@ -70,7 +70,7 @@ setTimeout(getIndexHtml, 1000 * 60 * 2); // wait for cdn to update
 
 setInterval(() => {
   console.log('Update html cache');
-  getIndexHtml()
+  getIndexHtml();
 }, 1000 * 60 * 60 * 24);
 
 let database = {};
