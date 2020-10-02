@@ -2,7 +2,7 @@
   <div>
     <h2>CodeRush (Beta release)</h2>
     <p>WARNING!</p>
-    <p>Construction is still in progress. I'm currently rebuiliding whole layout. To prevent overflow of elements recommended screen size is 1920x1080 >17". You can also try zooming out to 80% in your browser.</p>
+    <p>Construction is still in progress. To prevent overflow of elements recommended screen size is 1920x1080 >17". You can also try zooming out to about 80%</p>
     <p>
       An essential tool for the programmer is the keyboard. It turns out that the most commonly used key is a backspace. Very ofter, mistakes are coused by miss-click or a bad typing technique. That reduces o ur efficiency and causes us to loose focus on the actual programming problem.
     </p>
@@ -12,7 +12,6 @@
     <p>
       Starting from May, CodeRush allows You to create a multiplayer server, so that You can compete with invited friends.
     </p>
-    <div />
   </div>
 </template>
 

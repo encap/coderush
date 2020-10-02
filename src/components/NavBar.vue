@@ -59,9 +59,9 @@ export default {
     ...mapGetters(['room', 'language', 'userLanguage']),
   },
   methods: {
-    mainPage() {
+    mainPage(action = false) {
       if (this.$route.path === '/') {
-        if (this.language.name && !this.room.connected) {
+        if (action && this.language.name && !this.room.connected) {
           this.$emit('start');
         }
       } else if (this.room.owner) {

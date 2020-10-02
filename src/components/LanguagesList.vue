@@ -200,7 +200,7 @@ export default {
   &:hover
     opacity: 0.85
     & > .language-name
-      transform: translateX(-1.5em)
+      transform: translateX(-25%)
     & > .stat
       opacity: 1
 

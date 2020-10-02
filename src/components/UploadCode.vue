@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div ref="wrapper" class="wrapper">
     <div class="warning">
       <span v-if="!language.index">
         Choose language <fa class="arrow" :icon="['fas', 'play']" />
@@ -104,6 +104,11 @@ export default {
       this.useCustomCode();
     }
   },
+  activated() {
+    if (this.cm) {
+      this.$emit('cmReady');
+    }
+  },
   methods: {
     onCmReady(cm) {
       console.log('cm ready');
@@ -121,10 +126,10 @@ export default {
     fixHeight() {
       if (this.timeout) window.clearTimeout(this.timeout);
       this.timeout = window.setTimeout(() => {
-        const scroll = this.$refs.codemirror.$el.getElementsByClassName('CodeMirror-scroll')[0];
-        console.log(this.$refs.codemirror.$el.offsetHeight);
-        scroll.style.maxHeight = `${this.$refs.codemirror.$el.offsetHeight}px`;
-        scroll.style.width = `${this.$refs.codemirror.$el.offsetWidth}px`;
+        const scroll = this.$refs.wrapper.getElementsByClassName('CodeMirror-scroll')[0];
+        console.log(this.$refs.wrapper.offsetHeight);
+        scroll.style.maxHeight = `calc(${this.$refs.wrapper.offsetHeight}px - 4em)`;
+        scroll.style.width = `${this.$refs.wrapper.offsetWidth}px`;
       }, 100);
     },
     useCustomCode() {
@@ -142,15 +147,12 @@ export default {
       console.log('clear');
       this.code = '';
     },
-
   },
 };
 </script>
 
 <style lang="sass" scoped>
 .tab-settings
-
-
   .tab-size-option
     display: inline-flex
     flex-direction: column
@@ -183,10 +185,11 @@ export default {
 .codemirror
   flex-grow: 1
   opacity: 0
-  // width: 100%
-  margin-top: $gap
+  width: 100%
+  margin-top: 1em
   transition: opacity .5s ease-in
   position: relative
+  overflow: visible
 
   ::v-deep .CodeMirror-scroll
     &::-webkit-scrollbar

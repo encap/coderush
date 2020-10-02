@@ -2,40 +2,45 @@
   <div class="container">
     <main class="middle">
       <h1>Contribute</h1>
-      <p>
-        Our mission is to ensure the diversity and quality of the code in which our users practice and test their skills. We do our best to ensure that there are no errors in the code but with that many languages and technologies available on CodeRush, it is not possible without your help.
-      </p>
-      <p>
-        On this page you can help expand our code database by sending us your code in a language of your choice. The "Send" button will create a PR and after verirfication your code will be publicly avaible on <a href="https://github.com/encap/coderush">our GitHub repo</a> .
-        Please don't paste a code that you did not write yourself or that is under NDA or any other code that we will not be able to use for legal resons.
-      </p>
-      <p>
-        You can also file an issue and contribute directly on <a href="https://github.com/encap/coderush#readme">our GitHub</a>
-      </p>
-      <div class="inputContainer author">
-        <label>Your name (or nick)</label>
-        <div class="inputWrapper">
-          <input
-            ref="authorInput"
-            v-model="author"
-            type="text"
-            placeholder="e.g Evan You"
-            maxlength="40"
-          >
-          <span v-show="author" class="char-limit">{{ 30 - author.length }} / 30</span>
+
+      <article>
+        <p>
+          Our mission is to ensure the diversity and quality of the code in which our users practice and test their skills. We do our best to ensure that there are no errors in the code but with that many languages and technologies available on CodeRush, it is not possible without your help.
+        </p>
+        <p>
+          On this page you can help expand our code database by sending us your code in a language of your choice. The "Send" button will create a PR and after verirfication your code will be publicly avaible on <a href="https://github.com/encap/coderush">our GitHub repo</a> .
+          Please don't paste a code that you did not write yourself or that is under NDA or any other code that we will not be able to use for legal resons.
+        </p>
+        <p>
+          You can also file an issue and contribute directly on <a href="https://github.com/encap/coderush#readme">our GitHub</a>
+        </p>
+      </article>
+      <div class="inputs">
+        <div class="inputContainer">
+          <label>Your name (or nick)</label>
+          <div class="inputWrapper">
+            <input
+              ref="authorInput"
+              v-model="author"
+              type="text"
+              placeholder="e.g Evan You"
+              maxlength="40"
+            >
+            <span v-show="author" class="char-limit">{{ 30 - author.length }} / 30</span>
+          </div>
         </div>
-      </div>
-      <div class="inputContainer name">
-        <label>Code functionality (or product name)</label>
-        <div class="inputWrapper">
-          <input
-            ref="nameInput"
-            v-model="name"
-            type="text"
-            placeholder="e.g UrlHelperService"
-            maxlength="25"
-          >
-          <span v-show="name" class="char-limit">{{ 25 - name.length }} / 40</span>
+        <div class="inputContainer">
+          <label>Code functionality (or product name)</label>
+          <div class="inputWrapper">
+            <input
+              ref="nameInput"
+              v-model="name"
+              type="text"
+              placeholder="e.g UrlHelperService"
+              maxlength="25"
+            >
+            <span v-show="name" class="char-limit">{{ 25 - name.length }} / 40</span>
+          </div>
         </div>
       </div>
       <UploadCode v-show="!sent" ref="code" class="editor-wrapper" />
@@ -91,6 +96,7 @@ export default {
     name(current) {
       if (current.length > 2) {
         this.error = '';
+        this.$nextTick(this.$refs.code.fixHeight);
       }
     },
   },
@@ -99,6 +105,7 @@ export default {
       if (this.author.length < 2 || this.name.length < 2) {
         this.error = 'Please fill out all of the inputs';
         this.$refs.nameInput.focus();
+        this.$nextTick(this.$refs.code.fixHeight);
         return;
       }
       if (this.customCode.lines >= 4 && this.customCode.text.length >= 200) {
@@ -115,21 +122,26 @@ export default {
         axios.post(url, data)
           .then((res) => {
             this.sent = true;
+            this.$nextTick(this.$refs.code.fixHeight);
+
             console.log(res);
           })
           .catch((res) => {
             this.error = 'Server error';
+            this.$nextTick(this.$refs.code.fixHeight);
             console.warn(res);
           });
       } else {
         console.log('CUSTOM CODE TOO SHORT');
         this.error = 'Code has to have minium 4 lines and 200 characters';
+        this.$nextTick(this.$refs.code.fixHeight);
       }
     },
     clear() {
       this.$refs.code.clear();
       this.sent = false;
       this.name = '';
+      this.$nextTick(this.$refs.code.fixHeight);
     },
   },
 };
@@ -159,7 +171,7 @@ a
   color: $light-pink
   text-decoration: underline
 
-p
+article p
   font-size: 16px
   line-height: 1.4
   margin-bottom: 1em
@@ -172,9 +184,9 @@ p
   min-height: 40px
   position: relative
 
-  &.author
+  &:first-child
     margin-top: 1em
-  &.name
+  &:last-child
     margin-bottom: 1em
 
   label
@@ -210,20 +222,14 @@ p
   display: flex
   flex-direction: column
 
-.languages-list
-  position: relative
-  max-width: 40%
-  flex-grow: 4
-  flex-basis: 0
-  // height: calc(100vh - 2 * #{$gap})
-  display: flex
-  flex-direction: column
+.error
+  margin-top: 1em
 
 .buttons-bottom
   display: flex
   justify-content: space-between
   align-items: flex-end
-  margin-top: $gap
+  margin-top: 1em
   margin-bottom: $grid-gap
 
 .button
@@ -248,4 +254,13 @@ p
 
   &:active
     background-color: $pink
+
+.languages-list
+  position: relative
+  max-width: 40%
+  flex-grow: 4
+  flex-basis: 0
+  // height: calc(100vh - 2 * #{$gap})
+  display: flex
+  flex-direction: column
 </style>
