@@ -92,6 +92,7 @@ export default {
     async language() {
       this.editorReady = false;
       await loadMode(this.cm, this.language.mode);
+      this.fixHeight();
       console.green('watch');
       this.editorReady = true;
     },
@@ -113,8 +114,9 @@ export default {
         this.editorReady = true;
       }
       cm.focus();
-      this.fixHeight();
+      this.$nextTick(this.fixHeight);
       window.addEventListener('resize', this.fixHeight);
+      this.$emit('cmReady')
     },
     fixHeight() {
       if (this.timeout) window.clearTimeout(this.timeout);
@@ -147,7 +149,7 @@ export default {
 
 <style lang="sass" scoped>
 .tab-settings
-  height: 40px
+
 
   .tab-size-option
     display: inline-flex

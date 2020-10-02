@@ -12,18 +12,30 @@
       <p>
         You can also file an issue and contribute directly on <a href="https://github.com/encap/coderush#readme">our GitHub</a>
       </p>
-      <div class="name">
+      <div class="inputContainer author">
+        <label>Your name (or nick)</label>
+        <div class="inputWrapper">
+          <input
+            ref="authorInput"
+            v-model="author"
+            type="text"
+            placeholder="e.g Evan You"
+            maxlength="40"
+          >
+          <span v-show="author" class="char-limit">{{ 30 - author.length }} / 30</span>
+        </div>
+      </div>
+      <div class="inputContainer name">
         <label>Code functionality (or product name)</label>
-        <div class="nameInputWrapper">
+        <div class="inputWrapper">
           <input
             ref="nameInput"
             v-model="name"
             type="text"
             placeholder="e.g UrlHelperService"
-            class="nameInput"
-            maxlength="40"
+            maxlength="25"
           >
-          <span v-show="name" class="char-limit">{{ 40 - name.length }} / 40</span>
+          <span v-show="name" class="char-limit">{{ 25 - name.length }} / 40</span>
         </div>
       </div>
       <keep-alive>
@@ -65,6 +77,7 @@ export default {
   },
   data() {
     return {
+      author: '',
       name: '',
       error: '',
     };
@@ -81,8 +94,8 @@ export default {
   },
   methods: {
     sendCustomCode() {
-      if (this.name.length < 2) {
-        this.error = 'Code name is required.';
+      if (this.author.length < 2 || this.name.length < 2) {
+        this.error = 'Please fill out all of the inputs';
         this.$refs.nameInput.focus();
         return;
       }
@@ -92,6 +105,7 @@ export default {
           code: this.customCode.text,
           languageIndex: this.language.index,
           name: this.name,
+          author: this.author,
           ext: this.language.ext,
           tabSize: this.customCode.tabSize,
           numberOfLines: this.customCode.lines,
@@ -145,20 +159,24 @@ p
   line-height: 1.4
   margin-bottom: 1em
 
-.name
+.inputContainer
   display: flex
   flex-wrap: wrap
   justify-content: space-between
   align-items: center
-  height: 40px
+  min-height: 40px
   position: relative
-  margin: 1em 0
+
+  &.author
+    margin-top: 1em
+  &.name
+    margin-bottom: 1em
 
   label
     white-space: nowrap
     margin-right: 1em
 
-  .nameInputWrapper
+  .inputWrapper
     max-width: 50%
     display: flex
     justify-content: space-between

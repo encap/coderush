@@ -4,7 +4,7 @@
       <div ref="scroll" class="upload-scroll">
         <SettingsMenu ref="settings" class="settings-menu" />
         <keep-alive>
-          <UploadCode v-if="showEditor" ref="code" class="code-editor" />
+          <UploadCode v-if="showEditor" ref="code" @cmReady="onCmReady" class="code-editor" />
         </keep-alive>
       </div>
 
@@ -94,20 +94,19 @@ export default {
     handleEnter() {
       console.blue('ENTER');
     },
+    onCmReady() {
+      this.$refs.code.$refs.codemirror.$el.scrollIntoView({
+        block: 'start',
+        inline: 'nearest',
+        behavior: 'smooth',
+      });
+    },
     useCustomCode(value) {
       console.warn('usecustomcode', value);
       if (value) {
         this.showEditor = value;
         this.$store.commit('USE_CUSTOM_CODE', true);
 
-        setTimeout(() => {
-          // this.$refs.code.$el.style.display = 'flex';
-          this.$refs.code.$refs.codemirror.$el.scrollIntoView({
-            block: 'start',
-            inline: 'nearest',
-            behavior: 'smooth',
-          });
-        }, 30);
       } else {
         this.error = '';
         this.$store.dispatch('deleteCustomCode');

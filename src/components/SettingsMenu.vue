@@ -160,7 +160,7 @@ h2
     align-items: center
     min-height: 40px
     padding: $grid-gap
-    background: linear-gradient(to right, $purple-gradient-colors 49.8%, $grid-color 49.8%)
+    background: linear-gradient(to right, $purple, $light-purple 49.8%, $grid-color 49.8% 100%)
     background-size: 200%
     background-position: 99.8% 0 // 1px glitch
     transition: background .2s ease-in
