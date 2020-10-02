@@ -23,8 +23,10 @@ try {
       core.endGroup();
 
       const file = {
-        ...submission,
-        source: submission.author,
+				name: submission.name,
+				source: submission.author,
+				lines: submission.lines,
+				tabSize: submission.tabSize
       };
       database.languages[submission.languageIndex].files.push(file);
 
@@ -45,9 +47,10 @@ try {
       core.endGroup();
 
       core.exportVariable('LANGUAGE_NAME', languageName);
-      core.exportVariable('NAME', submission.name + ext);
+      core.exportVariable('NAME', `${submission.name}.${ext}`);
       core.exportVariable('AUTHOR', submission.author);
-      core.exportVariable('LINES', submission.lines);
+			core.exportVariable('LINES', submission.lines);
+
     } else {
       core.endGroup();
       throw new Error('Invalid Submission!');

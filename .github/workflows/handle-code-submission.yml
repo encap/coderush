@@ -26,8 +26,7 @@ jobs:
       with:
         title: '[Code submission] ${{ env.NAME }} by ${{ env.AUTHOR }}'
         body: |
-          Language: ${{ env.LANGUAGE_NAME }}
-          Lines: ${{ env.LINES }}
+          ${{ env.LINES }} lines written in ${{ env.LANGUAGE_NAME }}
         delete-branch: true
         branch-suffix: short-commit-hash
         

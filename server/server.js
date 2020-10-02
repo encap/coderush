@@ -195,10 +195,10 @@ app.post('/upload', (req, res) => {
         console.log('Code submission succeded');
         res.send('OK');
       })
-      .catch((response) => {
+      .catch((error) => {
         console.warn('Code submission failed');
-        console.error(response);
-        res.status(response.status).send(res.data);
+        console.error(error.response);
+        res.status(error.response.status).send(res.data);
       });
   } else {
     res.status(400).send('Invalid input');
