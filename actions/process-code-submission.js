@@ -34,15 +34,18 @@ try {
       fs.writeFileSync('server/database.json', JSON.parse(stringifiedDatabase, null, 2));
       core.endGroup();
 
+      const ext = database.laguages[submission.languageIndex].ext;
 
-
-      const filePath = `public/code/${languageName}/${submission.name}.${database.laguages[submission.languageIndex].ext}`;
+      const filePath = `public/code/${languageName}/${submission.name}.${ext}`;
 
       core.startGroup(`Writing ${filePath}`);
       fs.writeFileSync(filePath, submission.code);
       core.endGroup();
 
       core.exportVariable('LANGUAGE_NAME', languageName);
+      core.exportVariable('NAME', submission.name + ext);
+      core.exportVariable('AUTHOR', submission.author);
+      core.exportVariable('LINES', submission.lines);
     } else {
       throw new Error('Invalid Submission!');
     }

@@ -38,8 +38,8 @@
           <span v-show="name" class="char-limit">{{ 25 - name.length }} / 40</span>
         </div>
       </div>
-      <UploadCode v-if="!sent" ref="code" class="editor-wrapper" />
-      <p v-else>
+      <UploadCode v-show="!sent" ref="code" class="editor-wrapper" />
+      <p v-show="sent">
         Thank you for your contribution. Your submission will soon be listed <a href="https://github.com/encap/coderush/pulls">here</a>.
       </p>
 
