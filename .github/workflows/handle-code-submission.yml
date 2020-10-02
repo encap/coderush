@@ -17,7 +17,7 @@ jobs:
         node-version: '12'
     - name: Install Github actions
       run: |
-        npm install @actions/core
+        npm install --no-package-lock --no-save @actions/core
     - name: Process submission 
       run: |
         node actions/process-code-submission.js
