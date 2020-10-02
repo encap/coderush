@@ -10,7 +10,11 @@ try {
       throw new Error(`ReadFile failed ${err.message}`);
     }
 
+    core.info(data);
+
     const submission = JSON.parse(data);
+    core.info(JSON.stringify(submission, null, 2));
+
     core.startGroup('Validation');
     if (typeof submission === 'object' && submission.languageIndex < 40 && submission.name.length >= 2 && submission.author.length >= 2 && submission.tabSize % 2 === 0 && submission.lines >= 4) {
       core.endGroup();
@@ -31,7 +35,7 @@ try {
       core.info(`Added "${submission.name}" to ${languageName}`);
 
       core.startGroup('Writing database.json');
-      fs.writeFileSync('server/database.json', JSON.parse(stringifiedDatabase, null, 2));
+      fs.writeFileSync('server/database.json', JSON.stringify(database, null, 2));
       core.endGroup();
 
       const ext = database.laguages[submission.languageIndex].ext;
