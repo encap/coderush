@@ -26,34 +26,23 @@ try {
       };
       database.laguages[submission.languageIndex].files.push(file);
 
-<<<<<<< HEAD
       const languageName = database.laguages[submission.languageIndex].name.replace('#', '_sharp');
 
       core.info(`Added "${submission.name}" to ${languageName}`);
-=======
-      core.info(`Added "${submission.name}" to ${database.languages[submission.languageIndex].name}`);
->>>>>>> PR-test
 
       core.startGroup('Writing database.json');
       fs.writeFileSync('server/database.json', JSON.parse(stringifiedDatabase, null, 2));
       core.endGroup();
 
-<<<<<<< HEAD
 
 
       const filePath = `public/code/${languageName}/${submission.name}.${database.laguages[submission.languageIndex].ext}`;
-=======
-      const filePath = `public/code/${database.laguages[submission.languageIndex].name.replace('#', '_sharp')}/${submission.name}.${database.laguages[submission.languageIndex].ext}`;
->>>>>>> PR-test
 
       core.startGroup(`Writing ${filePath}`);
       fs.writeFileSync(filePath, submission.code);
       core.endGroup();
-<<<<<<< HEAD
 
       core.exportVariable('LANGUAGE_NAME', languageName);
-=======
->>>>>>> PR-test
     } else {
       throw new Error('Invalid Submission!');
     }

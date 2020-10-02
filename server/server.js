@@ -98,7 +98,7 @@ const getDatabase = () => {
   }
 };
 
-setTimeout(getDatabase, 1000 * 60 * 2); // wait for cdn to update
+setTimeout(getDatabase, 1000 * 60); // wait for cdn to update
 
 let newStats = false;
 const sendStats = () => {
@@ -127,7 +127,7 @@ const sendStats = () => {
       });
   }
 };
-setInterval(sendStats, 1000 * 60 * 5);
+setInterval(sendStats, 1000 * 60 * 2); // DEV * 5
 
 app.enable('trust proxy'); // heroku
 
