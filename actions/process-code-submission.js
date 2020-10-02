@@ -26,9 +26,9 @@ try {
         ...submission,
         source: submission.author,
       };
-      database.laguages[submission.languageIndex].files.push(file);
+      database.languages[submission.languageIndex].files.push(file);
 
-      const languageName = database.laguages[submission.languageIndex].name.replace('#', '_sharp');
+      const languageName = database.languages[submission.languageIndex].name.replace('#', '_sharp');
 
       core.info(`Added "${submission.name}" to ${languageName}`);
 
@@ -36,7 +36,7 @@ try {
       fs.writeFileSync('server/database.json', JSON.stringify(database, null, 2));
       core.endGroup();
 
-      const ext = database.laguages[submission.languageIndex].ext;
+      const ext = database.languages[submission.languageIndex].ext;
 
       const filePath = `public/code/${languageName}/${submission.name}.${ext}`;
 
