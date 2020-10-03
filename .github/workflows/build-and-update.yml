@@ -36,10 +36,11 @@ jobs:
     - name: Vue build
       if: ${{ !env.stats && !env.code }}
       run: npm run build
+    - name: Make dist directory
+      run: mkdir -p dist
     - name: Copy submitted code
       if: env.code == true
       run: |
-        mkdir -p dist
         cp -r public/code dist/code
     - name: Configure git
       run: |
