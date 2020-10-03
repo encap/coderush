@@ -11,12 +11,13 @@ jobs:
     name: Build and update stats
     runs-on: ubuntu-latest
     env:
-      build: ${{ !contains(github.event.head_commit.message, 'Scheduled stats update') }}
+      stats: ${{ contains(github.event.head_commit.message, 'Scheduled stats update') }}
+      code: ${{ contains(github.event.head_commit.message, 'Code submission') }}
     steps:
     - name: Clone repository
       run: "git clone https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git ."
     - name: Setup Node.js
-      if: env.build
+      if: ${{ !env.stats && !env.code }}
       uses: actions/setup-node@v1
       with:
         node-version: '12'
@@ -25,11 +26,16 @@ jobs:
         path: '**/node_modules'
         key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
     - name: Run npm install
-      if: env.build
+      if: ${{ !env.stats && !env.code }}
       run: npm install
     - name: Vue build
-      if: env.build
+      if: ${{ !env.stats && !env.code }}
       run: npm run build
+    - name: Copy submitted code
+      if: env.code
+      run: |
+        mkdir -p dist
+        cp -r public/code dist/code
     - name: Configure git
       run: |
         git config --global credential.helper cache
@@ -38,7 +44,7 @@ jobs:
     - name: Stage files
       run: |
         git add -f server/ dist/
-        git commit --allow-empty -m 'post-buid temp commit'
+        git commit --allow-empty -m 'temp commit'
     - name: Switch to deploy branch
       run: git checkout deploy
     - name: Prepare for commit
@@ -46,10 +52,13 @@ jobs:
         rm -r server/ dist/
         git checkout master -- "server/" "dist/"
     - name: Commit build
-      if: env.build
+      if: ${{ !env.stats && !env.code }}
       run: git commit --allow-empty -m 'Automatic deploy'
     - name: Commit stats update
-      if: ${{ !env.build }}
+      if: env.stats
       run: git commit -m 'Scheduled stats update'
+    - name: Commit new submission
+      if: env.code
+      run: git commit -m 'Code database update - new submission'
     - name: Push for deployment
       run: git push
