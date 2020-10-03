@@ -27,7 +27,8 @@ export default {
   computed: {
     ...mapGetters(['room', 'trackedContainers']),
     tooSmall() {
-      return window.innerWidth < 640 || window.innerHeight < 480;
+      // return window.innerWidth < 640 || window.innerHeight < 480;
+      return false; // DEV
     },
     isPlaying() {
       return this.$route.path === '/run';
@@ -119,8 +120,8 @@ aside
 main
   flex-grow: 1
   position: relative
-  min-width: 550px
   min-width: 0
+  overflow-x: hidden
 
 button, a, input[type="checkbox"], input[type="radio"]
   cursor: pointer
