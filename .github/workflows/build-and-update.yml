@@ -36,7 +36,7 @@ jobs:
       if: ${{ !env.stats && !env.code }}
       run: npm run build
     - name: Copy submitted code
-      if: env.code
+      if: ${{ env.code }}
       run: |
         mkdir -p dist
         cp -r public/code dist/code
