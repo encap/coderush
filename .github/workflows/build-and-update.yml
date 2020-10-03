@@ -31,7 +31,7 @@ jobs:
         path: '**/node_modules'
         key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
     - name: Run npm install
-      if: ${{ env.stats == false && env.code == false}}
+      if: ${{ env.stats == false && env.code == false }}
       run: npm install
     - name: Vue build
       if: ${{ !env.stats && !env.code }}
