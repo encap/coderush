@@ -41,12 +41,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-// import { loadMode, loadTheme } from '@/cmLoader';
-// import { codemirror } from 'vue-codemirror';
 
-// const { codemirror } = () => import(/* webpackChunkName: "vueCodeMirror" */ 'vue-codemirror');
-// import codemirror from 'vue-codemirror/src/codemirror.vue';
-// const codemirror = () => import(/* webpackChunkName: "codemirror" */ 'vue-codemirror/src/codemirror.vue');
 let loadMode; let
   loadTheme;
 const codemirror = () => import(/* webpackChunkName: "cmLoader" */ '@/cmLoader.js').then((module) => {
@@ -93,13 +88,10 @@ export default {
       this.editorReady = false;
       await loadMode(this.cm, this.language.mode);
       this.fixHeight();
-      console.green('watch');
       this.editorReady = true;
     },
   },
   mounted() {
-    console.log('Activated');
-    console.log(this.language.index);
     if (this.code) {
       this.useCustomCode();
     }
@@ -111,7 +103,6 @@ export default {
   },
   methods: {
     onCmReady(cm) {
-      console.log('cm ready');
       this.cm = cm;
       loadTheme();
       if (this.language.name) {
@@ -127,7 +118,6 @@ export default {
       if (this.timeout) window.clearTimeout(this.timeout);
       this.timeout = window.setTimeout(() => {
         const scroll = this.$refs.wrapper.getElementsByClassName('CodeMirror-scroll')[0];
-        console.log(this.$refs.wrapper.offsetHeight);
         scroll.style.maxHeight = `calc(${this.$refs.wrapper.offsetHeight}px - 4em)`;
         scroll.style.width = `${this.$refs.wrapper.offsetWidth}px`;
       }, 100);
@@ -144,7 +134,6 @@ export default {
       }, 1000);
     },
     clear() {
-      console.log('clear');
       this.code = '';
     },
   },

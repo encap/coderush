@@ -77,7 +77,6 @@
 <script>
 import { mapGetters } from 'vuex';
 
-// const CodeEditor = () => import(/* webpackChunkName: "codeEditor" */ '@/components/CodeEditor.vue');
 import CodeEditor from '@/components/CodeEditor.vue';
 
 const Results = () => import(/* webpackChunkName: "results" */ '@/views/Results.vue');
@@ -119,7 +118,6 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     if (to.path === '/results') {
-      console.green('scroll');
       setTimeout(() => {
         this.$refs.results.scrollIntoView({
           block: 'start',

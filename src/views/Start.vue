@@ -80,8 +80,6 @@ export default {
   },
   watch: {
     language(current, previous) {
-      console.warn('watch');
-      console.log(previous);
       if (previous.index) {
         this.error = '';
       }
@@ -97,7 +95,9 @@ export default {
   },
   methods: {
     handleEnter() {
-      console.blue('ENTER');
+      if (!(this.room.connected && !this.room.owner)) {
+        this.run();
+      }
     },
     onCmReady() {
       this.$refs.code.$refs.codemirror.$el.scrollIntoView({
@@ -107,7 +107,7 @@ export default {
       });
     },
     useCustomCode(value) {
-      console.warn('usecustomcode', value);
+      console.warn('Show editor: ', value);
       if (value) {
         this.showEditor = value;
         this.$store.commit('USE_CUSTOM_CODE', true);
@@ -136,11 +136,9 @@ export default {
     run() {
       if (!this.language.name) {
         this.$refs.languagesList.selectRandom();
-        // this.error = `We picked ${this.language.name} for you. You can choose a different one from the list on the right or click start to continue`;
-        // return;
       }
 
-      if (!this.error) { // second click ignores
+      if (!this.error) { // second click ignores error
         if (this.showEditor && (this.customCode.text.length < 30 || this.customCode.lines < 4)) {
           this.error = 'Provided code is too short too produce accurate results.';
           return;
@@ -260,7 +258,6 @@ export default {
   max-width: 40%
   flex-grow: 4
   flex-basis: 0
-  // height: calc(100vh - 2 * #{$gap})
   display: flex
   flex-direction: column
 

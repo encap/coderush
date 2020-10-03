@@ -35,18 +35,8 @@
 import { mapGetters } from 'vuex';
 import axios from 'axios';
 
-// import { loadMode, loadTheme } from '@/cmLoader';
-
-// import { codemirror } from 'vue-codemirror';
-// import codemirror from 'vue-codemirror/src/codemirror.vue';
 import stats from '../stats2';
 
-// const { codemirror } = () => import(/* webpackChunkName: "vueCodeMirror" */ 'vue-codemirror');
-// import 'codemirror/addon/edit/closebrackets';
-// import 'codemirror/addon/selection/active-line';
-
-// const codemirror = () => import(/* webpackChunkName: "vueCodeMirror" */ 'vue-codemirror').then((module) => ({ default: module.codemirror }));
-// const codemirror2 = () => import(/* webpackChunkName: "vueCodeMirror" */ 'vue-codemirror');
 let loadMode; let
   loadTheme;
 const codemirror = () => import(/* webpackChunkName: "cmLoader" */ '@/cmLoader.js').then((module) => {
@@ -119,7 +109,6 @@ export default {
   },
   methods: {
     popUp(action, text = this.popUpText) {
-      console.log('POPUP ', action);
       this.popUpText = text;
 
       if (action) {
@@ -137,20 +126,15 @@ export default {
 
       this.init(); // TODO
       this.fixHeight();
-
-      // cm.setOption('readOnly', true);
     },
     onKeyDown(ev) {
-      console.log(ev);
       // const allowedKeys = 'qwertyuiopasdfghjklzxcvbnm1234567890!@#$%^&*()-=_+[]{};\'\\:"|,./<>?`~';
 
       const handleEnter = () => {
         const expectedText = this.cm.getLine(this.currentLine);
-        // console.green(expectedText);
         if (this.correctCharsInLine === expectedText.length) {
           this.cm.execCommand('goCharRight');
           this.currentLine += 1;
-          console.warn(this.currentLine);
 
           this.currentChange = {
             ...this.currentChange,
@@ -159,21 +143,22 @@ export default {
           };
 
           if (!this.stats.oneThirdTime && this.currentLine === Math.floor(this.codeInfo.lines / 3)) {
-            console.green('one third');
+            console.log('one third');
             const oneThirdText = this.cm.getRange(
               { line: 0, ch: 0 },
               { line: this.currentLine, ch: 0 },
             );
-            console.blue(oneThirdText);
 
             this.stats.oneThirdCharsCount = oneThirdText.length;
             this.stats.oneThirdTime = this.timeElapsed();
           } else if (!this.stats.lastThirdStartTime && this.currentLine === Math.floor(this.codeInfo.lines / 3 * 2)) {
+            console.log('last third');
+
             const lastThirdText = this.cm.getRange(
               { line: this.currentLine, ch: 0 },
               { line: this.codeInfo.lines + 1, ch: 0 },
             );
-            console.blue(lastThirdText);
+
             this.stats.lastThirdCharsCount = lastThirdText.length;
             this.stats.lastThirdStartTime = this.timeElapsed();
           }
@@ -200,7 +185,7 @@ export default {
             );
           }
         } else {
-          console.error('enter blocked before end of the line');
+          console.log('enter blocked before end of the line');
           this.currentChange = {
             ...this.currentChange,
             type: 'blockedEnter',
@@ -210,33 +195,29 @@ export default {
 
       const handleWrite = (key) => {
         const lineText = this.cm.getLine(this.currentLine);
-        console.log(`${lineText}1`);
-        if (this.currentChar !== lineText.length) { // block too long lines
-          let expectedText = lineText[this.currentChar];
-          console.blue(`expected: '${expectedText}'`);
 
+        if (this.currentChar !== lineText.length) { // prevent line overshoot
+          let expectedText = lineText[this.currentChar];
+          // console.log(`expected: '${expectedText}'`);
           let text = key;
 
           if (key === 'Tab') {
             text = Array(this.tabWidth).fill(' ').join('');
-            console.green(`tabText: '${text}'`);
-
+            // console.log(`tabText: '${text}'`);
 
             if (expectedText === ' ' && this.language.name !== 'Whitespace') {
-              console.red(`test: '${lineText.slice(this.currentChart, this.currentChar + this.tabWidth)}'`);
               if (lineText.slice(this.currentChar, this.currentChar + this.tabWidth) === text) {
-                console.log('if');
+                console.log('tab exception');
                 expectedText = text;
-                console.red(`expectedText: '${text}'`);
               }
             } else if (expectedText === '	') { // Tab character
               text = '	';
             }
           }
-          console.green(`text: '${text}'`);
+
           if (text === expectedText) {
             if (this.toFix) {
-              console.red(`blocked unfixed mistakes: ${this.toFix}`);
+              console.log(`blocked unfixed mistakes: ${this.toFix}`);
               this.currentChange = {
                 ...this.currentChange,
                 type: 'unfixed',
@@ -285,7 +266,7 @@ export default {
                     { className: 'next-char', clearOnEnter: true, inclusiveRight: true },
                   );
                 } else {
-                  // it can confuse the player
+                  // this can confuse the player
                   // const char = this.cm.getLine(this.currentLine + 1).match('[^\\S]*')[0].length;
                   // this.cm.markText(
                   //   { line: this.currentLine + 1, ch: char },
@@ -297,7 +278,7 @@ export default {
             }
           } else {
             this.toFix += 1;
-            console.red(`wrong: ${this.toFix}`);
+
             const marker = this.cm.markText(
               { line: this.currentLine, ch: this.currentChar },
               { line: this.currentLine, ch: this.currentChar + text.length },
@@ -329,7 +310,7 @@ export default {
             ...this.currentChange,
             type: 'lineEnd',
           };
-          console.red('overshoot');
+          console.log('line overshoot');
         }
       };
 
@@ -385,11 +366,8 @@ export default {
         if (this.toFix) {
           this.toFix -= 1;
 
-          // this.cm.execCommand('undo'); // clear marker
           const marker = this.markers.pop();
-          console.log(marker);
           const position = marker.find();
-          console.log(position);
           marker.clear();
 
           const markerLength = position.to.ch - position.from.ch;
@@ -403,7 +381,7 @@ export default {
             this.cm.execCommand('goCharLeft');
           }
 
-          console.blue(`markerLength: ${markerLength}`);
+          console.log(`cleared marker with a length of: ${markerLength}`);
 
           this.currentChar -= markerLength;
           this.currentChange = {
@@ -411,31 +389,25 @@ export default {
             type: 'backspace',
             fixQueuePos: this.toFix,
           };
-          console.blue(`Deleted tofix: ${this.toFix}`);
+
           if (this.toFix > 0) {
-            console.blue('TOFIX > 0');
             if (this.rightMostMistakeMarked) {
-              console.blue('middle');
+              console.log('corrected middle mistake');
               this.cm.markText(position.from, position.to, { className: 'corrected middle' });
             } else {
-              console.blue('rightMost');
+              console.log('corrected right-most mistake');
               this.cm.markText(position.from, position.to, { className: 'corrected right-most' });
               this.rightMostMistakeMarked = true;
             }
           } else {
-            console.green(`TOFIX = 0 ${position.from.ch} ${position.to.ch}`);
-
             if (this.rightMostMistakeMarked) {
-              console.blue('left-most');
+              console.log('corrected left-most mistake');
               this.rightMostMistakeMarked = false;
               this.cm.markText(position.from, position.to, { className: 'corrected left-most' });
             } else {
-              console.blue('alone');
-
+              console.log('corrected alone mistake');
               this.cm.markText(position.from, position.to, { className: 'corrected alone' });
             }
-
-
 
             if (this.options.underScore) {
               let underScoreWidth = 1;
@@ -450,26 +422,21 @@ export default {
             }
           }
         } else {
-          console.blue('Blocked Nothing to fix');
+          console.log('Blocked backspace overshoot');
           this.currentChange = {
             ...this.currentChange,
             type: 'blockedBackspace',
           };
         }
-      // } else if (ev.key === 'Tab') {
-        // eslint-disable-next-line no-tabs
-        // handleWrite('	', ev);
-        // for (let i = 0; i < this.tabWidth; i += 1) {
-        //   this.cm.startOperation();
-        //   handleWrite(' ', ev);
-        //   this.cm.endOperation();
-        // }
       } else {
         handleWrite(ev.key, ev);
       }
 
       if (this.currentChange.type !== 'initialType') {
         this.stats.history.push(this.currentChange);
+      } else {
+        console.red('Current change type equals initial type');
+        console.log(JSON.parse(JSON.stringify(this.currentChange)));
       }
       this.currentChange = {};
     },
@@ -485,13 +452,12 @@ export default {
           }
         } else {
           // eslint-disable-next-line no-lonely-if
-          if (process.env.NODE_ENV === 'production') this.popUp(true, 'Resume');
+          if (process.env.NODE_ENV === 'production') this.popUp(true, 'Resume'); // DEV
         }
       }
     },
     fixHeight() {
       const height = `${this.$refs.container.offsetHeight}px`;
-      // console.blue(`height: ${height}`);
       const scroll = this.$refs.codemirror.$el.getElementsByClassName('CodeMirror-scroll')[0];
       scroll.style.maxHeight = height;
     },
@@ -542,11 +508,9 @@ export default {
         if (this.countdown === 2) {
           if (!this.cmReady || !this.codeText) {
             this.countdown += 0.5;
-            console.warn(Date.now() - initTime);
             if ((Date.now() - initTime) / 1000 < 5) {
               this.popUpText = 'Waiting for download...';
             } else {
-              console.warn('Long loading time');
               this.popUpText = 'Something propably crashed but you can wait a few seconds just in case';
             }
           }
@@ -555,18 +519,15 @@ export default {
         }
       }, process.env.NODE_ENV === 'production' ? 500 : 100); // DEV 500
 
-
-      // console.log('loadMode ', Date.now());
-
       Promise.all([this.getCode(), loadTheme(this.options.selectedTheme), loadMode(this.cm, this.language.mode)])
         .then((resp) => {
-        // console.log(resp);
           [this.codeText] = resp;
           this.cmReady = true;
         })
         .catch((err) => {
           clearInterval(interval);
-          console.log(err);
+          console.red('Init error');
+          console.error(err);
           if (err.message === 'No internet') {
             this.popUpText = 'Connection with server not available.';
           } else {
@@ -576,6 +537,7 @@ export default {
     },
     completed(forced = false, currentStats = true) {
       if (this.$route.path === '/results' || (forced && this.stats.history.length < 10)) {
+        // return if finished too early
         // return; DEV
       }
       this.cm.setOption('readOnly', 'nocursor');
@@ -597,8 +559,6 @@ export default {
       } else {
         this.stats = stats;
       }
-
-      console.log(JSON.parse(JSON.stringify(this.stats)));
 
       this.$emit('completed', this.stats);
       this.isCompleted = true;
@@ -629,18 +589,6 @@ export default {
   &.ready
     opacity: 1
 
-  // #0 ::v-deep
-  //   .underScore
-  //     display: inline-block
-  //     font-size: 0.9em
-  //     transform: translateY(4px) !important
-  //     filter: saturate(70%)
-  //   .underScoreHidden
-  //     opacity: 0
-  //   .CodeMirror-linenumber
-  //     opacity: 0
-
-
 .codemirror ::v-deep
   .CodeMirror-gutters
     border: none
@@ -657,19 +605,16 @@ export default {
     line-height: 22px
     font-weight: normal
 
-  .CodeMirror-line
-    // line-break: anywhere !important
+  .CodeMirror-line > span
+    &::after
+      display: none
 
     & > span
-      &::after
-        display: none
-
-      & > span
-        transition: filter 1s ease-out
-        filter: grayscale(40%) brightness(80%)
-        font-size: 20px
-        line-height: 22px
-        font-weight: normal
+      transition: filter 1s ease-out
+      filter: grayscale(40%) brightness(80%)
+      font-size: 20px
+      line-height: 22px
+      font-weight: normal
 
     .correct
       filter: none

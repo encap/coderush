@@ -81,7 +81,6 @@ export default {
   padding-right: 1.2rem
 
 .title
-  // margin-top: 4% // 10-6
   font-size: 2rem
   font-weight: 600
   padding: 1.1rem 0
@@ -103,7 +102,6 @@ nav
   flex-direction: column
   justify-content: flex-start
   background: linear-gradient(340deg, $navy-grey, $navy-grey 20%, $washed-purple)
-  // border-radius: 3px
   font-size: 1rem
   position: relative
 
@@ -115,7 +113,6 @@ nav:after
   transition: backdrop-filter $nav-trans-dur $nav-trans-timing 0s
 
 .thin:after
-  // backdrop-filter: hue-rotate(20deg)
   transition-delay: 1s
   backdrop-filter: hue-rotate(10deg) brightness(80%)
 

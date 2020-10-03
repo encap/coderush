@@ -120,19 +120,18 @@ export default {
         };
         const url = `${window.location.origin}/upload`;
         axios.post(url, data)
-          .then((res) => {
+          .then(() => {
             this.sent = true;
             this.$nextTick(this.$refs.code.fixHeight);
-
-            console.log(res);
           })
-          .catch((res) => {
+          .catch((err) => {
             this.error = 'Server error';
             this.$nextTick(this.$refs.code.fixHeight);
-            console.warn(res);
+            console.red('Code submission failed');
+            console.log(err.response);
           });
       } else {
-        console.log('CUSTOM CODE TOO SHORT');
+        console.log('Code is to short');
         this.error = 'Code has to have minium 4 lines and 200 characters';
         this.$nextTick(this.$refs.code.fixHeight);
       }
@@ -260,7 +259,6 @@ article p
   max-width: 40%
   flex-grow: 4
   flex-basis: 0
-  // height: calc(100vh - 2 * #{$gap})
   display: flex
   flex-direction: column
 </style>

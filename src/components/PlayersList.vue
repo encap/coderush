@@ -22,13 +22,11 @@ export default {
   computed: {
     ...mapGetters(['room', 'players']),
     playersArray() {
-      console.warn(this.players);
       return Object.entries(this.players).map(([name, data]) => ({ name, ...data }));
     },
     sortedPlayers() {
-      console.warn('update sortedPlayers');
+      console.log('sortedPlayers update');
       if (this.$route.path === '/results') {
-        console.log('results path');
         return this.playersArray.filter((player) => player.stats)
           .sort((p1, p2) => ((p1.time > p2.time) ? 1 : -1));
       }

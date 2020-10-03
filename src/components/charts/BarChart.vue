@@ -22,12 +22,10 @@ export default {
         { name: 'best', value: best },
       ];
       scores.sort((a, b) => a.value - b.value);
-      console.log(scores);
 
       const data = {};
 
       scores.forEach((score, index) => {
-        console.green(score.name);
         data[score.name] = {};
         data[score.name].order = index;
         data[score.name].value = score.value;
@@ -36,8 +34,6 @@ export default {
       if (Math.round(data.player.value) === data.avg.value || Math.round(data.player.value) === data.best.value) {
         data.barWidth = true;
       }
-
-      console.log(data);
 
       return data;
     },

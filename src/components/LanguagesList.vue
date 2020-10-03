@@ -17,7 +17,7 @@
         </button>
       </div>
     </div>
-    <div ref="languagesList" class="languages list">
+    <div ref="languagesList" class="languages list" :class="{'showStats': $route.path === '/'}">
       <button
         :disabled="room.connected && !room.owner"
         class="language random"
@@ -85,12 +85,6 @@ export default {
   deactivated() {
     this.$store.commit('REMOVE_TRACKED_CONTAINER', this.$refs.languagesList.className);
   },
-  // activated() {
-  //   if (this.language.index) {
-  //     console.warn('updating selected language');
-  //     this.selected = this.language.index;
-  //   }
-  // },
   methods: {
     clear() {
       this.searchText = '';
@@ -114,7 +108,6 @@ export default {
       }
     },
     selectFirstFromSearch() {
-      console.green('ENTER');
       if (this.filteredList.length !== 0 && this.filteredList.length < this.languagesList.length) {
         [this.language] = this.filteredList;
       } else {
@@ -182,6 +175,12 @@ export default {
 .language-radio
   display: none
 
+.showStats .language:hover
+  & > .language-name
+    transform: translateX(-25%)
+  & > .stat
+    opacity: 1
+
 .language
   min-height: 40px
   position: relative
@@ -199,10 +198,6 @@ export default {
 
   &:hover
     opacity: 0.85
-    & > .language-name
-      transform: translateX(-25%)
-    & > .stat
-      opacity: 1
 
   .language-name
     transition: transform .2s ease-in-out

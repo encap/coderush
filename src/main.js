@@ -12,9 +12,6 @@ import {
 import App from './App.vue';
 import router from './router';
 import store from './store';
-// import trackMouse from './trackMouse';
-
-// Vue.mixin(trackMouse);
 
 const socket = io('/', {
   autoConnect: false,

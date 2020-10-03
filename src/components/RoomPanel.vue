@@ -148,7 +148,7 @@ export default {
   sockets: {
     connect() {
       this.resetInfoMsg();
-      console.warn('connected');
+      console.warn('socket.io connected');
     },
     room_created() {
       this.$store.commit('SET_ROOM_PROPERTY', ['connected', true]);
@@ -167,7 +167,7 @@ export default {
     },
     room_exist() {
       if (this.action === 'create') {
-        console.error('ROOM ALREADY EXIST');
+        console.error('ROOM ALREADY EXISTS');
         this.roomInfoMsg = `Room "${this.roomName}" already exists.`;
         this.disconnect();
       } else {
@@ -180,7 +180,7 @@ export default {
         this.askForPlayerName = true;
         setTimeout(() => this.$refs.playerNameInput.focus(), 100);
       } else {
-        console.error('ROOM DONT EXIST');
+        console.error('ROOM DOESN\'T EXIST');
         this.roomInfoMsg = `Room "${this.roomName}" doesn't exist.`;
         this.disconnect();
       }
@@ -253,10 +253,8 @@ export default {
       }
     },
     copy() {
-      console.log(this.$refs.shareLink);
       this.$refs.shareLink.select();
       document.execCommand('copy');
-      console.log('copied');
     },
     resetInfoMsg() {
       this.roomInfoMsg = '';

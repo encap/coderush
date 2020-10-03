@@ -49,7 +49,6 @@ export default {
         requestAnimationFrame(() => {
           this.rafActive = false;
           this.trackedContainers.forEach((element) => {
-            // console.log(element.tagName, element.className);
             const pos = element.getBoundingClientRect();
             const x = ev.pageX - pos.left;
             const y = ev.pageY - pos.top;
@@ -134,7 +133,7 @@ button, a, input[type="checkbox"], input[type="radio"]
   color: white
   background: transparent !important
 
-  // if no theme loaded
+// if no theme loaded
 .CodeMirror
   color: white !important
 

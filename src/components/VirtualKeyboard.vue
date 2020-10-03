@@ -130,14 +130,13 @@ export default {
       return this.history.filter((change) => change.type === 'mistake');
     },
     mistakes() {
-      // console.log(JSON.parse(JSON.stringify(this.mistakesHistory)));
       return this.mistakesHistory.reduce((acc, mistake) => {
         if (mistake.shift && mistake.expectedText !== ' ') {
           if (mistake.text.toLowerCase() === mistake.expectedText
           || (mistake.text.match(/[~!@#$%^&*()_+{}:"|<>?]/)
             && mistake.expectedText.match(/[`1234567890-=[\];'\\,./]/)
           )) {
-            console.blue(`Shift Wasn't needed: '${mistake.text}' '${mistake.expectedText}'`);
+            console.blog(`Shift Wasn't needed: '${mistake.text}' '${mistake.expectedText}'`);
 
             acc.push({
               keyCode: 16,
@@ -149,7 +148,7 @@ export default {
           || (mistake.text.match(/[`1234567890-=[\];'\\,./]/)
             && mistake.expectedText.match(/[~!@#$%^&*()_+{}:"|<>?]/)
           )) {
-            console.blue(`Shift Expected: '${mistake.text}' '${mistake.expectedText}'`);
+            console.log(`Shift Expected: '${mistake.text}' '${mistake.expectedText}'`);
             acc.push({
               ...mistake,
               expectedText: 'Shift',
@@ -174,7 +173,6 @@ export default {
   },
   methods: {
     markWrongKeys() {
-      // console.log('MARK');
       Object.keys(this.keyStats).forEach((keyCode) => {
         const keyEl = document.getElementById(keyCode);
 
@@ -189,17 +187,16 @@ export default {
         if (this.timeout) window.clearTimeout(this.timeout);
         this.timeout = window.setTimeout(() => {
           if (ev.target.matches(':hover')) {
-            // console.log('SHOW');
             const originKeyCode = ev.target.id;
             if (!this.stayOnLeave[originKeyCode]) {
               const expectedKeysCodes = this.keyStats[originKeyCode].expected;
 
-              // console.log(`hovered ${originKeyCode}: ${expectedKeysCodes}`);
+              console.log(`Hovered "${originKeyCode}" expected "${expectedKeysCodes}"`);
               expectedKeysCodes.forEach((keyCode) => {
                 const keyEl = document.getElementById(keyCode);
                 let currentValue = Number(keyEl.getAttribute('expected-count'));
                 currentValue += 1;
-                console.log('incrementing ', currentValue);
+                console.log(`incrementing "${keyCode}", value: ${currentValue}`);
                 keyEl.setAttribute('expected-count', currentValue);
                 keyEl.style.setProperty('--expected-count', currentValue);
               });
@@ -213,12 +210,12 @@ export default {
       if (ev.target.getAttribute('wrong-count') && !this.timeout) {
         const originKeyCode = ev.target.id;
         if (!this.stayOnLeave[originKeyCode]) {
-          // console.log('Hiding');
+          console.log('HideExpectedKeys');
           const expectedKeysCodes = this.keyStats[originKeyCode].expected;
           expectedKeysCodes.forEach((keyCode) => {
             const keyEl = document.getElementById(keyCode);
             let currentValue = Number(keyEl.getAttribute('expected-count'));
-            // console.log('decrementing ', currentValue);
+            console.log(`decrementing "${keyCode}", value: ${currentValue}`);
             currentValue -= 1;
             if (currentValue === 0) {
               keyEl.removeAttribute('expected-count');
@@ -228,7 +225,7 @@ export default {
             keyEl.style.setProperty('--expected-count', currentValue);
           });
         } else {
-          // console.log('staying');
+          console.log(`StayOnLeave ${originKeyCode}`);
         }
       }
     },
@@ -246,7 +243,6 @@ export default {
       }
     },
     generatekeyStats() {
-      // console.warn('GeneratekeyStats');
       const keys = {};
       this.keyboard.forEach((row) => {
         row.forEach((key) => {
@@ -255,27 +251,13 @@ export default {
               if (mistake.keyCode === key.keyCode) {
                 const text = mistake.expectedText;
                 acc.count += 1;
-                // if (
-                //   !mistake.shift
-                //   && ((key.content.length === 2
-                //       && key.content[0].toUpperCase() === text)
-                //     || (key.content.length === 1
-                //       && key.content.toUpperCase() === text)
-                //   )) {
-                //   acc.expected.push('16');
-                // } else {
                 const keyEl = this.$refs.keyboard
                   .querySelector(`[id][content*="${CSS.escape(text)}" i]`);
-                  // console.log(keyEl);
-                  // console.assert(keyEl.id);
                 acc.expected.push(keyEl.id);
-                // }
               }
               return acc;
             }, { expected: [], count: 0 });
             if (stats.expected.length) {
-              // console.log(`'${key.content.length === 2 ? key.content[0] : key.content}' ${key.keyCode}\nExpected:`);
-              // console.log(stats.expected);
               keys[key.keyCode] = stats;
             }
           }

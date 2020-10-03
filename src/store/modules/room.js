@@ -19,7 +19,7 @@ const actions = {
   socket_playerDisconnected({ commit }, msg) {
     if (msg.owner) {
       commit('SET_ROOM_PROPERTY', ['connected', false]);
-      console.log(this);
+      console.log('admin disconnected');
       this._vm.$socket.client.disconnect();
     }
 
@@ -27,6 +27,8 @@ const actions = {
       playerName: msg.playerName,
       currentState: 'lostConnection',
     });
+    console.log(`player "${msg.playerName}" disconnected`);
+
     setTimeout(() => {
       commit('PLAYER_LOST_CONNECTION', {
         playerName: msg.playerName,
@@ -75,8 +77,8 @@ const mutations = {
     Vue.set(state.room.players[message.playerName], 'ready', message.currentState);
   },
   SOCKET_PLAYER_JOINED(state, playerName) {
-    console.log('JOIN');
-    // Vue reactivity caveat
+    console.log(`player "${playerName}" joined`);
+    // Vue reactivity edgecase
     Vue.set(state.room.players, playerName, {
       ready: false,
       connected: true,
@@ -105,7 +107,6 @@ const mutations = {
     state.room.ownerStartTime = ownerStartTime;
   },
   SET_ROOM_PROPERTY(state, [property, value]) {
-    console.log(property, value);
     Vue.set(state.room, property, value);
   },
 

@@ -9,9 +9,8 @@ require('./rooms.js')(http);
 
 
 const PATH = path.join(__dirname, '../dist');
-console.warn(PATH);
 
-const toggleMaintanceMode = (toggle) => {
+const toggleMaintanceMode = (action) => {
   axios({
     url: 'https://api.heroku.com/apps/coderush',
     method: 'PATCH',
@@ -23,14 +22,13 @@ const toggleMaintanceMode = (toggle) => {
     withCredentials: true,
     data: {
       build_stack: 'heroku-18',
-      maintenance: toggle,
+      maintenance: action,
       name: 'coderush',
     },
   }).then(() => {
-    console.log('Toogle success');
-  }).catch((err) => {
-    console.warn('Toggle failed');
-    console.error(err);
+    console.log('Toogle maintance mode succeded');
+  }).catch(() => {
+    console.error('Toggle maintance mode failed');
   });
 };
 if (process.env.NODE_ENV === 'production') {
@@ -40,7 +38,7 @@ if (process.env.NODE_ENV === 'production') {
 const keepAwake = () => {
   if (process.env.NODE_ENV === 'production') {
     axios.get('https://coderush.herokuapp.com/api/ping')
-      .then((res) => console.log(`ping ok, status: ${res.status}`))
+      .then(() => console.log('Ping Ok'))
       .catch((err1) => console.error(`Ping Error: ${err1}`));
   }
 };
@@ -50,17 +48,17 @@ setInterval(keepAwake, 1000 * 60 * 20);
 let cachedIndexHtml = '';
 const getIndexHtml = () => {
   if (process.env.NODE_ENV === 'production') {
-    console.log('getIndexHtml');
+    console.log('fetching index.html from cdn');
     axios.get('https://coderushcdn.ddns.net/index.html')
       .then((res) => {
         if (res.status === 200) {
           cachedIndexHtml = res.data;
         } else {
-          throw new Error('index.html response not 200');
+          throw new Error(`Response status: "${res.status}"`);
         }
       })
       .catch((err) => {
-        console.warn('Error cannot get index.html from cdn');
+        console.warn('Error: cannot get index.html from cdn');
         console.error(err);
       });
   }
@@ -69,7 +67,7 @@ const getIndexHtml = () => {
 setTimeout(getIndexHtml, 1000 * 60 * 2); // wait for cdn to update
 
 setInterval(() => {
-  console.log('Update html cache');
+  console.log('index.html cache update');
   getIndexHtml();
 }, 1000 * 60 * 60 * 24);
 
@@ -78,12 +76,15 @@ let cachedStringifiedDatabase = '';
 
 const getDatabase = () => {
   if (process.env.NODE_ENV === 'production') {
-    console.log('getDatabase');
+    console.log('fetching database from cdn');
+
     axios.get('https://coderushcdn.ddns.net/database.json')
       .then((res) => {
         if (res.status === 200) {
           database = res.data;
           cachedStringifiedDatabase = JSON.stringify(database);
+        } else {
+          throw new Error(`Response status: "${res.status}"`);
         }
       })
       .catch((err) => {
@@ -92,7 +93,7 @@ const getDatabase = () => {
       });
 
     setInterval(() => {
-      console.log('Update database cache');
+      console.log('Database cache update');
       cachedStringifiedDatabase = JSON.stringify(database);
     }, 1000 * 60 * 20);
   }
@@ -119,7 +120,7 @@ const sendStats = () => {
       },
     })
       .then(() => {
-        console.log(`Stats Sent. Total: ${database.stats.total || 'ERROR'}`);
+        console.log(`Stats sent. Total: ${database.stats.total || 'ERROR'}`);
       })
       .catch((response) => {
         console.warn('Stats update failed');
@@ -129,12 +130,12 @@ const sendStats = () => {
 };
 setInterval(sendStats, 1000 * 60 * 2); // DEV * 5
 
-app.enable('trust proxy'); // heroku
+app.enable('trust proxy'); // trust heroku and cloudflare
 
 app.use((req, res, next) => {
   if (req.protocol === 'http' && process.env.NODE_ENV === 'production') {
     if (req.method === 'GET' || req.method === 'HEAD') {
-      console.log('redirected to https');
+      console.log('Redirecting client to https');
       res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
     } else {
       res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
@@ -144,16 +145,15 @@ app.use((req, res, next) => {
   }
 });
 
-// send cached index.html
 app.use((req, res, next) => {
   const match = req.originalUrl.match(/\.\w+$/);
   const ext = match ? match[0][0] : '';
   if ((req.method === 'GET' || req.method === 'HEAD') && (ext === '' || ext === 'html')) {
     if (cachedIndexHtml) {
-      console.log('cachedhtml');
+      console.log('sending cached index.html');
       res.send(cachedIndexHtml);
     } else {
-      console.log('file html');
+      console.log('sending index.html from a file');
       res.sendFile('index.html', { root: PATH });
     }
   } else {
@@ -161,16 +161,20 @@ app.use((req, res, next) => {
   }
 });
 
-// send cached database
 app.get('/database.json', (_req, res) => {
   if (cachedStringifiedDatabase.length > 2) { // {} empty object
-    console.log('cachedDatabase');
+    console.log('sending cached database');
     res.setHeader('Content-Type', 'application/json');
     res.send(cachedStringifiedDatabase);
   } else {
-    console.log('file database');
+    console.log('sending database from file');
     res.sendFile('database.json', { root: __dirname });
   }
+});
+
+
+app.get('/api/ping', (req, res) => {
+  res.send('OK');
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -222,10 +226,6 @@ app.post('/api/stats', (req, res) => {
   res.send('OK');
 });
 
-app.get('/api/ping', (req, res) => {
-  res.send('OK');
-});
-
 app.use(express.static(PATH));
 
 
@@ -236,13 +236,13 @@ const server = http.listen(PORT, () => {
 });
 
 const shutdown = () => {
-  console.warn(`SHUTDOWN PENDING ${process.env.NODE_ENV}`);
+  console.warn('Server is pending shutdown');
   server.close();
   if (process.env.NODE_ENV === 'production') {
     sendStats();
     toggleMaintanceMode(true);
     setTimeout(() => {
-      console.warn('SHUTDOWN');
+      console.warn('Ready for shutdown');
       process.exit(0);
     }, 2000);
   } else {

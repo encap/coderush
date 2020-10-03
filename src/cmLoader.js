@@ -2,15 +2,12 @@
 import CodeMirror from 'codemirror';
 
 import codemirror from 'vue-codemirror/src/codemirror.vue';
-// const CodeMirror = () => import(/* webpackChunkName: "codemirror" */ 'codemirror');
 import 'codemirror/addon/mode/simple';
 import 'codemirror/addon/mode/overlay';
 import 'codemirror/lib/codemirror.css';
 import '../public/cm/theme/material-darker.css';
 import 'codemirror/addon/selection/active-line';
 import 'cm-show-invisibles/lib/show-invisibles';
-
-// const CodeMirror = {};
 
 // make cm global so modes can properly register
 window.CodeMirror = CodeMirror;
@@ -34,7 +31,7 @@ const ensureDeps = (mode, cont) => {
     if (!CodeMirror.modes.hasOwnProperty(deps[i])) {
       missing.push(deps[i]);
     } else {
-      // console.log(`[ensureDeps ${mode}] Skipping ${deps[i]}`);
+      console.log(`[ensureDeps ${mode}] Skipping ${deps[i]}`);
     }
   }
   if (!missing.length) {
@@ -49,11 +46,11 @@ const ensureDeps = (mode, cont) => {
 
 CodeMirror.requireMode = (mode, cont, reject) => {
   if (CodeMirror.modes.hasOwnProperty(mode)) {
-    // console.log(`[requireMode] Skipping ${mode}`);
+    console.log(`[requireMode] Skipping ${mode}`);
     return ensureDeps(mode, cont);
   }
   if (loading.hasOwnProperty(mode)) {
-    // console.log(`[requireMode.loading] Skipping ${mode}`);
+    console.log(`[requireMode.loading] Skipping ${mode}`);
     return loading[mode].push(cont);
   }
 
@@ -64,11 +61,9 @@ CodeMirror.requireMode = (mode, cont, reject) => {
   const others = document.getElementsByTagName('script')[0];
   loading[mode] = [cont];
 
-  // omg 12h of debugging
   const list = loading[mode];
 
   CodeMirror.on(script, 'load', () => {
-    // console.log('load');
     ensureDeps(mode, () => {
       for (let i = 0; i < list.length; i += 1) {
         list[i]();
@@ -81,12 +76,11 @@ CodeMirror.requireMode = (mode, cont, reject) => {
 
 CodeMirror.autoLoadMode = (instance, mode) => new Promise((resolve, reject) => {
   if (CodeMirror.modes.hasOwnProperty(mode)) {
-    // console.log(`[autoLoadMode] Skipping ${mode}`);
+    console.log(`[autoLoadMode] Skipping ${mode}`);
     resolve('SKIP');
   }
 
   CodeMirror.requireMode(mode, () => {
-    // console.warn('requireMode CB');
     instance.setOption('mode', mode);
     resolve('CB');
   }, reject);
@@ -94,12 +88,10 @@ CodeMirror.autoLoadMode = (instance, mode) => new Promise((resolve, reject) => {
 
 const loadMode = async (cm, mode) => {
   if (mode) {
-    // console.log(`LOADING ${mode}`);
     loading = {};
     const resp = await CodeMirror.autoLoadMode(cm, mode);
     return resp;
   }
-  // console.log('no mode to load');
   return 'no mode to load';
 };
 

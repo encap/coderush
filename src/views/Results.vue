@@ -120,7 +120,6 @@ export default {
     correctionTimes() {
       const timesAcc = [];
       for (let i = 0; i < this.history.length; i += 1) {
-        // / log(this.history[i]);
         if (this.history[i].type === 'mistake') {
           const startTime = this.history[i].time;
           // console.log(`StartTime ${startTime}; Expected '${this.history[i].expectedText}'`);
@@ -187,14 +186,14 @@ export default {
         backspaceClicks,
         deletingTime: this.format(deletingTime, 0),
       };
-      console.log(data);
       const url = `${window.location.origin}/api/stats`;
       axios.post(url, data)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          console.log('Stats sent');
         })
-        .catch((res) => {
-          console.warn(res);
+        .catch((err) => {
+          console.eror('Sending stats failed');
+          console.error(err.response);
         });
     },
   },

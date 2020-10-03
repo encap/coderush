@@ -28,7 +28,7 @@ const actions = {
         const languagesList = response.data.languages.map((language, index) => ({ ...language, index }));
         context.commit('SET_LANGUAGES_LIST', languagesList);
       } catch (err) {
-        console.warn('LANGUAGE LIST ERROR', err);
+        console.warn('CANNOT GET DATABASE', err);
       }
     }
   },
@@ -61,7 +61,6 @@ const mutations = {
     state.customCode = code;
   },
   USE_CUSTOM_CODE: (state, message) => {
-    console.log('use custom code');
     Vue.set(state.customCode, 'showEditor', message);
   },
   SET_CODE_INFO(state, codeInfo) {
