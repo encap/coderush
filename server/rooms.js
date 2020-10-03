@@ -44,7 +44,7 @@ module.exports = function (http) {
     }
 
     socket.on('optionChange', (option) => {
-      rooms[roomName].options[option.name] = option.data;
+      rooms[roomName].options[option.name] = option.value;
       socket.to(roomName).emit('option_change', option);
     });
 

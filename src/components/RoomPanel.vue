@@ -52,6 +52,9 @@
               @keydown.enter="handleEnter"
             >
           </div>
+          <p v-if="roomInfoMsg" class="info">
+            {{ roomInfoMsg }}
+          </p>
           <div class="buttons">
             <button v-show="action === 'create'" :disabled="!playerName" @click="createRoom">
               <span class="btn-text">
@@ -86,7 +89,7 @@
             </span> -->
         </button>
       </div>
-      <div v-if="room.owner && showRoomLink" class="popUp">
+      <div v-if="room.owner && showRoomLink && $route.path === '/'" class="popUp">
         <p>
           Share this link with other players:
         </p>
@@ -180,6 +183,7 @@ export default {
         this.askForPlayerName = true;
         setTimeout(() => this.$refs.playerNameInput.focus(), 100);
       } else {
+        this.popUp = false;
         console.error('ROOM DOESN\'T EXIST');
         this.roomInfoMsg = `Room "${this.roomName}" doesn't exist.`;
         this.disconnect();
@@ -199,7 +203,7 @@ export default {
       this.roomName = this.$route.params.roomName;
       this.popUp = true;
       this.checkRoom('join');
-      this.$router.push('/');
+      this.$router.replace('/');
     }
   },
   methods: {
@@ -320,9 +324,8 @@ input
       h2
         font-size: 2.5rem
 
-      .playerName
-        margin: 3rem 0
       .playerName, .buttons
+        margin-top: 3rem
         width: 40%
         max-width: 250px
 

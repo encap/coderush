@@ -37,8 +37,6 @@ const actions = {
     }, 5000);
   },
   socket_roomState({ commit, rootState }, roomState) {
-    console.blue('roomstate');
-    console.log(JSON.parse(JSON.stringify(roomState)));
     commit('SET_ROOM_PROPERTY', ['name', roomState.roomName]);
     commit('SET_ROOM_PROPERTY', ['connected', true]);
     const playersObject = {};
@@ -48,14 +46,35 @@ const actions = {
       playersObject[name] = { ready, connected, owner };
     });
     commit('SET_ROOM_PROPERTY', ['players', playersObject]);
-    commit('SET_LANGUAGE', rootState.other.languagesList[roomState.languageIndex]);
+    if (roomState.languageIndex) {
+      commit('SET_LANGUAGE', rootState.other.languagesList[roomState.languageIndex]);
+    } else {
+      commit('SET_LANGUAGE', {
+        index: null,
+        name: '',
+      });
+    }
+
 
     if (roomState.customCode) {
       commit('SET_CUSTOM_CODE', roomState.customCode);
+    } else {
+      commit('SET_CUSTOM_CODE', {
+        text: '',
+        tabSize: 0,
+        lines: 0,
+        showEditor: false,
+      });
     }
-    Object.entries(roomState.options).forEach((option) => {
-      commit('SET_OPTION', option);
-    });
+    if (roomState.options) {
+      Object.entries(roomState.options).forEach((option) => {
+        commit('SET_OPTION', { name: option[0], value: option[1] });
+      });
+    } else {
+      commit('SET_OPTION', { name: 'selectedMode', value: 1 });
+      commit('SET_OPTION', { name: 'codeLength', value: false });
+      commit('SET_OPTION', { name: 'autoIndent', value: true });
+    }
   },
   socket_optionChange({ commit }, option) {
     commit('SET_OPTION', option);
@@ -67,7 +86,6 @@ const actions = {
     dispatch('generateCodeInfo', fileIndex);
   },
   socket_customCodeData({ commit }, data) {
-    console.log('CUSTOMCODE');
     commit('SET_CUSTOM_CODE', data);
   },
   socket_useCustomCode({ commit }, message) {

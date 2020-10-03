@@ -111,10 +111,10 @@ export default {
     },
   },
   watch: {
-    room: {
+    'room.owner': {
       deep: true,
       handler(current) {
-        if (current.connected && current.owner) {
+        if (current) {
           this.$socket.client.emit('optionsData', {
             mode: this.selectedMode,
             codeLength: this.codeLength,
@@ -164,6 +164,18 @@ h2
   @include cursor-shadow()
   text-align: center
   margin-bottom: $gap
+  overflow-x: auto
+
+  &::-webkit-scrollbar
+    width: $gap / 2
+
+  &::-webkit-scrollbar-thumb
+    background: linear-gradient(to left, $purple-gradient-colors)
+
+  &::-webkit-scrollbar-track
+    background-color: $grid-color
+  &::-webkit-scrollbar-corner
+    background-color: $grid-color
 
   label
     position: relative

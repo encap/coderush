@@ -13,7 +13,6 @@ const state = {
     selectedMode: 1,
     autoIndent: true,
     underScore: false,
-    mode: 1,
   },
 };
 

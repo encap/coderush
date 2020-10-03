@@ -31,7 +31,7 @@
             @change="toggleExpand"
           >
         </label>
-        <span v-show="!language.index" class="language-warning">
+        <span v-show="!language.index && !(room.connected && !room.owner)" class="language-warning">
           Choose language <fa class="arrow" :icon="['fas', 'play']" />
         </span>
       </div>
@@ -108,17 +108,16 @@ export default {
       immediate: true,
       deep: true,
       handler(current) {
-        console.log('WATCHER');
         if (this.room.connected && !this.room.owner) {
           this.code = current.text;
           this.selectedSize = current.tabSize || 2;
         }
       },
     },
-    room: {
+    'room.owner': {
       deep: true,
       handler(current) {
-        if (current.connected && current.owner) {
+        if (current) {
           this.$socket.client.emit('customCodeData', {
             text: this.code,
             tabSize: this.selectedSize,

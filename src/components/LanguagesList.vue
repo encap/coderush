@@ -33,6 +33,7 @@
         :key="filteredLanguage.name === 'Loading...' ? index : filteredLanguage.name"
         class="language"
         :class="{'selected':language.index === filteredLanguage.index}"
+        :data-index="index"
       >
         <input
           v-model="language"
@@ -79,11 +80,22 @@ export default {
     },
   },
   watch: {
-    room: {
+    'room.owner': {
       deep: true,
       handler(current) {
-        if (current.connected && current.owner) {
+        if (current && this.language.index) {
           this.$socket.client.emit('languageChange', this.language.index);
+        }
+      },
+    },
+    'language.index': {
+      deep: true,
+      handler(current) {
+        if (this.room.connected && !this.room.owner && current) {
+          this.$refs.languagesList.querySelector(`label[data-index="${current}"]`).scrollIntoView({
+            block: 'center',
+            behavior: 'smooth',
+          });
         }
       },
     },
@@ -110,7 +122,7 @@ export default {
         if (this.room.owner) {
           this.$socket.client.emit('languageChange', index);
         }
-        this.$refs.languagesList.querySelector(`[data-index="${index}"]`).scrollIntoView({
+        this.$refs.languagesList.querySelector(`label[data-index="${index}"]`).scrollIntoView({
           block: 'center',
           behavior: 'smooth',
         });
@@ -138,7 +150,7 @@ export default {
   display: flex
   justify-content: space-between
   position: relative
-  margin: 0 $grid-gap
+  margin: 0 $grid-gap $grid-gap $grid-gap
   padding: $grid-gap
   border-bottom: $grid-gap solid $grid-color
   height: 40px
@@ -179,6 +191,8 @@ export default {
   &::-webkit-scrollbar-thumb
     background: linear-gradient(to top, $blue-gradient-colors)
   &::-webkit-scrollbar-track
+    background-color: $grid-color
+  &::-webkit-scrollbar-corner
     background-color: $grid-color
 
 .language-radio

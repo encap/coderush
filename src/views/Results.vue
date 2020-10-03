@@ -153,6 +153,11 @@ export default {
     }
   },
   mounted() {
+    this.$socket.client.emit('completedStats', {
+      wpm: this.format(this.WPM, 0, 1),
+      minutes: this.minutes,
+      seconds: this.seconds,
+    });
     if (process.env.VUE_APP_ASSETS_PATH) {
       this.sendStats();
     }

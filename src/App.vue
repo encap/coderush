@@ -89,8 +89,6 @@ body
 input, textarea, button
   font-family: inherit
 
-
-
 #app
   position: relative
   width: 100%

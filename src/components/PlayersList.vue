@@ -8,7 +8,7 @@
       <li v-for="player in sortedPlayers" :key="player.name">
         <span :class="{ owner: player.owner, me: player.name === room.myName && !room.owner, winner: player.name === room.winner }">{{ player.name }}{{ player.name === room.myName ? ' (You)' : '' }} {{ player.ready && player.connected ? '✔' : '' }} {{ player.connected ? '🌐' : '❎' }}</span>
 
-        <span v-if="$route.path === '/results'">{{ player.stats.time }}s {{ player.stats.wpm }} WPM</span>
+        <span v-if="$route.path === '/results'"> {{ player.stats.minutes ? `${player.stats.minutes}:${player.stats.seconds}` : `${player.stats.seconds}s` }} {{ player.stats.wpm }} WPM</span>
       </li>
     </ol>
   </div>
@@ -27,7 +27,7 @@ export default {
     sortedPlayers() {
       console.log('players list update');
       if (this.$route.path === '/results') {
-        return this.playersArray.filter((player) => player.stats)
+        return this.playersArray.filter((player) => player.time)
           .sort((p1, p2) => ((p1.time > p2.time) ? 1 : -1));
       }
       return this.playersArray;

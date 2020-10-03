@@ -38,7 +38,7 @@
         <button
           :disabled="room.connected && !room.owner"
           class="button start-btn"
-          :class="{ highlight: language.name }"
+          :class="{ highlight: language.name && !(room.connected && !room.owner) }"
           @click="run"
         >
           START
@@ -80,14 +80,14 @@ export default {
   },
   watch: {
     language(current, previous) {
-      if (previous.index) {
+      if (previous && previous.index) {
         this.error = '';
       }
     },
-    room: {
+    'room.owner': {
       deep: true,
       handler(current) {
-        if (current.connected && current.owner) {
+        if (current) {
           this.$socket.client.emit('useCustomCode', this.showEditor);
         }
       },
@@ -137,7 +137,6 @@ export default {
       });
     },
     useCustomCode(value) {
-      console.warn('Show editor: ', value);
       if (value) {
         this.showEditor = value;
         this.$store.commit('USE_CUSTOM_CODE', true);
