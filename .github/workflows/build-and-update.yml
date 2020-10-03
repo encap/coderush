@@ -21,12 +21,12 @@ jobs:
     - name: Clone repository
       run: "git clone https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git ."
     - name: Setup Node.js
-      if: ${{ !env.stats && !env.code }}
+      if: env.stats == 'false' && env.code == 'false'
       uses: actions/setup-node@v1
       with:
         node-version: '12'
     - uses: actions/cache@v2
-      if: ${{ !env.stats && !env.code }}
+      if: env.stats == 'false' && env.code == 'false'
       with:
         path: '**/node_modules'
         key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
@@ -34,12 +34,12 @@ jobs:
       if: env.stats == 'false' && env.code == 'false'
       run: npm install
     - name: Vue build
-      if: ${{ !env.stats && !env.code }}
+      if: env.stats == 'false' && env.code == 'false'
       run: npm run build
     - name: Make dist directory
       run: mkdir -p dist
     - name: Copy submitted code
-      if: env.code == true
+      if: env.code == 'true'
       run: |
         cp -r public/code dist/code
     - name: Configure git
@@ -58,13 +58,13 @@ jobs:
         rm -r server/ dist/
         git checkout master -- "server/" "dist/"
     - name: Commit build
-      if: ${{ !env.stats && !env.code }}
+      if: env.stats == 'false' && env.code == 'false'
       run: git commit --allow-empty -m 'Automatic deploy'
     - name: Commit stats update
-      if: env.stats == true
+      if: env.stats == 'true'
       run: git commit -m 'Scheduled stats update'
     - name: Commit new submission
-      if: env.code == true
+      if: env.code == 'true'
       run: git commit -m 'Code database update - new submission'
     - name: Push for deployment
       run: git push
