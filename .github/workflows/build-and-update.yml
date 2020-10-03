@@ -26,6 +26,7 @@ jobs:
       with:
         node-version: '12'
     - uses: actions/cache@v2
+      if: ${{ !env.stats && !env.code }}
       with:
         path: '**/node_modules'
         key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
@@ -36,7 +37,7 @@ jobs:
       if: ${{ !env.stats && !env.code }}
       run: npm run build
     - name: Copy submitted code
-      if: ${{ env.code }}
+      if: env.code == true
       run: |
         mkdir -p dist
         cp -r public/code dist/code
@@ -59,10 +60,10 @@ jobs:
       if: ${{ !env.stats && !env.code }}
       run: git commit --allow-empty -m 'Automatic deploy'
     - name: Commit stats update
-      if: env.stats
+      if: env.stats == true
       run: git commit -m 'Scheduled stats update'
     - name: Commit new submission
-      if: env.code
+      if: env.code == true
       run: git commit -m 'Code database update - new submission'
     - name: Push for deployment
       run: git push
