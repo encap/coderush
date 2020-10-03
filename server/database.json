@@ -161,6 +161,12 @@
           "name": "jsonParseTest",
           "tabSize": 2,
           "source": "ItsMe"
+        },
+        {
+          "name": "TestCode",
+          "source": "TestAutor",
+          "lines": 29,
+          "tabSize": 2
         }
       ],
       "mode": "javascript",
