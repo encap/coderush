@@ -1,27 +1,39 @@
 <template>
   <div ref="wrapper" class="wrapper">
-    <div class="warning">
-      <span v-if="!language.index">
-        Choose language <fa class="arrow" :icon="['fas', 'play']" />
-      </span>
-    </div>
     <div class="settings">
-      <div class="tab-settings">
-        <span class="tab-text">Tab size:</span>
+      <div class="flex-row">
+        <div class="tab-settings">
+          <span class="tab-text">Tab size:</span>
+
+          <label
+            v-for="(size) in tabSizes"
+            :key="size"
+            :class="{'selected': size === selectedSize}"
+            class="tab-size-option"
+          >
+            <span>{{ size }}</span>
+            <input
+              v-model="selectedSize"
+              :value="size"
+              type="radio"
+            >
+          </label>
+        </div>
 
         <label
-          v-for="(size) in tabSizes"
-          :key="size"
-          :class="{'selected': size === selectedSize}"
-          class="tab-size-option"
+          v-show="language.index && $route.path === '/contribute'"
+          class="expand"
         >
-          <span>{{ size }}</span>
+          <fa :icon="['fas', expand ? 'compress-alt' : 'expand-alt']" />
           <input
-            v-model="selectedSize"
-            :value="size"
-            type="radio"
+            v-model="expand"
+            type="checkbox"
+            @change="toggleExpand"
           >
         </label>
+        <span v-show="!language.index" class="language-warning">
+          Choose language <fa class="arrow" :icon="['fas', 'play']" />
+        </span>
       </div>
       <p v-show="language.index && !editorReady ">
         Loading...
@@ -63,13 +75,15 @@ export default {
       editorReady: false,
       tabSizes: [2, 4, 8],
       selectedSize: 2,
+      expand: false,
     };
   },
   computed: {
-    ...mapGetters(['language']),
+    ...mapGetters(['language', 'room', 'customCode']),
     cmOptions() {
       return {
         tabSize: this.selectedSize,
+        readOnly: this.room.connected && !this.room.owner,
         lineNumbers: true,
         mathBrackets: true,
         styleSelectedText: true,
@@ -90,6 +104,40 @@ export default {
       this.fixHeight();
       this.editorReady = true;
     },
+    customCode: {
+      immediate: true,
+      deep: true,
+      handler(current) {
+        console.log('WATCHER');
+        if (this.room.connected && !this.room.owner) {
+          this.code = current.text;
+          this.selectedSize = current.tabSize || 2;
+        }
+      },
+    },
+    room: {
+      deep: true,
+      handler(current) {
+        if (current.connected && current.owner) {
+          this.$socket.client.emit('customCodeData', {
+            text: this.code,
+            tabSize: this.selectedSize,
+            lines: this.numberOfLines,
+            showEditor: this.customCode.showEditor,
+          });
+        }
+      },
+    },
+    selectedSize() {
+      if (this.room.owner) {
+        this.$socket.client.emit('customCodeData', {
+          text: this.code,
+          tabSize: this.selectedSize,
+          lines: this.numberOfLines,
+          showEditor: true,
+        });
+      }
+    },
   },
   mounted() {
     if (this.code) {
@@ -102,6 +150,10 @@ export default {
     }
   },
   methods: {
+    toggleExpand() {
+      this.$emit('expand', this.expand);
+      this.$nextTick(this.fixHeight);
+    },
     onCmReady(cm) {
       this.cm = cm;
       loadTheme();
@@ -125,12 +177,16 @@ export default {
     useCustomCode() {
       if (this.timeout) clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
-        this.$store.commit('SET_CUSTOM_CODE', {
+        const data = {
           text: this.code,
           tabSize: this.selectedSize,
           lines: this.numberOfLines,
           showEditor: true,
-        });
+        };
+        this.$store.commit('SET_CUSTOM_CODE', data);
+        if (this.room.owner) {
+          this.$socket.client.emit('customCodeData', data);
+        }
       }, 1000);
     },
     clear() {
@@ -141,8 +197,13 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.tab-settings
-  .tab-size-option
+.flex-row
+  display: flex
+  width: 100%
+  justify-content: space-between
+  align-items: center
+
+  label
     display: inline-flex
     flex-direction: column
     justify-content: space-around
@@ -152,6 +213,9 @@ export default {
     margin-left: 1em
     cursor: pointer
     box-shadow: 0px 0px 2px 2px rgba(black, .1)
+    background: $grid-color
+
+  .tab-size-option
     background: linear-gradient(to right, $purple-gradient-colors 49.8%, $grid-color 49.8%)
     background-size: 200%
     background-position: 99.8% 0 // 1px glitch
@@ -160,15 +224,8 @@ export default {
     transition: background .4s ease-in-out
     background-position: left
 
-.warning
-  pointer-events: none
-  height: 40px
-  line-height: 40px
-  position: absolute
-  width: 100%
-  text-align: right
 
-  .arrow
+  .language-warning .arrow
     margin-left: 1em
 
 .codemirror

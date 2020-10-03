@@ -25,7 +25,7 @@ export default {
       return Object.entries(this.players).map(([name, data]) => ({ name, ...data }));
     },
     sortedPlayers() {
-      console.log('sortedPlayers update');
+      console.log('players list update');
       if (this.$route.path === '/results') {
         return this.playersArray.filter((player) => player.stats)
           .sort((p1, p2) => ((p1.time > p2.time) ? 1 : -1));

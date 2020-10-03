@@ -17,7 +17,7 @@
         </button>
       </div>
     </div>
-    <div ref="languagesList" class="languages list" :class="{'showStats': $route.path === '/'}">
+    <div ref="languagesList" class="languages list" :class="{'showStats': !($route.path !== '/' || (room.connected && !room.owner))} ">
       <button
         :disabled="room.connected && !room.owner"
         class="language random"
@@ -26,7 +26,6 @@
       >
         <span class="language-name">
           Random
-
         </span>
       </button>
       <label
@@ -34,7 +33,6 @@
         :key="filteredLanguage.name === 'Loading...' ? index : filteredLanguage.name"
         class="language"
         :class="{'selected':language.index === filteredLanguage.index}"
-        :data-index="index"
       >
         <input
           v-model="language"
@@ -42,6 +40,7 @@
           class="language-radio"
           :disabled="room.connected && !room.owner"
           :value="languagesList[filteredLanguage.index]"
+          :data-index="index"
           @input="setRoomLanguage"
         >
         <span class="language-name" :class="{'greyed-out': options.codeLength && !filteredLanguage.files.some((code) => code.lines <= 17 )}">{{ filteredLanguage.name.replace('_', ' ') }}</span>
@@ -77,6 +76,16 @@ export default {
         return filtered.length > 0 ? filtered : this.languagesList;
       }
       return [...Array(29)].map(() => ({ name: 'Loading...' }));
+    },
+  },
+  watch: {
+    room: {
+      deep: true,
+      handler(current) {
+        if (current.connected && current.owner) {
+          this.$socket.client.emit('languageChange', this.language.index);
+        }
+      },
     },
   },
   activated() {
@@ -116,7 +125,7 @@ export default {
     },
     setRoomLanguage(ev) {
       if (this.room.owner) {
-        this.$nextTick(() => this.$socket.client.emit('languageChange', ev.target.getAttribute('index')));
+        this.$nextTick(() => this.$socket.client.emit('languageChange', ev.target.getAttribute('data-index')));
       }
     },
   },

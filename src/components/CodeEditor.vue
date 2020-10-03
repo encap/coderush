@@ -12,7 +12,6 @@
         :class="{showInvisibles: language.name === 'Whitespace'}"
         :options="cmOptions"
         @ready="onCmReady"
-
         @blur="onUnFocus"
       />
     </div>
@@ -441,18 +440,20 @@ export default {
       this.currentChange = {};
     },
     onUnFocus(_, ev) {
-      if (process.env.NODE_ENV !== 'production') ev.preventDefault(); // DEV
-      if (!this.isCompleted && ev) {
-        if (process.env.NODE_ENV !== 'production') this.cm.focus(); // DEV
-        if (ev.relatedTarget !== null) {
-          if (ev.relatedTarget.tagName !== 'BUTTON' && ev.relatedTarget.tagName !== 'A') {
-            if (process.env.NODE_ENV === 'production') this.popUp(true, 'Resume'); // dev
-          } else if (ev.relatedTarget.className === 'disconnect-btn') {
-            this.cm.focus();
-          }
-        } else {
+      if (ev) {
+        if (process.env.NODE_ENV !== 'production') ev.preventDefault(); // DEV
+        if (!this.isCompleted && ev) {
+          if (process.env.NODE_ENV !== 'production') this.cm.focus(); // DEV
+          if (ev.relatedTarget !== null) {
+            if (ev.relatedTarget.tagName !== 'BUTTON' && ev.relatedTarget.tagName !== 'A') {
+              if (process.env.NODE_ENV === 'production') this.popUp(true, 'Resume'); // dev
+            } else if (ev.relatedTarget.className === 'disconnect-btn') {
+              this.cm.focus();
+            }
+          } else {
           // eslint-disable-next-line no-lonely-if
-          if (process.env.NODE_ENV === 'production') this.popUp(true, 'Resume'); // DEV
+            if (process.env.NODE_ENV === 'production') this.popUp(true, 'Resume'); // DEV
+          }
         }
       }
     },

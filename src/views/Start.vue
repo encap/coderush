@@ -84,6 +84,36 @@ export default {
         this.error = '';
       }
     },
+    room: {
+      deep: true,
+      handler(current) {
+        if (current.connected && current.owner) {
+          this.$socket.client.emit('useCustomCode', this.showEditor);
+        }
+      },
+    },
+    customCode: {
+      immediate: true,
+      deep: true,
+      handler(current) {
+        if (this.room.connected && !this.room.owner) {
+          if (current.showEditor) {
+            this.showEditor = current.showEditor;
+          } else {
+            this.$refs.settings.$el.scrollIntoView({
+              block: 'start',
+              inline: 'nearest',
+              behavior: 'smooth',
+            });
+
+            setTimeout(() => {
+              this.showEditor = current.showEditor;
+            }, 500);
+          }
+        }
+      },
+    },
+
   },
   activated() {
     if (this.customCode.showEditor) {
@@ -95,7 +125,7 @@ export default {
   },
   methods: {
     handleEnter() {
-      if (!(this.room.connected && !this.room.owner)) {
+      if (!(this.room.connected && !this.room.owner) && !this.showEditor) {
         this.run();
       }
     },

@@ -21,6 +21,7 @@
           name="mode"
           :value="index+1"
           type="radio"
+          :disabled="index > 0"
         >
       </label>
     </div>
@@ -103,10 +104,24 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['room', 'customCode']),
+    ...mapGetters(['room']),
     ...mapFields(['selectedTheme', 'selectedMode', 'underScore', 'codeLength', 'lineNumbers', 'autoIndent']),
     block() {
       return this.room.connected && !this.room.owner;
+    },
+  },
+  watch: {
+    room: {
+      deep: true,
+      handler(current) {
+        if (current.connected && current.owner) {
+          this.$socket.client.emit('optionsData', {
+            mode: this.selectedMode,
+            codeLength: this.codeLength,
+            autoIndent: this.autoIndent,
+          });
+        }
+      },
     },
   },
   activated() {

@@ -5,13 +5,13 @@
 
       <article>
         <p>
-          Our mission is to ensure the diversity and quality of the code in which our users practice and test their skills. We do our best to ensure that there are no errors in the code but with that many languages and technologies available on CodeRush, it is not possible without your help.
+          Our mission is to ensure the diversity and quality of the code <span v-show="!expand">in which our users practice and test their skills.  do our best to ensure that there are no errors in the code but with that many languages and technologies available on CodeRush, it is not possible without your help.</span><span v-show="expand">...</span>
         </p>
-        <p>
+        <p v-show="!expand">
           On this page you can help expand our code database by sending us your code in a language of your choice. The "Send" button will create a PR and after verirfication your code will be publicly avaible on <a href="https://github.com/encap/coderush">our GitHub repo</a> .
           Please don't paste a code that you did not write yourself or that is under NDA or any other code that we will not be able to use for legal resons.
         </p>
-        <p>
+        <p v-show="!expand">
           You can also file an issue and contribute directly on <a href="https://github.com/encap/coderush#readme">our GitHub</a>
         </p>
       </article>
@@ -43,7 +43,12 @@
           </div>
         </div>
       </div>
-      <UploadCode v-show="!sent" ref="code" class="editor-wrapper" />
+      <UploadCode
+        v-show="!sent"
+        ref="code"
+        class="editor-wrapper"
+        @expand="(value) => expand = value"
+      />
       <p v-show="sent">
         Thank you for your contribution. Your submission will soon be listed <a href="https://github.com/encap/coderush/pulls">here</a>.
       </p>
@@ -53,11 +58,11 @@
       </p>
 
       <div v-show="language.index" class="buttons-bottom">
-        <button class="button" @click="sendCustomCode">
-          Send
-        </button>
         <button class="button" @click="clear">
           {{ sent ? 'Submit new code' : 'Clear' }}
+        </button>
+        <button class="button" @click="sendCustomCode">
+          Send
         </button>
       </div>
     </main>
@@ -87,6 +92,7 @@ export default {
       name: '',
       error: '',
       sent: false,
+      expand: false,
     };
   },
   computed: {
@@ -102,13 +108,19 @@ export default {
   },
   methods: {
     sendCustomCode() {
-      if (this.author.length < 2 || this.name.length < 2) {
+      if (this.customCode.text.length > 4000) {
+        console.log('Code is to long');
+        this.error = 'Provided code is way too long to be used here. (max 4000 characters)';
+        this.$nextTick(this.$refs.code.fixHeight);
+      } else if (this.customCode.lines < 4 && this.customCode.text.length < 200) {
+        console.log('Code is to short');
+        this.error = 'Code has to have minium 4 lines and 200 characters';
+        this.$nextTick(this.$refs.code.fixHeight);
+      } else if (this.author.length < 2 || this.name.length < 2) {
         this.error = 'Please fill out all of the inputs';
         this.$refs.nameInput.focus();
         this.$nextTick(this.$refs.code.fixHeight);
-        return;
-      }
-      if (this.customCode.lines >= 4 && this.customCode.text.length >= 200) {
+      } else {
         this.error = '';
         const data = {
           code: this.customCode.text,
@@ -130,10 +142,6 @@ export default {
             console.red('Code submission failed');
             console.log(err.response);
           });
-      } else {
-        console.log('Code is to short');
-        this.error = 'Code has to have minium 4 lines and 200 characters';
-        this.$nextTick(this.$refs.code.fixHeight);
       }
     },
     clear() {

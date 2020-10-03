@@ -136,7 +136,7 @@ export default {
           || (mistake.text.match(/[~!@#$%^&*()_+{}:"|<>?]/)
             && mistake.expectedText.match(/[`1234567890-=[\];'\\,./]/)
           )) {
-            console.blog(`Shift Wasn't needed: '${mistake.text}' '${mistake.expectedText}'`);
+            console.log(`Shift Wasn't needed: '${mistake.text}' '${mistake.expectedText}'`);
 
             acc.push({
               keyCode: 16,

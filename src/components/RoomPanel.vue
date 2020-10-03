@@ -230,6 +230,9 @@ export default {
         languageIndex: this.language.index,
       });
       this.showRoomLink = true;
+      if (this.$route.path !== '/') {
+        this.$router.push('/');
+      }
     },
     checkPlayerName() {
       this.$socket.client.emit('checkPlayerName', this.playerName);
@@ -239,6 +242,9 @@ export default {
       this.askForPlayerName = false;
       this.hidePopUp = true;
       setTimeout(() => { this.popUp = false; }, 500);
+      if (this.$route.path !== '/') {
+        this.$router.push('/');
+      }
     },
     disconnect(action = false) {
       this.$socket.client.close();

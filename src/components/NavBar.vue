@@ -13,7 +13,7 @@
         </span>
       </button>
       <div class="line" />
-      <button class="link language" @click="$store.commit('USER_LANGUAGE')">
+      <button class="link language" disabled @click="$store.commit('USER_LANGUAGE')">
         <fa v-show="userLanguage" :icon="['fas', 'globe-americas']" />
         <fa v-show="!userLanguage" :icon="['fas', 'globe-europe']" />
         <span class="btn-text">

@@ -48,6 +48,10 @@ module.exports = function (http) {
       socket.to(roomName).emit('option_change', option);
     });
 
+    socket.on('optionsData', (options) => {
+      rooms[roomName].options = options;
+    });
+
     socket.on('languageChange', (languageIndex) => {
       rooms[roomName].languageIndex = languageIndex;
       socket.to(roomName).emit('language_change', languageIndex);
@@ -66,6 +70,7 @@ module.exports = function (http) {
     });
 
     socket.on('customCodeData', (data) => {
+      rooms[roomName].customCode = data;
       socket.to(roomName).emit('custom_code_data', data);
     });
 

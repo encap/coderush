@@ -58,7 +58,7 @@ const mutations = {
     state.languagesList = list;
   },
   SET_CUSTOM_CODE: (state, code) => {
-    state.customCode = code;
+    Vue.set(state, 'customCode', code);
   },
   USE_CUSTOM_CODE: (state, message) => {
     Vue.set(state.customCode, 'showEditor', message);

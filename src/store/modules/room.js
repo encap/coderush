@@ -36,7 +36,9 @@ const actions = {
       });
     }, 5000);
   },
-  socket_roomState({ commit }, roomState) {
+  socket_roomState({ commit, rootState }, roomState) {
+    console.blue('roomstate');
+    console.log(JSON.parse(JSON.stringify(roomState)));
     commit('SET_ROOM_PROPERTY', ['name', roomState.roomName]);
     commit('SET_ROOM_PROPERTY', ['connected', true]);
     const playersObject = {};
@@ -46,6 +48,11 @@ const actions = {
       playersObject[name] = { ready, connected, owner };
     });
     commit('SET_ROOM_PROPERTY', ['players', playersObject]);
+    commit('SET_LANGUAGE', rootState.other.languagesList[roomState.languageIndex]);
+
+    if (roomState.customCode) {
+      commit('SET_CUSTOM_CODE', roomState.customCode);
+    }
     Object.entries(roomState.options).forEach((option) => {
       commit('SET_OPTION', option);
     });
@@ -60,6 +67,7 @@ const actions = {
     dispatch('generateCodeInfo', fileIndex);
   },
   socket_customCodeData({ commit }, data) {
+    console.log('CUSTOMCODE');
     commit('SET_CUSTOM_CODE', data);
   },
   socket_useCustomCode({ commit }, message) {

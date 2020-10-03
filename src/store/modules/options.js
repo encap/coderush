@@ -4,6 +4,7 @@ const state = {
   userLanguage: false,
   language: {
     index: null,
+    name: '',
   },
   options: {
     codeLength: false,

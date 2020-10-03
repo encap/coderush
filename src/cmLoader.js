@@ -1,4 +1,4 @@
-// modified lazy loader for webpack
+// modified codemirror lazy loader for webpack
 import CodeMirror from 'codemirror';
 
 import codemirror from 'vue-codemirror/src/codemirror.vue';

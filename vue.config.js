@@ -6,7 +6,7 @@ const assetsPath = process.env.VUE_APP_ASSETS_PATH || '';
 
 module.exports = {
   productionSourceMap: false,
-  publicPath: assetsPath,
+  publicPath: assetsPath || '/',
   css: {
     loaderOptions: {
       sass: {
@@ -71,6 +71,7 @@ module.exports = {
         next();
       });
     },
+
     progress: true,
     compress: false,
     // https: assetsPath ? false : {

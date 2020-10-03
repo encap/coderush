@@ -153,7 +153,9 @@ export default {
     }
   },
   mounted() {
-    this.sendStats();
+    if (process.env.VUE_APP_ASSETS_PATH) {
+      this.sendStats();
+    }
   },
   methods: {
     format(number, precision = 2, scaler = 0.001) {
@@ -189,7 +191,7 @@ export default {
       const url = `${window.location.origin}/api/stats`;
       axios.post(url, data)
         .then(() => {
-          console.log('Stats sent');
+          // console.log('Stats sent');
         })
         .catch((err) => {
           console.eror('Sending stats failed');

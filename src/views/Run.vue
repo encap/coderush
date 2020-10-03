@@ -107,12 +107,15 @@ export default {
       return 'Code provided by You';
     },
     languageName() {
-      return this.language.name.replace('_', ' ');
+      if (this.language) {
+        return this.language.name.replace('_', ' ');
+      }
+      return '';
     },
 
   },
   created() {
-    if (!this.language.name) {
+    if (!this.language.index) {
       this.$router.push('/');
     }
   },
