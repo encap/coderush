@@ -96,7 +96,7 @@ const loadMode = async (cm, mode) => {
 };
 
 const loadTheme = (name = 'material-darker') => {
-  if (name !== 'material-darker') {
+  if (name && name !== 'material-darker') {
     const existing = document.getElementById(name);
 
     if (!existing) {
