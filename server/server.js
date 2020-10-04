@@ -63,8 +63,7 @@ const getIndexHtml = () => {
       });
   }
 };
-
-setTimeout(getIndexHtml, 1000 * 60 * 2); // wait for cdn to update
+getindexHtml();
 
 setInterval(() => {
   console.log('index.html cache update');
@@ -99,7 +98,7 @@ const getDatabase = () => {
   }
 };
 
-setTimeout(getDatabase, 1000 * 60); // wait for cdn to update
+getDatabase();
 
 let newStats = false;
 const sendStats = () => {
@@ -128,7 +127,7 @@ const sendStats = () => {
       });
   }
 };
-setInterval(sendStats, 1000 * 60 * 2); // DEV * 5
+setInterval(sendStats, 1000 * 60 * 2); // DEV * 60 * 12
 
 app.enable('trust proxy'); // trust heroku and cloudflare
 
