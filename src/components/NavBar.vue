@@ -2,7 +2,7 @@
   <nav>
     <button class="title" @click="mainPage">
       CodeRush
-      <span class="beta">BETA</span>
+      <span class="beta">BETA+</span>
     </button>
 
     <div class="links" :class="{'room-connected': room.connected}">
