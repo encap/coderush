@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-update:
-    name: Build and update stats
+    name: Build and update
     runs-on: ubuntu-latest
     env:
       stats: ${{ contains(github.event.head_commit.message, 'Scheduled stats update') }}
@@ -43,9 +43,13 @@ jobs:
         git config --global user.email "bot@github.com"
         git config --global user.name "Bot"
     - name: Stage files
-      run: |
-        git add -f server/ dist/
-        git commit --allow-empty -m 'temp commit'
+      if: env.stats == 'false'
+      run: git add -f server/ dist/
+    - name: Stage files
+      if: env.stats == 'true'
+      run: git add -f server/
+    - name: Make temporary commit on master
+      run: git commit --allow-empty -m 'temp commit'
     - name: Switch to deploy branch
       run: git checkout deploy
     - name: Clear old files
