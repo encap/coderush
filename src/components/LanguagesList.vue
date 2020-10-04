@@ -191,6 +191,8 @@ export default {
   &::-webkit-scrollbar-thumb
     background: linear-gradient(to top, $blue-gradient-colors)
   &::-webkit-scrollbar-track
+    // border-top: 20px solid white
+    margin-top: $grid-gap
     background-color: $grid-color
   &::-webkit-scrollbar-corner
     background-color: $grid-color

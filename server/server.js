@@ -63,7 +63,7 @@ const getIndexHtml = () => {
       });
   }
 };
-getindexHtml();
+getIndexHtml();
 
 setInterval(() => {
   console.log('index.html cache update');
@@ -212,7 +212,7 @@ app.post('/api/stats', (req, res) => {
   if (process.env.NODE_ENV === 'production') {
     const stats = req.body;
     database.stats.avgWPM = Math.round((database.stats.avgWPM * database.stats.total + stats.wpm) / (database.stats.total + 1) * 1000) / 1000;
-  
+
     database.stats.total += 1;
 
     database.stats.correctClicks = database.stats.correctClicks + stats.correctClicks || database.stats.correctClicks;

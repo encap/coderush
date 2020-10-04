@@ -168,10 +168,8 @@ h2
 
   &::-webkit-scrollbar
     width: $gap / 2
-
   &::-webkit-scrollbar-thumb
     background: linear-gradient(to left, $purple-gradient-colors)
-
   &::-webkit-scrollbar-track
     background-color: $grid-color
   &::-webkit-scrollbar-corner
@@ -185,7 +183,7 @@ h2
     display: flex
     flex-direction: column
     align-items: center
-    min-height: 40px
+    // min-height: 40px
     padding: $grid-gap
     background: linear-gradient(to right, $purple, $light-purple 49.8%, $grid-color 49.8% 100%)
     background-size: 200%
@@ -200,16 +198,19 @@ h2
     background-position: left
 
 .modes
-  flex-shrink: 2
+  flex-shrink: 1
   flex-grow: 2
   max-height: 250px
   grid-template-columns: repeat(3, 1fr)
+  overflow-y: hidden
+
 
   label
-    padding: 30% 0.5em 0.5em
+    padding: 20% 0.5em 0.5em
+    height: 100%
 
     .modeDesc
-      margin: 20% 0
+      padding: 20% 0
       color: #bbb
       font-size: 0.9em
       width: 80%
@@ -217,6 +218,7 @@ h2
 
 
 .themes
+  flex-shrink: 0
   grid-template-columns: repeat(2, 1fr)
   grid-template-rows: 50px 50px
 
@@ -224,7 +226,10 @@ h2
     justify-content: space-around
 
 .toggles
+  flex-shrink: 3
   flex-grow: 1
+  display: flex
+  flex-direction: column
   width: 100%
   position: relative
   padding: 0 3 * $grid-gap 0 2 * $grid-gap
@@ -232,10 +237,8 @@ h2
 
   &::-webkit-scrollbar
     width: $gap / 2
-
   &::-webkit-scrollbar-thumb
     background: linear-gradient(to top, $purple-gradient-colors)
-
   &::-webkit-scrollbar-track
     background-color: $grid-color
   &::-webkit-scrollbar-corner
@@ -248,7 +251,7 @@ h2
     width: 100%
     position: relative
     cursor: pointer
-    margin-top: $gap
+    margin: 2vh 0
 
   $width: 70px
   $trans-duration: .15s
@@ -266,9 +269,9 @@ h2
     content: ''
     z-index: 3
     left: -0.5rem
-    top: calc((1.6rem - 20px) / -2)
+    top: -2px
     width: 1rem
-    height: 1.6rem
+    height: 24px
     position: absolute
     background-color: $white
     @include shadow()
@@ -286,7 +289,7 @@ h2
 @media (max-height: 700px)
   .toggles
     label
-      margin-top: 1.5em
+      margin: 0.5rem 0
   .list
     margin-bottom: 1em
 
