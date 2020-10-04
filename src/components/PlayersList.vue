@@ -27,8 +27,8 @@ export default {
     sortedPlayers() {
       console.log('players list update');
       if (this.$route.path === '/results') {
-        return this.playersArray.filter((player) => player.time)
-          .sort((p1, p2) => ((p1.time > p2.time) ? 1 : -1));
+        return this.playersArray.filter((player) => player.place)
+          .sort((p1, p2) => p1.place - p2.place);
       }
       return this.playersArray;
     },

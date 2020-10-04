@@ -234,7 +234,7 @@ app.use(express.static(PATH));
 const PORT = process.env.PORT || 3000;
 
 const server = http.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}!`);
+  console.log('\x1b[36m%s\x1b[0m', `Server listening on port ${PORT}!`);
 });
 
 const shutdown = () => {

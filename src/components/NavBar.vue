@@ -37,6 +37,9 @@
     </div>
     <RoomPanel class="room" />
     <div class="author">
+      <div v-if="$route.path !== '/' && $route.path !== 'run'" class="donate">
+        <a href="paypal.com">Donate</a><span> if you like it</span>
+      </div>
       <span class="author-text">
         Made with <fa :icon="['fas', 'heart']" class="heart" /> by <span class="author-name">Łukasz Wielgus</span>
       </span>
@@ -174,7 +177,13 @@ svg
 .author
   @include padding-left
 
-  .author-text
+  .donate
+    margin: 1em 0
+
+    a
+      text-decoration: underline
+
+  .author-text, .donate
     font-size: .9em
 
     .author-name

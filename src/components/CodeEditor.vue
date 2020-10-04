@@ -17,7 +17,10 @@
     </div>
     <div class="pop-up" :class="{hidden: !showPopUp, clickable: popUpClickable, 'small-font': popUpText.length > 15}">
       <div>
-        <h2 @click="popUp(false)">
+        <h2 v-show="roomPlace.place">
+          {{ roomPlace.place }}<sup>{{ roomPlace.sup }}</sup> place
+        </h2>
+        <h2 v-show="!(room.connected && room.place >= 3)" @click="popUp(false)">
           {{ popUpText }}
         </h2>
         <p v-show="isCompleted">
@@ -104,6 +107,18 @@ export default {
     },
     tabWidth() {
       return this.customCode.tabSize ? this.customCode.tabSize : this.codeInfo.tabSize;
+    },
+    roomPlace() {
+      if (this.room.connected && this.isCompleted) {
+        const place = this.room.players[this.room.myName].place;
+        const sups = [null, 'st', 'nd', 'rd', 'th'];
+        console.log(place);
+        return {
+          place,
+          sup: sups[place <= 3 ? place : 4],
+        };
+      }
+      return {};
     },
   },
   methods: {
@@ -566,7 +581,7 @@ export default {
       setTimeout(() => {
         this.$router.replace('/results');
         this.popUp(false);
-      }, process.env.NODE_ENV === 'production' ? 2000 : 200); // DEV 2000
+      }, process.env.NODE_ENV === 'production' ? 2000 : 2000); // DEV 2000
     },
   },
 };
@@ -710,6 +725,9 @@ export default {
   animation: opacity-enter .7s ease-out forwards
   cursor: default
   text-align: center
+
+  h2
+    margin-bottom: 2rem
 
   &.hidden
     pointer-events: none

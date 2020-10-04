@@ -65,6 +65,14 @@ module.exports = function (http) {
       });
     });
 
+    socket.on('playerInLobby', (currentState) => {
+      rooms[roomName].players[socket.id].inLobby = currentState;
+      io.in(roomName).emit('player_in_lobby', {
+        playerName: rooms[roomName].players[socket.id].name,
+        currentState,
+      });
+    });
+
     socket.on('fileIndex', (fileIndex) => {
       socket.to(roomName).emit('file_index', fileIndex);
     });
@@ -85,9 +93,12 @@ module.exports = function (http) {
     socket.on('completed', (time) => {
       console.log(`player "${rooms[roomName].players[socket.id].name} completed; ${Date.now() - time} ms latency`);
 
+      rooms[roomName].playersCompleted = rooms[roomName].playersCompleted + 1 || 1;
+
       const data = {
         playerName: rooms[roomName].players[socket.id].name,
         time: Date.now(),
+        place: rooms[roomName].playersCompleted,
       };
       io.in(roomName).emit('player_completed', data);
     });
@@ -101,6 +112,7 @@ module.exports = function (http) {
     });
 
     socket.on('reset', () => {
+      rooms[roomName].playersCompleted = 0;
       if (rooms[roomName].players[socket.id].owner) {
         console.warn(`room "${roomName}" reset`);
         io.in(roomName).emit('reset');

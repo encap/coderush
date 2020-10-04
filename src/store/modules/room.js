@@ -102,17 +102,22 @@ const mutations = {
   SOCKET_PLAYER_STATE_CHANGE(state, message) {
     Vue.set(state.room.players[message.playerName], 'ready', message.currentState);
   },
+  SOCKET_PLAYER_IN_LOBBY(state, message) {
+    Vue.set(state.room.players[message.playerName], 'inLobby', message.currentState);
+  },
   SOCKET_PLAYER_JOINED(state, playerName) {
     console.log(`player "${playerName}" joined`);
     // Vue reactivity edgecase
     Vue.set(state.room.players, playerName, {
       ready: false,
       connected: true,
+      inLobby: true,
     });
   },
   SOCKET_PLAYER_COMPLETED(state, message) {
     Vue.set(state.room.players[message.playerName], 'completed', true);
     Vue.set(state.room.players[message.playerName], 'time', message.time);
+    Vue.set(state.room.players[message.playerName], 'place', message.place);
   },
   SOCKET_PLAYER_STATS(state, message) {
     Vue.set(state.room.players[message.playerName], 'stats', message.stats);
@@ -128,6 +133,7 @@ const mutations = {
     Vue.delete(state.room.players[playerName], 'stats');
     Vue.delete(state.room.players[playerName], 'completed');
     Vue.delete(state.room.players[playerName], 'time');
+    Vue.delete(state.room.players[playerName], 'place');
   },
   LATENCY(state, ownerStartTime) {
     state.room.ownerStartTime = ownerStartTime;

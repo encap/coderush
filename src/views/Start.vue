@@ -77,6 +77,9 @@ export default {
     playersReady() {
       return Object.values(this.room.players).every((player) => player.ready);
     },
+    playersInLobby() {
+      return Object.values(this.room.players).every((player) => player.inLobby);
+    },
   },
   watch: {
     language(current, previous) {
@@ -121,6 +124,11 @@ export default {
         block: 'start',
         inline: 'nearest',
       });
+    }
+
+    if (this.room.connected && !this.room.owner) {
+      console.log('IF');
+      this.$socket.client.emit('playerInLobby', true);
     }
   },
   methods: {
@@ -167,6 +175,11 @@ export default {
         this.$refs.languagesList.selectRandom();
       }
 
+      if (this.room.connected && !this.playersInLobby) {
+        this.error = 'To start a new game all of the players must be in lobby';
+        return;
+      }
+
       if (!this.error) { // second click ignores error
         if (this.showEditor && (this.customCode.text.length < 30 || this.customCode.lines < 4)) {
           this.error = 'Provided code is too short too produce accurate results.';
@@ -180,7 +193,7 @@ export default {
         }
       }
 
-      if (this.showEdiotr && this.room.owner) {
+      if (this.showEditor && this.room.owner) {
         this.$socket.client.emit('customCodeData', this.customCode);
       }
 
@@ -188,12 +201,8 @@ export default {
       if (this.room.owner) {
         this.$socket.client.emit('start', Date.now());
       }
-      if (window.location.hash || localStorage.getItem('myUniverse')) {
-        localStorage.setItem('myUniverse', true);
-        this.$router.push('myuniverse');
-      } else {
-        this.$router.push('run');
-      }
+
+      this.$router.push('run');
     },
     ready(value) {
       this.$socket.client.emit('playerStateChange', value);
@@ -211,8 +220,10 @@ export default {
   },
   sockets: {
     start(ownerStartTime) {
+      console.blue('START');
       this.$store.commit('LATENCY', ownerStartTime);
       this.$router.push('run');
+      this.$socket.client.emit('playerInLobby', false);
     },
   },
 };

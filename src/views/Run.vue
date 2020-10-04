@@ -34,11 +34,11 @@
           </div>
         </div>
         <div class="buttons">
-          <button class="reset" :disabled="room.connected" @click="reset">
+          <button v-show="!room.connected" class="reset" @click="reset">
             Restart
           </button>
           <button
-            v-show="$route.path !== '/results'"
+            v-show="$route.path !== '/results' && !room.connected"
             class="finish"
             :disabled="room.connected"
             @click="finish"
@@ -115,7 +115,7 @@ export default {
 
   },
   created() {
-    if (!this.language.index) {
+    if (this.language.index === null) {
       this.$router.push('/');
     }
   },

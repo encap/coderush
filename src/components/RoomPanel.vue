@@ -164,6 +164,7 @@ export default {
           connected: true,
           ready: true,
           owner: true,
+          inLobby: true,
         },
       }]);
       setTimeout(() => this.$refs.closeInfoBtn.focus(), 100);

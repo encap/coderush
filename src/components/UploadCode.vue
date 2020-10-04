@@ -257,6 +257,6 @@ export default {
   margin-top: 3em
 
 @media (max-width: 1270px)
-  .warning
+  .language-warning
     display: none
 </style>
