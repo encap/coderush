@@ -167,6 +167,12 @@
           "source": "TestAutor",
           "lines": 29,
           "tabSize": 2
+        },
+        {
+          "name": "TestCode2",
+          "source": "TestAutor",
+          "lines": 29,
+          "tabSize": 2
         }
       ],
       "mode": "javascript",
