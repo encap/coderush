@@ -212,7 +212,10 @@ app.post('/upload', (req, res) => {
 app.post('/api/stats', (req, res) => {
   if (process.env.NODE_ENV === 'production') {
     const stats = req.body;
+    database.stats.avgWPM = (database.stats.avgWPM * database.stats.total + stats.wpm) / (database.stats.total + 1);
+  
     database.stats.total += 1;
+
     database.stats.correctClicks = database.stats.correctClicks + stats.correctClicks || database.stats.correctClicks;
     database.stats.backspaceClicks = database.stats.backspaceClicks + stats.backspaceClicks || database.stats.backspaceClicks;
     database.stats.deletingTime = database.stats.deletingTime + stats.deletingTime || database.stats.deletingTime;
