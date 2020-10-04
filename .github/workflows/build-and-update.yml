@@ -32,11 +32,10 @@ jobs:
     - name: Vue build
       if: env.stats == 'false' && env.code == 'false'
       run: npm run build
-    - name: Make dist directory
-      run: mkdir -p dist
     - name: Copy submitted code
       if: env.code == 'true'
       run: |
+        mkdir -p dist
         cp -r public/code dist/code
     - name: Configure git
       run: |
@@ -49,10 +48,17 @@ jobs:
         git commit --allow-empty -m 'temp commit'
     - name: Switch to deploy branch
       run: git checkout deploy
-    - name: Prepare for commit
+    - name: Clear old files
       run: |
         rm -r server/ dist/
+    - name: Checkout files from master
+      if: env.stats == 'false'
+      run: |
         git checkout master -- "server/" "dist/"
+    - name: Checkout files from master
+      if: env.stats == 'true'
+      run: |
+        git checkout master -- "server/"
     - name: Commit build
       if: env.stats == 'false' && env.code == 'false'
       run: git commit --allow-empty -m 'Automatic deploy'

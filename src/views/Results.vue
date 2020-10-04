@@ -158,7 +158,7 @@ export default {
       minutes: this.minutes,
       seconds: this.seconds,
     });
-    if (process.env.VUE_APP_ASSETS_PATH) {
+    if (process.env.VUE_APP_ASSETS_PATH && this.stats.file.index !== -1) {
       this.sendStats();
     }
   },
