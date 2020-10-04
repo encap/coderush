@@ -28,4 +28,5 @@ jobs:
         commit_user_name: Update Stats Action
         commit_user_email: bot@github.com
         commit_author: Bot <bot@github.com>
+        token: ${{ secrets.GH_PERSONAL_TOKEN }}
         
