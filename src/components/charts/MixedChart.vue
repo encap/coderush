@@ -48,6 +48,27 @@ export default {
       return {
         responsive: true,
         maintainAspectRatio: false,
+
+        plugins: {
+          labels: {
+            render() {
+              return '';
+            },
+          },
+        },
+        title: {
+          display: true,
+          text: 'Input consistency',
+          fontSize: '16',
+          textAlign: 'left',
+          fontColor: '#fff',
+        },
+        legend: {
+          labels: {
+            fontColor: '#fff',
+            fontSize: 13,
+          },
+        },
         scales: {
           xAxes: [{
             type: 'linear',

@@ -148,57 +148,57 @@ export default {
   computed: {
     ...mapGetters(['room', 'options', 'language']),
   },
-  sockets: {
-    connect() {
-      this.resetInfoMsg();
-      console.warn('socket.io connected');
-    },
-    room_created() {
-      this.$store.commit('SET_ROOM_PROPERTY', ['connected', true]);
-      this.$store.commit('SET_ROOM_PROPERTY', ['name', this.roomName]);
-      this.$store.commit('SET_ROOM_PROPERTY', ['myName', this.playerName]);
-      this.$store.commit('SET_ROOM_PROPERTY', ['ownerName', this.playerName]);
-      this.$store.commit('SET_ROOM_PROPERTY', ['owner', true]);
-      this.$store.commit('SET_ROOM_PROPERTY', ['players', {
-        [this.playerName]: {
-          connected: true,
-          ready: true,
-          owner: true,
-          inLobby: true,
-        },
-      }]);
-      setTimeout(() => this.$refs.closeInfoBtn.focus(), 100);
-    },
-    room_exist() {
-      if (this.action === 'create') {
-        console.error('ROOM ALREADY EXISTS');
-        this.roomInfoMsg = `Room "${this.roomName}" already exists.`;
-        this.disconnect();
-      } else {
-        this.askForPlayerName = true;
-        setTimeout(() => this.$refs.playerNameInput.focus(), 100);
-      }
-    },
-    room_dont_exist() {
-      if (this.action === 'create') {
-        this.askForPlayerName = true;
-        setTimeout(() => this.$refs.playerNameInput.focus(), 100);
-      } else {
-        this.popUp = false;
-        console.error('ROOM DOESN\'T EXIST');
-        this.roomInfoMsg = `Room "${this.roomName}" doesn't exist.`;
-        this.disconnect();
-      }
-    },
-    player_name_avaible() {
-      this.$store.commit('SET_ROOM_PROPERTY', ['myName', this.playerName]);
-      this.joinRoom();
-    },
-    player_name_taken() {
-      console.error('PLAYER NAME TAKEN');
-      this.roomInfoMsg = `Nick "${this.playerName}" is already taken.`;
-    },
-  },
+  // sockets: {
+  //   connect() {
+  //     this.resetInfoMsg();
+  //     console.warn('socket.io connected');
+  //   },
+  //   room_created() {
+  //     this.$store.commit('SET_ROOM_PROPERTY', ['connected', true]);
+  //     this.$store.commit('SET_ROOM_PROPERTY', ['name', this.roomName]);
+  //     this.$store.commit('SET_ROOM_PROPERTY', ['myName', this.playerName]);
+  //     this.$store.commit('SET_ROOM_PROPERTY', ['ownerName', this.playerName]);
+  //     this.$store.commit('SET_ROOM_PROPERTY', ['owner', true]);
+  //     this.$store.commit('SET_ROOM_PROPERTY', ['players', {
+  //       [this.playerName]: {
+  //         connected: true,
+  //         ready: true,
+  //         owner: true,
+  //         inLobby: true,
+  //       },
+  //     }]);
+  //     setTimeout(() => this.$refs.closeInfoBtn.focus(), 100);
+  //   },
+  //   room_exist() {
+  //     if (this.action === 'create') {
+  //       console.error('ROOM ALREADY EXISTS');
+  //       this.roomInfoMsg = `Room "${this.roomName}" already exists.`;
+  //       this.disconnect();
+  //     } else {
+  //       this.askForPlayerName = true;
+  //       setTimeout(() => this.$refs.playerNameInput.focus(), 100);
+  //     }
+  //   },
+  //   room_dont_exist() {
+  //     if (this.action === 'create') {
+  //       this.askForPlayerName = true;
+  //       setTimeout(() => this.$refs.playerNameInput.focus(), 100);
+  //     } else {
+  //       this.popUp = false;
+  //       console.error('ROOM DOESN\'T EXIST');
+  //       this.roomInfoMsg = `Room "${this.roomName}" doesn't exist.`;
+  //       this.disconnect();
+  //     }
+  //   },
+  //   player_name_avaible() {
+  //     this.$store.commit('SET_ROOM_PROPERTY', ['myName', this.playerName]);
+  //     this.joinRoom();
+  //   },
+  //   player_name_taken() {
+  //     console.error('PLAYER NAME TAKEN');
+  //     this.roomInfoMsg = `Nick "${this.playerName}" is already taken.`;
+  //   },
+  // },
   mounted() {
     if (this.$route.params.roomName) {
       this.roomName = this.$route.params.roomName;

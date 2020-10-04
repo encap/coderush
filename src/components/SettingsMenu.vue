@@ -206,7 +206,7 @@ h2
 
 
   label
-    padding: 20% 0.5em 0.5em
+    padding: 30% 0.5em 0.5em
     height: 100%
 
     .modeDesc

@@ -1,5 +1,8 @@
 <script>
 import { Pie } from 'vue-chartjs';
+// eslint-disable-next-line no-unused-vars
+import Chart from 'chart.js';
+import 'chartjs-plugin-labels';
 
 export default {
   name: 'PieChart',
@@ -59,7 +62,13 @@ export default {
           }
         }
       }
-      return [correctInputTime, wrongInputTime, deletingTime];
+      const sum = correctInputTime + wrongInputTime + deletingTime;
+
+      return [
+        Math.round(correctInputTime / sum * 100),
+        Math.round(wrongInputTime / sum * 100),
+        Math.round(deletingTime / sum * 100),
+      ];
     },
     options() {
       return {
@@ -67,18 +76,36 @@ export default {
         aspectRatio: 1,
         maintainAspectRatio: false,
         cutoutPercentage: 40,
-
+        title: {
+          display: true,
+          text: 'Time spent by category',
+          fontSize: '16',
+          textAlign: 'left',
+          fontColor: '#fff',
+        },
+        legend: {
+          labels: {
+            fontColor: '#fff',
+            fontSize: 13,
+          },
+        },
+        plugins: {
+          labels: {
+            fontColor: '#fff',
+            showActualPercentages: true,
+          },
+        },
       };
     },
     chartDatasets() {
       return {
+        labels: [
+          'Correct Input', 'Wrong Input', 'Deleting',
+        ],
+
         datasets: [
           {
             type: 'pie',
-            label: 'Time spent by category',
-            labels: [
-              'Correct Input', 'Wrong Input', 'Deleting',
-            ],
             backgroundColor: ['#292a3e', '#c957e0', '#266eb7'],
             data: this.chartData,
             borderColor: '#222',

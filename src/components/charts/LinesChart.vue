@@ -56,6 +56,19 @@ export default {
       return {
         responsive: true,
         maintainAspectRatio: false,
+        title: {
+          display: true,
+          text: 'Time wasted by mistakes',
+          fontSize: '16',
+          textAlign: 'left',
+          fontColor: '#fff',
+        },
+        legend: {
+          labels: {
+            fontColor: '#fff',
+            fontSize: 13,
+          },
+        },
         scales: {
           xAxes: [{
             type: 'linear',
@@ -112,7 +125,7 @@ export default {
           },
           {
             type: 'line',
-            label: 'Time wasted by them',
+            label: 'Time wasted',
             data: this.timePoints,
             borderColor: '#266eb7',
             borderWidth: 2,

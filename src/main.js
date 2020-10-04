@@ -25,7 +25,7 @@ Vue.use(VueSocketIOExt, socket, { store });
 Vue.component('fa', FontAwesomeIcon);
 Vue.config.productionTip = false;
 
-new Vue({
+window.App = new Vue({
   router,
   store,
   render(h) { return h(App); },

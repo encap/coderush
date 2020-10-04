@@ -51,8 +51,10 @@ export default {
           this.rafActive = false;
           this.trackedContainers.forEach((element) => {
             const pos = element.getBoundingClientRect();
-            const x = ev.pageX - pos.left;
-            const y = ev.pageY - pos.top;
+
+
+            const x = ev.clientX - pos.left;
+            const y = ev.clientY - pos.top;
             element.style.setProperty('--mouse-x', `${x}px`);
             element.style.setProperty('--mouse-y', `${y}px`);
           });

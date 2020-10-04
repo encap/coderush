@@ -23,6 +23,7 @@
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "chart.js": "^2.9.3",
+    "chartjs-plugin-labels": "^1.1.0",
     "cm-show-invisibles": "^3.1.0",
     "codemirror": "^5.58.1",
     "cors": "^2.8.5",

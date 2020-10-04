@@ -20,7 +20,7 @@
         <h2 v-show="roomPlace.place">
           {{ roomPlace.place }}<sup>{{ roomPlace.sup }}</sup> place
         </h2>
-        <h2 v-show="!(room.connected && room.place >= 3)" @click="popUp(false)">
+        <h2 v-show="!(room.connected && room.place > 3)" @click="popUp(false)">
           {{ popUpText }}
         </h2>
         <p v-show="isCompleted">
@@ -581,7 +581,7 @@ export default {
       setTimeout(() => {
         this.$router.replace('/results');
         this.popUp(false);
-      }, process.env.NODE_ENV === 'production' ? 2000 : 2000); // DEV 2000
+      }, process.env.NODE_ENV === 'production' ? 2000 : 200); // DEV 2000
     },
   },
 };

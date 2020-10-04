@@ -215,6 +215,7 @@ export default {
   width: 100%
   max-width: 100%
   position: relative
+  margin-bottom: $gap
 
   .flex-column
     display: flex
@@ -238,7 +239,7 @@ export default {
   height: 400px
   min-height: 400px
   max-height: 400px
-  margin-bottom: 2em
+  margin-bottom: 2 * $gap
   position: relative
 
 .lines, .mixed

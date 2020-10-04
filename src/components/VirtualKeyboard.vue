@@ -1,36 +1,44 @@
 <template>
-  <div ref="keyboard" class="keyboard">
-    <div
-      v-for="(rowData, rowNumber) in keyboard"
-      :key="`row-${rowNumber}`"
-      class="row"
-    >
+  <div class="container">
+    <div class="info">
+      <p>This keyboard shows what keys you have clicked by mistake (if the shift key is also highlighted, it means that it was pressed when it should not have been). If you hover over them, the keys that you were expected to press will be highlighted.</p>
+      <button class="reset" @click="reset">
+        Reset
+      </button>
+    </div>
+    <div ref="keyboard" class="keyboard">
       <div
-        v-for="(keyData, keyNumber) in rowData"
-        :id="keyData.keyCode"
-        :key="`key-${keyNumber}`"
-        class="key"
-        :class="[
-          rowNumber === keyboard.length-1 || keyData.class ? 'special' : 'square',
-          keyData.class,
-        ]"
-        :content="Array.isArray(keyData.content) ? keyData.content.join('') : keyData.content"
-        @mouseover="showExpectedKeys"
-        @click.self="changeLeaveAction"
-        @mouseleave="hideExpectedKeys"
+        v-for="(rowData, rowNumber) in keyboard"
+        :key="`row-${rowNumber}`"
+        class="row"
       >
-        <template v-if="Array.isArray(keyData.content)">
-          <span
-            v-for="(character, index) in [...keyData.content].reverse()"
-            :key="index"
-            :class="index === 0 ? 'secondary' : ''"
-          >
-            {{ character }}
-          </span>
-        </template>
-        <template v-else>
-          <span>{{ keyData.content }}</span>
-        </template>
+        <div
+          v-for="(keyData, keyNumber) in rowData"
+          :id="keyData.keyCode"
+          :key="`key-${keyNumber}`"
+          class="key"
+          :class="[
+            rowNumber === keyboard.length-1 || keyData.class ? 'special' : 'square',
+            keyData.class,
+          ]"
+          :content="Array.isArray(keyData.content) ? keyData.content.join('') : keyData.content"
+          @mouseover="showExpectedKeys"
+          @click.self="changeLeaveAction"
+          @mouseleave="hideExpectedKeys"
+        >
+          <template v-if="Array.isArray(keyData.content)">
+            <span
+              v-for="(character, index) in [...keyData.content].reverse()"
+              :key="index"
+              :class="index === 0 ? 'secondary' : ''"
+            >
+              {{ character }}
+            </span>
+          </template>
+          <template v-else>
+            <span>{{ keyData.content }}</span>
+          </template>
+        </div>
       </div>
     </div>
   </div>
@@ -188,6 +196,7 @@ export default {
         this.timeout = window.setTimeout(() => {
           if (ev.target.matches(':hover')) {
             const originKeyCode = ev.target.id;
+            console.green(!this.stayOnLeave[originKeyCode]);
             if (!this.stayOnLeave[originKeyCode]) {
               const expectedKeysCodes = this.keyStats[originKeyCode].expected;
 
@@ -242,6 +251,18 @@ export default {
         ev.target.classList.remove('locked');
       }
     },
+    reset() {
+      this.$refs.keyboard.querySelectorAll('[expected-count]').forEach((el) => {
+        console.log('reset', el);
+        el.removeAttribute('expected-count');
+        el.style.setProperty('--expected-count', 0);
+      });
+      this.$refs.keyboard.querySelectorAll('.locked').forEach((el) => {
+        console.log('reset', el);
+        el.classList.remove('locked');
+        this.stayOnLeave[el.id] = false;
+      });
+    },
     generatekeyStats() {
       const keys = {};
       this.keyboard.forEach((row) => {
@@ -269,14 +290,30 @@ export default {
 };
 </script>
 <style lang="sass" scoped>
+.info
+  display: flex
+  justify-content: space-between
+  align-itemes: center
+  position: relative
+  margin: 1em 0
+
+  button
+    text-align: center
+    min-width: 150px
+    padding: 0 0.5em
+    height: 47px
+    background: $grid-color
+    margin-left: 2em
+
 .keyboard
   margin: 0 auto
   display: flex
   flex-direction: column
   justify-content: space-around
+  padding: $grid-gap / 2
   font-size: 1rem
   --min-size: 4vw
-  --key-margin: .1rem
+  --key-margin: #{$grid-gap / 2}
   --key-size: calc(var(--min-size) + var(--key-margin) * 2)
   min-width: calc(15 * var(--key-size))
   height: calc(5 * var(--key-size))
@@ -296,7 +333,6 @@ export default {
 
 .key
   height: 100%
-  cursor: pointer
   user-select: none
   flex-shrink: 0
   flex-basis: 0
@@ -308,19 +344,22 @@ export default {
   justify-content: space-around
   transition: background-color 0.3s cubic-bezier(0,.5,1,1), color 0.3s cubic-bezier(0,.5,1,1), transform .1s ease-out
 
+  &[wrong-count]
+    cursor: pointer
+
+  &:hover
+    opacity: .9
+
+
+  &:active
+    background: white
+    color: $grid-color !important
+    transform: scale(.96)
+
 
 span
   pointer-events: none
 
-
-.key:hover
-  opacity: .9
-
-
-.key:active
-  background: white
-  color: $grid-color !important
-  transform: scale(.96)
 
 
 .square

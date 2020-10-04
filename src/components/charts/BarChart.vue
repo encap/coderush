@@ -1,5 +1,6 @@
 <script>
 import { HorizontalBar } from 'vue-chartjs';
+// eslint-disable-next-line no-unused-vars
 
 export default {
   name: 'BarChart',
@@ -41,6 +42,12 @@ export default {
       return {
         responsive: true,
         maintainAspectRatio: false,
+        legend: {
+          labels: {
+            fontColor: '#fff',
+            fontSize: 13,
+          },
+        },
         scales: {
           xAxes: [{
             stacked: false,
