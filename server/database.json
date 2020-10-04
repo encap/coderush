@@ -290,12 +290,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 5
+          "total": 6
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 5
+      "total": 6
     },
     {
       "ext": "js",
@@ -455,10 +455,10 @@
     }
   ],
   "stats": {
-    "avgWPM": 48.4,
-    "backspaceClicks": 94,
-    "correctClicks": 1872,
-    "deletingTime": 42,
-    "total": 10
+    "avgWPM": 47.09090909090909,
+    "backspaceClicks": 102,
+    "correctClicks": 2089,
+    "deletingTime": 46,
+    "total": 11
   }
 }
