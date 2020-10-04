@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+      with:
+        token: ${{ secrets.GH_PERSONAL_TOKEN }}
     - name: Setup Node.js
       uses: actions/setup-node@v1
       with:
@@ -28,5 +30,4 @@ jobs:
         commit_user_name: Update Stats Action
         commit_user_email: bot@github.com
         commit_author: Bot <bot@github.com>
-        token: ${{ secrets.GH_PERSONAL_TOKEN }}
         
