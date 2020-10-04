@@ -159,19 +159,13 @@
         {
           "lines": 44,
           "name": "jsonParseTest",
-          "tabSize": 2,
-          "source": "ItsMe"
-        },
-        {
-          "name": "TestCode",
-          "source": "TestAutor",
-          "lines": 29,
+          "source": "ItsMe",
           "tabSize": 2
         },
         {
-          "name": "TestCode2",
-          "source": "TestAutor",
           "lines": 29,
+          "name": "TestCode",
+          "source": "TestAutor",
           "tabSize": 2
         }
       ],
@@ -290,12 +284,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 3
+          "total": 4
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 3
+      "total": 4
     },
     {
       "ext": "js",
@@ -456,9 +450,9 @@
   ],
   "stats": {
     "avgWPM": 50,
-    "backspaceClicks": 78,
-    "correctClicks": 1438,
-    "deletingTime": 34,
-    "total": 8
+    "backspaceClicks": 86,
+    "correctClicks": 1655,
+    "deletingTime": 38,
+    "total": 9
   }
 }
