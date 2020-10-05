@@ -179,7 +179,7 @@ main
   justify-content: flex-start
 
   &.wide
-    max-width: 1600px
+    max-width: none
 
   .code-editor
     flex-grow: 1

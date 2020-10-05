@@ -1,10 +1,15 @@
 <template>
   <div class="container">
     <div class="info">
-      <p>This keyboard shows what keys you have clicked by mistake (if the shift key is also highlighted, it means that it was pressed when it should not have been). If you hover over them, the keys that you were expected to press will be highlighted.</p>
-      <button class="reset" @click="reset">
-        Reset
-      </button>
+      <p>This keyboard shows what keys you have pressed by mistake (if the Shift key is also purple, it means that it was pressed when it should not have been). If you hover over them, the keys that you were supposed to press will be highlighted and the number of such events will be displayed in the lower right corner.</p>
+      <div class="buttons">
+        <button class="show-expected" @click="toggleExpected">
+          {{ showExpected ? 'Hide' : 'Show' }} expected
+        </button>
+        <button class="reset" @click="reset">
+          Reset
+        </button>
+      </div>
     </div>
     <div ref="keyboard" class="keyboard">
       <div
@@ -58,6 +63,7 @@ export default {
       stayOnLeave: {},
       element: null,
       timeout: 0,
+      showExpected: false,
       keyboard: [
         [
           { keyCode: 192, content: ['`', '~'] },
@@ -190,7 +196,7 @@ export default {
       });
     },
     showExpectedKeys(ev) {
-      if (ev.target && ev.target.getAttribute('wrong-count')) {
+      if (ev.target && ev.target.getAttribute('wrong-count') && !this.showExpected) {
         // debounce
         if (this.timeout) window.clearTimeout(this.timeout);
         this.timeout = window.setTimeout(() => {
@@ -207,7 +213,6 @@ export default {
                 currentValue += 1;
                 console.log(`incrementing "${keyCode}", value: ${currentValue}`);
                 keyEl.setAttribute('expected-count', currentValue);
-                keyEl.style.setProperty('--expected-count', currentValue);
               });
             }
             this.timeout = undefined;
@@ -216,7 +221,7 @@ export default {
       }
     },
     hideExpectedKeys(ev) {
-      if (ev.target.getAttribute('wrong-count') && !this.timeout) {
+      if (ev.target.getAttribute('wrong-count') && !this.timeout && !this.showExpected) {
         const originKeyCode = ev.target.id;
         if (!this.stayOnLeave[originKeyCode]) {
           console.log('HideExpectedKeys');
@@ -231,7 +236,6 @@ export default {
             } else {
               keyEl.setAttribute('expected-count', currentValue);
             }
-            keyEl.style.setProperty('--expected-count', currentValue);
           });
         } else {
           console.log(`StayOnLeave ${originKeyCode}`);
@@ -240,28 +244,59 @@ export default {
     },
     changeLeaveAction(ev) {
       const keyCode = ev.target.id;
-      if (this.stayOnLeave[keyCode] !== undefined) {
-        this.stayOnLeave[keyCode] = !this.stayOnLeave[keyCode];
-      } else {
-        this.stayOnLeave[keyCode] = true;
-      }
-      if (this.stayOnLeave[keyCode]) {
-        ev.target.classList.add('locked');
-      } else {
-        ev.target.classList.remove('locked');
+      if (this.keyStats[keyCode]) {
+        if (this.stayOnLeave[keyCode] !== undefined) {
+          this.stayOnLeave[keyCode] = !this.stayOnLeave[keyCode];
+        } else {
+          this.stayOnLeave[keyCode] = true;
+        }
+        if (this.stayOnLeave[keyCode]) {
+          ev.target.classList.add('locked');
+        } else {
+          ev.target.classList.remove('locked');
+        }
       }
     },
     reset() {
       this.$refs.keyboard.querySelectorAll('[expected-count]').forEach((el) => {
-        console.log('reset', el);
         el.removeAttribute('expected-count');
-        el.style.setProperty('--expected-count', 0);
       });
       this.$refs.keyboard.querySelectorAll('.locked').forEach((el) => {
-        console.log('reset', el);
         el.classList.remove('locked');
         this.stayOnLeave[el.id] = false;
       });
+      this.showExpected = false;
+    },
+    toggleExpected() {
+      // if (this.showExpected) {
+      //   this.$refs.keyboard.querySelectorAll('[expected-count]').forEach((el) => {
+      //     console.log('reset', el);
+      //     el.removeAttribute('expected-count');
+      //   });
+      // } else {
+      Object.keys(this.keyStats).forEach((wrongKeyCode) => {
+        if (!this.stayOnLeave[wrongKeyCode]) {
+          const expectedKeysCodes = this.keyStats[wrongKeyCode].expected;
+
+          expectedKeysCodes.forEach((keyCode) => {
+            const keyEl = document.getElementById(keyCode);
+            let currentValue = Number(keyEl.getAttribute('expected-count'));
+            if (this.showExpected) {
+              currentValue -= 1;
+            } else {
+              currentValue += 1;
+            }
+            console.log(`incrementing "${keyCode}", value: ${currentValue}`);
+            if (currentValue < 1) {
+              keyEl.removeAttribute('expected-count');
+            } else {
+              keyEl.setAttribute('expected-count', currentValue);
+            }
+          });
+        }
+      });
+      // }
+      this.showExpected = !this.showExpected;
     },
     generatekeyStats() {
       const keys = {};
@@ -294,16 +329,37 @@ export default {
   display: flex
   justify-content: space-between
   align-itemes: center
+  align-items: flex-end
   position: relative
   margin: 1em 0
+  padding: 0 $grid-gap
+
+  p
+    max-width: 60%
+    min-width: 50%
+    font-size: 1.1em
+
+  .buttons
+    flex-grow: 1
+    display: flex
+    justify-content: flex-end
+    align-items: flex-end
+    flex-wrap: wrap
+    margin-left: 2em
+    min-width: 150px
+    flex-basis: 100%
+    position: relative
+
 
   button
+    width: 100%
     text-align: center
-    min-width: 150px
     padding: 0 0.5em
     height: 47px
+    max-width: 350px
     background: $grid-color
-    margin-left: 2em
+    margin: $grid-gap 0 0 1em
+
 
 .keyboard
   margin: 0 auto
@@ -343,24 +399,52 @@ export default {
   flex-direction: column
   justify-content: space-around
   transition: background-color 0.3s cubic-bezier(0,.5,1,1), color 0.3s cubic-bezier(0,.5,1,1), transform .1s ease-out
+  position: relative
 
   &[wrong-count]
     cursor: pointer
 
-  &:hover
+  &:hover:not([expected-count])
     opacity: .9
 
 
-  &:active
-    background: white
-    color: $grid-color !important
-    transform: scale(.96)
+  &[wrong-count]:active
+    transform: scale(.98)
+[wrong-count]
+  background: $accent1
+  filter: unquote("saturate(calc(var(--wrong-count) * 30% + 60%))")
+
+  &:hover::before, &[expected-count]:before, &.locked:before
+    content: attr(wrong-count)
+    position: absolute
+    left: $grid-gap
+    bottom: $grid-gap
+    font-size: 0.8em
+
+
+[expected-count]
+  background: transparentize(white, 0.15)
+  & > span, &:after, &:before
+    color: $grid-color
+
+[expected-count]:after
+  content: attr(expected-count)
+  position: absolute
+  right: $grid-gap
+  bottom: $grid-gap
+  font-size: 0.8em
+
+.locked
+  @include shadow(0.8, 15px)
+  transform: scale(1.02)
+  z-index: 1
+  &[wrong-count]:not([expected-count])
+    z-index: 2
+    transform: scale(1.05)
 
 
 span
   pointer-events: none
-
-
 
 .square
   flex-grow: 1
@@ -407,21 +491,5 @@ span
 
 .special > span
   font-size: 0.75rem
-
-[wrong-count]
-  background: $accent1
-  filter: unquote("saturate(calc(var(--wrong-count) * 20% + 60%))")
-
-[expected-count]
-  --color: calc(var(--expected-count) * 40 + 190)
-  background: rgba(var(--color),var(--color),var(--color), 0.6)
-  color: rgb(43, 30, 51) !important
-
-[wrong-count][expected-count]
-   background: rgba(calc(var(--color) + 20), calc(var(--color) - 30), calc(var(--color) + 50), 1)
-
-
-.locked
-  outline: 2px solid var(--accent2)
 
 </style>
