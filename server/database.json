@@ -370,12 +370,12 @@
           "name": "advanced_select",
           "source": "sqlservercentral.com",
           "tabSize": 4,
-          "total": 1
+          "total": 2
         }
       ],
       "mode": "sql",
       "name": "SQL",
-      "total": 1
+      "total": 2
     },
     {
       "ext": "swift",
@@ -457,10 +457,10 @@
     }
   ],
   "stats": {
-    "avgWPM": 44.286,
-    "backspaceClicks": 137,
-    "correctClicks": 2983,
-    "deletingTime": 63,
-    "total": 14
+    "avgWPM": 42.4,
+    "backspaceClicks": 187,
+    "correctClicks": 3395,
+    "deletingTime": 100,
+    "total": 15
   }
 }
