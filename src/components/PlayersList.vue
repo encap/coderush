@@ -42,11 +42,11 @@ export default {
 .players-count
   font-weight: normal
   margin: 1em 0
-.owner
-  color: greenyellow
+.owner, .me
+  font-weight: bold
 
 .me
-  color: pink
+  color: $light-blue
 
 ol
   list-style-position: inside

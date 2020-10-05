@@ -104,11 +104,16 @@ module.exports = function (http) {
     });
 
     socket.on('completedStats', (stats) => {
-      const data = {
-        playerName: rooms[roomName].players[socket.id].name,
-        stats,
-      };
-      io.in(roomName).emit('player_stats', data);
+      try {
+        const data = {
+          playerName: rooms[roomName].players[socket.id].name,
+          stats,
+        };
+        io.in(roomName).emit('player_stats', data);
+      } catch (e) {
+        console.log('WTF');
+        console.error(e);
+      }
     });
 
     socket.on('reset', () => {
