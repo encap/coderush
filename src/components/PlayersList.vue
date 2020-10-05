@@ -6,7 +6,23 @@
     </h4>
     <ol>
       <li v-for="player in sortedPlayers" :key="player.name">
-        <span :class="{ owner: player.owner, me: player.name === room.myName && !room.owner, winner: player.name === room.winner }">{{ player.name }}{{ player.name === room.myName ? ' (You)' : '' }} {{ player.ready && player.connected ? '✔' : '' }} {{ player.connected ? '🌐' : '❎' }}</span>
+        <span :class="{ owner: player.owner, me: player.name === room.myName && !room.owner, winner: player.name === room.winner }">{{ player.name }}</span>
+        <fa
+          v-show="player.ready && player.connected && !room.owner"
+          class="icon"
+          :icon="['fas', 'hourglass-end']"
+          size="xs"
+        />
+        <fa
+          v-show="player.connected"
+          class="icon"
+          :icon="['fas', 'signal']"
+          size="xs"
+        />
+        <faStack v-show="!player.connected" class="icon">
+          <fa :icon="['fas', 'slash']" size="xs" />
+          <fa :icon="['fas', 'signal']" size="xs" />
+        </faStack>
 
         <span v-if="$route.path === '/results'"> {{ player.stats.minutes ? `${player.stats.minutes}:${player.stats.seconds}` : `${player.stats.seconds}s` }} {{ player.stats.wpm }} WPM</span>
       </li>
@@ -42,12 +58,13 @@ export default {
 .players-count
   font-weight: normal
   margin: 1em 0
-.owner, .me
-  font-weight: bold
 
 .me
-  color: $light-blue
+  font-weight: bold
 
 ol
   list-style-position: inside
+
+.icon
+  margin-left: .5em
 </style>

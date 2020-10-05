@@ -2,10 +2,10 @@ import Vue from 'vue';
 import VueSocketIOExt from 'vue-socket.io-extended';
 import io from 'socket.io-client';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { FontAwesomeIcon, FontAwesomeLayers } from '@fortawesome/vue-fontawesome';
 
 import {
-  faUsers, faPlay, faGlobeAmericas, faGlobeEurope, faInfo, faFileCode, faHeart, faServer, faUser, faSignOutAlt, faCopy, faShareAlt, faCompressAlt, faExpandAlt,
+  faUsers, faPlay, faGlobeAmericas, faGlobeEurope, faInfo, faFileCode, faHeart, faServer, faUser, faSignOutAlt, faCopy, faHourglassEnd, faSignal, faSlash, faShareAlt, faCompressAlt, faExpandAlt,
 } from '@fortawesome/free-solid-svg-icons';
 // import { fab } from '@fortawesome/free-brands-svg-icons';
 // import { far } from '@fortawesome/free-regular-svg-icons';
@@ -19,10 +19,12 @@ const socket = io('/', {
   timeout: 10000,
 });
 
-library.add(faUsers, faPlay, faGlobeAmericas, faGlobeEurope, faInfo, faFileCode, faHeart, faServer, faUser, faSignOutAlt, faCopy, faShareAlt, faCompressAlt, faExpandAlt);
+library.add(faUsers, faPlay, faGlobeAmericas, faGlobeEurope, faInfo, faFileCode, faHeart, faServer, faUser, faSignOutAlt, faCopy, faHourglassEnd, faSignal, faSlash, faShareAlt, faCompressAlt, faExpandAlt);
 
 Vue.use(VueSocketIOExt, socket, { store });
 Vue.component('fa', FontAwesomeIcon);
+Vue.component('faStack', FontAwesomeLayers);
+
 Vue.config.productionTip = false;
 
 window.App = new Vue({
