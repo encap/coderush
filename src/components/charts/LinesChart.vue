@@ -69,16 +69,25 @@ export default {
             fontSize: 13,
           },
         },
+        tooltips: {
+          cornerRadius: 0,
+          backgroundColor: 'rgba(20,20,20, 0.3)',
+          callbacks: {
+            title: () => null,
+          },
+        },
         scales: {
           xAxes: [{
             type: 'linear',
             ticks: {
+              fontColor: '#aaa',
+
               stepSize: 10000,
               max: this.timePoints[this.timePoints.length - 1].x,
               callback: (time) => {
                 const seconds = Math.ceil(time / 1000);
                 const minutes = Math.floor(seconds / 60);
-                return `${minutes ? `${minutes}min` : ''} ${seconds ? `${seconds % 60}s` : '0'}`;
+                return `${minutes ? `${minutes} min` : ''} ${seconds ? `${seconds % 60} s` : '0'}`;
               },
             },
           }],
@@ -88,11 +97,12 @@ export default {
               type: 'linear',
               position: 'left',
               ticks: {
+                fontColor: '#aaa',
                 stepSize: 1000,
                 callback: (time) => {
                   const seconds = Math.ceil(time / 1000);
                   const minutes = Math.floor(seconds / 60);
-                  return `${minutes ? `${minutes}min` : ''} ${seconds ? `${seconds % 60}s` : '0'}`;
+                  return `${minutes ? `${minutes} min` : ''} ${seconds ? `${seconds % 60} s` : '0'}`;
                 },
               },
             },
@@ -101,6 +111,8 @@ export default {
               type: 'linear',
               position: 'right',
               ticks: {
+                fontColor: '#aaa',
+
                 max: this.mistakes.length * 2 || 0,
                 callback: (value) => (value <= this.mistakes.length + 1 ? value : ''),
               },

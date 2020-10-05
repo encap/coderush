@@ -76,6 +76,7 @@ export default {
         aspectRatio: 1,
         maintainAspectRatio: false,
         cutoutPercentage: 40,
+        events: [''],
         title: {
           display: true,
           text: 'Time spent by category',

@@ -42,6 +42,7 @@ export default {
       return {
         responsive: true,
         maintainAspectRatio: false,
+        events: [''],
         legend: {
           labels: {
             fontColor: '#fff',
@@ -52,6 +53,7 @@ export default {
           xAxes: [{
             stacked: false,
             ticks: {
+              fontColor: '#aaa',
               min: 0,
             },
           }],

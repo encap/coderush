@@ -24,7 +24,7 @@ export default {
       return points;
     },
     avgInputIntervals() {
-      const avg = this.inputIntervalsPoints.reduce((acc, point) => acc + point.y, 0) / this.inputIntervalsPoints.length;
+      const avg = Math.round(this.inputIntervalsPoints.reduce((acc, point) => acc + point.y, 0) / this.inputIntervalsPoints.length);
       return [{ x: 0, y: avg }, { x: this.stats.timeFromFirstInput, y: avg }];
     },
     wpmPoints() {
@@ -54,6 +54,7 @@ export default {
             render() {
               return '';
             },
+
           },
         },
         title: {
@@ -69,11 +70,27 @@ export default {
             fontSize: 13,
           },
         },
+        tooltips: {
+          cornerRadius: 0,
+          backgroundColor: 'rgba(20,20,20, 0.3)',
+          callbacks: {
+            title: () => null,
+            label: (item) => {
+              console.log(item);
+              if (item.datasetIndex !== 0) {
+                return `${item.yLabel} ms`;
+              }
+              return item.yLabel;
+            },
+          },
+        },
         scales: {
           xAxes: [{
             type: 'linear',
             ticks: {
               stepSize: 10000,
+              fontColor: '#aaa',
+
               max: this.avgInputIntervals[this.avgInputIntervals.length - 1].x,
               callback: (time) => {
                 const seconds = Math.ceil(time / 1000);
@@ -88,14 +105,22 @@ export default {
               type: 'linear',
               position: 'left',
               ticks: {
+                fontColor: '#aaa',
+
                 min: 0,
+                callback(value) {
+                  return `${value} ms`;
+                },
               },
+
             },
             {
               id: 'wpm',
               type: 'linear',
               position: 'right',
               ticks: {
+                fontColor: '#aaa',
+
                 min: 0,
               },
             },
@@ -106,6 +131,16 @@ export default {
     chartDatasets() {
       return {
         datasets: [
+          {
+            type: 'line',
+            label: 'WPM over time',
+            data: this.wpmPoints,
+            cubicInterpolationMode: 'default',
+            borderColor: '#c957e0',
+            borderWidth: 2,
+            order: 1,
+            yAxisID: 'wpm',
+          },
           {
             type: 'scatter',
             label: 'Input intervals',
@@ -123,16 +158,6 @@ export default {
             pointBorderColor: 'transparent',
             order: 3,
             yAxisID: 'inputIntervals',
-          },
-          {
-            type: 'line',
-            label: 'WPM over time',
-            data: this.wpmPoints,
-            cubicInterpolationMode: 'default',
-            borderColor: '#c957e0',
-            borderWidth: 2,
-            order: 1,
-            yAxisID: 'wpm',
           },
         ],
       };
