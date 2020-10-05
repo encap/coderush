@@ -215,7 +215,6 @@ export default {
   width: 100%
   max-width: 100%
   position: relative
-  margin-bottom: $gap
 
   .flex-column
     display: flex
