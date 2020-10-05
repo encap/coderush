@@ -369,11 +369,13 @@
           "lines": 17,
           "name": "advanced_select",
           "source": "sqlservercentral.com",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mode": "sql",
-      "name": "SQL"
+      "name": "SQL",
+      "total": 1
     },
     {
       "ext": "swift",
@@ -455,10 +457,10 @@
     }
   ],
   "stats": {
-    "avgWPM": 45.077,
-    "backspaceClicks": 118,
-    "correctClicks": 2523,
-    "deletingTime": 54,
-    "total": 13
+    "avgWPM": 44.286,
+    "backspaceClicks": 137,
+    "correctClicks": 2983,
+    "deletingTime": 63,
+    "total": 14
   }
 }
