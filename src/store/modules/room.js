@@ -134,6 +134,7 @@ const mutations = {
     Vue.delete(state.room.players[playerName], 'completed');
     Vue.delete(state.room.players[playerName], 'time');
     Vue.delete(state.room.players[playerName], 'place');
+    Vue.delete(state.room.players[playerName], 'ready');
   },
   LATENCY(state, ownerStartTime) {
     state.room.ownerStartTime = ownerStartTime;

@@ -5,48 +5,30 @@
     @keydown.alt="resetSelf"
   >
     <div class="top-bar">
-      <template v-if="requestReset">
-        <div class="info">
-          <div class="codeInfo">
-            <h2>Room owner wants to start a new game</h2>
-            <p>You will be moved to lobby</p>
-          </div>
+      <div class="info">
+        <div class="languageName">
+          <h2>{{ languageName }}</h2>
         </div>
-        <div class="buttons">
-          <button @click="$router.push('/')">
-            OK
-          </button>
-          <button class="disconnect-btn" @click="disconnect">
-            Leave room and stay here
-          </button>
+        <div class="codeInfo">
+          <p v-if="codeInfo.name">
+            {{ codeInfo.name }}.{{ language.ext }}
+          </p>
+          <p>{{ codeSource }}</p>
         </div>
-      </template>
-      <template v-else>
-        <div class="info">
-          <div class="languageName">
-            <h2>{{ languageName }}</h2>
-          </div>
-          <div class="codeInfo">
-            <p v-if="codeInfo.name">
-              {{ codeInfo.name }}.{{ language.ext }}
-            </p>
-            <p>{{ codeSource }}</p>
-          </div>
-        </div>
-        <div class="buttons">
-          <button v-show="!room.connected" class="reset" @click="reset">
-            Restart
-          </button>
-          <button
-            v-show="$route.path !== '/results' && !room.connected"
-            class="finish"
-            :disabled="room.connected"
-            @click="finish"
-          >
-            Finish now
-          </button>
-        </div>
-      </template>
+      </div>
+      <div class="buttons">
+        <button v-show="!room.connected" class="reset" @click="reset">
+          Restart
+        </button>
+        <button
+          v-show="$route.path !== '/results' && !room.connected"
+          class="finish"
+          :disabled="room.connected"
+          @click="finish"
+        >
+          Finish now
+        </button>
+      </div>
     </div>
 
 
@@ -92,7 +74,7 @@ export default {
       resetSelfKey: 1,
       resetEditorKey: 1,
       stats: false,
-      requestReset: false,
+
 
     };
   },
@@ -131,11 +113,6 @@ export default {
     }
 
     next();
-  },
-  sockets: {
-    reset() {
-      this.requestReset = true;
-    },
   },
   methods: {
     reset() {

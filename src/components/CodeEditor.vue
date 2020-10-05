@@ -510,7 +510,7 @@ export default {
           { className: 'next-char', clearOnEnter: true, inclusiveRight: true },
         );
       }
-      this.popUp(false, 'WRITE');
+      this.popUp(false, 'GO');
       this.started = true;
       this.cm.focus();
       console.log('START');

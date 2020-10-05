@@ -67,9 +67,6 @@ export default {
         if (action && this.language.name && !this.room.connected) {
           this.$emit('start');
         }
-      } else if (this.room.owner) {
-        this.$socket.client.emit('reset');
-        this.$router.push('/');
       } else {
         this.$router.push('/');
       }
@@ -172,6 +169,7 @@ svg
 
 .room
   flex-grow: 1
+  position: relative
   @include padding-left
 
 .author

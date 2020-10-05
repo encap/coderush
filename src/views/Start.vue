@@ -177,6 +177,7 @@ export default {
 
       if (this.room.connected && !this.playersInLobby) {
         this.error = 'To start a new game all of the players must be in lobby';
+        this.$socket.client.emit('reset');
         return;
       }
 

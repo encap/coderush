@@ -79,17 +79,15 @@
         {{ roomInfoMsg }}
       </p>
     </div>
+
     <div v-show="room.connected" class="roomConnected">
       <div class="roomNameContainer">
         <h2>{{ room.name }}</h2>
         <button class="disconnect-btn" @click="disconnect(true)">
           <fa :icon="['fas', 'sign-out-alt']" size="lg" />
-          <!-- <span class="btn-text">
-              Disconnect
-            </span> -->
         </button>
       </div>
-      <div v-if="room.owner && showRoomLink && $route.path === '/'" class="popUp">
+      <div v-if="room.owner && showRoomLink && $route.path === '/'" class="linkContainer">
         <p>
           Share this link with other players:
         </p>
@@ -115,8 +113,23 @@
           </span>
         </button>
       </div>
+    </div>
 
-      <PlayersList v-if="room.connected && $route.path !== '/run'" />
+    <PlayersList v-if="room.connected && $route.path !== '/run'" />
+
+    <div v-if="requestNewGame && $route.path !== '/' && !room.owner" class="moveToLobby popUp">
+      <div class="wrapper">
+        <h2>Room owner wants to start a new game.</h2>
+        <h3>If you want to stay on current page {{ $route.path === '/results' ? 'and continue reading the results' : '' }} you have to leave the room. You can always join again later.</h3>
+        <div class="buttons">
+          <button @click="acceptNewGame">
+            OK, I understand
+          </button>
+          <button class="disconnect-btn" @click="disconnect">
+            Leave room and stay here
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -143,6 +156,7 @@ export default {
       origin: window.location.origin,
       popUp: false,
       hidePopUp: false,
+      requestNewGame: false,
     };
   },
   computed: {
@@ -197,6 +211,9 @@ export default {
     player_name_taken() {
       console.error('PLAYER NAME TAKEN');
       this.roomInfoMsg = `Nick "${this.playerName}" is already taken.`;
+    },
+    reset() {
+      this.requestNewGame = true;
     },
   },
   mounted() {
@@ -270,6 +287,10 @@ export default {
     resetInfoMsg() {
       this.roomInfoMsg = '';
     },
+    acceptNewGame() {
+      this.requestNewGame = false;
+      this.$router.push('/');
+    },
   },
 };
 </script>
@@ -291,12 +312,7 @@ input
   overflow: hidden
   padding: $grid-gap
 
-.roomNotConnected
-  display: flex
-  flex-direction: column
-  justify-content: space-between
-
-  .popUp
+.popUp
     position: fixed
     top: 0
     bottom: 0
@@ -322,17 +338,24 @@ input
       flex-wrap: wrap
       flex-direction: column
 
-      h2
-        font-size: 2.5rem
+    h2
+      font-size: 2.5rem
 
-      .playerName, .buttons
-        margin-top: 3rem
-        width: 40%
-        max-width: 250px
 
-      button
-        width: 100%
-        height: 35px
+.roomNotConnected
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+
+  .popUp
+    .playerName, .buttons
+      margin-top: 3rem
+      width: 40%
+      max-width: 250px
+
+    button
+      width: 100%
+      height: 35px
 
   button
     @include small-btn
@@ -351,7 +374,7 @@ input
     margin-top: 1em
 
 .roomConnected
-  .popUp
+  .linkContainer
     margin-bottom: 2em
     .shareLink
       display: flex
@@ -373,6 +396,25 @@ input
     svg
       margin-bottom: $grid-gap
       margin-left: 1em
+
+.moveToLobby
+
+  h3
+    margin: 2em 0
+    max-width: 80%
+
+  button
+    @include small-btn
+    font-size: 1.2em
+    width: auto
+    padding-left: 1em
+    padding-right: 1em
+    margin: 1em 0
+
+  button:first-child
+    margin-right: 2em
+
+
 
 input::placeholder
     color: $grey
