@@ -290,12 +290,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 8
+          "total": 9
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 8
+      "total": 9
     },
     {
       "ext": "js",
@@ -369,11 +369,13 @@
           "lines": 17,
           "name": "advanced_select",
           "source": "sqlservercentral.com",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 2
         }
       ],
       "mode": "sql",
-      "name": "SQL"
+      "name": "SQL",
+      "total": 2
     },
     {
       "ext": "swift",
@@ -455,10 +457,10 @@
     }
   ],
   "stats": {
-    "avgWPM": 45.077,
-    "backspaceClicks": 118,
-    "correctClicks": 2523,
-    "deletingTime": 54,
-    "total": 13
+    "avgWPM": 41.875,
+    "backspaceClicks": 195,
+    "correctClicks": 3612,
+    "deletingTime": 104,
+    "total": 16
   }
 }
