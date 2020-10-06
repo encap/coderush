@@ -165,8 +165,7 @@ export default {
             borderColor: '#444',
             borderWidth: 2,
             pointRadius: 0,
-            backgroundColor: undefined,
-
+            fill: false,
             order: 3,
             yAxisID: 'inputIntervals',
           },

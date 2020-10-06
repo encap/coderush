@@ -347,7 +347,7 @@ export default {
 
       if (ev.key === 'Escape' || ev.key === 'Pause') {
         this.popUp(true, 'Resume');
-      } else if (ev.key === 'Insert') {
+      } else if (ev.ctrlKey && ev.key === 'Insert') {
         this.cm.execCommand('goLineEnd');
         this.cm.execCommand('goCharRight');
         this.cm.markText(
@@ -359,10 +359,10 @@ export default {
         this.currentChar = 0;
         this.correctCharsInLine = 0;
         this.stats.cheat = true;
-      } else if (ev.key === 'End') {
+      } else if (ev.ctrlKey && ev.key === 'End') {
         this.stats.cheat = true;
         this.completed(true);
-      } else if (ev.key === 'Home') {
+      } else if (ev.ctrlKey && ev.key === 'Home') {
         this.cm.execCommand('goDocEnd');
         this.cm.markText(
           { line: 0, ch: 0 },
