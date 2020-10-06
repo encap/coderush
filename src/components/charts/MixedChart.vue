@@ -164,7 +164,9 @@ export default {
             data: this.avgInputIntervals,
             borderColor: '#444',
             borderWidth: 2,
-            pointBorderColor: 'transparent',
+            pointRadius: 0,
+            backgroundColor: undefined,
+
             order: 3,
             yAxisID: 'inputIntervals',
           },

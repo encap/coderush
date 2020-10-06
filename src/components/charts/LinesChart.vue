@@ -14,18 +14,6 @@ export default {
     mistakes() {
       return this.history.filter((event) => event.type === 'mistake');
     },
-    mistakesPoints() {
-      const data = this.mistakes.reduce((acc, mistake) => {
-        acc.total += 1;
-        acc.points.push({ x: mistake.time, y: acc.total });
-
-        return acc;
-      }, {
-        total: 0,
-        points: [{ x: 0, y: 0 }],
-      });
-      return data.points;
-    },
     timePoints() {
       const acc = {
         totalTime: 0,
@@ -43,7 +31,7 @@ export default {
               // console.og(this.history[j].time - startTime);
               const time = endTime - startTime;
               acc.totalTime += time;
-              acc.points.push({ x: endTime, y: acc.totalTime, text: this.history[i].text });
+              acc.points.push({ x: endTime, y: acc.totalTime });
               i = j;
               break;
             }
@@ -51,6 +39,30 @@ export default {
         }
       }
       return acc.points;
+    },
+    mistakesPoints() {
+      const data = this.mistakes.reduce((acc, mistake) => {
+        acc.total += 1;
+        console.blue(mistake.time);
+
+        acc.points.push({ x: mistake.time, y: acc.total });
+
+        return acc;
+      }, {
+        total: 0,
+        points: [{ x: 0, y: 0 }],
+      });
+      console.log(data.points.length);
+
+      // data.points.push(data.points[data.points.length - 1]);
+      // console.log(data.points.length);
+
+      data.points.push({
+        x: this.timePoints[this.timePoints.length - 1].x,
+        y: data.total,
+      });
+      console.log(data.points);
+      return data.points;
     },
     options() {
       return {
@@ -74,7 +86,7 @@ export default {
           backgroundColor: 'rgba(20,20,20, 0.3)',
           callbacks: {
             title: ([item]) => {
-              if (item.index) {
+              if (item.index && item.index <= this.mistakes.length) {
                 const event = this.mistakes[item.index - 1];
                 return [
                   `Wrong: ${event.text.replace(' ', 'Space')}`,
@@ -148,6 +160,12 @@ export default {
             steppedLine: true,
             order: 1,
             yAxisID: 'mistakes',
+            pointRadius({ dataIndex, dataset }) {
+              if (dataIndex === dataset.data.length - 1) {
+                return 0;
+              }
+              return undefined;
+            },
           },
           {
             type: 'line',
