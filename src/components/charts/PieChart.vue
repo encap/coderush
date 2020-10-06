@@ -1,11 +1,16 @@
 <script>
 import { Pie } from 'vue-chartjs';
+import ChartJsPluginDataLabels from 'chartjs-plugin-datalabels';
+
 // eslint-disable-next-line no-unused-vars
-import Chart from 'chart.js';
-import 'chartjs-plugin-labels';
+// import Chart from 'chart.js';
+// import 'chartjs-plugin-labels';
 
 export default {
   name: 'PieChart',
+  components: {
+    ChartJsPluginDataLabels,
+  },
   extends: Pie,
   props: {
     history: {
@@ -91,9 +96,11 @@ export default {
           },
         },
         plugins: {
-          labels: {
-            fontColor: '#fff',
-            showActualPercentages: true,
+          datalabels: {
+            color: '#fff',
+            formatter(value) {
+              return `${value}%`;
+            },
           },
         },
       };

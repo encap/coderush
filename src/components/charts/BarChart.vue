@@ -1,9 +1,13 @@
 <script>
 import { HorizontalBar } from 'vue-chartjs';
+import ChartJsPluginDataLabels from 'chartjs-plugin-datalabels';
 // eslint-disable-next-line no-unused-vars
 
 export default {
   name: 'BarChart',
+  components: {
+    ChartJsPluginDataLabels,
+  },
   extends: HorizontalBar,
   props: {
     wpm: {
@@ -58,8 +62,18 @@ export default {
             },
           }],
           yAxes: [{
-            stacked: true,
+            // stacked: true,
           }],
+        },
+        plugins: {
+          datalabels: {
+            color: '#fff',
+            align: 'end',
+            anchor: 'end',
+            formatter(value) {
+              return `${value} wpm`;
+            },
+          },
         },
       };
     },

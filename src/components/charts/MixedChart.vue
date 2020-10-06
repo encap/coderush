@@ -11,14 +11,15 @@ export default {
     },
   },
   computed: {
+    history() {
+      return this.stats.history.filter((event) => event.text);
+    },
     inputIntervalsPoints() {
-      const history = this.stats.history;
-
       const points = [];
-      for (let i = 0; i < history.length - 1; i += 2) {
+      for (let i = 1; i < this.history.length; i += 1) {
         points.push({
-          x: history[i].time,
-          y: history[i + 1].time - history[i].time,
+          x: this.history[i].time,
+          y: this.history[i].time - this.history[i - 1].time,
         });
       }
       return points;
@@ -50,11 +51,8 @@ export default {
         maintainAspectRatio: false,
 
         plugins: {
-          labels: {
-            render() {
-              return '';
-            },
-
+          datalabels: {
+            display: false,
           },
         },
         title: {
@@ -74,11 +72,23 @@ export default {
           cornerRadius: 0,
           backgroundColor: 'rgba(20,20,20, 0.3)',
           callbacks: {
-            title: () => null,
-            label: (item) => {
-              console.log(item);
+            title: ([item]) => {
               if (item.datasetIndex !== 0) {
-                return `${item.yLabel} ms`;
+                const event = this.history[item.index];
+                console.blue(item.index);
+                console.log(event);
+
+                const buffer = [`${event.type === 'mistake' ? 'Wrong' : 'Correct'}: ${event.text.replace(' ', 'Space')}`];
+                if (event.type === 'mistake') {
+                  buffer.push(`Expected: ${event.expectedText.replace(' ', 'Space')}`);
+                }
+                return buffer;
+              }
+              return null;
+            },
+            label: (item) => {
+              if (item.datasetIndex !== 0) {
+                return `Time: ${item.yLabel} ms`;
               }
               return item.yLabel;
             },
@@ -106,7 +116,6 @@ export default {
               position: 'left',
               ticks: {
                 fontColor: '#aaa',
-
                 min: 0,
                 callback(value) {
                   return `${value} ms`;

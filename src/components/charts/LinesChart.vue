@@ -43,7 +43,7 @@ export default {
               // console.og(this.history[j].time - startTime);
               const time = endTime - startTime;
               acc.totalTime += time;
-              acc.points.push({ x: endTime, y: acc.totalTime });
+              acc.points.push({ x: endTime, y: acc.totalTime, text: this.history[i].text });
               i = j;
               break;
             }
@@ -73,7 +73,21 @@ export default {
           cornerRadius: 0,
           backgroundColor: 'rgba(20,20,20, 0.3)',
           callbacks: {
-            title: () => null,
+            title: ([item]) => {
+              if (item.index) {
+                const event = this.mistakes[item.index - 1];
+                return [
+                  `Wrong: ${event.text.replace(' ', 'Space')}`,
+                  `Expected: ${event.expectedText.replace(' ', 'Space')}`,
+                ];
+              }
+              return null;
+            },
+          },
+        },
+        plugins: {
+          datalabels: {
+            display: false,
           },
         },
         scales: {
