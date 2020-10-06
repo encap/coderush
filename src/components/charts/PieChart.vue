@@ -79,9 +79,13 @@ export default {
       return {
         responsive: true,
         aspectRatio: 1,
-        maintainAspectRatio: false,
-        cutoutPercentage: 40,
+        cutoutPercentage: 45,
         events: [''],
+        elements: {
+          arc: {
+            borderWidth: 30,
+          },
+        },
         title: {
           display: true,
           text: 'Time spent by category',
@@ -90,7 +94,12 @@ export default {
           fontColor: '#fff',
         },
         legend: {
+          display: false,
+          position: 'left',
+          align: 'start',
+          fullWidth: false,
           labels: {
+            padding: 15,
             fontColor: '#fff',
             fontSize: 13,
           },
@@ -98,8 +107,26 @@ export default {
         plugins: {
           datalabels: {
             color: '#fff',
-            formatter(value) {
-              return `${value}%`;
+            labels: {
+              value: {
+                font: {
+                  size: 13,
+                },
+                formatter(value) {
+                  return `${value}%`;
+                },
+              },
+              name: {
+                align: 'start',
+                anchor: 'start',
+                font: {
+                  size: 13,
+                },
+                offset: 5,
+                formatter(value, ctx) {
+                  return ctx.chart.data.labels[ctx.dataIndex];
+                },
+              },
             },
           },
         },
@@ -108,7 +135,7 @@ export default {
     chartDatasets() {
       return {
         labels: [
-          'Correct Input', 'Wrong Input', 'Deleting',
+          'Correct Input', 'Mistake', 'Deleting',
         ],
 
         datasets: [

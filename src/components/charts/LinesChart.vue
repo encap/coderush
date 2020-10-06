@@ -11,16 +11,6 @@ export default {
     },
   },
   computed: {
-    gradient() {
-      const gradient = this.$refs.canvas
-        .getContext('2d')
-        .createLinearGradient(0, 0, 0, 400);
-      gradient.addColorStop(0, 'rgba(255, 0,0, 0.5)');
-      gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)');
-      gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
-
-      return gradient;
-    },
     mistakes() {
       return this.history.filter((event) => event.type === 'mistake');
     },
@@ -115,6 +105,9 @@ export default {
         scales: {
           xAxes: [{
             type: 'linear',
+            gridLines: {
+
+            },
             ticks: {
               fontColor: '#aaa',
 
@@ -132,6 +125,9 @@ export default {
               id: 'time',
               type: 'linear',
               position: 'left',
+              gridLines: {
+                display: false,
+              },
               ticks: {
                 fontColor: '#aaa',
                 stepSize: 1000,
@@ -158,6 +154,26 @@ export default {
         },
       };
     },
+    pinkGradient() {
+      const gradient = this.$refs.canvas
+        .getContext('2d')
+        .createLinearGradient(0, 0, 0, 500);
+      gradient.addColorStop(0, 'rgba(201, 87, 224, 1)');
+      gradient.addColorStop(0.3, 'rgba(201, 87, 224, 0.4)');
+      gradient.addColorStop(0.95, 'rgba(201, 87, 224, 0)');
+
+      return gradient;
+    },
+    blueGradient() {
+      const gradient = this.$refs.canvas
+        .getContext('2d')
+        .createLinearGradient(0, 0, 0, 500);
+      gradient.addColorStop(0, 'rgba(38, 110, 183, 1)');
+      gradient.addColorStop(0.2, 'rgba(38, 110, 183, 0.4)');
+      gradient.addColorStop(0.7, 'rgba(38, 110, 183, 0)');
+
+      return gradient;
+    },
     chartData() {
       return {
         datasets: [
@@ -167,14 +183,18 @@ export default {
             data: this.mistakesPoints,
             borderColor: '#c957e0',
             borderWidth: 2,
+            backgroundColor: this.pinkGradient,
             steppedLine: true,
             order: 1,
+            pointBackgroundColor: '#ddd',
+            pointBorderColor: '#ddd',
+            pointStyle: 'crossRot',
             yAxisID: 'mistakes',
             pointRadius({ dataIndex, dataset }) {
               if (dataIndex === dataset.data.length - 1) {
                 return 0;
               }
-              return undefined;
+              return 5;
             },
           },
           {
@@ -183,8 +203,13 @@ export default {
             data: this.timePoints,
             borderColor: '#266eb7',
             borderWidth: 2,
+            backgroundColor: this.blueGradient,
             cubicInterpolationMode: 'monotone',
             order: 2,
+            pointBackgroundColor: '#ddd',
+            pointBorderColor: '#ddd',
+            pointStyle: 'crossRot',
+            pointRadius: 5,
             yAxisID: 'time',
           },
         ],

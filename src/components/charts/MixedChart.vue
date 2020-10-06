@@ -127,6 +127,9 @@ export default {
               id: 'wpm',
               type: 'linear',
               position: 'right',
+              gridLines: {
+                display: false,
+              },
               ticks: {
                 fontColor: '#aaa',
 
@@ -137,6 +140,26 @@ export default {
         },
       };
     },
+    pinkGradient() {
+      const gradient = this.$refs.canvas
+        .getContext('2d')
+        .createLinearGradient(0, 0, 0, 500);
+      gradient.addColorStop(0, 'rgba(201, 87, 224, 0.9)');
+      gradient.addColorStop(0.3, 'rgba(201, 87, 224, 0.2)');
+      gradient.addColorStop(0.9, 'rgba(201, 87, 224, 0)');
+
+      return gradient;
+    },
+    grayGradient() {
+      const gradient = this.$refs.canvas
+        .getContext('2d')
+        .createLinearGradient(0, 0, 0, 500);
+      gradient.addColorStop(0, 'rgba(68, 68, 68, 1)');
+      gradient.addColorStop(0.3, 'rgba(68, 68, 68, 0.3)');
+      gradient.addColorStop(1, 'rgba(68, 68, 68, 0)');
+
+      return gradient;
+    },
     chartDatasets() {
       return {
         datasets: [
@@ -146,7 +169,11 @@ export default {
             data: this.wpmPoints,
             cubicInterpolationMode: 'default',
             borderColor: '#c957e0',
+            pointBackgroundColor: '#ddd',
+            pointBorderColor: '#ddd',
+            pointRadius: 2,
             borderWidth: 2,
+            backgroundColor: this.pinkGradient,
             order: 1,
             yAxisID: 'wpm',
           },
@@ -155,17 +182,19 @@ export default {
             label: 'Input intervals',
             data: this.inputIntervalsPoints,
             pointBackgroundColor: '#266eb7',
+            backgroundColor: '#266eb7',
             order: 2,
+            pointHitRadius: 6,
             yAxisID: 'inputIntervals',
           },
           {
             type: 'line',
             label: 'AVG input intervals',
             data: this.avgInputIntervals,
+            backgroundColor: this.grayGradient,
             borderColor: '#444',
             borderWidth: 2,
             pointRadius: 0,
-            fill: false,
             order: 3,
             yAxisID: 'inputIntervals',
           },

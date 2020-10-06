@@ -50,6 +50,7 @@
           </div>
           <BarChart :wpm="format(WPM, 1, 1)" class="wpm-chart" />
         </section>
+
         <PieChart v-if="mistakes.length > 0" :history="stats.history" class="flex-item chart pie" />
       </div>
 
@@ -220,8 +221,8 @@ export default {
     display: flex
     flex-direction: column
     justify-content: flex-start
-    min-width: 400px
-    width: 450px
+    min-width: 300px
+    width: 500px
     position: relative
 
     &.left
@@ -235,42 +236,38 @@ export default {
   overflow: hidden
   min-width: 100%
   width: 100%
-  height: 400px
-  min-height: 400px
-  max-height: 400px
-  margin-bottom: 2 * $gap
+  height: 500px
+  min-height: 300px
+  max-height: 500px
+  margin-bottom: 3 * $gap
   position: relative
 
 .lines, .mixed
   width: 100%
 
-.pie
-  width: 400px
 
-.big-stats
-  width: 100%
-  display: flex
-  justify-content: space-between
-  text-align: center
-  margin-bottom: 1rem
-  font-size: 3rem
-
-  .unit
-    font-size: .5em
 
 .main-stats
   display: flex
   flex-direction: column
   justify-content: space-between
+  font-size: calc(0.4vw + 7px)
 
-  .wpm-chart
+  .big-stats
     width: 100%
-    height: 100%
-    max-height: 150px
-    flex-grow: 1
+    display: flex
+    justify-content: space-between
+    text-align: center
+    font-size: 3em
+    margin-bottom: 0.7em
+
+
+    .unit
+      font-size: .5em
+
 
   .middle
-    height: 6rem
+    height: 7em
     display: flex
     justify-content: space-between
     position: relative
@@ -279,11 +276,12 @@ export default {
       display: flex
       justify-content: space-between
       flex-direction: column
-      font-size: 1.1em
+      font-size: 1.2em
+
     .share
       display: block
       height: 100%
-      width: 6rem
+      width: 7em
       position: relative
       text-align: center
       background: $grid-color
@@ -291,5 +289,18 @@ export default {
 
       &:focus
         transform-origin: right
-        transform: scale(4)
+        transform: scaleX(5)
+
+  .wpm-chart
+    width: 100%
+    height: 100%
+    max-height: 200px
+    flex-grow: 1
+    margin-bottom: 0.3rem
+
+
+
+// @media (max-width: 1300px)
+//   .main-stats
+//     font-size: 0.8rem
 </style>

@@ -412,7 +412,7 @@ export default {
     transform: scale(.98)
 [wrong-count]
   background: $accent1
-  filter: unquote("saturate(calc(var(--wrong-count) * 30% + 60%))")
+  filter: unquote("saturate(calc(var(--wrong-count) * 0.3 + 0.7))")
 
   &:hover::before, &[expected-count]:before, &.locked:before
     content: attr(wrong-count)

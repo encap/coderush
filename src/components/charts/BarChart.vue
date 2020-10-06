@@ -62,7 +62,10 @@ export default {
             },
           }],
           yAxes: [{
-            // stacked: true,
+            barPercentage: 0.7,
+            gridLines: {
+              display: false,
+            },
           }],
         },
         plugins: {
