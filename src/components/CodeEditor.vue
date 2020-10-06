@@ -328,7 +328,42 @@ export default {
         }
       };
 
-      if (ev.key === 'Shift' || ev.key === 'CapsLock' || ev.key === 'Alt' || ev.key === 'PageUp' || ev.key === 'PageDown' || ev.key === 'ScrollLock' || ev.ctrlKey || ev.metaKey || ev.key.slice(0, 5) === 'Arrow' || (ev.key.length > 1 && ev.key[0] === 'F')) {
+      if (ev.ctrlKey && !ev.key) {
+        return;
+      } if (ev.ctrlKey && ev.key === 'Insert') {
+        this.cm.execCommand('goLineEnd');
+        this.cm.execCommand('goCharRight');
+        this.cm.markText(
+          { line: this.currentLine, ch: this.currentChar },
+          { line: this.currentLine, ch: this.cm.getLine(this.currentLine).length + 1 },
+          { className: 'correct' },
+        );
+        this.currentLine += 1;
+        this.currentChar = 0;
+        this.correctCharsInLine = 0;
+        this.stats.cheat = true;
+        return;
+      } if (ev.ctrlKey && ev.key === 'End') {
+        this.stats.cheat = true;
+        this.completed(true);
+        return;
+      } if (ev.ctrlKey && ev.key === 'Home') {
+        this.cm.execCommand('goDocEnd');
+        this.cm.markText(
+          { line: 0, ch: 0 },
+          { line: this.codeInfo.lines + 1, ch: 1 },
+          { className: 'correct' },
+        );
+        this.currentLine = this.codeInfo.lines - 1;
+        this.currentChar = this.cm.getLine(this.currentLine);
+        this.correctCharsInLine = this.currentChar;
+        this.stats.cheat = true;
+        console.log(JSON.parse(JSON.stringify(this.stats.history)));
+
+        this.completed(false, false);
+        return;
+      }
+      if (ev.key === 'Shift' || ev.key === 'CapsLock' || ev.key === 'Alt' || ev.key === 'PageUp' || ev.key === 'PageDown' || ev.key === 'ScrollLock' || ev.key === 'Insert' || ev.key === 'Home' || ev.key === 'End' || ev.ctrlKey || ev.metaKey || ev.key.slice(0, 5) === 'Arrow' || (ev.key.length > 1 && ev.key[0] === 'F')) {
         // prevent double event and block keys
         return;
       }
@@ -347,33 +382,6 @@ export default {
 
       if (ev.key === 'Escape' || ev.key === 'Pause') {
         this.popUp(true, 'Resume');
-      } else if (ev.ctrlKey && ev.key === 'Insert') {
-        this.cm.execCommand('goLineEnd');
-        this.cm.execCommand('goCharRight');
-        this.cm.markText(
-          { line: this.currentLine, ch: this.currentChar },
-          { line: this.currentLine, ch: this.cm.getLine(this.currentLine).length + 1 },
-          { className: 'correct' },
-        );
-        this.currentLine += 1;
-        this.currentChar = 0;
-        this.correctCharsInLine = 0;
-        this.stats.cheat = true;
-      } else if (ev.ctrlKey && ev.key === 'End') {
-        this.stats.cheat = true;
-        this.completed(true);
-      } else if (ev.ctrlKey && ev.key === 'Home') {
-        this.cm.execCommand('goDocEnd');
-        this.cm.markText(
-          { line: 0, ch: 0 },
-          { line: this.codeInfo.lines + 1, ch: 1 },
-          { className: 'correct' },
-        );
-        this.currentLine = this.codeInfo.lines - 1;
-        this.currentChar = this.cm.getLine(this.currentLine);
-        this.correctCharsInLine = this.currentChar;
-        this.stats.cheat = true;
-        this.completed(false, false);
       } else if (ev.key === 'Enter') {
         handleEnter();
       } else if (ev.key === 'Backspace') {
@@ -452,6 +460,7 @@ export default {
         console.red('Current change type equals initial type');
         console.log(JSON.parse(JSON.stringify(this.currentChange)));
       }
+
       this.currentChange = {};
     },
     onUnFocus(_, ev) {

@@ -11,6 +11,16 @@ export default {
     },
   },
   computed: {
+    gradient() {
+      const gradient = this.$refs.canvas
+        .getContext('2d')
+        .createLinearGradient(0, 0, 0, 400);
+      gradient.addColorStop(0, 'rgba(255, 0,0, 0.5)');
+      gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)');
+      gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
+
+      return gradient;
+    },
     mistakes() {
       return this.history.filter((event) => event.type === 'mistake');
     },
