@@ -9,7 +9,7 @@
     "build": "vue-cli-service build",
     "build-local": "VUE_APP_ASSETS_PATH=\"\" vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "server": "DEBUG=socket.io:client* node ./server/server.js",
+    "server": "DEBUG=socket.io:client* nodemon -V -w server/ -e js -x \"node ./server/server.js\"",
     "start": "node ./server/server.js",
     "report": "VUE_APP_ASSETS_PATH=\"\" vue-cli-service build --report"
   },
@@ -59,6 +59,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "eslint-plugin-vue-scoped-css": "^0.3.4",
     "node-sass": "^4.14.1",
+    "nodemon": "^2.0.4",
     "progress-bar-webpack-plugin": "^2.1.0",
     "sass": "^1.26.11",
     "sass-loader": "^8.0.2",

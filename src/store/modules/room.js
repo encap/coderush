@@ -19,6 +19,7 @@ const actions = {
   socket_playerDisconnected({ commit }, msg) {
     if (msg.owner) {
       commit('SET_ROOM_PROPERTY', ['connected', false]);
+
       console.log('admin disconnected');
       this._vm.$socket.client.disconnect();
     }
@@ -27,6 +28,9 @@ const actions = {
       playerName: msg.playerName,
       currentState: 'lostConnection',
     });
+
+    commit('RESET_PLAYER', msg.playerName);
+
     console.log(`player "${msg.playerName}" disconnected`);
 
     setTimeout(() => {
@@ -40,10 +44,8 @@ const actions = {
     commit('SET_ROOM_PROPERTY', ['name', roomState.roomName]);
     commit('SET_ROOM_PROPERTY', ['connected', true]);
     const playersObject = {};
-    roomState.players.forEach(({
-      name, ready, connected, owner,
-    }) => {
-      playersObject[name] = { ready, connected, owner };
+    roomState.players.forEach((player) => {
+      playersObject[player.name] = player;
     });
     commit('SET_ROOM_PROPERTY', ['players', playersObject]);
     if (roomState.languageIndex) {
@@ -105,14 +107,11 @@ const mutations = {
   SOCKET_PLAYER_IN_LOBBY(state, message) {
     Vue.set(state.room.players[message.playerName], 'inLobby', message.currentState);
   },
-  SOCKET_PLAYER_JOINED(state, playerName) {
-    console.log(`player "${playerName}" joined`);
+  SOCKET_PLAYER_JOINED(state, playerData) {
+    console.log(`player "${playerData.name}" joined`);
+    console.log(playerData);
     // Vue reactivity edgecase
-    Vue.set(state.room.players, playerName, {
-      ready: false,
-      connected: true,
-      inLobby: true,
-    });
+    Vue.set(state.room.players, playerData.name, playerData);
   },
   SOCKET_PLAYER_COMPLETED(state, message) {
     Vue.set(state.room.players[message.playerName], 'completed', true);

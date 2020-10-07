@@ -5,8 +5,15 @@ module.exports = function (http) {
 
   const rooms = {};
 
+  const playerDataTemplate = {
+    connected: true,
+    inLobby: true,
+    ready: false,
+  };
+
   io.on('connection', (socket) => {
     const { roomName } = socket.handshake.query;
+
 
     if (rooms.hasOwnProperty(roomName)) {
       socket.emit('room_exist');
@@ -18,14 +25,19 @@ module.exports = function (http) {
           socket.on('joinRoom', () => {
             console.log(`player "${playerName}" joined "${roomName}"`);
             socket.join(roomName);
-            rooms[roomName].players[socket.id] = { connected: true };
-            rooms[roomName].players[socket.id].name = playerName;
+
+            const playerData = {
+              ...playerDataTemplate,
+              name: playerName,
+            };
+
+            rooms[roomName].players[socket.id] = playerData;
             socket.emit('room_state', {
               ...rooms[roomName],
               players: Object.values(rooms[roomName].players),
               roomName,
             });
-            socket.to(roomName).emit('player_joined', playerName);
+            socket.to(roomName).emit('player_joined', playerData);
           });
         }
       });
@@ -34,12 +46,15 @@ module.exports = function (http) {
       socket.on('createRoom', (data) => {
         socket.join(data.roomName);
         rooms[data.roomName] = { players: {}, options: data.options, languageIndex: data.langaugeIndex };
-        rooms[data.roomName].players[socket.id] = {
+        const playerData = {
+          ...playerDataTemplate,
           name: data.ownerName,
           owner: true,
-          connected: true,
+          ready: true,
         };
+        rooms[data.roomName].players[socket.id] = playerData;
         socket.emit('room_created');
+        socket.emit('player_joined', playerData);
       });
     }
 
@@ -87,6 +102,7 @@ module.exports = function (http) {
     });
 
     socket.on('start', (ownerStartTime) => {
+      io.in(roomName).emit('reset');
       socket.to(roomName).emit('start', ownerStartTime);
     });
 

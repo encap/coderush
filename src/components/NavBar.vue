@@ -169,6 +169,8 @@ svg
 
 .room
   flex-grow: 1
+  min-height: 0
+  flex-shrink: 2
   position: relative
   @include padding-left
 

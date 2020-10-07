@@ -115,7 +115,7 @@
       </div>
     </div>
 
-    <PlayersList v-if="room.connected && $route.path !== '/run'" />
+    <PlayersList v-if="room.connected && $route.path !== '/run'" class="playersList" />
 
     <div v-if="requestNewGame && $route.path !== '/' && !room.owner" class="moveToLobby popUp">
       <div class="wrapper">
@@ -171,16 +171,7 @@ export default {
       this.$store.commit('SET_ROOM_PROPERTY', ['connected', true]);
       this.$store.commit('SET_ROOM_PROPERTY', ['name', this.roomName]);
       this.$store.commit('SET_ROOM_PROPERTY', ['myName', this.playerName]);
-      this.$store.commit('SET_ROOM_PROPERTY', ['ownerName', this.playerName]);
       this.$store.commit('SET_ROOM_PROPERTY', ['owner', true]);
-      this.$store.commit('SET_ROOM_PROPERTY', ['players', {
-        [this.playerName]: {
-          connected: true,
-          ready: true,
-          owner: true,
-          inLobby: true,
-        },
-      }]);
       setTimeout(() => this.$refs.closeInfoBtn.focus(), 100);
     },
     room_exist() {
@@ -213,7 +204,9 @@ export default {
       this.roomInfoMsg = `Nick "${this.playerName}" is already taken.`;
     },
     reset() {
-      this.requestNewGame = true;
+      if (this.$route.path === '/results' || this.$route.path === '/run') {
+        this.requestNewGame = true;
+      }
     },
   },
   mounted() {
@@ -302,6 +295,11 @@ export default {
   padding: $grid-gap
   border-left: 1px solid $grey
   @include navbar-mouse-effect
+
+.room
+  display: flex
+  flex-direction: column
+  justify-content: flex-start
 
 svg
     margin-top: $grid-gap
@@ -414,7 +412,9 @@ input
   button:first-child
     margin-right: 2em
 
-
+.playersList
+  min-height: 0
+  flex-shrink: 2
 
 input::placeholder
     color: $grey

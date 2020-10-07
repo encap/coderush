@@ -199,11 +199,9 @@ h2
 
 .modes
   flex-shrink: 1
-  flex-grow: 2
+  flex-grow: 1
   max-height: 250px
   grid-template-columns: repeat(3, 1fr)
-  overflow-y: hidden
-
 
   label
     padding: 30% 0.5em 0.5em
@@ -226,8 +224,8 @@ h2
     justify-content: space-around
 
 .toggles
-  flex-shrink: 3
-  flex-grow: 1
+  flex-shrink: 2
+  flex-grow: 2
   display: flex
   flex-direction: column
   width: 100%
@@ -292,5 +290,8 @@ h2
       margin: 0.5rem 0
   .list
     margin-bottom: 1em
+
+  // .modeDesc
+  //   display: none
 
 </style>
