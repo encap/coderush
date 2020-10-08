@@ -595,7 +595,7 @@ export default {
       }
       this.cm.setOption('readOnly', 'nocursor');
       const congratulations = this.options.selectedMode === 3 && !complete ? 'Game over' : 'Congratulations';
-      this.popUp(true, forced ? 'Too long, uh?' : `${this.options.selectedMode === 2 ? 'Time is over' : congratulations}''`);
+      this.popUp(true, forced ? 'Too long, uh?' : `${this.options.selectedMode === 2 ? 'Time is over' : congratulations}`);
       if (this.room.connected) {
         this.$socket.client.emit('completed', Date.now());
       }
