@@ -14,6 +14,7 @@
     <p>
       We do our best to ensure the diversity and quality of the code on which you will test your skills. You can <a>donate here</a> or <a @click="$router.push('/contribute')">contribute</a> if you like it.
     </p>
+    <img :src="`${publicPath}results.webp`" alt="gallery">
   </div>
 </template>
 
@@ -22,6 +23,11 @@
 export default {
   name: 'About',
   components: {
+  },
+  data() {
+    return {
+      publicPath: process.env.BASE_URL,
+    };
   },
 };
 </script>
@@ -36,5 +42,11 @@ p
 a
   color: lighten($washed-purple, 5%)
   text-decoration: underline
+
+img
+  @include shadow(0.3, 20px)
+  margin: 20px
+  margin-top: $gap
+  width: calc(100% - 2 * 20px)
 
 </style>
