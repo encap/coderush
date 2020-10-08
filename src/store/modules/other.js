@@ -3,6 +3,7 @@ import Vue from 'vue';
 
 const state = {
   languagesList: [],
+  databaseStats: {},
   customCode: {
     text: '',
     tabSize: 0,
@@ -15,6 +16,7 @@ const state = {
 
 const getters = {
   languagesList: (state) => state.languagesList,
+  databaseStats: (state) => state.databaseStats,
   customCode: (state) => state.customCode,
   codeInfo: (state) => state.codeInfo,
   trackedContainers: (state) => state.trackedContainers,
@@ -27,6 +29,7 @@ const actions = {
         const response = await axios.get('/database.json');
         const languagesList = response.data.languages.map((language, index) => ({ ...language, index }));
         context.commit('SET_LANGUAGES_LIST', languagesList);
+        context.commit('SET_DATABASE_STATS', response.data.stats);
       } catch (err) {
         console.warn('CANNOT GET DATABASE', err);
       }
@@ -56,6 +59,9 @@ const actions = {
 const mutations = {
   SET_LANGUAGES_LIST: (state, list) => {
     state.languagesList = list;
+  },
+  SET_DATABASE_STATS: (state, stats) => {
+    state.databaseStats = stats;
   },
   SET_CUSTOM_CODE: (state, code) => {
     Vue.set(state, 'customCode', code);

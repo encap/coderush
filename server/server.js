@@ -215,6 +215,10 @@ app.post('/api/stats', (req, res) => {
 
     database.stats.total += 1;
 
+    if (stats.wpm < 200 && stats.wpm > database.stats.best) {
+      database.stats.best = stats.wpm;
+    }
+
     database.stats.correctClicks = database.stats.correctClicks + stats.correctClicks || database.stats.correctClicks;
     database.stats.backspaceClicks = database.stats.backspaceClicks + stats.backspaceClicks || database.stats.backspaceClicks;
     database.stats.deletingTime = database.stats.deletingTime + stats.deletingTime || database.stats.deletingTime;

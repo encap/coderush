@@ -27,8 +27,8 @@ export default {
   computed: {
     ...mapGetters(['room', 'trackedContainers']),
     tooSmall() {
-      // return window.innerWidth < 640 || window.innerHeight < 480;
-      return false; // DEV
+      return window.innerWidth < 640 || window.innerHeight < 480;
+      // return false; // DEV
     },
     isPlaying() {
       return this.$route.path === '/run';

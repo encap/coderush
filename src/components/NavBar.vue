@@ -13,14 +13,14 @@
         </span>
       </button>
       <div class="line" />
-      <button class="link language" disabled @click="$store.commit('USER_LANGUAGE')">
+      <!-- <button class="link language" disabled @click="$store.commit('USER_LANGUAGE')">
         <fa v-show="userLanguage" :icon="['fas', 'globe-americas']" />
         <fa v-show="!userLanguage" :icon="['fas', 'globe-europe']" />
         <span class="btn-text">
           {{ userLanguage ? 'English Here' : 'Polska wersja' }}
         </span>
       </button>
-      <div class="line" />
+      <div class="line" /> -->
       <router-link to="/about" class="link">
         <fa :icon="['fas', 'info']" />
         <span class="btn-text">
@@ -138,7 +138,7 @@ nav:after
   $line: 1px solid $grey
   border-top: $line
   border-bottom: $line
-  min-height: 40%
+  min-height: 35%
   display: flex
   flex-direction: column
   justify-content: space-evenly

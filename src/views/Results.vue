@@ -32,10 +32,17 @@
             </div>
             <div v-if="mistakes.length" class="middle">
               <div class="mistakes-info">
-                <p>Time wasted by mistakes: {{ format(totalTimeLost) }} s</p>
-                <p>Speed counting down that time {{ format(WPMWithoutTimeLost, 0, 1) }} WPM</p>
-                <p>Most mistakes in a row: {{ mostMistakesInARow }} mistakes</p>
-                <p>Longest correction time: {{ format(longestTimeOfCorrection) }} s</p>
+                <template v-if="stats.mode !== 3">
+                  <p>Time wasted by mistakes: {{ format(totalTimeLost) }} s</p>
+                  <p>Speed counting down that time {{ format(WPMWithoutTimeLost, 0, 1) }} WPM</p>
+                  <p>Most mistakes in a row: {{ mostMistakesInARow }} mistakes</p>
+                  <p>Longest correction time: {{ format(longestTimeOfCorrection) }} s</p>
+                </template>
+                <template v-else>
+                  <p>You made a mistake after {{ correctInputs }} correct characters</p>
+                  <p>{{ stats.codeLength - correctInputs }} characters left</p>
+                  <p>{{ procentCompleted }}% completed</p>
+                </template>
               </div>
               <button class="share">
                 <fa :icon="['fas', 'share-alt']" size="lg" />
@@ -51,12 +58,12 @@
           <BarChart :wpm="format(WPM, 1, 1)" class="wpm-chart" />
         </section>
 
-        <PieChart v-if="mistakes.length > 0" :history="stats.history" class="flex-item chart pie" />
+        <PieChart v-if="mistakes.length > 1" :history="stats.history" class="flex-item chart pie" />
       </div>
 
 
       <div class="flex-column right">
-        <LinesChart v-if="mistakes.length > 0" :history="stats.history" class="flex-item chart lines" />
+        <LinesChart v-if="mistakes.length > 1" :history="stats.history" class="flex-item chart lines" />
 
         <MixedChart :stats="stats" class="flex-item chart mixed" />
       </div>
@@ -114,6 +121,9 @@ export default {
     WPM() {
       return this.CPM / 5;
     },
+    procentCompleted() {
+      return this.format(this.correctInputs / this.stats.codeLength, 1, 100);
+    },
     mostMistakesInARow() {
       return this.mistakes.map((obj) => obj.fixQueuePos)
         .reduce((acc, value) => Math.max(acc, value), 0);
@@ -158,6 +168,7 @@ export default {
       wpm: this.format(this.WPM, 0, 1),
       minutes: this.minutes,
       seconds: this.seconds,
+      correct: this.correctInputs,
     });
     if (process.env.VUE_APP_ASSETS_PATH && this.stats.file.index !== -1) {
       this.sendStats();

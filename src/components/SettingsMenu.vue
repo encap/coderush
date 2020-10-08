@@ -11,17 +11,14 @@
         :class="{'selected': index+1 === selectedMode}"
         class="mode"
       >
-        <!-- <div class="container"> -->
         <h4>{{ mode[0] }}</h4>
         <p class="modeDesc">{{ mode[1] }}</p>
-        <!-- </div> -->
 
         <input
           v-model="selectedMode"
-          name="mode"
+          name="selectedMode"
           :value="index+1"
           type="radio"
-          :disabled="index > 0"
         >
       </label>
     </div>
@@ -98,8 +95,9 @@ export default {
       ],
       modesList: [
         ['Normal', 'Write down provided source code as quickly as you can.'],
-        ['Hardcore', 'You make a mistake - you lose'],
         ['CodeRush', 'See how much code you are able to write in 100 seconds'],
+        ['Hardcore', 'You make a mistake - you lose'],
+
       ],
     };
   },
@@ -135,7 +133,14 @@ export default {
   methods: {
     updateOption(ev) {
       if (this.room.owner && ev.target.name) {
-        this.$socket.client.emit('optionChange', { name: ev.target.name, value: ev.target.checked });
+        const payload = {
+          name: ev.target.name,
+          value: ev.target.checked,
+        };
+        if (ev.target.name === 'selectedMode') {
+          payload.value = Number(ev.target.value);
+        }
+        this.$socket.client.emit('optionChange', payload);
       }
     },
   },
@@ -213,6 +218,10 @@ h2
       font-size: 0.9em
       width: 80%
       text-align: center
+      transition: color 1s ease
+
+  .selected > .modeDesc
+    color: #ddd
 
 
 .themes

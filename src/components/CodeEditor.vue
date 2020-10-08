@@ -17,13 +17,19 @@
     </div>
     <div class="pop-up" :class="{hidden: !showPopUp, clickable: popUpClickable, 'small-font': popUpText.length > 15}">
       <div>
-        <h2 v-show="roomPlace.place">
+        <p v-show="popUpText === 'Try again'" class="hardcore-info">
+          We can't generate accurate results from this round.
+        </p>
+        <h2 v-show="roomPlace.place && options.selectedMode === 1">
           {{ roomPlace.place }}<sup>{{ roomPlace.sup }}</sup> place
         </h2>
+        <p v-show="options.selectedMode !== 1 && stats.history.length - 1 > 0">
+          {{ popUpText === 'Try again' ? 'You made mistake after ' : '' }}{{ stats.history.length - 1 }} correct character{{ stats.history.length - 1 === 1 ? '' : 's' }}
+        </p>
         <h2 v-show="!(room.connected && room.place > 3)" @click="popUp(false)">
           {{ popUpText }}
         </h2>
-        <p v-show="isCompleted">
+        <p v-show="isCompleted" class="results-info">
           Loading your results...
         </p>
       </div>
@@ -126,11 +132,14 @@ export default {
       this.popUpText = text;
 
       if (action) {
-        if (text === 'Resume') {
+        if (text === 'Resume' || text === 'Try again') {
           this.popUpClickable = true;
         }
       } else {
         this.popUpClickable = false;
+        if (this.popUpText === 'Try again') {
+          this.$emit('reset');
+        }
         this.cm.focus();
       }
       this.showPopUp = action;
@@ -138,7 +147,7 @@ export default {
     onCmReady(cm) {
       this.cm = cm;
 
-      this.init(); // TODO
+      this.init();
       this.fixHeight();
     },
     onKeyDown(ev) {
@@ -298,7 +307,7 @@ export default {
               { line: this.currentLine, ch: this.currentChar + text.length },
               { className: 'mistake' },
             );
-            // TODO show missclicked char
+
             this.markers.push(marker);
             this.currentChar += text.length;
             this.currentChange = {
@@ -455,6 +464,13 @@ export default {
       }
 
       if (this.currentChange.type !== 'initialType') {
+        if (this.options.selectedMode === 3 && this.currentChange.type !== 'correct') {
+          if (this.stats.history.length < 30) {
+            this.popUp(true, 'Try again');
+          } else {
+            this.completed();
+          }
+        }
         this.stats.history.push(this.currentChange);
       } else {
         console.red('Current change type equals initial type');
@@ -577,6 +593,7 @@ export default {
           timeFromFirstInput: this.timeElapsed(),
           codeLength: this.codeText.length,
           file: this.codeInfo,
+          mode: this.options.selectedMode,
         };
         if (forced) {
           this.stats.earlyFinish = true;
@@ -754,9 +771,16 @@ export default {
       text-align: center
 
   p
+    font-size: 2rem
+
+  .hardcore-info
+    transform: translateY(-2rem)
+
+
+  .results-info
     animation: opacity-enter .5s ease-out forwards .7s
     animation-fill-mode: backwards
-    font-size: 2rem
     transform: translateY(4rem)
+
 
 </style>

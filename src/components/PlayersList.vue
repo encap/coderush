@@ -65,9 +65,11 @@
 
           <div v-if="$route.path === '/results'" class="results">
             <template v-if="player.place">
-              <output class="wpm">{{ player.stats.wpm }} WPM</output>
+              <output>{{ player.stats.wpm }} WPM</output>
 
-              <output class="time">{{ player.stats.minutes ? `${player.stats.minutes}min ${player.stats.seconds}s` : `${player.stats.seconds}s` }} </output>
+              <output v-if="options.selectedMode === 1">{{ player.stats.minutes ? `${player.stats.minutes}min ${player.stats.seconds}s` : `${player.stats.seconds}s` }} </output>
+
+              <output v-else>{{ player.stats.correct }} correct</output>
             </template>
           <!-- <span v-else>In game</span> -->
           </div>
@@ -83,7 +85,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'PlayersList',
   computed: {
-    ...mapGetters(['room', 'players']),
+    ...mapGetters(['room', 'players', 'options']),
     playersArray() {
       return Object.values(this.players);
     },
@@ -94,7 +96,10 @@ export default {
       return [...this.playersArray].sort((p1, p2) => {
         console.log(p1.name, p2.name);
         if (p1.place && p2.place) {
-          return p1.place - p2.place;
+          if (this.options.selectedMode === 1) {
+            return p1.place - p2.place;
+          }
+          return p2.stats.correct - p1.stats.correct;
         }
         if (p1.owner) {
           console.log('owner');
@@ -112,8 +117,6 @@ export default {
     readyPlayersCount() {
       return this.playersArray.filter((player) => player.ready).length;
     },
-  },
-  methods: {
   },
 };
 </script>

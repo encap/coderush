@@ -2,6 +2,7 @@
 import { HorizontalBar } from 'vue-chartjs';
 import ChartJsPluginDataLabels from 'chartjs-plugin-datalabels';
 // eslint-disable-next-line no-unused-vars
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'BarChart',
@@ -21,15 +22,12 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['databaseStats']),
     chartData() {
-      // TODO Fetch data from server
-      const best = 61;
-      const avg = 32;
-
       const scores = [
         { name: 'player', value: this.wpm },
-        { name: 'avg', value: avg },
-        { name: 'best', value: best },
+        { name: 'avg', value: this.databaseStats.avgWPM },
+        { name: 'best', value: this.databaseStats.best },
       ];
       scores.sort((a, b) => a.value - b.value);
 

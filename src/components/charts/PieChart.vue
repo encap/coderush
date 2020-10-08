@@ -107,6 +107,7 @@ export default {
         plugins: {
           datalabels: {
             color: '#fff',
+            display: 'auto',
             labels: {
               value: {
                 font: {

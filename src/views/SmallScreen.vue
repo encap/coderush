@@ -1,8 +1,6 @@
 <template>
   <div class="container">
-    <div>
-      <h2>Po chuj ci CodeRush na telefonie?<br><br>We detected unsupported screen resolution.<br><br>Please open this app on bigger screen (1920x1080). </h2>
-    </div>
+    <h2>We detected unsupported screen resolution. Please open this app on bigger screen.</h2>
   </div>
 </template>
 
@@ -12,16 +10,12 @@ export default {
 };
 </script>
 
-<style lang="sass"  scoped>
+<style lang="sass" scoped>
 .container
   height: 100vh
   display: flex
-  flex-direction: row
   justify-content: space-around
   align-items: center
-
-
-div
   text-align: center
 
 </style
