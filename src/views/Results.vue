@@ -21,12 +21,20 @@
                   {{ format(CPM, 0, 1) }}
                 </h2>
               </div>
-              <div class="time">
+              <div v-if="stats.mode !== 2" class="time">
                 <p class="unit">
                   Time
                 </p>
                 <h2 class="value">
                   {{ minutes ? `${minutes}:${seconds}` : `${seconds}s` }}
+                </h2>
+              </div>
+              <div v-else class="characters">
+                <p class="unit">
+                  Characters
+                </p>
+                <h2 class="value">
+                  {{ correctInputs }}
                 </h2>
               </div>
             </div>

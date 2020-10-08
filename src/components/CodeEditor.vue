@@ -140,7 +140,12 @@ export default {
         if (this.popUpText === 'Try again') {
           this.$emit('reset');
         }
+
         this.cm.focus();
+      }
+
+      if (this.popUpText === 'resume') {
+        this.$emit('pause', action);
       }
       this.showPopUp = action;
     },
@@ -468,7 +473,7 @@ export default {
           if (this.stats.history.length < 30) {
             this.popUp(true, 'Try again');
           } else {
-            this.completed();
+            this.completed(false, true, true);
           }
         }
         this.stats.history.push(this.currentChange);
@@ -539,6 +544,9 @@ export default {
       this.started = true;
       this.cm.focus();
       console.log('START');
+      if (this.options.selectedMode === 2) {
+        this.$emit('start');
+      }
       this.stats.startTime = Date.now();
     },
     init() {
@@ -576,13 +584,18 @@ export default {
           }
         });
     },
-    completed(forced = false, currentStats = true) {
+    completed(forced = false, currentStats = true, complete = true) {
       if (this.$route.path === '/results' || (forced && this.stats.history.length < 10)) {
         // return if finished too early
         // return; DEV
       }
+      if (this.stats.history.length < 2) {
+        this.$router.push('/');
+        return;
+      }
       this.cm.setOption('readOnly', 'nocursor');
-      this.popUp(true, forced ? 'Too long, uh?' : 'Congratulations');
+      const congratulations = this.options.selectedMode === 3 && !complete ? 'Game over' : 'Congratulations';
+      this.popUp(true, forced ? 'Too long, uh?' : `${this.options.selectedMode === 2 ? 'Time is over' : congratulations}''`);
       if (this.room.connected) {
         this.$socket.client.emit('completed', Date.now());
       }

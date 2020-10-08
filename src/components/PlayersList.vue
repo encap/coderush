@@ -19,7 +19,7 @@
         :key="player.name"
         :class="{inGame: !player.place, gap: $route.path === '/results' && index === finishedPlayersCount}"
       >
-        <span class="bullet">{{ $route.path == '/results' && player.place ? `${player.place}.` : '•' }}</span>
+        <span class="bullet">{{ $route.path == '/results' && player.place ? `${index + 1}.` : '•' }}</span>
         <div class="item-wrapper">
           <div class="name-icons">
             <span class="player-name" :class="{ me: player.name === room.myName}">

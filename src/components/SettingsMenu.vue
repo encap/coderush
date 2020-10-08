@@ -114,7 +114,7 @@ export default {
       handler(current) {
         if (current) {
           this.$socket.client.emit('optionsData', {
-            mode: this.selectedMode,
+            selectedMode: this.selectedMode,
             codeLength: this.codeLength,
             autoIndent: this.autoIndent,
           });

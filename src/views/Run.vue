@@ -16,6 +16,9 @@
           <p>{{ codeSource }}</p>
         </div>
       </div>
+      <h2 v-if="timer !== null && $route.path === '/run'" class="timer">
+        {{ timer }}
+      </h2>
       <div class="buttons">
         <button v-show="!room.connected" class="reset" @click="reset">
           Restart
@@ -40,6 +43,8 @@
       class="code-editor"
       @reset="reset"
       @completed="completed"
+      @start="startTimer"
+      @pause="(action) => {pause = action}"
     />
 
     <div
@@ -74,12 +79,13 @@ export default {
       resetSelfKey: 1,
       resetEditorKey: 1,
       stats: false,
-
-
+      timer: null,
+      pause: false,
+      intervalId: null,
     };
   },
   computed: {
-    ...mapGetters(['language', 'customCode', 'codeInfo', 'room']),
+    ...mapGetters(['language', 'customCode', 'codeInfo', 'room', 'options']),
     codeSource() {
       if (this.codeInfo.name) {
         return this.codeInfo.source === 'own' ? 'Łukasz Wielgus archive' : this.codeInfo.source;
@@ -114,10 +120,18 @@ export default {
 
     next();
   },
+  beforeDestroy() {
+    if (this.intervalId) {
+      window.clearInterval(this.intervalId);
+    }
+  },
   methods: {
     reset() {
       this.stats = false;
       this.resetEditorKey += 1;
+      if (this.intervalId) {
+        window.clearInterval(this.intervalId);
+      }
 
       if (this.$route.path === '/results') {
         this.$router.push('/run');
@@ -129,11 +143,24 @@ export default {
         this.$router.push('/run');
       }
     },
+    startTimer() {
+      this.timer = 100;
+      this.intervalId = window.setInterval(() => {
+        if (this.timer === 0) {
+          this.$refs.codeEditor.completed();
+        } else if (!this.pause) {
+          this.timer -= 1;
+        }
+      }, 1000);
+    },
     finish() {
       this.$refs.codeEditor.completed(true);
     },
     completed(stats) {
       this.stats = stats;
+      if (this.intervalId) {
+        window.clearInterval(this.intervalId);
+      }
     },
     disconnect() {
       this.requestReset = false;
@@ -175,16 +202,28 @@ main
     display: flex
     align-items: center
     min-width: 0
+    flex-shrink: 2
 
     .languageName
       font-size: 2rem
       margin-right: 1em
+      min-width: 0
+
+      h2
+        overflow: hidden
+        text-overflow: ellipsis
+
     .codeInfo
+      min-width: 0
+      flex-shrink: 2
       display: flex
       justify-content: space-between
       flex-direction: column
-      overflow: hidden
+
       p
+        min-width: 0
+        overflow: hidden
+        text-overflow: ellipsis
         margin-bottom: $grid-gap
 
   .buttons
