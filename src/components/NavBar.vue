@@ -38,7 +38,7 @@
     <RoomPanel class="room" />
     <div class="author">
       <div v-if="$route.path !== '/' && $route.path !== 'run'" class="donate">
-        <a href="">Donate</a><span> if you like it</span>
+        <a>Donate</a><span> if you like it</span>
       </div>
       <span class="author-text">
         Made with <fa :icon="['fas', 'heart']" class="heart" /> by <span class="author-name">Łukasz Wielgus</span>

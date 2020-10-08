@@ -3,15 +3,15 @@
     <main class="middle">
       <h1>Contribute</h1>
 
-      <article>
+      <article :class="{shrink: expand || sent}">
         <p>
-          Our mission is to ensure the diversity and quality of the code<span v-show="!expand || sent"> in which our users practice and test their skills.  do our best to ensure that there are no errors in the code but with that many languages and technologies available on CodeRush, it is not possible without your help.</span><span v-show="expand && !sent">...</span>
+          Our mission is to ensure the diversity and quality of the code on which our users practice and test their skills.  do our best to ensure that there are no errors in the code but with that many languages and technologies available on CodeRush, it is not possible without your help.
         </p>
-        <p v-show="!expand || sent">
+        <p>
           On this page you can help expand our code database by sending us your code in a language of your choice. The "Send" button will create a PR and after verirfication your code will be publicly avaible on <a href="https://github.com/encap/coderush">our GitHub repo</a> .
           Please don't paste a code that you did not write yourself or that is under NDA or any other code that we will not be able to use for legal resons.
         </p>
-        <p v-show="!expand|| sent">
+        <p>
           You can also file an issue and contribute directly on <a href="https://github.com/encap/coderush#readme">our GitHub</a>
         </p>
       </article>
@@ -177,6 +177,17 @@ h1
 a
   color: $light-pink
   text-decoration: underline
+
+article.shrink
+  max-height: 1em
+  margin-bottom: 1em
+  overflow: hidden
+
+  p
+    max-height: 1em
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
 
 article p
   font-size: 16px

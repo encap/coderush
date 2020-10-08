@@ -12,7 +12,7 @@
       CodeRush allows you to create a multiplayer server, so that you can compete with invited friends and colleagues.
     </p>
     <p>
-      You can <a href="">donate</a> or <a href="" @click="$router.push('/contribute')">contribute</a> if you like it.
+      We do our best to ensure the diversity and quality of the code on which you will test your skills. You can <a>donate here</a> or <a @click="$router.push('/contribute')">contribute</a> if you like it.
     </p>
   </div>
 </template>
