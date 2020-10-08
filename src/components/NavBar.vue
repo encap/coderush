@@ -2,7 +2,7 @@
   <nav>
     <button class="title" @click="mainPage">
       CodeRush
-      <span class="beta">BETA+</span>
+      <span class="beta">RTM v0.3</span>
     </button>
 
     <div class="links" :class="{'room-connected': room.connected}">
@@ -38,7 +38,7 @@
     <RoomPanel class="room" />
     <div class="author">
       <div v-if="$route.path !== '/' && $route.path !== 'run'" class="donate">
-        <a href="paypal.com">Donate</a><span> if you like it</span>
+        <a href="">Donate</a><span> if you like it</span>
       </div>
       <span class="author-text">
         Made with <fa :icon="['fas', 'heart']" class="heart" /> by <span class="author-name">Łukasz Wielgus</span>
