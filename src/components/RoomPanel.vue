@@ -414,6 +414,7 @@ input
 
 .playersList
   min-height: 0
+  flex-grow: 1
   flex-shrink: 2
 
 input::placeholder
