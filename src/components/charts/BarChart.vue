@@ -15,6 +15,11 @@ export default {
       default: null,
     },
   },
+  data() {
+    return {
+      backgroundColors: ['#266eb7', '#a411f9', '#c957e0'],
+    };
+  },
   computed: {
     chartData() {
       // TODO Fetch data from server
@@ -80,25 +85,26 @@ export default {
         },
       };
     },
+
     chartDatasets() {
       return {
         datasets: [
           {
             barPercentage: this.chartData.barWidth ? 0.75 : 0.9,
             label: 'You',
-            backgroundColor: '#266eb7',
+            backgroundColor: this.backgroundColors[this.chartData.player.order],
             data: [this.chartData.player.value],
             order: this.chartData.player.order,
           },
           {
             label: 'AVG',
-            backgroundColor: '#292a3e',
+            backgroundColor: this.backgroundColors[this.chartData.avg.order],
             data: [this.chartData.avg.value],
             order: this.chartData.avg.order,
           },
           {
             label: 'Best',
-            backgroundColor: '#c957e0',
+            backgroundColor: this.backgroundColors[this.chartData.best.order],
             data: [this.chartData.best.value],
             order: this.chartData.best.order,
           },

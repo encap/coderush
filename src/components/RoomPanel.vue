@@ -373,13 +373,14 @@ input
 
 .roomConnected
   .linkContainer
-    margin-bottom: 2em
+    margin-bottom: 1em
     .shareLink
       display: flex
       justify-content: space-between
       margin: 1em 0
 
     input
+      text-overflow: ellipsis
       flex-grow: 1
 
     .close-btn
@@ -413,9 +414,7 @@ input
     margin-right: 2em
 
 .playersList
-  min-height: 0
   flex-grow: 1
-  flex-shrink: 2
 
 input::placeholder
     color: $grey

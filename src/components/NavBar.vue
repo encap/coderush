@@ -169,12 +169,11 @@ svg
 
 .room
   flex-grow: 1
-  min-height: 0
-  flex-shrink: 2
   position: relative
   @include padding-left
 
 .author
+  margin-top: 2em
   @include padding-left
 
   .donate
