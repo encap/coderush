@@ -71,8 +71,8 @@ export default {
 
       return [
         Math.round(correctInputTime / sum * 100),
-        Math.round(wrongInputTime / sum * 100),
-        Math.round(deletingTime / sum * 100),
+        Math.round(wrongInputTime / sum * 100) + 4,
+        Math.round(deletingTime / sum * 100) - 4,
       ];
     },
     options() {
@@ -80,7 +80,7 @@ export default {
         responsive: true,
         aspectRatio: 1,
         cutoutPercentage: 45,
-        events: [''],
+        events: this.chartData[2] < 5 ? ['mousemove'] : [],
         elements: {
           arc: {
             borderWidth: 30,
@@ -104,10 +104,20 @@ export default {
             fontSize: 13,
           },
         },
+        tooltips: {
+          cornerRadius: 0,
+          backgroundColor: 'rgba(20,20,20, 0.5)',
+          callbacks: {
+            label: (item, data) => data.labels[item.index],
+          },
+          filter(item) {
+            return item.index === 2;
+          },
+        },
         plugins: {
           datalabels: {
             color: '#fff',
-            display: 'auto',
+            display: this.chartData[2] < 5 ? 'auto' : true,
             labels: {
               value: {
                 font: {
@@ -143,6 +153,7 @@ export default {
           {
             type: 'pie',
             backgroundColor: ['#292a3e', '#c957e0', '#266eb7'],
+            hoverBackgroundColor: ['#292a3e', '#c957e0', '#266eb7'],
             data: this.chartData,
             borderColor: '#222',
             borderWidth: 1,
