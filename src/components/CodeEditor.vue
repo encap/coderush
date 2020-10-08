@@ -589,7 +589,7 @@ export default {
         // return if finished too early
         // return; DEV
       }
-      if (this.stats.history.length < 2) {
+      if (this.stats.history.length < 2 && !this.stats.cheat) {
         this.$router.push('/');
         return;
       }
