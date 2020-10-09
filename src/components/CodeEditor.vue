@@ -487,7 +487,7 @@ export default {
     onUnFocus(_, ev) {
       if (ev) {
         if (process.env.NODE_ENV !== 'production') ev.preventDefault(); // DEV
-        if (!this.isCompleted && ev) {
+        if (!this.isCompleted && this.popUpText !== 'Try again' && ev) {
           if (process.env.NODE_ENV !== 'production') this.cm.focus(); // DEV
           if (ev.relatedTarget !== null) {
             if (ev.relatedTarget.tagName !== 'BUTTON' && ev.relatedTarget.tagName !== 'A') {
