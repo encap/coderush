@@ -343,11 +343,13 @@
           "lines": 22,
           "name": "rust_example",
           "source": "github.com/gothinkster",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mode": "rust",
-      "name": "Rust"
+      "name": "Rust",
+      "total": 1
     },
     {
       "ext": "scala",
@@ -457,11 +459,11 @@
     }
   ],
   "stats": {
-    "avgWPM": 39.25,
-    "backspaceClicks": 259,
-    "correctClicks": 5348,
-    "deletingTime": 136,
-    "total": 24,
-    "best": 61
+    "avgWPM": 37.8,
+    "backspaceClicks": 261,
+    "best": 61,
+    "correctClicks": 5371,
+    "deletingTime": 140,
+    "total": 25
   }
 }
