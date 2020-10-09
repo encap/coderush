@@ -200,7 +200,7 @@ export default {
 .language-radio
   display: none
 
-.showStats .language:hover
+.showStats .language:hover:not(.random)
   & > .language-name
     transform: translateX(-25%)
   & > .stat
