@@ -72,7 +72,24 @@ button, label
   display: flex
   justify-content: space-around
   align-items: center
+  position: relative
+  z-index: 2
   @include shadow(0.1)
+
+  &:hover:before
+    opacity: 1
+
+  &:before
+    position: absolute
+    content: ""
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
+    background: linear-gradient(to bottom, $purple-gradient-colors 150%)
+    z-index: -1
+    transition: opacity 0.15s ease-in-out
+    opacity: 0
 
 
 
