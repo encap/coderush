@@ -186,7 +186,7 @@ export default {
         if (this.room.owner) {
           this.$socket.client.emit('customCodeData', data);
         }
-      }, 1000);
+      }, 50);
     },
     clear() {
       this.code = '';

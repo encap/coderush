@@ -65,33 +65,7 @@ export default {
 };
 </script>
 
-<style lang="sass">
-*
-  box-sizing: border-box
-  margin: 0
-  padding: 0
-
-
-body
-  font-family: Arial, 'Nimbus Sans', sans-serif
-  margin: 0
-  background: radial-gradient(at top left, $navy-grey ,$light-navy)
-  background-repeat: no-repeat
-  background-attachment: fixed
-  overflow: auto
-  &::-webkit-scrollbar
-      width: $gap / 2
-  &::-webkit-scrollbar-thumb
-    background: $washed-purple
-    background: linear-gradient(to top,  $washed-purple, mix($washed-purple, $grid-color, 60%))
-  &::-webkit-scrollbar-track
-    background-color: $grid-color
-  &::-webkit-scrollbar-corner
-    background-color: $grid-color
-
-input, textarea, button
-  font-family: inherit
-
+<style lang="sass" scoped>
 #app
   position: relative
   width: 100%
@@ -123,7 +97,42 @@ main
   flex-grow: 1
   position: relative
   min-width: 0
-  overflow-x: hidden
+  // overflow-x: hidden
+
+@media (max-width: 900px), (max-height: 700px)
+  #app
+    padding: 1em
+
+  aside:not(.thin)
+    margin-right: 1em
+</style>
+
+<style lang="sass">
+*
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+
+body
+  font-family: Arial, 'Nimbus Sans', sans-serif
+  margin: 0
+  background: radial-gradient(at top left, $navy-grey ,$light-navy)
+  background-repeat: no-repeat
+  background-attachment: fixed
+  overflow: auto
+  &::-webkit-scrollbar
+      width: $gap / 2
+  &::-webkit-scrollbar-thumb
+    background: $washed-purple
+    background: linear-gradient(to top,  $washed-purple, mix($washed-purple, $grid-color, 60%))
+  &::-webkit-scrollbar-track
+    background-color: $grid-color
+  &::-webkit-scrollbar-corner
+    background-color: $grid-color
+
+input, textarea, button
+  font-family: inherit
+
 
 button, a, input[type="checkbox"], input[type="radio"]
   cursor: pointer
@@ -148,18 +157,4 @@ button, a, input[type="checkbox"], input[type="radio"]
 
 .cm-error:not(.mark)
   background-color: transparent !important
-
-@media (max-width: 900px), (max-height: 700px)
-  .toggles
-    label
-      margin-top: 1em
-  .list
-    margin-bottom: 1em
-
-  #app
-    padding: 1em
-
-  aside:not(.thin)
-    margin-right: 1em
-
 </style>

@@ -299,8 +299,4 @@ h2
       margin: 0.5rem 0
   .list
     margin-bottom: 1em
-
-  // .modeDesc
-  //   display: none
-
 </style>
