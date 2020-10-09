@@ -90,7 +90,6 @@ import LinesChart from '@/components/charts/LinesChart.vue';
 import PieChart from '@/components/charts/PieChart.vue';
 import MixedChart from '@/components/charts/MixedChart.vue';
 
-
 export default {
   name: 'Results',
   components: {

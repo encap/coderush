@@ -19,24 +19,64 @@
       </main>
       <aside>
         <h2>Coderush statistics</h2>
+        <section class="stats">
+          <div class="total">
+            <h3>{{ stats.total }}</h3><p>Times played</p>
+          </div>
+          <div class="avg">
+            <h3>{{ stats.avgWPM }}</h3><p>avarage speed in WPM ({{ stats.avgWPM * 5 }} CPM)</p>
+          </div>
+          <div class="total">
+            <h3>{{ stats.best }}</h3><p>Best score in WPM</p>
+          </div>
+          <div class="total">
+            <h3>{{ stats.best }}</h3><p>Best score in WPM</p>
+          </div>
+        </section>
       </aside>
     </section>
 
-    <img :src="`${publicPath}results.webp`" alt="gallery">
+    <Results
+      v-if="exampleStats"
+      :stats="exampleStats"
+    />
+    <button v-else @click="loadExampleResults">
+      Load example results
+    </button>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import axios from 'axios';
+
+
+const Results = () => import(/* webpackChunkName: "results" */ '@/views/Results.vue');
 
 export default {
   name: 'About',
   components: {
+    Results,
   },
   data() {
     return {
       publicPath: process.env.BASE_URL,
+      exampleStats: null,
     };
   },
+  computed: {
+    ...mapGetters({
+      stats: 'databaseStats',
+    }),
+  },
+  methods: {
+    async loadExampleResults(ev) {
+      ev.target.innerText = 'Loading...';
+      const response = await axios.get(`${process.env.VUE_APP_ASSETS_PATH || ''}/exampleResults.json`);
+      this.exampleStats = response.data;
+    },
+  },
+
 };
 </script>
 
@@ -51,7 +91,7 @@ main
   flex-grow: 1
   flex-shrink: 2
   max-width: 50%
-  margin-right: $gap
+  margin-right: 2 * $gap
 
   p
     font-size: 16px
@@ -59,14 +99,16 @@ main
     margin: 1em 0
 
   a
-    color: lighten($washed-purple, 5%)
+    color: $light-purple
     text-decoration: underline
 
 aside
   flex-grow: 1
-img
-  @include shadow(0.3, 20px)
-  // margin: 20px
-  width: 100%
+
+button
+  text-align: center
+  height: 47px
+  width: 250px
+  background: linear-gradient(to left, $purple-gradient-colors)
 
 </style>

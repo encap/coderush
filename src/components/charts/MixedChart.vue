@@ -20,6 +20,7 @@ export default {
         points.push({
           x: this.history[i].time,
           y: this.history[i].time - this.history[i - 1].time,
+          type: this.history[i].type,
         });
       }
       return points;
@@ -28,6 +29,13 @@ export default {
       const avg = Math.round(this.inputIntervalsPoints.reduce((acc, point) => acc + point.y, 0) / this.inputIntervalsPoints.length);
       return [{ x: 0, y: avg }, { x: this.stats.timeFromFirstInput, y: avg }];
     },
+    // pointsStyle() {
+    //   return this.avgInputIntervals.map((_, index) => {
+    //     if (this.history[index].type === 'mistake') {
+    //       return {};
+    //     }
+    //   });
+    // },
     wpmPoints() {
       const oneThirdTime = this.format(this.stats.oneThirdTime, 0);
       const oneThirdWPM = this.stats.oneThirdCharsCount / oneThirdTime * 60 / 5;
@@ -49,7 +57,6 @@ export default {
       return {
         responsive: true,
         maintainAspectRatio: false,
-
         plugins: {
           datalabels: {
             display: false,
@@ -75,8 +82,7 @@ export default {
             title: ([item]) => {
               if (item.datasetIndex !== 0) {
                 const event = this.history[item.index];
-                console.blue(item.index);
-                console.log(event);
+
 
                 const buffer = [`${event.type === 'mistake' ? 'Wrong' : 'Correct'}: ${event.text.replace(' ', 'Space')}`];
                 if (event.type === 'mistake') {
@@ -181,7 +187,57 @@ export default {
             type: 'scatter',
             label: 'Input intervals',
             data: this.inputIntervalsPoints,
-            pointBackgroundColor: '#266eb7',
+            pointStyle(ctx) {
+              const event = ctx.dataset.data[ctx.dataIndex - 1];
+              if (event && event.type === 'mistake') {
+                console.blue('here');
+                return 'crossRot';
+              }
+              return 'circle';
+            },
+            pointBackgroundColor(ctx) {
+              const event = ctx.dataset.data[ctx.dataIndex - 1];
+              if (event && event.type === 'mistake') {
+                return '#eee';
+              }
+              return '#266eb7';
+            },
+            pointBorderColor(ctx) {
+              const event = ctx.dataset.data[ctx.dataIndex - 1];
+              if (event && event.type === 'mistake') {
+                return '#eee';
+              }
+              return 'transparent';
+            },
+            pointBorderWidth(ctx) {
+              const event = ctx.dataset.data[ctx.dataIndex - 1];
+              if (event && event.type === 'mistake') {
+                return 2;
+              }
+              return 0;
+            },
+            pointRadius(ctx) {
+              const event = ctx.dataset.data[ctx.dataIndex - 1];
+              if (event && event.type === 'mistake') {
+                return 5;
+              }
+              return 2;
+            },
+            pointHoverRadius(ctx) {
+              const event = ctx.dataset.data[ctx.dataIndex - 1];
+              if (event && event.type === 'mistake') {
+                return 5;
+              }
+              return 2;
+            },
+            pointHoverBorderWidth(ctx) {
+              const event = ctx.dataset.data[ctx.dataIndex - 1];
+              if (event && event.type === 'mistake') {
+                return 2;
+              }
+              return 0;
+            },
+
             backgroundColor: '#266eb7',
             order: 2,
             pointHitRadius: 6,
@@ -212,7 +268,3 @@ export default {
   },
 };
 </script>
-
-<style>
-
-</style>

@@ -54,7 +54,6 @@
     >
       <Results
         v-if="stats"
-
         :stats="stats"
       />
     </div>

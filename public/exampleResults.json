@@ -1,5 +1,4 @@
-/* eslint-disable */
-export default {
+{
   "history": [
     {
       "time": 0,
@@ -1918,7 +1917,7 @@ export default {
   "codeLength": 216,
   "mode": 1,
   "file": {
-    "languageName": 'R',
+    "languageName": "R",
     "languageIndex": 20,
     "index": 0,
     "name": "factorial_of_a_number",

@@ -43,7 +43,6 @@ export default {
     mistakesPoints() {
       const data = this.mistakes.reduce((acc, mistake) => {
         acc.total += 1;
-        console.blue(mistake.time);
 
         acc.points.push({ x: mistake.time, y: acc.total });
 
@@ -52,16 +51,12 @@ export default {
         total: 0,
         points: [{ x: 0, y: 0 }],
       });
-      console.log(data.points.length);
-
-      // data.points.push(data.points[data.points.length - 1]);
-      // console.log(data.points.length);
 
       data.points.push({
         x: this.timePoints[this.timePoints.length - 1].x,
         y: data.total,
       });
-      console.log(data.points);
+
       return data.points;
     },
     options() {
