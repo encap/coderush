@@ -52,9 +52,7 @@
                   <p>{{ procentCompleted }}% completed</p>
                 </template>
               </div>
-              <button :disabled="$route.path === '/about'" class="share">
-                <fa :icon="['fas', 'share-alt']" size="lg" />
-              </button>
+              <ShareResults class="share" />
             </div>
             <div v-else>
               <h3>
@@ -84,20 +82,25 @@
 <script>
 import axios from 'axios';
 
-import VirtualKeyboard from '@/components/VirtualKeyboard.vue';
+import ShareResults from '@/components/ShareResults.vue';
+
 import BarChart from '@/components/charts/BarChart.vue';
 import LinesChart from '@/components/charts/LinesChart.vue';
 import PieChart from '@/components/charts/PieChart.vue';
 import MixedChart from '@/components/charts/MixedChart.vue';
 
+import VirtualKeyboard from '@/components/VirtualKeyboard.vue';
+
+
 export default {
   name: 'Results',
   components: {
-    VirtualKeyboard,
+    ShareResults,
     BarChart,
     LinesChart,
     PieChart,
     MixedChart,
+    VirtualKeyboard,
 
   },
   props: {
@@ -253,7 +256,6 @@ export default {
       margin-left: 4vw
 
 .flex-item
-  overflow: hidden
   min-width: 100%
   width: 100%
   height: 500px
@@ -299,17 +301,8 @@ export default {
       font-size: 1.2em
 
     .share
-      display: block
       height: 100%
       width: 7em
-      position: relative
-      text-align: center
-      background: $grid-color
-      transition: transform .5s
-
-      &:focus
-        transform-origin: right
-        transform: scaleX(5)
 
   .wpm-chart
     width: 100%
