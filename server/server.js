@@ -220,6 +220,7 @@ app.post('/api/stats', (req, res) => {
     }
 
     database.stats.correctClicks = database.stats.correctClicks + stats.correctClicks || database.stats.correctClicks;
+    database.stats.correctLines = database.stats.correctLines + stats.correctLines || database.stats.correctLines;
     database.stats.backspaceClicks = database.stats.backspaceClicks + stats.backspaceClicks || database.stats.backspaceClicks;
     database.stats.deletingTime = database.stats.deletingTime + stats.deletingTime || database.stats.deletingTime;
     database.languages[stats.languageIndex].total = database.languages[stats.languageIndex].total + 1 || 1;

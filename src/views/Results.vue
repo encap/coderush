@@ -52,7 +52,7 @@
                   <p>{{ procentCompleted }}% completed</p>
                 </template>
               </div>
-              <button class="share">
+              <button :disabled="$route.path === '/about'" class="share">
                 <fa :icon="['fas', 'share-alt']" size="lg" />
               </button>
             </div>
@@ -171,6 +171,7 @@ export default {
     }
   },
   mounted() {
+    this.$emit('ready');
     this.$socket.client.emit('completedStats', {
       wpm: this.format(this.WPM, 0, 1),
       minutes: this.minutes,
@@ -209,6 +210,7 @@ export default {
         wpm: this.format(this.WPM, 0, 1),
         fileIndex: this.stats.file.index,
         correctClicks: this.correctInputs,
+        correctLines: this.stats.correctLines,
         backspaceClicks,
         deletingTime: this.format(deletingTime, 0),
       };

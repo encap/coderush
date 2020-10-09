@@ -150,7 +150,7 @@ export default {
           || (mistake.text.match(/[~!@#$%^&*()_+{}:"|<>?]/)
             && mistake.expectedText.match(/[`1234567890-=[\];'\\,./]/)
           )) {
-            console.log(`Shift Wasn't needed: '${mistake.text}' '${mistake.expectedText}'`);
+            // console.log(`Shift Wasn't needed: '${mistake.text}' '${mistake.expectedText}'`);
 
             acc.push({
               keyCode: 16,
@@ -162,7 +162,7 @@ export default {
           || (mistake.text.match(/[`1234567890-=[\];'\\,./]/)
             && mistake.expectedText.match(/[~!@#$%^&*()_+{}:"|<>?]/)
           )) {
-            console.log(`Shift Expected: '${mistake.text}' '${mistake.expectedText}'`);
+            // console.log(`Shift Expected: '${mistake.text}' '${mistake.expectedText}'`);
             acc.push({
               ...mistake,
               expectedText: 'Shift',
@@ -202,16 +202,16 @@ export default {
         this.timeout = window.setTimeout(() => {
           if (ev.target.matches(':hover')) {
             const originKeyCode = ev.target.id;
-            console.green(!this.stayOnLeave[originKeyCode]);
+            // console.green(!this.stayOnLeave[originKeyCode]);
             if (!this.stayOnLeave[originKeyCode]) {
               const expectedKeysCodes = this.keyStats[originKeyCode].expected;
 
-              console.log(`Hovered "${originKeyCode}" expected "${expectedKeysCodes}"`);
+              // console.log(`Hovered "${originKeyCode}" expected "${expectedKeysCodes}"`);
               expectedKeysCodes.forEach((keyCode) => {
                 const keyEl = document.getElementById(keyCode);
                 let currentValue = Number(keyEl.getAttribute('expected-count'));
                 currentValue += 1;
-                console.log(`incrementing "${keyCode}", value: ${currentValue}`);
+                // console.log(`incrementing "${keyCode}", value: ${currentValue}`);
                 keyEl.setAttribute('expected-count', currentValue);
               });
             }
@@ -224,12 +224,11 @@ export default {
       if (ev.target.getAttribute('wrong-count') && !this.timeout && !this.showExpected) {
         const originKeyCode = ev.target.id;
         if (!this.stayOnLeave[originKeyCode]) {
-          console.log('HideExpectedKeys');
           const expectedKeysCodes = this.keyStats[originKeyCode].expected;
           expectedKeysCodes.forEach((keyCode) => {
             const keyEl = document.getElementById(keyCode);
             let currentValue = Number(keyEl.getAttribute('expected-count'));
-            console.log(`decrementing "${keyCode}", value: ${currentValue}`);
+            // console.log(`decrementing "${keyCode}", value: ${currentValue}`);
             currentValue -= 1;
             if (currentValue === 0) {
               keyEl.removeAttribute('expected-count');
@@ -238,7 +237,7 @@ export default {
             }
           });
         } else {
-          console.log(`StayOnLeave ${originKeyCode}`);
+          // console.log(`StayOnLeave ${originKeyCode}`);
         }
       }
     },
@@ -286,7 +285,7 @@ export default {
             } else {
               currentValue += 1;
             }
-            console.log(`incrementing "${keyCode}", value: ${currentValue}`);
+            // console.log(`incrementing "${keyCode}", value: ${currentValue}`);
             if (currentValue < 1) {
               keyEl.removeAttribute('expected-count');
             } else {

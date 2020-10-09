@@ -372,7 +372,6 @@ export default {
         this.currentChar = this.cm.getLine(this.currentLine);
         this.correctCharsInLine = this.currentChar;
         this.stats.cheat = true;
-        console.log(JSON.parse(JSON.stringify(this.stats.history)));
 
         this.completed(false, false);
         return;
@@ -605,6 +604,7 @@ export default {
           ...this.stats,
           timeFromFirstInput: this.timeElapsed(),
           codeLength: this.codeText.length,
+          correctLines: this.currentLine + 1,
           file: this.codeInfo,
           mode: this.options.selectedMode,
         };

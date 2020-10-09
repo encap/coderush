@@ -2,7 +2,7 @@
   <nav>
     <button class="title" @click="mainPage">
       CodeRush
-      <span class="beta">RTM v0.3</span>
+      <span class="beta">RTM v0.7</span>
     </button>
 
     <div class="links" :class="{'room-connected': room.connected}">
@@ -13,14 +13,6 @@
         </span>
       </button>
       <div class="line" />
-      <!-- <button class="link language" disabled @click="$store.commit('USER_LANGUAGE')">
-        <fa v-show="userLanguage" :icon="['fas', 'globe-americas']" />
-        <fa v-show="!userLanguage" :icon="['fas', 'globe-europe']" />
-        <span class="btn-text">
-          {{ userLanguage ? 'English Here' : 'Polska wersja' }}
-        </span>
-      </button>
-      <div class="line" /> -->
       <router-link to="/about" class="link">
         <fa :icon="['fas', 'info']" />
         <span class="btn-text">

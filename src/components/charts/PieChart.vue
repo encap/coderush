@@ -71,8 +71,8 @@ export default {
 
       return [
         Math.round(correctInputTime / sum * 100),
-        Math.round(wrongInputTime / sum * 100) + 4,
-        Math.round(deletingTime / sum * 100) - 4,
+        Math.round(wrongInputTime / sum * 100),
+        Math.round(deletingTime / sum * 100),
       ];
     },
     options() {

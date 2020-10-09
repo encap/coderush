@@ -190,7 +190,6 @@ export default {
             pointStyle(ctx) {
               const event = ctx.dataset.data[ctx.dataIndex - 1];
               if (event && event.type === 'mistake') {
-                console.blue('here');
                 return 'crossRot';
               }
               return 'circle';
