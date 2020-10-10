@@ -100,11 +100,13 @@
           "lines": 28,
           "name": "clone-it_example_level",
           "source": "own",
-          "tabSize": 2
+          "tabSize": 2,
+          "total": 3
         }
       ],
       "mode": "css",
-      "name": "CSS"
+      "name": "CSS",
+      "total": 3
     },
     {
       "ext": "go",
@@ -459,12 +461,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 37.322,
-    "backspaceClicks": 323,
+    "avgWPM": 36.904,
+    "backspaceClicks": 352,
     "best": 61,
-    "correctClicks": 6982,
-    "correctLines": 266,
-    "deletingTime": 173,
-    "total": 28
+    "correctClicks": 7808,
+    "correctLines": 325,
+    "deletingTime": 188,
+    "total": 31
   }
 }
