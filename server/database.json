@@ -239,11 +239,13 @@
           "lines": 19,
           "name": "DNS_resolver",
           "source": "learn.perl.org",
-          "tabSize": 2
+          "tabSize": 2,
+          "total": 2
         }
       ],
       "mode": "perl",
-      "name": "Perl"
+      "name": "Perl",
+      "total": 2
     },
     {
       "ext": "php",
@@ -461,12 +463,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 36.904,
+    "avgWPM": 36.244,
     "backspaceClicks": 352,
     "best": 61,
-    "correctClicks": 7808,
-    "correctLines": 325,
+    "correctClicks": 7968,
+    "correctLines": 336,
     "deletingTime": 188,
-    "total": 31
+    "total": 33
   }
 }
