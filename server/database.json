@@ -240,12 +240,12 @@
           "name": "DNS_resolver",
           "source": "learn.perl.org",
           "tabSize": 2,
-          "total": 2
+          "total": 3
         }
       ],
       "mode": "perl",
       "name": "Perl",
-      "total": 2
+      "total": 3
     },
     {
       "ext": "php",
@@ -280,11 +280,13 @@
           "lines": 24,
           "name": "8_queens_problem",
           "source": "wiki.python.org",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 2
         }
       ],
       "mode": "python",
-      "name": "Python"
+      "name": "Python",
+      "total": 2
     },
     {
       "ext": "r",
@@ -463,12 +465,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 36.244,
+    "avgWPM": 36.14,
     "backspaceClicks": 352,
     "best": 61,
-    "correctClicks": 7968,
-    "correctLines": 336,
+    "correctClicks": 8169,
+    "correctLines": 351,
     "deletingTime": 188,
-    "total": 33
+    "total": 36
   }
 }
