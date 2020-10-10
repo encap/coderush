@@ -127,12 +127,12 @@
           "name": "clone-it_results_menu",
           "source": "own",
           "tabSize": 2,
-          "total": 1
+          "total": 2
         }
       ],
       "mode": "xml",
       "name": "HTML",
-      "total": 1
+      "total": 2
     },
     {
       "ext": "java",
@@ -459,12 +459,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 37.8,
-    "backspaceClicks": 261,
+    "avgWPM": 38.231,
+    "backspaceClicks": 273,
     "best": 61,
-    "correctClicks": 5371,
-    "correctLines": 215,
-    "deletingTime": 140,
-    "total": 25
+    "correctClicks": 5908,
+    "correctLines": 232,
+    "deletingTime": 144,
+    "total": 26
   }
 }
