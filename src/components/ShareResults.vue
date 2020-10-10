@@ -1,13 +1,13 @@
 <template>
   <div class="container" :class="{showAll: showAll, shrink: shrink}">
     <template v-if="showAll">
-      <button>
+      <button @click="shareFacebook">
         <fa :icon="['fab', 'facebook-f']" size="lg" />
       </button>
-      <button>
+      <button @click="shareMessenger">
         <fa :icon="['fab', 'facebook-messenger']" size="lg" />
       </button>
-      <button>
+      <button @click="shareTwitter">
         <fa :icon="['fab', 'twitter']" size="lg" />
       </button>
     </template>
@@ -38,6 +38,21 @@ export default {
       this.showAll = !this.showAll;
       this.shrink = false;
     },
+    popUpWindow(url, w, h) {
+      const left = (window.innerWidth / 2) - (w / 2);
+      const top = (window.innerHeight / 2) - (h / 2);
+      window.open(url, 'Share', `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${w}, height=${h}, top=${top}, left=${left}`);
+    },
+    shareFacebook() {
+      this.popUpWindow('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=https%3A%2F%2Fcoderush.herokuapp.com%2F&display=popup&ref=plugin&src=share_button', 500, 600);
+    },
+    shareMessenger() {
+      this.popUpWindow('http://www.facebook.com/dialog/send?app_id=346639949987830&link=https://coderush.herokuapp.com/&redirect_uri=https://coderush.herokuapp.com/', 1000, 700);
+    },
+    shareTwitter() {
+      this.popUpWindow('https://twitter.com/intent/tweet?text=Check%20your%20code%20writing%20speed%20on%20CodeRush&url=https://coderush.herokuapp.com/', 600, 600);
+    },
+
   },
 };
 </script>
@@ -65,7 +80,6 @@ export default {
 
   &.shrink
     transform: scale(0.3)
-
 
 button, label
   background: $grid-color
