@@ -1,4 +1,5 @@
-{
+/* eslint-disable */
+export default {
   "history": [
     {
       "time": 0,

@@ -43,7 +43,7 @@
 import { mapGetters } from 'vuex';
 import axios from 'axios';
 
-import stats from '../stats2';
+import stats from '../stats3';
 
 let loadMode; let
   loadTheme;
