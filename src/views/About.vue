@@ -12,7 +12,7 @@
             CodeRush allows you to test your writing skills in more than 30 most popular technologies and 3 diffrent game modes. In addition to calculating your CPM (characters per minute), it provides you with detailed statistics for example the most frequently miss-clicked keys, so that You will pay attention to them in the future.
           </p>
           <p>
-            CodeRush allows you to create a multiplayer server, so that you can compete with invited friends and colleagues.
+            On CodeRush you can create a private multiplayer server, so that you can compete with invited friends and colleagues.
           </p>
           <p>
             We do our best to ensure the diversity and quality of the code on which you will test your skills. You can <a>donate here</a> or <a @click="$router.push('/contribute')">contribute</a> if you like it.

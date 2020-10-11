@@ -5,7 +5,7 @@
 
       <article :class="{shrink: expand || sent}">
         <p>
-          Our mission is to ensure the diversity and quality of the code on which our users practice and test their skills.  do our best to ensure that there are no errors in the code but with that many languages and technologies available on CodeRush, it is not possible without your help.
+          Our mission is to ensure the diversity and quality of the code on which our users practice and test their skills. We do our best to ensure that there are no errors in the code but with that many languages and technologies available on CodeRush, it is not possible without your help.
         </p>
         <p>
           On this page you can help expand our code database by sending us your code in a language of your choice. The "Send" button will create a PR and after verirfication your code will be publicly avaible on <a href="https://github.com/encap/coderush">our GitHub repo</a> .
