@@ -100,11 +100,13 @@
           "lines": 28,
           "name": "clone-it_example_level",
           "source": "own",
-          "tabSize": 2
+          "tabSize": 2,
+          "total": 5
         }
       ],
       "mode": "css",
-      "name": "CSS"
+      "name": "CSS",
+      "total": 5
     },
     {
       "ext": "go",
@@ -127,12 +129,12 @@
           "name": "clone-it_results_menu",
           "source": "own",
           "tabSize": 2,
-          "total": 1
+          "total": 4
         }
       ],
       "mode": "xml",
       "name": "HTML",
-      "total": 1
+      "total": 4
     },
     {
       "ext": "java",
@@ -237,11 +239,13 @@
           "lines": 19,
           "name": "DNS_resolver",
           "source": "learn.perl.org",
-          "tabSize": 2
+          "tabSize": 2,
+          "total": 3
         }
       ],
       "mode": "perl",
-      "name": "Perl"
+      "name": "Perl",
+      "total": 3
     },
     {
       "ext": "php",
@@ -276,11 +280,13 @@
           "lines": 24,
           "name": "8_queens_problem",
           "source": "wiki.python.org",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 3
         }
       ],
       "mode": "python",
-      "name": "Python"
+      "name": "Python",
+      "total": 3
     },
     {
       "ext": "r",
@@ -290,12 +296,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 17
+          "total": 86
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 17
+      "total": 86
     },
     {
       "ext": "js",
@@ -459,12 +465,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 37.8,
-    "backspaceClicks": 261,
+    "avgWPM": 34.528,
+    "backspaceClicks": 935,
     "best": 61,
-    "correctClicks": 5371,
-    "correctLines": 215,
-    "deletingTime": 140,
-    "total": 25
+    "correctClicks": 24187,
+    "correctLines": 420,
+    "deletingTime": 479,
+    "total": 108
   }
 }
