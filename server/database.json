@@ -101,12 +101,12 @@
           "name": "clone-it_example_level",
           "source": "own",
           "tabSize": 2,
-          "total": 9
+          "total": 10
         }
       ],
       "mode": "css",
       "name": "CSS",
-      "total": 9
+      "total": 10
     },
     {
       "ext": "go",
@@ -465,12 +465,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 34.381,
-    "backspaceClicks": 1059,
+    "avgWPM": 34.353,
+    "backspaceClicks": 1078,
     "best": 61,
-    "correctClicks": 27189,
-    "correctLines": 532,
-    "deletingTime": 543,
-    "total": 118
+    "correctClicks": 27614,
+    "correctLines": 560,
+    "deletingTime": 553,
+    "total": 119
   }
 }
