@@ -101,12 +101,12 @@
           "name": "clone-it_example_level",
           "source": "own",
           "tabSize": 2,
-          "total": 5
+          "total": 6
         }
       ],
       "mode": "css",
       "name": "CSS",
-      "total": 5
+      "total": 6
     },
     {
       "ext": "go",
@@ -296,12 +296,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 87
+          "total": 89
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 87
+      "total": 89
     },
     {
       "ext": "js",
@@ -465,12 +465,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 34.523,
-    "backspaceClicks": 943,
+    "avgWPM": 34.482,
+    "backspaceClicks": 978,
     "best": 61,
-    "correctClicks": 24404,
-    "correctLines": 420,
-    "deletingTime": 483,
-    "total": 109
+    "correctClicks": 25263,
+    "correctLines": 448,
+    "deletingTime": 501,
+    "total": 112
   }
 }
