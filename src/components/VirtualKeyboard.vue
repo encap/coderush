@@ -72,7 +72,7 @@ export default {
           { keyCode: 51, content: ['3', '#'] },
           { keyCode: 52, content: ['4', '$'] },
           { keyCode: 53, content: ['5', '%'] },
-          { keyCode: 54, content: ['5', '^'] },
+          { keyCode: 54, content: ['6', '^'] },
           { keyCode: 55, content: ['7', '&'] },
           { keyCode: 56, content: ['8', '*'] },
           { keyCode: 57, content: ['9', '('] },
@@ -308,7 +308,9 @@ export default {
                 acc.count += 1;
                 const keyEl = this.$refs.keyboard
                   .querySelector(`[id][content*="${CSS.escape(text)}" i]`);
-                acc.expected.push(keyEl.id);
+                if (keyEl) {
+                  acc.expected.push(keyEl.id);
+                }
               }
               return acc;
             }, { expected: [], count: 0 });
