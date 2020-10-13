@@ -1,6 +1,6 @@
 {
-  "name": "CodeRush",
-  "version": "0.2.0",
+  "name": "coderush",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --port 80",

@@ -11,10 +11,10 @@
 <br />
 <p align="center">
   <a href="https://coderush.herokuapp.com">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src=".github/images/logo.webp" alt="Logo" width="256" height="256">
   </a>
 
-  <h3 align="center">CodeRush</h3>
+  <h1 align="center">CodeRush</h1>
 
   <p align="center">
     The best speed typing app for programmers
@@ -65,6 +65,8 @@ On CodeRush you can create a private multiplayer server, so that you can compete
 
 * [Passion and love :heart:](https://coderush.herokuapp.com/about)
 * [Vue.js 2](https://vuejs.org/)
+* [CodeMirror 5](https://codemirror.net/)
+* [Chart.js 2](https://www.chartjs.org/)
 * [Node.js 12](https://nodejs.org/en/)
 * [Express 4](https://expressjs.com/)
 * [Socket.io 2](https://socket.io/)
@@ -77,8 +79,8 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
 * Node.js 12
+* Git
 * NPM or other package manager
 
 
@@ -92,7 +94,7 @@ git clone https://github.com/encap/coderush.git
 ```sh
 npm install
 ```
-3. Start Vue dev server and API server (on :3000) and 
+3. Start Vue dev server and API server (on :3000)
 ```sh
 npm run dev
 ```
@@ -103,7 +105,7 @@ Check out package.json for other useful scripts
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-App is (I hope) up and running on https://coderush.herokuapp.com or you can start a local server as shown above.
+App is up (I hope) and running on https://coderush.herokuapp.com or you can start a local server as shown above.
 
 
 <!-- ROADMAP -->
@@ -119,7 +121,7 @@ CodeRush is a one-person project but as long as I will have time, I will make ch
 
 You can still propose new features and report issues like in most open source projects and it will be appreciated.
 
-### UPDATE:
+#### UPDATE:
 
 You can now submit code examples on which our users will test their typing skills. How to do it?
 
