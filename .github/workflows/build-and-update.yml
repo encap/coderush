@@ -58,7 +58,7 @@ jobs:
     - name: Checkout files from master
       if: env.stats == 'false'
       run: |
-        git checkout master -- "server/" "dist/"
+        git checkout -f master -- "server/" "dist/"
     - name: Checkout files from master
       if: env.stats == 'true'
       run: |
