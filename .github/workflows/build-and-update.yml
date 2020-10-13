@@ -51,7 +51,7 @@ jobs:
     - name: Make temporary commit on master
       run: git commit --allow-empty -m 'temp commit'
     - name: Switch to deploy branch
-      run: git checkout deploy
+      run: git checkout -f deploy
     - name: Clear old files
       run: |
         rm -r server/ dist/
