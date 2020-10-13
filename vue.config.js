@@ -59,7 +59,7 @@ module.exports = {
       return options;
     });
 
-    config.plugins.delete('prefetch');
+    // config.plugins.delete('prefetch');
   },
   devServer: {
     proxy: 'http://localhost:3000',
