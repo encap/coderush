@@ -101,12 +101,12 @@
           "name": "clone-it_example_level",
           "source": "own",
           "tabSize": 2,
-          "total": 14
+          "total": 15
         }
       ],
       "mode": "css",
       "name": "CSS",
-      "total": 14
+      "total": 15
     },
     {
       "ext": "go",
@@ -284,9 +284,9 @@
           "total": 3
         },
         {
+          "lines": 12,
           "name": "UrlParser",
           "source": "Python_boss",
-          "lines": 12,
           "tabSize": 4
         }
       ],
@@ -471,12 +471,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 34.244,
-    "backspaceClicks": 1154,
+    "avgWPM": 34.218,
+    "backspaceClicks": 1173,
     "best": 61,
-    "correctClicks": 29314,
-    "correctLines": 672,
-    "deletingTime": 593,
-    "total": 123
+    "correctClicks": 29739,
+    "correctLines": 700,
+    "deletingTime": 603,
+    "total": 124
   }
 }
