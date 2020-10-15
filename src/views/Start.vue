@@ -232,60 +232,60 @@ export default {
 
 <style lang="sass" scoped>
 .start
-  position: relative
   display: flex
   justify-content: flex-end
-  height: calc(100vh - 2 * #{$gap})
+  position: relative
   outline: none
+  height: calc(100vh - 2 * #{$gap})
 
 .middle
-  position: relative
-  flex-basis: 0
-  flex-grow: 2
-  max-width: 50%
-  margin-right: $gap * 2
   display: flex
-  flex-direction: column
   justify-content: space-between
+  flex-basis: 0
+  flex-direction: column
+  flex-grow: 2
+  position: relative
+  margin-right: $gap * 2
+  max-width: 50%
 
 .upload-scroll
   flex-grow: 1
-  max-height: 85vh
-  overflow: hidden
   position: relative
+  overflow: hidden
+  max-height: 85vh
 
   .code-editor
-    height: 100%
     display: flex
     flex-direction: column
+    height: 100%
 
 
 .buttons-bottom
   display: flex
-  justify-content: space-between
   align-items: flex-end
+  justify-content: space-between
   margin-top: $gap
   margin-bottom: $grid-gap
 
 .button
   display: flex
-  text-align: center
-  justify-content: space-around
   align-items: center
+  justify-content: space-around
+  flex-grow: 1
+  background: $grid-color
+  cursor: pointer
+  margin-right: $gap
+  text-align: center
   width: 150px
   height: 47px
-  background: $grid-color
-  margin-right: $gap
-  cursor: pointer
-  flex-grow: 1
   max-width: 250px
 
 .start-btn, .ready-btn
   background: linear-gradient(to right, $purple, $light-purple 50%, $grid-color 50% 100%)
-  background-size: 200%
   background-position: right
-
+  background-size: 200%
   transition: background .2s ease-in
+
 
 .start-btn
   margin-right: 0
@@ -295,11 +295,10 @@ export default {
   transition: background 1.2s ease-out
 
 .languages-list
+  display: flex
+  flex-basis: 0
+  flex-direction: column
+  flex-grow: 4
   position: relative
   max-width: 40%
-  flex-grow: 4
-  flex-basis: 0
-  display: flex
-  flex-direction: column
-
 </style>

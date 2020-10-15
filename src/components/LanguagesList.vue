@@ -145,13 +145,12 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-
 .search
   display: flex
   justify-content: space-between
   position: relative
-  margin: 0 $grid-gap $grid-gap $grid-gap
   padding: $grid-gap
+  margin: 0 $grid-gap $grid-gap $grid-gap
   border-bottom: $grid-gap solid $grid-color
   height: 40px
 
@@ -169,31 +168,31 @@ export default {
     overflow: hidden
 
   .clear-btn
-    margin-left: 1em
     background: $navy-grey
-    padding: $grid-gap 4 * $grid-gap
     box-shadow: 0px 0px 2px 2px rgba(black, .1)
+    padding: $grid-gap 4 * $grid-gap
+    margin-left: 1em
     height: 100%
 
 .list
+  display: grid
   flex-grow: 1
   position: relative
-  @include cursor-shadow()
   padding: $grid-gap
-  display: grid
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
-  grid-gap: $grid-gap
-  text-align: center
   overflow-y: auto
+  text-align: center
+  grid-gap: $grid-gap
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
+  // @include cursor-shadow()
 
   &::-webkit-scrollbar
     width: $gap / 2
   &::-webkit-scrollbar-thumb
     background: linear-gradient(to top, $blue-gradient-colors)
   &::-webkit-scrollbar-track
-    // border-top: 20px solid white
-    margin-top: $grid-gap
     background-color: $grid-color
+    margin-top: $grid-gap
+    // border-top: 20px solid white
   &::-webkit-scrollbar-corner
     background-color: $grid-color
 
@@ -207,18 +206,18 @@ export default {
     opacity: 1
 
 .language
-  min-height: 40px
-  position: relative
-  cursor: pointer
-  background: $navy-grey
-  opacity: 0.95
-  box-shadow: 0px 0px 2px 2px rgba(black, .1)
   display: flex
-  justify-content: space-around
   align-items: center
+  justify-content: space-around
+  position: relative
+  background: $navy-grey
   background: linear-gradient(to right, $blue-gradient-colors 49.8%, $grid-color 49.8%)
-  background-size: 200%
   background-position: 99.8% 0 // 1px glitch
+  background-size: 200%
+  box-shadow: 0px 0px 2px 2px rgba(black, .1)
+  cursor: pointer
+  opacity: 0.95
+  min-height: 40px
   transition: background .1s ease-in
 
   &:hover
@@ -230,15 +229,15 @@ export default {
       color: $grey
 
   .stat
-    position: absolute
-    right: 1em
-    height: 100%
     display: flex
     align-items: center
     justify-content: space-around
-    opacity: 0
-    color: #ddd
+    position: absolute
+    right: 1em
     font-size: 0.9em
+    color: #ddd
+    opacity: 0
+    height: 100%
     transition: opacity .1s ease-out .1s
 
     .icon
@@ -247,5 +246,4 @@ export default {
   &.selected
     background-position: left
     transition: background 0.3s ease-in-out
-
 </style>

@@ -60,51 +60,48 @@ export default {
 <style lang="sass" scoped>
 .container
   display: grid
-  gap: 2*$grid-gap
   transition: transform 0.15s ease-in-out
+  gap: 2*$grid-gap
 
   label
-    height: 100%
     width: 100%
+    height: 100%
 
   &.showAll
-    grid-template-columns: 1fr 1fr
     grid-template-rows: 1fr 1fr
+    grid-template-columns: 1fr 1fr
 
     button,label
-      @include shadow(0.2)
+      // @include shadow(0.2)
 
     label
-      height: auto
       width: auto
+      height: auto
 
   &.shrink
     transform: scale(0.3)
 
 button, label
-  background: $grid-color
   display: flex
-  justify-content: space-around
   align-items: center
+  justify-content: space-around
   position: relative
+  background: $grid-color
   z-index: 2
-  @include shadow(0.1)
+  // @include shadow(0.1)
 
   &:hover:before
     opacity: 1
 
   &:before
-    position: absolute
     content: ""
+    position: absolute
     top: 0
-    right: 0
     bottom: 0
     left: 0
+    right: 0
     background: linear-gradient(to bottom, $purple-gradient-colors 150%)
-    z-index: -1
-    transition: opacity 0.15s ease-in-out
     opacity: 0
-
-
-
+    transition: opacity 0.15s ease-in-out
+    z-index: -1
 </style>

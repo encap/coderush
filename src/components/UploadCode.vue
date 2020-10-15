@@ -198,30 +198,30 @@ export default {
 <style lang="sass" scoped>
 .flex-row
   display: flex
-  width: 100%
-  justify-content: space-between
   align-items: center
+  justify-content: space-between
+  width: 100%
 
   label
     display: inline-flex
-    flex-direction: column
-    justify-content: space-around
     align-items: center
+    justify-content: space-around
+    flex-direction: column
+    background: $grid-color
+    box-shadow: 0px 0px 2px 2px rgba(black, .1)
+    cursor: pointer
+    margin-left: 1em
     width: 3em
     height: 3em
-    margin-left: 1em
-    cursor: pointer
-    box-shadow: 0px 0px 2px 2px rgba(black, .1)
-    background: $grid-color
 
   .tab-size-option
     background: linear-gradient(to right, $purple-gradient-colors 49.8%, $grid-color 49.8%)
-    background-size: 200%
     background-position: 99.8% 0 // 1px glitch
+    background-size: 200%
     transition: background .2s ease-in
   .selected
-    transition: background .4s ease-in-out
     background-position: left
+    transition: background .4s ease-in-out
 
 
   .language-warning .arrow
@@ -229,12 +229,12 @@ export default {
 
 .codemirror
   flex-grow: 1
-  opacity: 0
-  width: 100%
-  margin-top: 1em
-  transition: opacity .5s ease-in
   position: relative
+  margin-top: 1em
+  opacity: 0
   overflow: visible
+  width: 100%
+  transition: opacity .5s ease-in
 
   ::v-deep .CodeMirror-scroll
     &::-webkit-scrollbar

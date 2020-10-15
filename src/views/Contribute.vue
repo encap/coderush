@@ -156,20 +156,20 @@ export default {
 
 <style lang="sass" scoped>
 .container
-  position: relative
   display: flex
   justify-content: flex-end
+  position: relative
   height: calc(100vh - 2 * #{$gap})
 
 .middle
-  position: relative
-  flex-basis: 0
-  flex-grow: 2
-  max-width: 50%
-  margin-right: $gap * 2
   display: flex
-  flex-direction: column
   justify-content: space-between
+  flex-basis: 0
+  flex-direction: column
+  flex-grow: 2
+  position: relative
+  margin-right: $gap * 2
+  max-width: 50%
 
 h1
   margin: $grid-gap 0 1em
@@ -179,28 +179,28 @@ a
   text-decoration: underline
 
 article.shrink
-  max-height: 1em
   margin-bottom: 1em
   overflow: hidden
+  max-height: 1em
 
   p
-    max-height: 1em
-    white-space: nowrap
     overflow: hidden
+    max-height: 1em
     text-overflow: ellipsis
+    white-space: nowrap
 
 article p
   font-size: 16px
-  line-height: 1.4
   margin-bottom: 1em
+  line-height: 1.4
 
 .inputContainer
   display: flex
-  flex-wrap: wrap
-  justify-content: space-between
   align-items: center
-  min-height: 40px
+  justify-content: space-between
+  flex-wrap: wrap
   position: relative
+  min-height: 40px
 
   &:first-child
     margin-top: 1em
@@ -208,16 +208,16 @@ article p
     margin-bottom: 1em
 
   label
-    white-space: nowrap
     margin-right: 1em
+    white-space: nowrap
 
   .inputWrapper
-    max-width: 50%
     display: flex
     justify-content: space-between
     flex-grow: 1
     padding: $grid-gap
     border-bottom: $grid-gap solid $grid-color
+    max-width: 50%
 
     &:focus-within
       border-image: linear-gradient(to right, $light-purple, $grid-color 90%) 1
@@ -233,33 +233,33 @@ article p
       white-space: nowrap
 
 .editor-wrapper
-  flex-grow: 1
-  max-height: 85vh
-  overflow: hidden
-  position: relative
   display: flex
   flex-direction: column
+  flex-grow: 1
+  position: relative
+  overflow: hidden
+  max-height: 85vh
 
 .error
   margin-top: 1em
 
 .buttons-bottom
   display: flex
-  justify-content: space-between
   align-items: flex-end
+  justify-content: space-between
   margin-top: 1em
   margin-bottom: $grid-gap
 
 .button
   display: flex
-  text-align: center
-  justify-content: space-around
   align-items: center
-  width: 150px
-  height: 47px
+  justify-content: space-around
+  flex-grow: 1
   background-color: $grid-color
   cursor: pointer
-  flex-grow: 1
+  text-align: center
+  width: 150px
+  height: 47px
   max-width: 250px
   transition: background-color .15s ease-out
 
@@ -274,10 +274,10 @@ article p
     background-color: $pink
 
 .languages-list
+  display: flex
+  flex-basis: 0
+  flex-direction: column
+  flex-grow: 4
   position: relative
   max-width: 40%
-  flex-grow: 4
-  flex-basis: 0
-  display: flex
-  flex-direction: column
 </style>

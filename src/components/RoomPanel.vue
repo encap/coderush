@@ -290,51 +290,52 @@ export default {
 
 <style lang="sass" scoped>
 @mixin small-btn
-  text-align: center
-  width: 40%
   padding: $grid-gap
   border-left: 1px solid $grey
-  @include navbar-mouse-effect
+  text-align: center
+  width: 40%
+  // @include navbar-mouse-effect
 
 .room
   display: flex
-  flex-direction: column
   justify-content: flex-start
+  flex-direction: column
 
 svg
     margin-top: $grid-gap
 
 input
+  padding: $grid-gap
   margin-left: 1em
   border-bottom: 1px solid $grey
   overflow: hidden
-  padding: $grid-gap
+
 
 .popUp
+    display: flex
+    align-items: center
+    justify-content: space-around
     position: fixed
     top: 0
     bottom: 0
     left: 0
     right: 0
     background-color: rgba($grid-color, .7)
-    display: flex
-    justify-content: space-around
-    align-items: center
-    pointer-events: all
-    user-select: none
-    z-index: 10
     transition: opacity 2s ease-in-out
+    z-index: 10
+    user-select: none
+    pointer-events: all
 
     &.hide-popUp
       opacity: 0
 
     .wrapper
-      width: 50vw
-      text-align: center
       display: flex
       align-items: center
-      flex-wrap: wrap
       flex-direction: column
+      flex-wrap: wrap
+      text-align: center
+      width: 50vw
 
     h2
       font-size: 2.5rem
@@ -342,8 +343,8 @@ input
 
 .roomNotConnected
   display: flex
-  flex-direction: column
   justify-content: space-between
+  flex-direction: column
 
   .popUp
     .playerName, .buttons
@@ -356,7 +357,7 @@ input
       height: 35px
 
   button
-    @include small-btn
+    // @include small-btn
 
   .roomName, .playerName
     display: flex
@@ -380,16 +381,16 @@ input
       margin: 1em 0
 
     input
-      text-overflow: ellipsis
       flex-grow: 1
+      text-overflow: ellipsis
 
     .close-btn
-      @include small-btn
+      // @include small-btn
 
   .roomNameContainer
     display: flex
-    justify-content: space-between
     align-items: center
+    justify-content: space-between
     margin-bottom: 1em
 
     svg
@@ -403,12 +404,12 @@ input
     max-width: 80%
 
   button
-    @include small-btn
     font-size: 1.2em
-    width: auto
     padding-left: 1em
     padding-right: 1em
     margin: 1em 0
+    width: auto
+    // @include small-btn
 
   button:first-child
     margin-right: 2em
@@ -421,5 +422,4 @@ input::placeholder
 
 button:disabled
   cursor: not-allowed
-
 </style>

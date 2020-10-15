@@ -236,17 +236,17 @@ export default {
 .stats
   display: flex
   justify-content: space-between
+  position: relative
   width: 100%
   max-width: 100%
-  position: relative
 
   .flex-column
     display: flex
-    flex-direction: column
     justify-content: flex-start
-    min-width: 300px
-    width: 500px
+    flex-direction: column
     position: relative
+    width: 500px
+    min-width: 300px
 
     &.left
       flex-shrink: 2
@@ -256,13 +256,13 @@ export default {
       margin-left: 4vw
 
 .flex-item
-  min-width: 100%
+  position: relative
+  margin-bottom: 3 * $gap
   width: 100%
   height: 500px
-  min-height: 300px
   max-height: 500px
-  margin-bottom: 3 * $gap
-  position: relative
+  min-width: 100%
+  min-height: 300px
 
 .lines, .mixed
   width: 100%
@@ -271,17 +271,17 @@ export default {
 
 .main-stats
   display: flex
-  flex-direction: column
   justify-content: space-between
+  flex-direction: column
   font-size: calc(0.4vw + 7px)
 
   .big-stats
-    width: 100%
     display: flex
     justify-content: space-between
-    text-align: center
     font-size: 3em
     margin-bottom: 0.7em
+    text-align: center
+    width: 100%
 
 
     .unit
@@ -289,11 +289,11 @@ export default {
 
 
   .middle
-    height: 7em
     display: flex
+    align-items: stretch
     justify-content: space-between
     position: relative
-    align-items: stretch
+    height: 7em
     .mistakes-info
       display: flex
       justify-content: space-between
@@ -301,19 +301,13 @@ export default {
       font-size: 1.2em
 
     .share
-      height: 100%
       width: 7em
+      height: 100%
 
   .wpm-chart
+    flex-grow: 1
+    margin-bottom: 0.3rem
     width: 100%
     height: 100%
     max-height: 200px
-    flex-grow: 1
-    margin-bottom: 0.3rem
-
-
-
-// @media (max-width: 1300px)
-//   .main-stats
-//     font-size: 0.8rem
 </style>

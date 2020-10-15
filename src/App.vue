@@ -67,30 +67,30 @@ export default {
 
 <style lang="sass" scoped>
 #app
-  position: relative
-  width: 100%
-  min-height: 100vh
-  color: $white
-  padding: $gap
   display: flex
   justify-content: space-between
+  position: relative
+  color: $white
+  padding: $gap
+  width: 100%
+  min-height: 100vh
 
 aside
-  min-width: $nav-size
-  margin-right: $gap * 2
-  padding: $grid-gap
   flex-shrink: 0
-  @include cursor-shadow()
-  @include shadow()
+  padding: $grid-gap
+  margin-right: $gap * 2
+  min-width: $nav-size
   transition: transform $nav-trans-dur $nav-trans-timing 0s, min-width .5s ease-in-out
+  // @include cursor-shadow()
+  // @include shadow()
 
   &.wide:not(.thin)
     min-width: 15vw
 
   &.thin
-    transition-delay: $nav-trans-dur
-    transform: translateX(calc(-100% + #{$nav-move}))
     margin-right: calc( -1 * min(150px, calc(300px - 20vw)))
+    transform: translateX(calc(-100% + #{$nav-move}))
+    transition-delay: $nav-trans-dur
 
 
 main
@@ -110,15 +110,15 @@ main
 <style lang="sass">
 *
   box-sizing: border-box
-  margin: 0
   padding: 0
+  margin: 0
 
 body
   font-family: Arial, 'Nimbus Sans', sans-serif
-  margin: 0
   background: radial-gradient(at top left, $navy-grey ,$light-navy)
-  background-repeat: no-repeat
   background-attachment: fixed
+  background-repeat: no-repeat
+  margin: 0
   overflow: auto
   &::-webkit-scrollbar
       width: $gap / 2
@@ -139,9 +139,9 @@ button, a, input[type="checkbox"], input[type="radio"]
 
 .CodeMirror, .CodeMirror-gutters
   font-size: 1.5rem
-  height: auto !important
-  color: white
   background: transparent !important
+  color: white
+  height: auto !important
 
 // if no theme loaded
 .CodeMirror

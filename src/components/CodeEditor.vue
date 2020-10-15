@@ -628,18 +628,17 @@ export default {
 
 <style lang="sass" scoped>
 .container
-  height: 100%
   position: relative
+  height: 100%
 
 .code
-  height: 100%
-  opacity: 0
-  pointer-events: none
   position: relative
+  opacity: 0
   outline: none
+  height: 100%
   transition: opacity .5s ease-in
   transition-delay: .7s
-
+  pointer-events: none
 
   &.ready
     opacity: 1
@@ -649,27 +648,27 @@ export default {
     border: none
   .CodeMirror-cursor
     border-left: 1px solid #FFCC00
-    opacity: 1
     border-right: none
+    opacity: 1
 
   .CodeMirror-selected
     background: transparent
 
   .CodeMirror-linenumber
     font-size: 20px
-    line-height: 22px
     font-weight: normal
+    line-height: 22px
 
   .CodeMirror-line > span
     &::after
       display: none
 
     & > span
-      transition: filter 1s ease-out
-      filter: grayscale(40%) brightness(80%)
       font-size: 20px
-      line-height: 22px
       font-weight: normal
+      filter: grayscale(40%) brightness(80%)
+      line-height: 22px
+      transition: filter 1s ease-out
 
     .correct
       filter: none
@@ -710,8 +709,8 @@ export default {
         left: 0
         right: 0
         font-size: 1.3em
-        text-align: center
         color: #404F7D
+        text-align: center
         transform: translateY(-0.1em) scaleX(1.5)
 
 
@@ -728,11 +727,11 @@ export default {
         border-bottom: none
 
       .corrected
-        background-color: lighten($grid-color, 4%)
-        opacity: 1
         display: inline-block
-        filter: none
+        background-color: lighten($grid-color, 4%)
         padding: 0.1em 0
+        filter: none
+        opacity: 1
 
         // transition: padding $nav-trans-dur $nav-trans-timing 2s, background-color .4s ease-out 3s
 
@@ -747,30 +746,30 @@ export default {
           padding-right: 0.2em
 
 .pop-up
+  display: flex
+  align-items: center
+  justify-content: space-around
+  animation: opacity-enter .7s ease-out forwards
   position: fixed
   top: 0
   bottom: 0
   left: 0
   right: 0
-  background-color: rgba($grid-color, .5)
-  display: flex
-  justify-content: space-around
-  align-items: center
-  pointer-events: none
-  user-select: none
-  z-index: 10
   font-size: 4rem
-  opacity: 1
-  animation: opacity-enter .7s ease-out forwards
+  background-color: rgba($grid-color, .5)
   cursor: default
+  opacity: 1
   text-align: center
+  z-index: 10
+  user-select: none
+  pointer-events: none
 
   h2
     margin-bottom: 2rem
 
   &.hidden
-    pointer-events: none
     animation: opacity-leave .4s ease-out forwards .1s
+    pointer-events: none
 
   &.clickable
     pointer-events: all
@@ -780,8 +779,8 @@ export default {
     font-size: 1.5rem
 
     h2
-      max-width: 50vw
       text-align: center
+      max-width: 50vw
 
   p
     font-size: 2rem
@@ -794,6 +793,5 @@ export default {
     animation: opacity-enter .5s ease-out forwards .7s
     animation-fill-mode: backwards
     transform: translateY(4rem)
-
 
 </style>

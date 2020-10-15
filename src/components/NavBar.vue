@@ -73,36 +73,36 @@ export default {
   padding-right: 1.2rem
 
 .title
+  position: relative
   font-size: 2rem
   font-weight: 600
   padding: 1.1rem 0
   width: 100%
-  position: relative
   transition: opacity $nav-trans-dur $nav-trans-timing $nav-trans-dur, background-color .15s ease-in-out
-  @include padding-left
-  @include navbar-mouse-effect
+  // @include padding-left
+  // @include navbar-mouse-effect
 
   .beta
-    font-size: 13px
     position: absolute
+    font-size: 13px
     padding-left: 3px
 
 nav
-  height: 100%
-  padding: 6% 0
   display: flex
-  flex-direction: column
   justify-content: flex-start
-  background: linear-gradient(340deg, $navy-grey, $navy-grey 20%, $washed-purple)
-  font-size: 1rem
+  flex-direction: column
   position: relative
+  font-size: 1rem
+  background: linear-gradient(340deg, $navy-grey, $navy-grey 20%, $washed-purple)
+  padding: 6% 0
+  height: 100%
 
 nav:after
   content: ''
   position: absolute
-  pointer-events: none
-  @include pos0
   transition: backdrop-filter $nav-trans-dur $nav-trans-timing 0s
+  pointer-events: none
+  // @include pos0
 
 .thin:after
   transition-delay: 1s
@@ -111,11 +111,11 @@ nav:after
 .thin
   $translate: translateX(calc(#{$nav-size} - 2.5em - #{$nav-move} / 2))
   .btn-text, .title, .room
-    transition-delay: 0s
     opacity: 0
+    transition-delay: 0s
   svg:not(.heart)
-    transition-delay: $nav-trans-dur
     transform: $translate
+    transition-delay: $nav-trans-dur
   .flip
     transform: $translate rotate(180deg) !important
   .author
@@ -139,10 +139,10 @@ nav:after
 
   .link
     display: block
-    width: 100%
     padding: 1.1rem
-    @include padding-left
-    @include navbar-mouse-effect
+    width: 100%
+    // @include padding-left
+    // @include navbar-mouse-effect
 
   .line
     width: 100%
@@ -162,11 +162,11 @@ svg
 .room
   flex-grow: 1
   position: relative
-  @include padding-left
+  // @include padding-left
 
 .author
   margin-top: 2em
-  @include padding-left
+  // @include padding-left
 
   .donate
     margin: 1em 0
@@ -179,5 +179,4 @@ svg
 
     .author-name
       white-space: nowrap
-
 </style>

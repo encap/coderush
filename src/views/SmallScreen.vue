@@ -12,10 +12,10 @@ export default {
 
 <style lang="sass" scoped>
 .container
-  height: 100vh
   display: flex
-  justify-content: space-around
   align-items: center
+  justify-content: space-around
   text-align: center
+  height: 100vh
 
 </style

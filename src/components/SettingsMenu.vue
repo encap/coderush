@@ -150,26 +150,26 @@ export default {
 <style lang="sass" scoped>
 main
   display: flex
-  flex-direction: column
   justify-content: flex-start
+  flex-direction: column
   height: 100%
 
 h2
   margin: $grid-gap 0 $grid-gap $grid-gap
 
 .select-text
-  text-align: right
   color: $grey
   margin: 1em 2 * $grid-gap $grid-gap 0
+  text-align: right
 
 .list
-  padding: $grid-gap
   display: grid
-  grid-gap: $grid-gap
-  @include cursor-shadow()
-  text-align: center
+  padding: $grid-gap
   margin-bottom: $gap
   overflow-x: auto
+  text-align: center
+  grid-gap: $grid-gap
+  // @include cursor-shadow()
 
   &::-webkit-scrollbar
     width: $gap / 2
@@ -181,30 +181,30 @@ h2
     background-color: $grid-color
 
   label
-    position: relative
-    cursor: pointer
-    opacity: 0.95
-    box-shadow: 0px 0px 2px 2px rgba(black, .1)
     display: flex
-    flex-direction: column
     align-items: center
-    // min-height: 40px
-    padding: $grid-gap
+    flex-direction: column
+    position: relative
     background: linear-gradient(to right, $purple, $light-purple 49.8%, $grid-color 49.8% 100%)
-    background-size: 200%
     background-position: 99.8% 0 // 1px glitch
+    background-size: 200%
+    box-shadow: 0px 0px 2px 2px rgba(black, .1)
+    cursor: pointer
+    padding: $grid-gap
+    opacity: 0.95
     transition: background .2s ease-in
+    // min-height: 40px
 
     h4
       font-weight: normal
 
   .selected
-    transition: background .4s ease-in-out
     background-position: left
+    transition: background .4s ease-in-out
 
 .modes
-  flex-shrink: 1
   flex-grow: 1
+  flex-shrink: 1
   max-height: 250px
   grid-template-columns: repeat(3, 1fr)
 
@@ -213,11 +213,11 @@ h2
     height: 100%
 
     .modeDesc
-      padding: 20% 0
-      color: #bbb
       font-size: 0.9em
-      width: 80%
+      color: #bbb
+      padding: 20% 0
       text-align: center
+      width: 80%
       transition: color 1s ease
 
   .selected > .modeDesc
@@ -226,21 +226,21 @@ h2
 
 .themes
   flex-shrink: 0
-  grid-template-columns: repeat(2, 1fr)
   grid-template-rows: 50px 50px
+  grid-template-columns: repeat(2, 1fr)
 
   label
     justify-content: space-around
 
 .toggles
-  flex-shrink: 2
-  flex-grow: 2
   display: flex
   flex-direction: column
-  width: 100%
+  flex-grow: 2
+  flex-shrink: 2
   position: relative
   padding: 0 3 * $grid-gap 0 2 * $grid-gap
   overflow-y: auto
+  width: 100%
 
   &::-webkit-scrollbar
     width: $gap / 2
@@ -255,34 +255,34 @@ h2
   label
     display: flex
     justify-content: space-between
-    width: 100%
     position: relative
     cursor: pointer
     margin: 2vh 0
+    width: 100%
 
   $width: 70px
   $trans-duration: .15s
   .slider
     position: relative
+    background: linear-gradient(to right, $purple, $light-purple 50%, $grey 50% 100%)
+    background-position: right
+    background-size: 200%
     width: $width
     height: 20px
-    background: linear-gradient(to right, $purple, $light-purple 50%, $grey 50% 100%)
-    background-size: 200%
-    background-position: right
-    @include shadow(0.5)
     transition: background $trans-duration ease-in-out, transform 0.07s ease-in-out
+    // @include shadow(0.5)
 
   .slider:after
     content: ''
-    z-index: 3
-    left: -0.5rem
+    position: absolute
     top: -2px
+    left: -0.5rem
+    background-color: $white
     width: 1rem
     height: 24px
-    position: absolute
-    background-color: $white
-    @include shadow()
     transition: transform $trans-duration ease-in-out
+    z-index: 3
+    // @include shadow()
 
   input:active + .slider:after
     transform: scale(0.75)

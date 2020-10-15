@@ -123,10 +123,10 @@ export default {
 
 <style lang="sass" scoped>
 .container
-  position: relative
   display: flex
-  flex-direction: column
   justify-content: flex-start
+  flex-direction: column
+  position: relative
 
 .players-count
   font-weight: normal
@@ -136,14 +136,14 @@ export default {
 
 
 ol
-  list-style: none
   position: absolute
   top: 1em
-  right: -7px
   bottom: 0
   left: 0
-  overflow-y: auto
+  right: -7px
   padding-right: 7px
+  overflow-y: auto
+  list-style: none
   &::-webkit-scrollbar
     width: 3px
   &::-webkit-scrollbar-thumb
@@ -162,8 +162,8 @@ ol
   li
     display: flex
     flex-wrap: wrap
-    min-width: 100%
     margin-bottom: 1em
+    min-width: 100%
     &:last-child
       margin-bottom: 0
 
@@ -174,15 +174,15 @@ ol
       margin-right: 0.2em
 
     .item-wrapper
-      flex-grow: 1
       display: flex
+      flex-grow: 1
       flex-wrap: wrap
       position: relative
 
       .name-icons
-        flex-grow: 1
         display: inline-flex
         justify-content: space-between
+        flex-grow: 1
 
         .player-name
           text-overflow: ellipsis
@@ -194,16 +194,9 @@ ol
           margin-left: 1em
 
       .results
-        min-width: 100%
-        margin-top: 0.2em
-        // padding-left: 1.2rem
         display: flex
         justify-content: space-between
-
-
-
-
-
-
-
+        margin-top: 0.2em
+        min-width: 100%
+        // padding-left: 1.2rem
 </style>

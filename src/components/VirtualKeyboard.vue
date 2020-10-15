@@ -328,79 +328,79 @@ export default {
 <style lang="sass" scoped>
 .info
   display: flex
-  justify-content: space-between
-  align-itemes: center
   align-items: flex-end
+  justify-content: space-between
   position: relative
-  margin: 1em 0
   padding: 0 $grid-gap
+  margin: 1em 0
+  align-itemes: center
 
   p
+    font-size: 1.1em
     max-width: 60%
     min-width: 50%
-    font-size: 1.1em
 
   .buttons
-    flex-grow: 1
     display: flex
-    justify-content: flex-end
     align-items: flex-end
+    justify-content: flex-end
+    flex-basis: 100%
+    flex-grow: 1
     flex-wrap: wrap
+    position: relative
     margin-left: 2em
     min-width: 150px
-    flex-basis: 100%
-    position: relative
 
 
   button
-    width: 100%
-    text-align: center
+    background: $grid-color
     padding: 0 0.5em
+    margin: $grid-gap 0 0 1em
+    text-align: center
+    width: 100%
     height: 47px
     max-width: 350px
-    background: $grid-color
-    margin: $grid-gap 0 0 1em
 
 
 .keyboard
-  margin: 0 auto
   display: flex
-  flex-direction: column
   justify-content: space-around
-  padding: $grid-gap / 2
+  flex-direction: column
   font-size: 1rem
-  --min-size: 4vw
-  --key-margin: #{$grid-gap / 2}
-  --key-size: calc(var(--min-size) + var(--key-margin) * 2)
-  min-width: calc(15 * var(--key-size))
+  padding: $grid-gap / 2
+  margin: 0 auto
   height: calc(5 * var(--key-size))
-  @include cursor-shadow()
+  min-width: calc(15 * var(--key-size))
+  --key-size: calc(var(--min-size) + var(--key-margin) * 2)
+  --key-margin: #{$grid-gap / 2}
+  --min-size: 4vw
+  // @include cursor-shadow()
 
 
 .row
-  text-align: center
-  position: relative
-  width: 100%
   display: flex
-  height: 0
-  margin: var(--key-margin) 0
-  flex-grow: 1
   align-items: center
+  flex-grow: 1
+  position: relative
+  margin: var(--key-margin) 0
+  text-align: center
+  width: 100%
+  height: 0
 
 
 .key
-  height: 100%
-  user-select: none
-  flex-shrink: 0
-  flex-basis: 0
-  margin: 0 var(--key-margin)
-  padding: 0.4rem
-  background: $grid-color
   display: flex
-  flex-direction: column
   justify-content: space-around
-  transition: background-color 0.3s cubic-bezier(0,.5,1,1), color 0.3s cubic-bezier(0,.5,1,1), transform .1s ease-out
+  flex-basis: 0
+  flex-direction: column
+  flex-shrink: 0
   position: relative
+  background: $grid-color
+  padding: 0.4rem
+  margin: 0 var(--key-margin)
+  height: 100%
+  transition: background-color 0.3s cubic-bezier(0,.5,1,1), color 0.3s cubic-bezier(0,.5,1,1), transform .1s ease-out
+  user-select: none
 
   &[wrong-count]
     cursor: pointer
@@ -436,12 +436,12 @@ export default {
   font-size: 0.8em
 
 .locked
-  @include shadow(0.8, 15px)
   transform: scale(1.02)
   z-index: 1
+  // @include shadow(0.8, 15px)
   &[wrong-count]:not([expected-count])
-    z-index: 2
     transform: scale(1.05)
+    z-index: 2
 
 
 span

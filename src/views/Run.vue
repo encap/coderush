@@ -173,13 +173,13 @@ export default {
 
 <style lang="sass" scoped>
 main
-  min-height: calc(100vh - #{2 * $gap})
-  max-width: 1300px
-  width: 100%
-  position: relative
-  flex-direction: column
   display: flex
   justify-content: flex-start
+  flex-direction: column
+  position: relative
+  width: 100%
+  max-width: 1300px
+  min-height: calc(100vh - #{2 * $gap})
 
   &.wide
     max-width: none
@@ -190,18 +190,18 @@ main
 
 .top-bar
   display: flex
-  justify-content: space-between
   align-items: center
-  position: relative
+  justify-content: space-between
   animation: opacity-enter .5s ease-out forwards .7s
   animation-fill-mode: both
+  position: relative
 
   .info
-    position: relative
     display: flex
     align-items: center
-    min-width: 0
     flex-shrink: 2
+    position: relative
+    min-width: 0
 
     .languageName
       font-size: 2rem
@@ -213,31 +213,30 @@ main
         text-overflow: ellipsis
 
     .codeInfo
-      min-width: 0
-      flex-shrink: 2
       display: flex
       justify-content: space-between
       flex-direction: column
+      flex-shrink: 2
+      min-width: 0
 
       p
-        min-width: 0
-        overflow: hidden
-        text-overflow: ellipsis
         margin-bottom: $grid-gap
+        overflow: hidden
+        min-width: 0
+        text-overflow: ellipsis
 
   .buttons
     flex-shrink: 0
     button
-      text-align: center
-      min-width: 150px
-      padding: 0 0.5em
-      height: 47px
       background: $grid-color
+      padding: 0 0.5em
       margin-left: max(10px, calc(20vw - 210px))
+      text-align: center
+      height: 47px
+      min-width: 150px
 
 .results
+  padding-top: 1rem
   width: 100%
   max-width: 100%
-  padding-top: 1rem
-
 </style>
