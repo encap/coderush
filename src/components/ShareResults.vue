@@ -61,7 +61,7 @@ export default {
 .container
   display: grid
   transition: transform 0.15s ease-in-out
-  gap: 2*$grid-gap
+  gap: 2*$thin-gap
 
   label
     width: 100%
@@ -87,7 +87,7 @@ button, label
   align-items: center
   justify-content: space-around
   position: relative
-  background: $grid-color
+  background: $navy-grey
   z-index: 2
 
   &:hover:before

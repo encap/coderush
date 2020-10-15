@@ -207,7 +207,7 @@ export default {
     align-items: center
     justify-content: space-around
     flex-direction: column
-    background: $grid-color
+    background: $navy-grey
     box-shadow: 0px 0px 2px 2px rgba(black, .1)
     cursor: pointer
     margin-left: 1em
@@ -215,7 +215,7 @@ export default {
     height: 3em
 
   .tab-size-option
-    background: linear-gradient(to right, $purple-gradient-colors 49.8%, $grid-color 49.8%)
+    background: linear-gradient(to right, $purple-gradient-colors 49.8%, $navy-grey 49.8%)
     background-position: 99.8% 0 // 1px glitch
     background-size: 200%
     transition: background .2s ease-in
@@ -246,9 +246,9 @@ export default {
     &::-webkit-scrollbar-thumb
       background: linear-gradient(to top, $purple-gradient-colors)
     &::-webkit-scrollbar-track
-      background-color: $grid-color
+      background-color: $navy-grey
     &::-webkit-scrollbar-corner
-      background-color: $grid-color
+      background-color: $navy-grey
 
 .ready
   opacity: 1

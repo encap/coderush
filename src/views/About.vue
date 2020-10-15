@@ -137,7 +137,7 @@ main
     margin: 1em 0
 
   a
-    color: $light-purple
+    color: $dark-pink
     text-decoration: underline
 
   button

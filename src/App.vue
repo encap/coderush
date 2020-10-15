@@ -70,7 +70,7 @@ export default {
   display: flex
   justify-content: space-between
   position: relative
-  color: $white
+  color: white
   padding: $gap
   width: 100%
   min-height: 100vh
@@ -79,7 +79,7 @@ aside
   @include cursor-shadow()
   @include shadow()
   flex-shrink: 0
-  padding: $grid-gap
+  padding: $thin-gap
   margin-right: $gap * 2
   min-width: $nav-size
   transition: transform $nav-trans-dur $nav-trans-timing 0s, min-width .5s ease-in-out
@@ -125,18 +125,33 @@ body
       width: $gap / 2
   &::-webkit-scrollbar-thumb
     background: $washed-purple
-    background: linear-gradient(to top,  $washed-purple, mix($washed-purple, $grid-color, 60%))
+    background: linear-gradient(to top,  $washed-purple, mix($washed-purple, $navy-grey, 60%))
   &::-webkit-scrollbar-track
-    background-color: $grid-color
+    background-color: $navy-grey
   &::-webkit-scrollbar-corner
-    background-color: $grid-color
+    background-color: $navy-grey
 
 input, textarea, button
   font-family: inherit
 
-
 button, a, input[type="checkbox"], input[type="radio"]
   cursor: pointer
+
+button, a, input
+  font-size: inherit
+  background: transparent
+  color: inherit
+  border: 0
+  outline: 0
+  text-align: left
+  text-decoration: none
+  -webkit-appearance: none
+
+input[type="checkbox"], input[type="radio"]
+  display: none
+
+button:disabled
+  cursor: not-allowed
 
 .CodeMirror, .CodeMirror-gutters
   font-size: 1.5rem

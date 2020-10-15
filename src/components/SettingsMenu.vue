@@ -155,42 +155,42 @@ main
   height: 100%
 
 h2
-  margin: $grid-gap 0 $grid-gap $grid-gap
+  margin: $thin-gap 0 $thin-gap $thin-gap
 
 .select-text
   color: $grey
-  margin: 1em 2 * $grid-gap $grid-gap 0
+  margin: 1em 2 * $thin-gap $thin-gap 0
   text-align: right
 
 .list
   @include cursor-shadow()
   display: grid
-  padding: $grid-gap
+  padding: $thin-gap
   margin-bottom: $gap
   overflow-x: auto
   text-align: center
-  grid-gap: $grid-gap
+  grid-gap: $thin-gap
 
   &::-webkit-scrollbar
     width: $gap / 2
   &::-webkit-scrollbar-thumb
     background: linear-gradient(to left, $purple-gradient-colors)
   &::-webkit-scrollbar-track
-    background-color: $grid-color
+    background-color: $navy-grey
   &::-webkit-scrollbar-corner
-    background-color: $grid-color
+    background-color: $navy-grey
 
   label
     display: flex
     align-items: center
     flex-direction: column
     position: relative
-    background: linear-gradient(to right, $purple, $light-purple 49.8%, $grid-color 49.8% 100%)
+    background: linear-gradient(to right, $purple, $dark-pink 49.8%, $navy-grey 49.8% 100%)
     background-position: 99.8% 0 // 1px glitch
     background-size: 200%
     box-shadow: 0px 0px 2px 2px rgba(black, .1)
     cursor: pointer
-    padding: $grid-gap
+    padding: $thin-gap
     opacity: 0.95
     transition: background .2s ease-in
     // min-height: 40px
@@ -238,7 +238,7 @@ h2
   flex-grow: 2
   flex-shrink: 2
   position: relative
-  padding: 0 3 * $grid-gap 0 2 * $grid-gap
+  padding: 0 3 * $thin-gap 0 2 * $thin-gap
   overflow-y: auto
   width: 100%
 
@@ -247,9 +247,9 @@ h2
   &::-webkit-scrollbar-thumb
     background: linear-gradient(to top, $purple-gradient-colors)
   &::-webkit-scrollbar-track
-    background-color: $grid-color
+    background-color: $navy-grey
   &::-webkit-scrollbar-corner
-    background-color: $grid-color
+    background-color: $navy-grey
 
 
   label
@@ -265,7 +265,7 @@ h2
   .slider
     @include shadow(0.5)
     position: relative
-    background: linear-gradient(to right, $purple, $light-purple 50%, $grey 50% 100%)
+    background: linear-gradient(to right, $purple, $dark-pink 50%, $grey 50% 100%)
     background-position: right
     background-size: 200%
     width: $width
@@ -278,7 +278,7 @@ h2
     position: absolute
     top: -2px
     left: -0.5rem
-    background-color: $white
+    background-color: white
     width: 1rem
     height: 24px
     transition: transform $trans-duration ease-in-out

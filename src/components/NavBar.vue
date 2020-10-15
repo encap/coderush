@@ -29,7 +29,7 @@
     </div>
     <RoomPanel class="room" />
     <div class="author">
-      <div v-if="$route.path !== '/' && $route.path !== 'run'" class="donate">
+      <div v-if="$route.path === '/results' && $route.path === '/contribute'" class="donate">
         <a>Donate</a><span> if you like it</span>
       </div>
       <span class="author-text">

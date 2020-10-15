@@ -149,14 +149,14 @@ export default {
   display: flex
   justify-content: space-between
   position: relative
-  padding: $grid-gap
-  margin: 0 $grid-gap $grid-gap $grid-gap
-  border-bottom: $grid-gap solid $grid-color
+  padding: $thin-gap
+  margin: 0 $thin-gap $thin-gap $thin-gap
+  border-bottom: $thin-gap solid $navy-grey
   height: 40px
 
 
   &:focus-within
-    border-image: linear-gradient(to right, $light-blue, $grid-color 90%) 1
+    border-image: linear-gradient(to right, $light-blue, $navy-grey 90%) 1
 
   input
     max-width: 40%
@@ -170,7 +170,7 @@ export default {
   .clear-btn
     background: $navy-grey
     box-shadow: 0px 0px 2px 2px rgba(black, .1)
-    padding: $grid-gap 4 * $grid-gap
+    padding: $thin-gap 4 * $thin-gap
     margin-left: 1em
     height: 100%
 
@@ -179,10 +179,10 @@ export default {
   display: grid
   flex-grow: 1
   position: relative
-  padding: $grid-gap
+  padding: $thin-gap
   overflow-y: auto
   text-align: center
-  grid-gap: $grid-gap
+  grid-gap: $thin-gap
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
 
 
@@ -191,11 +191,11 @@ export default {
   &::-webkit-scrollbar-thumb
     background: linear-gradient(to top, $blue-gradient-colors)
   &::-webkit-scrollbar-track
-    background-color: $grid-color
-    margin-top: $grid-gap
+    background-color: $navy-grey
+    margin-top: $thin-gap
     // border-top: 20px solid white
   &::-webkit-scrollbar-corner
-    background-color: $grid-color
+    background-color: $navy-grey
 
 .language-radio
   display: none
@@ -212,7 +212,7 @@ export default {
   justify-content: space-around
   position: relative
   background: $navy-grey
-  background: linear-gradient(to right, $blue-gradient-colors 49.8%, $grid-color 49.8%)
+  background: linear-gradient(to right, $blue-gradient-colors 49.8%, $navy-grey 49.8%)
   background-position: 99.8% 0 // 1px glitch
   background-size: 200%
   box-shadow: 0px 0px 2px 2px rgba(black, .1)

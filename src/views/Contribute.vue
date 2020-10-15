@@ -172,7 +172,7 @@ export default {
   max-width: 50%
 
 h1
-  margin: $grid-gap 0 1em
+  margin: $thin-gap 0 1em
 
 a
   color: $light-pink
@@ -215,12 +215,12 @@ article p
     display: flex
     justify-content: space-between
     flex-grow: 1
-    padding: $grid-gap
-    border-bottom: $grid-gap solid $grid-color
+    padding: $thin-gap
+    border-bottom: $thin-gap solid $navy-grey
     max-width: 50%
 
     &:focus-within
-      border-image: linear-gradient(to right, $light-purple, $grid-color 90%) 1
+      border-image: linear-gradient(to right, $dark-pink, $navy-grey 90%) 1
 
     input
       flex-grow: 1
@@ -248,14 +248,14 @@ article p
   align-items: flex-end
   justify-content: space-between
   margin-top: 1em
-  margin-bottom: $grid-gap
+  margin-bottom: $thin-gap
 
 .button
   display: flex
   align-items: center
   justify-content: space-around
   flex-grow: 1
-  background-color: $grid-color
+  background-color: $navy-grey
   cursor: pointer
   text-align: center
   width: 150px

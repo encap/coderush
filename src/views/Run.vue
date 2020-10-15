@@ -220,7 +220,7 @@ main
       min-width: 0
 
       p
-        margin-bottom: $grid-gap
+        margin-bottom: $thin-gap
         overflow: hidden
         min-width: 0
         text-overflow: ellipsis
@@ -228,7 +228,7 @@ main
   .buttons
     flex-shrink: 0
     button
-      background: $grid-color
+      background: $navy-grey
       padding: 0 0.5em
       margin-left: max(10px, calc(20vw - 210px))
       text-align: center

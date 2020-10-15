@@ -265,14 +265,14 @@ export default {
   align-items: flex-end
   justify-content: space-between
   margin-top: $gap
-  margin-bottom: $grid-gap
+  margin-bottom: $thin-gap
 
 .button
   display: flex
   align-items: center
   justify-content: space-around
   flex-grow: 1
-  background: $grid-color
+  background: $navy-grey
   cursor: pointer
   margin-right: $gap
   text-align: center
@@ -281,7 +281,7 @@ export default {
   max-width: 250px
 
 .start-btn, .ready-btn
-  background: linear-gradient(to right, $purple, $light-purple 50%, $grid-color 50% 100%)
+  background: linear-gradient(to right, $purple, $dark-pink 50%, $navy-grey 50% 100%)
   background-position: right
   background-size: 200%
   transition: background .2s ease-in

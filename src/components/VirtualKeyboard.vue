@@ -331,7 +331,7 @@ export default {
   align-items: flex-end
   justify-content: space-between
   position: relative
-  padding: 0 $grid-gap
+  padding: 0 $thin-gap
   margin: 1em 0
   align-itemes: center
 
@@ -353,9 +353,9 @@ export default {
 
 
   button
-    background: $grid-color
+    background: $navy-grey
     padding: 0 0.5em
-    margin: $grid-gap 0 0 1em
+    margin: $thin-gap 0 0 1em
     text-align: center
     width: 100%
     height: 47px
@@ -368,12 +368,12 @@ export default {
   justify-content: space-around
   flex-direction: column
   font-size: 1rem
-  padding: $grid-gap / 2
+  padding: $thin-gap / 2
   margin: 0 auto
   height: calc(5 * var(--key-size))
   min-width: calc(15 * var(--key-size))
   --key-size: calc(var(--min-size) + var(--key-margin) * 2)
-  --key-margin: #{$grid-gap / 2}
+  --key-margin: #{$thin-gap / 2}
   --min-size: 4vw
 
 
@@ -395,7 +395,7 @@ export default {
   flex-direction: column
   flex-shrink: 0
   position: relative
-  background: $grid-color
+  background: $navy-grey
   padding: 0.4rem
   margin: 0 var(--key-margin)
   height: 100%
@@ -412,27 +412,27 @@ export default {
   &[wrong-count]:active
     transform: scale(.98)
 [wrong-count]
-  background: $accent1
+  background: $dark-pink
   filter: unquote("saturate(calc(var(--wrong-count) * 0.3 + 0.7))")
 
   &:hover::before, &[expected-count]:before, &.locked:before
     content: attr(wrong-count)
     position: absolute
-    left: $grid-gap
-    bottom: $grid-gap
+    left: $thin-gap
+    bottom: $thin-gap
     font-size: 0.8em
 
 
 [expected-count]
   background: transparentize(white, 0.15)
   & > span, &:after, &:before
-    color: $grid-color
+    color: $navy-grey
 
 [expected-count]:after
   content: attr(expected-count)
   position: absolute
-  right: $grid-gap
-  bottom: $grid-gap
+  right: $thin-gap
+  bottom: $thin-gap
   font-size: 0.8em
 
 .locked

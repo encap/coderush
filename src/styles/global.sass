@@ -1,52 +1,38 @@
-$light-pink: #de53ca
 $pink: #c957e0
-$light-purple: #bb5bf2
+$light-pink: #de53ca
+$dark-pink: #bb5bf2
 $purple: #7b46c5
-$dark-purple: #331565
-$dark-navy: #1e202f
+$light-purple: #911cd5
+$washed-purple: #8163ff
 $light-navy: #1f1f29
 $navy-grey: #292a3e
-$navy-blue: #1e1448
 $blue: #266eb7
 $light-blue: #43c0fa
-$light-green: #20eac2
-$orange: #e45474
-$dark-blue: #4f6ef6
-$purple-navy: #211547
-$purple-bg: #321661
-$washed-purple: #8163ff
-$red: #ff2243
-$red-orange: #fc2e27
-$washed-red: #ff4d7d
-$yellow: #fefe6a
-$white: #fff
 $grey: #aaa
-$accent1: #911cd5
-$accent2: #6043fd
+$light-grey: #ccc
 
 $gap: 2rem
-$grid-gap: 0.2rem
-$grid-color: $navy-grey
+$thin-gap: 0.2rem
 
 $nav-trans-dur: .5s
 $nav-trans-timing: ease-out
 $nav-move: 10vw
 $nav-size: 270px
 
-$purple-gradient-colors: mix($light-purple, $grid-color, 80), $purple
-$blue-gradient-colors: $light-blue, mix($light-blue, $grid-color, 30)
+$purple-gradient-colors: mix($dark-pink, $navy-grey, 80), $purple
+$blue-gradient-colors: $light-blue, mix($light-blue, $navy-grey, 30)
 
-@mixin cursor-shadow($radius: 170px, $color: rgba($white, 0.12))
+@mixin cursor-shadow($radius: 170px, $color: rgba(white, 0.12))
   background: transparent radial-gradient($radius at var(--mouse-x) var(--mouse-y), $color 10%, transparent 90%) no-repeat 0 0
 
 @mixin navbar-mouse-effect
   transition: background-color .15s ease-in-out
 
   &:hover
-    background-color: rgba($white, .1)
+    background-color: rgba(white, .1)
 
   &:active
-    background-color: rgba($white, .2)
+    background-color: rgba(white, .2)
 
 @mixin shadow($alpha: .3, $blur: 6px )
   box-shadow: 0 0 $blur rgba(black, $alpha)
@@ -68,21 +54,7 @@ $blue-gradient-colors: $light-blue, mix($light-blue, $grid-color, 30)
   to
     opacity: 0
 
-button, a, input
-  font-size: inherit
-  background: transparent
-  color: inherit
-  border: 0
-  outline: 0
-  text-align: left
-  text-decoration: none
-  -webkit-appearance: none
 
-input[type="checkbox"], input[type="radio"]
-  display: none
-
-button:disabled
-  cursor: not-allowed
 
 
 

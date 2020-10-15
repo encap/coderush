@@ -291,7 +291,7 @@ export default {
 <style lang="sass" scoped>
 @mixin small-btn
   @include navbar-mouse-effect
-  padding: $grid-gap
+  padding: $thin-gap
   border-left: 1px solid $grey
   text-align: center
   width: 40%
@@ -302,10 +302,10 @@ export default {
   flex-direction: column
 
 svg
-    margin-top: $grid-gap
+    margin-top: $thin-gap
 
 input
-  padding: $grid-gap
+  padding: $thin-gap
   margin-left: 1em
   border-bottom: 1px solid $grey
   overflow: hidden
@@ -320,7 +320,7 @@ input
     bottom: 0
     left: 0
     right: 0
-    background-color: rgba($grid-color, .7)
+    background-color: rgba($navy-grey, .7)
     transition: opacity 2s ease-in-out
     z-index: 10
     user-select: none
@@ -394,7 +394,7 @@ input
     margin-bottom: 1em
 
     svg
-      margin-bottom: $grid-gap
+      margin-bottom: $thin-gap
       margin-left: 1em
 
 .moveToLobby

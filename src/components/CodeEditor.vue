@@ -689,9 +689,9 @@ export default {
     &::-webkit-scrollbar-thumb
       background: linear-gradient(to top, $purple-gradient-colors) !important
     &::-webkit-scrollbar-track
-      background-color: $grid-color !important
+      background-color: $navy-grey !important
     &::-webkit-scrollbar-corner
-      background-color: $grid-color !important
+      background-color: $navy-grey !important
 
 
 .showInvisibles ::v-deep
@@ -728,7 +728,7 @@ export default {
 
       .corrected
         display: inline-block
-        background-color: lighten($grid-color, 4%)
+        background-color: lighten($navy-grey, 4%)
         padding: 0.1em 0
         filter: none
         opacity: 1
@@ -756,7 +756,7 @@ export default {
   left: 0
   right: 0
   font-size: 4rem
-  background-color: rgba($grid-color, .5)
+  background-color: rgba($navy-grey, .5)
   cursor: default
   opacity: 1
   text-align: center
