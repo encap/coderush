@@ -17,7 +17,7 @@
   <h1 align="center">CodeRush</h1>
 
   <p align="center">
-    The best speed typing app for programmers
+    The best typing speed test for programmers
     <br />
     <br />
     <a href="https://coderush.herokuapp.com">View live</a>
