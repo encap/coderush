@@ -78,7 +78,8 @@ export default {
   position: relative
   font-size: 2rem
   font-weight: 600
-  padding: 1.1rem 0
+  padding-top: 1.1rem
+  padding-bottom: 1.1rem
   width: 100%
   transition: opacity $nav-trans-dur $nav-trans-timing $nav-trans-dur, background-color .15s ease-in-out
 
@@ -143,7 +144,8 @@ nav:after
     @include padding-left
     @include navbar-mouse-effect
     display: block
-    padding: 1.1rem
+    padding-top: 1.1rem
+    padding-bottom: 1.1rem
     width: 100%
 
 
