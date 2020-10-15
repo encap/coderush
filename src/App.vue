@@ -76,13 +76,14 @@ export default {
   min-height: 100vh
 
 aside
+  @include cursor-shadow()
+  @include shadow()
   flex-shrink: 0
   padding: $grid-gap
   margin-right: $gap * 2
   min-width: $nav-size
   transition: transform $nav-trans-dur $nav-trans-timing 0s, min-width .5s ease-in-out
-  // @include cursor-shadow()
-  // @include shadow()
+
 
   &.wide:not(.thin)
     min-width: 15vw

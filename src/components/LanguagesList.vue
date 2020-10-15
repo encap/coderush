@@ -175,6 +175,7 @@ export default {
     height: 100%
 
 .list
+  @include cursor-shadow()
   display: grid
   flex-grow: 1
   position: relative
@@ -183,7 +184,7 @@ export default {
   text-align: center
   grid-gap: $grid-gap
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
-  // @include cursor-shadow()
+
 
   &::-webkit-scrollbar
     width: $gap / 2

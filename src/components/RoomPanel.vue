@@ -290,11 +290,11 @@ export default {
 
 <style lang="sass" scoped>
 @mixin small-btn
+  @include navbar-mouse-effect
   padding: $grid-gap
   border-left: 1px solid $grey
   text-align: center
   width: 40%
-  // @include navbar-mouse-effect
 
 .room
   display: flex
@@ -357,7 +357,7 @@ input
       height: 35px
 
   button
-    // @include small-btn
+    @include small-btn
 
   .roomName, .playerName
     display: flex
@@ -385,7 +385,7 @@ input
       text-overflow: ellipsis
 
     .close-btn
-      // @include small-btn
+      @include small-btn
 
   .roomNameContainer
     display: flex
@@ -404,12 +404,12 @@ input
     max-width: 80%
 
   button
+    @include small-btn
     font-size: 1.2em
     padding-left: 1em
     padding-right: 1em
     margin: 1em 0
     width: auto
-    // @include small-btn
 
   button:first-child
     margin-right: 2em

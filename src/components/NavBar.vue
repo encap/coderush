@@ -73,14 +73,15 @@ export default {
   padding-right: 1.2rem
 
 .title
+  @include padding-left
+  @include navbar-mouse-effect
   position: relative
   font-size: 2rem
   font-weight: 600
   padding: 1.1rem 0
   width: 100%
   transition: opacity $nav-trans-dur $nav-trans-timing $nav-trans-dur, background-color .15s ease-in-out
-  // @include padding-left
-  // @include navbar-mouse-effect
+
 
   .beta
     position: absolute
@@ -98,11 +99,12 @@ nav
   height: 100%
 
 nav:after
+  @include pos0
   content: ''
   position: absolute
   transition: backdrop-filter $nav-trans-dur $nav-trans-timing 0s
   pointer-events: none
-  // @include pos0
+
 
 .thin:after
   transition-delay: 1s
@@ -138,15 +140,16 @@ nav:after
 
 
   .link
+    @include padding-left
+    @include navbar-mouse-effect
     display: block
     padding: 1.1rem
     width: 100%
-    // @include padding-left
-    // @include navbar-mouse-effect
+
 
   .line
-    width: 100%
     // border-bottom: 1px solid $grey
+    width: 100%
 
   .btn-text
     margin-left: 1em
@@ -160,13 +163,13 @@ svg
   transition: transform $nav-trans-dur $nav-trans-timing 0s
 
 .room
+  @include padding-left
   flex-grow: 1
   position: relative
-  // @include padding-left
 
 .author
+  @include padding-left
   margin-top: 2em
-  // @include padding-left
 
   .donate
     margin: 1em 0

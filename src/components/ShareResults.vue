@@ -72,7 +72,7 @@ export default {
     grid-template-columns: 1fr 1fr
 
     button,label
-      // @include shadow(0.2)
+      @include shadow(0.2)
 
     label
       width: auto
@@ -82,13 +82,13 @@ export default {
     transform: scale(0.3)
 
 button, label
+  @include shadow(0.1)
   display: flex
   align-items: center
   justify-content: space-around
   position: relative
   background: $grid-color
   z-index: 2
-  // @include shadow(0.1)
 
   &:hover:before
     opacity: 1

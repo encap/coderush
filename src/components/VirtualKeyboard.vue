@@ -363,6 +363,7 @@ export default {
 
 
 .keyboard
+  @include cursor-shadow()
   display: flex
   justify-content: space-around
   flex-direction: column
@@ -374,7 +375,6 @@ export default {
   --key-size: calc(var(--min-size) + var(--key-margin) * 2)
   --key-margin: #{$grid-gap / 2}
   --min-size: 4vw
-  // @include cursor-shadow()
 
 
 .row
@@ -436,9 +436,9 @@ export default {
   font-size: 0.8em
 
 .locked
+  @include shadow(0.8, 15px)
   transform: scale(1.02)
   z-index: 1
-  // @include shadow(0.8, 15px)
   &[wrong-count]:not([expected-count])
     transform: scale(1.05)
     z-index: 2

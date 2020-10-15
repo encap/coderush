@@ -163,13 +163,13 @@ h2
   text-align: right
 
 .list
+  @include cursor-shadow()
   display: grid
   padding: $grid-gap
   margin-bottom: $gap
   overflow-x: auto
   text-align: center
   grid-gap: $grid-gap
-  // @include cursor-shadow()
 
   &::-webkit-scrollbar
     width: $gap / 2
@@ -263,6 +263,7 @@ h2
   $width: 70px
   $trans-duration: .15s
   .slider
+    @include shadow(0.5)
     position: relative
     background: linear-gradient(to right, $purple, $light-purple 50%, $grey 50% 100%)
     background-position: right
@@ -270,9 +271,9 @@ h2
     width: $width
     height: 20px
     transition: background $trans-duration ease-in-out, transform 0.07s ease-in-out
-    // @include shadow(0.5)
 
   .slider:after
+    @include shadow()
     content: ''
     position: absolute
     top: -2px
@@ -282,7 +283,6 @@ h2
     height: 24px
     transition: transform $trans-duration ease-in-out
     z-index: 3
-    // @include shadow()
 
   input:active + .slider:after
     transform: scale(0.75)
