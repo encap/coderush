@@ -1,5 +1,5 @@
+![Build and update][build-shield]
 ![Deploy to CDN][deploy-shield]
-![Build][build-shield]
 [![Website status][website-shield]][main-url]
 ![Dependecies Status][deps-shield]
 [![GitHub issues][issues-shield]][issues-url]
@@ -29,6 +29,50 @@
 </p>
 
 
+# XIII MFI - WAŻNE INFORMACJE 
+## Instrukcja pobierania kodu źródłowego w formacie ZIP
+https://github.com/encap/coderush
+![zip download instruction](.github/images/download_zip.png?raw=true)
+
+## Opis struktury plików
+### Wszystkie pliki zostały napisane w 100% przeze mnie chyba że napisano inaczej
+* .github/
+  * workflows/ - skrypty do automatycznego przetwarzania statystyk, kontrybucji w postaci przykładowych kodów, proces kompilacji i wysyłania na serwer CDN (rozproszony system dostarczania treści) i jego konfiguracji
+  * images/ - przechowuje zdjęcia i grafiki zawarte w tym dokumencie
+* actions/ - skrypty pomocnicze wykonywane podczas skryptów z katalogu .github/workflows/
+* node_modules/ - tworzony podczas lokalnej instalacji (npm install) zewnętrznych bibliotek wykorzystywanych w CodeRush
+* dist/ - generowany podczas kompilacji i "pakowania", zawiera skompresowane pliki CSS, JS i HTML
+* public/
+  * cm/ - moduły biblioteki CodeMirror, zmodyfikowane przeze mnie dla lepszej wydajności i skompresowane
+  * code/ - kody wykorzystywany podczas testu pisania, kod (poza C++, HTML, JS, CSS, PHP, VUE) nie jest mojego autorstwa (licencja MIT). Skrócony, sformatowany i sprawdzany przeze mnie. Do tego folderu po sprawdzeniu trafiają także kontrubucje ze strony https://coderush.herokuapp.com/contribute
+* server/
+  * database.json - publicznie dostępna baza danych ze statystykami i opisem kodów do testów generowana przez serwer bądź w.w skrypty
+  * rooms.js - logika serwera do obsługi trybu wieloosobowego
+  * server.js - główny plik wykonawczy serwera (obsługa zapytań, caching, obsługa statystyk i kontrybucji itd.)
+* src/ - kod źródłowy aplikacji (front-end'u)
+  * components/ oraz views/ - modułowe komponenty z których zbudowany jest interfejs wraz z logiką napisaną w Vue, JavaScript (ES9)
+  * router/ - konfiguracja routingu aplikacji Vue (single page application)
+  * store/ - konfiguracja, logika i stan początkowy scentralizowanego magazynu danych całej apliakcji i synchronizacji danych między komponentami
+  * styles/ - globalne style wykorzystywane we wszystkich komponentach, napisane w składni SASS (preprocesor CSS)
+  * App.vue - główny plik aplikacji Vue
+  * cmLoader.js - ładuje moduły edytora kodu na żądanie, napisany przeze mnie na podstawie statycznego loadera dostępnego w repozytorium biblioteki CodeMirror
+  * main.js - główny plik wykonawczy i konfiguracyjny aplikacji Vue
+* vue.config.js oraz webpack.config.js - pliki konfiguracyjne procesu kompilacji i pakowania
+* package-lock.json - plik wygenerowany przez package-manager podczas instalacji (npm install)
+* package.json - tak jak wyżej + skrypty napisane przeze mnie
+* pozostałe pliki - inne pliki konfiguracyjne napisane przeze mnie
+
+## Wykorzystywane bilbioteki zewnętrzne
+### Wszystkie na licencji MIT, chyba że napisano inaczej
+* [Vue.js 2](https://vuejs.org/) - framework JS wykorzystywany po stronie klienta
+* [CodeMirror 5](https://codemirror.net/) - edytor kodu
+* [Chart.js 2](https://www.chartjs.org/) - biblioteka do generowania wykresów
+* [Express 4](https://expressjs.com/) - framework JS wykorzystywany na serwerze do obsługi zapytań
+* [Socket.io 2](https://socket.io/) - biblioteka do komunikacji w czasie rzeczywistym oparta o protokół WebSocket
+* [Webpack 4](https://webpack.js.org/) - przetwarza kod i "pakuje" go w pliki dostarczane do użytkowników
+* [Font Awesome 5](https://fontawesome.com/) - ikony widoczne w aplikacji; kod biblioteki na licencji MIT, ikony na licencji CC BY 4.0
+
+# Pozostała część dokumentacji projektu open-source
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
@@ -47,7 +91,7 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## About
 CodeRush allows you to test your writing skills in more than 30 most popular technologies and 3 diffrent game modes. 
 
 [![Product Name Screen Shot][main-screenshot]][main-url]
@@ -72,10 +116,14 @@ On CodeRush you can create a private multiplayer server, so that you can compete
 * [Socket.io 2](https://socket.io/)
 
 
-<!-- GETTING STARTED -->
 ## Getting Started
 
 To get a local copy up and running follow these simple steps.
+
+## Usage
+
+App is up (I hope) and running on https://coderush.herokuapp.com.You can also start a local server as shown below.
+
 
 ### Prerequisites
 
@@ -101,20 +149,11 @@ npm run dev
 
 Check out package.json for other useful scripts
 
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-App is up (I hope) and running on https://coderush.herokuapp.com or you can start a local server as shown above.
-
-
-<!-- ROADMAP -->
 ## Roadmap
 
 See the [this page][issues-url] for a list of proposed features (and known issues) that I will implement (and fix) in the near future.
 
 
-<!-- CONTRIBUTING -->
 ## Contributing
 
 CodeRush is a one-person project but as long as I will have time, I will make changes to the code myself, so please do not create pull requests unless it is an critical bugfix.
@@ -135,8 +174,6 @@ You can now submit code examples on which our users will test their typing skill
 
 Assuming your code passes all our tests it will be waiting for human verification as a pull request [here][pulls-url].
 
-
-<!-- LICENSE -->
 ## License
 
 I made CodeRush open source becouse without other OS projects I wouldn't be able to get to the point where I am now.
@@ -144,16 +181,12 @@ I made CodeRush open source becouse without other OS projects I wouldn't be able
 Source code is distributed under the [GNU GPL v3][license-url] License. However, I would advise against looking here for the best solutions or forking it becouse this was my first Vue.js project.
 
 
-
-
-<!-- CONTACT -->
 ## Contact
 Łukasz Wielgus
 
 Poland
 
 encapsulation4@gmail.com
-
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -171,6 +204,6 @@ encapsulation4@gmail.com
 [deps-shield]: https://david-dm.org/encap/coderush.svg
 [main-screenshot]: .github/images/main-screenshot.webp
 [results-screenshot]: .github/images/results-screenshot.webp
-[build-shield]: https://github.com/encap/coderush/workflows/Deploy%20to%20CDN/badge.svg
-[deploy-shield]: https://github.com/encap/coderush/workflows/Vue%20build%20and%20update%20stats/badge.svg
+[deploy-shield]: https://github.com/encap/coderush/workflows/Deploy%20to%20CDN/badge.svg
+[build-shield]: https://github.com/encap/coderush/workflows/Vue%20build%20and%20update%20stats/badge.svg
 [os-shield]: https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github

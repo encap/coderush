@@ -1,4 +1,4 @@
-name: Vue build and update stats
+name: Vue build and database update
 
 on:
   push:
