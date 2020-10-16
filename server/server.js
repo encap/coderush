@@ -94,7 +94,7 @@ const getDatabase = () => {
     setInterval(() => {
       console.log('Database cache update');
       cachedStringifiedDatabase = JSON.stringify(database);
-    }, 1000 * 60 * 20);
+    }, 1000 * 60 * 60 * 6);
   }
 };
 
@@ -127,7 +127,7 @@ const sendStats = () => {
       });
   }
 };
-setInterval(sendStats, 1000 * 60 * 2); // DEV * 60 * 12
+setInterval(sendStats, 1000 * 60 * 60 * 12);
 
 app.enable('trust proxy'); // trust heroku and cloudflare
 
