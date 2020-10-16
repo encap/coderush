@@ -87,11 +87,13 @@
           "lines": 19,
           "name": "delicious_world",
           "source": "dangermouse.net",
-          "tabSize": 8
+          "tabSize": 8,
+          "total": 1
         }
       ],
       "mode": "ruby",
-      "name": "Chef"
+      "name": "Chef",
+      "total": 1
     },
     {
       "ext": "css",
@@ -455,12 +457,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 33.815,
-    "backspaceClicks": 1231,
+    "avgWPM": 34.007,
+    "backspaceClicks": 1255,
     "best": 61,
-    "correctClicks": 31065,
-    "correctLines": 761,
-    "deletingTime": 635,
-    "total": 130
+    "correctClicks": 31873,
+    "correctLines": 780,
+    "deletingTime": 644,
+    "total": 131
   }
 }
