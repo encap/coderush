@@ -157,24 +157,6 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2
-        },
-        {
-          "lines": 44,
-          "name": "jsonParseTest",
-          "source": "ItsMe",
-          "tabSize": 2
-        },
-        {
-          "lines": 29,
-          "name": "TestCode",
-          "source": "TestAutor",
-          "tabSize": 2
-        },
-        {
-          "lines": 29,
-          "name": "TestCode2",
-          "source": "TestAutor",
-          "tabSize": 2
         }
       ],
       "mode": "javascript",

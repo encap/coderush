@@ -43,8 +43,6 @@
 import { mapGetters } from 'vuex';
 import axios from 'axios';
 
-import stats from '../stats3';
-
 let loadMode; let
   loadTheme;
 const codemirror = () => import(/* webpackChunkName: "cmLoader" */ '@/cmLoader.js').then((module) => {
@@ -79,7 +77,6 @@ export default {
       currentChange: {},
       stats: {
         history: [],
-        cheat: false,
         firstCharTime: 0,
         earlyFinish: false,
       },
@@ -344,38 +341,38 @@ export default {
 
       if (ev.ctrlKey && !ev.key) {
         return;
-      } if (ev.ctrlKey && ev.key === 'Insert') {
-        this.cm.execCommand('goLineEnd');
-        this.cm.execCommand('goCharRight');
-        this.cm.markText(
-          { line: this.currentLine, ch: this.currentChar },
-          { line: this.currentLine, ch: this.cm.getLine(this.currentLine).length + 1 },
-          { className: 'correct' },
-        );
-        this.currentLine += 1;
-        this.currentChar = 0;
-        this.correctCharsInLine = 0;
-        this.stats.cheat = true;
-        return;
-      } if (ev.ctrlKey && ev.key === 'End') {
-        this.stats.cheat = true;
-        this.completed(true);
-        return;
-      } if (ev.ctrlKey && ev.key === 'Home') {
-        this.cm.execCommand('goDocEnd');
-        this.cm.markText(
-          { line: 0, ch: 0 },
-          { line: this.codeInfo.lines + 1, ch: 1 },
-          { className: 'correct' },
-        );
-        this.currentLine = this.codeInfo.lines - 1;
-        this.currentChar = this.cm.getLine(this.currentLine);
-        this.correctCharsInLine = this.currentChar;
-        this.stats.cheat = true;
-
-        this.completed(false, false);
-        return;
       }
+      // Code for development
+      // if (ev.ctrlKey && ev.key === 'Insert') {
+      //   this.cm.execCommand('goLineEnd');
+      //   this.cm.execCommand('goCharRight');
+      //   this.cm.markText(
+      //     { line: this.currentLine, ch: this.currentChar },
+      //     { line: this.currentLine, ch: this.cm.getLine(this.currentLine).length + 1 },
+      //     { className: 'correct' },
+      //   );
+      //   this.currentLine += 1;
+      //   this.currentChar = 0;
+      //   this.correctCharsInLine = 0;
+      //   this.stats.cheat = true;
+      //   return;
+      // } if (ev.ctrlKey && ev.key === 'End') {
+      //   this.stats.cheat = true;
+      //   this.completed(true);
+      //   return;
+      // } if (ev.ctrlKey && ev.key === 'Home') {
+      //   this.cm.execCommand('goDocEnd');
+      //   this.cm.markText(
+      //     { line: 0, ch: 0 },
+      //     { line: this.codeInfo.lines + 1, ch: 1 },
+      //     { className: 'correct' },
+      //   );
+      //   this.currentLine = this.codeInfo.lines - 1;
+      //   this.currentChar = this.cm.getLine(this.currentLine);
+      //   this.correctCharsInLine = this.currentChar;
+      //   this.stats.cheat = true;
+
+      //   this.compDEBUG CODE
       if (ev.key === 'Shift' || ev.key === 'CapsLock' || ev.key === 'Alt' || ev.key === 'PageUp' || ev.key === 'PageDown' || ev.key === 'ScrollLock' || ev.key === 'Insert' || ev.key === 'Home' || ev.key === 'End' || ev.ctrlKey || ev.metaKey || ev.key.slice(0, 5) === 'Arrow' || (ev.key.length > 1 && ev.key[0] === 'F')) {
         // prevent double event and block keys
         return;
@@ -472,7 +469,7 @@ export default {
           if (this.stats.history.length < 30) {
             this.popUp(true, 'Try again');
           } else {
-            this.completed(false, true, true);
+            this.completed(false, true);
           }
         }
         this.stats.history.push(this.currentChange);
@@ -583,12 +580,12 @@ export default {
           }
         });
     },
-    completed(forced = false, currentStats = true, complete = true) {
+    completed(forced = false, complete = true) {
       if (this.$route.path === '/results' || (forced && this.stats.history.length < 10)) {
         // return if finished too early
         // return; DEV
       }
-      if (this.stats.history.length < 2 && !this.stats.cheat) {
+      if (this.stats.history.length < 2) {
         this.$router.push('/');
         return;
       }
@@ -599,20 +596,16 @@ export default {
         this.$socket.client.emit('completed', Date.now());
       }
 
-      if (currentStats) {
-        this.stats = {
-          ...this.stats,
-          timeFromFirstInput: this.timeElapsed(),
-          codeLength: this.codeText.length,
-          correctLines: this.currentLine + 1,
-          file: this.codeInfo,
-          mode: this.options.selectedMode,
-        };
-        if (forced) {
-          this.stats.earlyFinish = true;
-        }
-      } else {
-        this.stats = stats;
+      this.stats = {
+        ...this.stats,
+        timeFromFirstInput: this.timeElapsed(),
+        codeLength: this.codeText.length,
+        correctLines: this.currentLine + 1,
+        file: this.codeInfo,
+        mode: this.options.selectedMode,
+      };
+      if (forced) {
+        this.stats.earlyFinish = true;
       }
 
       this.$emit('completed', this.stats);
