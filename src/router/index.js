@@ -14,22 +14,27 @@ const routes = [
     path: '/',
     name: 'Start',
     component: Start,
+    meta: { title: 'CodeRush' },
   },
   {
     path: '/about',
     name: 'About',
     component: About,
+    meta: { title: 'About - CodeRush' },
+
   },
   {
     path: '/run',
     name: 'Run',
     component: Run,
     alias: '/results',
+    meta: { title: 'Test in progress - CodeRush' },
   },
   {
     path: '/contribute',
     name: 'Contribute',
     component: Contribute,
+    meta: { title: 'CodeRush - Contribute' },
   },
   {
     path: '/join/:roomName',
@@ -44,6 +49,15 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  let title = to.meta.title || 'CodeRush';
+  if (to.path === '/results') {
+    title = 'Test results - CodeRush';
+  }
+  document.title = title;
+  next();
 });
 
 export default router;
