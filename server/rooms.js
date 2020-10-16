@@ -127,7 +127,6 @@ module.exports = function (http) {
         };
         io.in(roomName).emit('player_stats', data);
       } catch (e) {
-        console.log('WTF');
         console.error(e);
       }
     });

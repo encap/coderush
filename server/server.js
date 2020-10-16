@@ -233,6 +233,13 @@ app.post('/api/stats', (req, res) => {
   res.send('OK');
 });
 
+app.use((req, res, next) => {
+  if (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css') {
+    res.header('content-encoding', 'gzip');
+  }
+  next();
+});
+
 app.use(express.static(PATH));
 
 
