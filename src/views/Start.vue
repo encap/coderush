@@ -166,8 +166,6 @@ export default {
       }
 
 
-
-
       this.uploadCodeText = value ? 'Cancel' : 'Use your own code';
     },
     run() {
@@ -220,9 +218,8 @@ export default {
     },
   },
   sockets: {
-    start(ownerStartTime) {
+    start() {
       console.blue('START');
-      this.$store.commit('LATENCY', ownerStartTime);
       this.$router.push('run');
       this.$socket.client.emit('playerInLobby', false);
     },

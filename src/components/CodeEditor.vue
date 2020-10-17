@@ -113,7 +113,7 @@ export default {
     },
     roomPlace() {
       if (this.room.connected && this.isCompleted) {
-        const place = this.room.players[this.room.myName].place;
+        const { place } = this.room.players[this.room.myName];
         const sups = [null, 'st', 'nd', 'rd', 'th'];
         console.log(place);
         return {
@@ -276,7 +276,6 @@ export default {
               }
 
 
-
               if (this.currentLine + 1 === this.codeInfo.lines && this.correctCharsInLine === this.cm.getLine(this.currentLine).length) {
                 this.completed();
               } else if (this.options.underScore) {
@@ -342,6 +341,7 @@ export default {
       if (ev.ctrlKey && !ev.key) {
         return;
       }
+
       // Code for development
       // if (ev.ctrlKey && ev.key === 'Insert') {
       //   this.cm.execCommand('goLineEnd');
@@ -372,7 +372,6 @@ export default {
       //   this.correctCharsInLine = this.currentChar;
       //   this.stats.cheat = true;
 
-      //   this.compDEBUG CODE
       if (ev.key === 'Shift' || ev.key === 'CapsLock' || ev.key === 'Alt' || ev.key === 'PageUp' || ev.key === 'PageDown' || ev.key === 'ScrollLock' || ev.key === 'Insert' || ev.key === 'Home' || ev.key === 'End' || ev.ctrlKey || ev.metaKey || ev.key.slice(0, 5) === 'Arrow' || (ev.key.length > 1 && ev.key[0] === 'F')) {
         // prevent double event and block keys
         return;
@@ -387,7 +386,6 @@ export default {
         alt: ev.altKey,
         keyCode: ev.keyCode,
       };
-
 
 
       if (ev.key === 'Escape' || ev.key === 'Pause') {
@@ -583,7 +581,7 @@ export default {
     completed(forced = false, complete = true) {
       if (this.$route.path === '/results' || (forced && this.stats.history.length < 10)) {
         // return if finished too early
-        // return; DEV
+        return;
       }
       if (this.stats.history.length < 2) {
         this.$router.push('/');
@@ -593,7 +591,7 @@ export default {
       const congratulations = this.options.selectedMode === 3 && !complete ? 'Game over' : 'Congratulations';
       this.popUp(true, forced ? 'Too long, uh?' : `${this.options.selectedMode === 2 ? 'Time is over' : congratulations}`);
       if (this.room.connected) {
-        this.$socket.client.emit('completed', Date.now());
+        this.$socket.client.emit('completed');
       }
 
       this.stats = {

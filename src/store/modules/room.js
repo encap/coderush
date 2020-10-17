@@ -134,9 +134,7 @@ const mutations = {
     Vue.delete(state.room.players[playerName], 'time');
     Vue.delete(state.room.players[playerName], 'place');
   },
-  LATENCY(state, ownerStartTime) {
-    state.room.ownerStartTime = ownerStartTime;
-  },
+
   SET_ROOM_PROPERTY(state, [property, value]) {
     Vue.set(state.room, property, value);
   },

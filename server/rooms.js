@@ -14,14 +14,15 @@ module.exports = (http) => {
   io.on('connection', (socket) => {
     const { roomName } = socket.handshake.query;
 
-
     if (Object.prototype.hasOwnProperty.call(rooms, roomName)) {
       socket.emit('room_exist');
+
       socket.on('checkPlayerName', (playerName) => {
         if (Object.values(rooms[roomName].players).some((player) => player.name === playerName)) {
           socket.emit('player_name_taken');
         } else {
           socket.emit('player_name_avaible');
+
           socket.on('joinRoom', () => {
             console.log(`player "${playerName}" joined "${roomName}"`);
             socket.join(roomName);
@@ -37,6 +38,7 @@ module.exports = (http) => {
               players: Object.values(rooms[roomName].players),
               roomName,
             });
+
             socket.to(roomName).emit('player_joined', playerData);
           });
         }
@@ -45,13 +47,20 @@ module.exports = (http) => {
       socket.emit('room_dont_exist');
       socket.on('createRoom', (data) => {
         socket.join(data.roomName);
-        rooms[data.roomName] = { players: {}, options: data.options, languageIndex: data.langaugeIndex };
+
+        rooms[data.roomName] = {
+          players: {},
+          options: data.options,
+          languageIndex: data.langaugeIndex,
+        };
+
         const playerData = {
           ...playerDataTemplate,
           name: data.ownerName,
           owner: true,
           ready: true,
         };
+
         rooms[data.roomName].players[socket.id] = playerData;
         socket.emit('room_created');
         socket.emit('player_joined', playerData);
@@ -101,13 +110,13 @@ module.exports = (http) => {
       socket.to(roomName).emit('use_custom_code', data);
     });
 
-    socket.on('start', (ownerStartTime) => {
+    socket.on('start', () => {
       io.in(roomName).emit('reset');
-      socket.to(roomName).emit('start', ownerStartTime);
+      socket.to(roomName).emit('start');
     });
 
-    socket.on('completed', (time) => {
-      console.log(`player "${rooms[roomName].players[socket.id].name} completed; ${Date.now() - time} ms latency`);
+    socket.on('completed', () => {
+      console.log(`player "${rooms[roomName].players[socket.id].name} completed`);
 
       rooms[roomName].playersCompleted = rooms[roomName].playersCompleted + 1 || 1;
 
@@ -116,6 +125,7 @@ module.exports = (http) => {
         time: Date.now(),
         place: rooms[roomName].playersCompleted,
       };
+
       io.in(roomName).emit('player_completed', data);
     });
 
@@ -125,6 +135,7 @@ module.exports = (http) => {
           playerName: rooms[roomName].players[socket.id].name,
           stats,
         };
+
         io.in(roomName).emit('player_stats', data);
       } catch (e) {
         console.error(e);
@@ -133,6 +144,7 @@ module.exports = (http) => {
 
     socket.on('reset', () => {
       rooms[roomName].playersCompleted = 0;
+
       if (rooms[roomName].players[socket.id].owner) {
         console.warn(`room "${roomName}" reset`);
         io.in(roomName).emit('reset');

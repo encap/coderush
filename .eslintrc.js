@@ -9,13 +9,12 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 2020,
-    allowImportExportEverywhere: true,
   },
   ignorePatterns: [
     'public/', 'dist/', 'master/',
   ],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-shadow': ['error', { allow: ['state'] }], // vuex exception
     'max-len': 'off',

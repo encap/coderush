@@ -10,6 +10,7 @@ require('./rooms.js')(http);
 
 
 const PATH = path.join(__dirname, '../dist');
+const PROD = process.env.NODE_ENV === 'production';
 
 const toggleMaintanceMode = (action) => {
   axios({
@@ -32,24 +33,16 @@ const toggleMaintanceMode = (action) => {
     console.error('Toggle maintance mode failed');
   });
 };
-if (process.env.NODE_ENV === 'production') {
+
+if (PROD) {
   toggleMaintanceMode(false);
 }
 
-const keepAwake = () => {
-  if (process.env.NODE_ENV === 'production') {
-    axios.get('https://coderush.herokuapp.com/api/ping')
-      .then(() => console.log('Ping Ok'))
-      .catch((err1) => console.error(`Ping Error: ${err1}`));
-  }
-};
-
-setInterval(keepAwake, 1000 * 60 * 20);
-
 let cachedIndexHtml = '';
+
 const getIndexHtml = () => {
-  if (process.env.NODE_ENV === 'production') {
-    console.log('fetching index.html from cdn');
+  if (PROD) {
+    console.log('index.html cache update');
     axios.get('https://coderushcdn.ddns.net/index.html')
       .then((res) => {
         if (res.status === 200) {
@@ -64,46 +57,41 @@ const getIndexHtml = () => {
       });
   }
 };
-getIndexHtml();
 
-setInterval(() => {
-  console.log('index.html cache update');
-  getIndexHtml();
-}, 1000 * 60 * 60 * 24);
+setInterval(getIndexHtml, 1000 * 60 * 60 * 24);
 
 let database = {};
 let cachedStringifiedDatabase = '';
 
-const getDatabase = () => {
-  if (process.env.NODE_ENV === 'production') {
-    console.log('fetching database from cdn');
 
-    axios.get('https://coderushcdn.ddns.net/database.json')
-      .then((res) => {
-        if (res.status === 200) {
-          database = res.data;
-          cachedStringifiedDatabase = JSON.stringify(database);
-        } else {
-          throw new Error(`Response status: "${res.status}"`);
-        }
-      })
-      .catch((err) => {
-        console.warn('Error: cannot get database from cdn');
-        console.error(err);
-      });
+if (PROD) {
+  console.log('fetching database from cdn');
 
-    setInterval(() => {
-      console.log('Database cache update');
-      cachedStringifiedDatabase = JSON.stringify(database);
-    }, 1000 * 60 * 60 * 6);
-  }
-};
+  axios.get('https://coderushcdn.ddns.net/database.json')
+    .then((res) => {
+      if (res.status === 200) {
+        database = res.data;
+        cachedStringifiedDatabase = JSON.stringify(database);
+      } else {
+        throw new Error(`Response status: "${res.status}"`);
+      }
+    })
+    .catch((err) => {
+      console.warn('Error: cannot get database from cdn');
+      console.error(err);
+    });
 
-getDatabase();
+  setInterval(() => {
+    console.log('Database cache update');
+    cachedStringifiedDatabase = JSON.stringify(database);
+  }, 1000 * 60 * 60 * 6);
+}
+
 
 let newStats = false;
+
 const sendStats = () => {
-  if (newStats && process.env.NODE_ENV === 'production') {
+  if (newStats && PROD) {
     newStats = false;
 
     axios({
@@ -120,7 +108,7 @@ const sendStats = () => {
       },
     })
       .then(() => {
-        console.log(`Stats sent. Total: ${database.stats.total || 'ERROR'}`);
+        console.log(`Stats sent. Total: ${database.stats.total}`);
       })
       .catch((response) => {
         console.warn('Stats update failed');
@@ -128,12 +116,14 @@ const sendStats = () => {
       });
   }
 };
+
 setInterval(sendStats, 1000 * 60 * 60 * 12);
 
 app.enable('trust proxy'); // trust heroku and cloudflare
 
+// redirect to https
 app.use((req, res, next) => {
-  if (req.protocol === 'http' && process.env.NODE_ENV === 'production') {
+  if (req.protocol === 'http' && PROD) {
     if (req.method === 'GET' || req.method === 'HEAD') {
       console.log('Redirecting client to https');
       res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
@@ -145,6 +135,7 @@ app.use((req, res, next) => {
   }
 });
 
+// send cached index.html when possible
 app.use((req, res, next) => {
   const match = req.originalUrl.match(/\.\w+$/);
   const ext = match ? match[0][0] : '';
@@ -161,6 +152,7 @@ app.use((req, res, next) => {
   }
 });
 
+// send cached stringified database.json when possible
 app.get('/database.json', (_req, res) => {
   if (cachedStringifiedDatabase.length > 2) { // {} empty object
     console.log('sending cached database');
@@ -168,19 +160,28 @@ app.get('/database.json', (_req, res) => {
     res.send(cachedStringifiedDatabase);
   } else {
     console.log('sending database from file');
-    res.sendFile('database.json', { root: __dirname });
+    res.sendFile('database.json', { root: __dirname }); // database.json is in the same dir as server
   }
 });
 
-
+// heroku free tier goes to sleep after 30 minutes of network inactivity
 app.get('/api/ping', (req, res) => {
   res.send('OK');
 });
 
+const keepAwake = () => {
+  axios.get('https://coderush.herokuapp.com/api/ping')
+    .catch((err) => console.error(`Ping Error: ${err}`));
+};
+
+if (PROD) {
+  setInterval(keepAwake, 1000 * 60 * 20);
+}
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.post('/upload', (req, res) => {
+app.post('/api/upload', (req, res) => {
   if (typeof req.body.code === 'string' && req.body.code.length > 20) {
     axios({
       url: 'https://api.github.com/repos/encap/coderush/dispatches',
@@ -210,7 +211,7 @@ app.post('/upload', (req, res) => {
 });
 
 app.post('/api/stats', (req, res) => {
-  if (process.env.NODE_ENV === 'production') {
+  if (PROD) {
     const stats = req.body;
     database.stats.avgWPM = Math.round(((database.stats.avgWPM * database.stats.total) + stats.wpm) / (database.stats.total + 1) * 1000) / 1000;
 
@@ -230,19 +231,20 @@ app.post('/api/stats', (req, res) => {
     newStats = true;
   }
 
-
   res.send('OK');
 });
 
-app.use((req, res, next) => {
-  if (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css') {
-    res.header('content-encoding', 'gzip');
-  }
-  next();
-});
+if (!PROD) {
+  // local server
+  app.use((req, res, next) => {
+    if (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css') {
+      res.header('content-encoding', 'gzip');
+    }
+    next();
+  });
+}
 
 app.use(express.static(PATH));
-
 
 const PORT = process.env.PORT || 3000;
 
@@ -253,7 +255,7 @@ const server = http.listen(PORT, () => {
 const shutdown = () => {
   console.warn('Server is pending shutdown');
   server.close();
-  if (process.env.NODE_ENV === 'production') {
+  if (PROD) {
     sendStats();
     toggleMaintanceMode(true);
     setTimeout(() => {

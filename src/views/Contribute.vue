@@ -79,7 +79,6 @@ import axios from 'axios';
 import { mapGetters } from 'vuex';
 
 
-
 export default {
   name: 'Contribute',
   components: {
@@ -130,14 +129,14 @@ export default {
           tabSize: this.customCode.tabSize,
           lines: this.customCode.lines,
         };
-        const url = `${window.location.origin}/upload`;
+        const url = `${window.location.origin}/api/upload`;
         axios.post(url, data)
           .then(() => {
             this.sent = true;
             this.$nextTick(this.$refs.code.fixHeight);
           })
           .catch((err) => {
-            this.error = 'Server error';
+            this.error = 'Server error, try again later';
             this.$nextTick(this.$refs.code.fixHeight);
             console.red('Code submission failed');
             console.log(err.response);
