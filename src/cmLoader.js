@@ -96,6 +96,7 @@ const loadMode = async (cm, mode) => {
 };
 
 const loadTheme = (name = 'material-darker') => {
+  // material-darker is bundled with main css
   if (name && name !== 'material-darker') {
     const existing = document.getElementById(name);
 

@@ -20,6 +20,7 @@ export default {
   },
   computed: {
     chartData() {
+      // split to separate for loops for better code readability
       let correctInputTime = 0;
       for (let i = 0; i < this.history.length; i += 1) {
         if (this.history[i].type === 'correct') {
@@ -69,10 +70,12 @@ export default {
       }
       const sum = correctInputTime + wrongInputTime + deletingTime;
 
+      const format = (value) => Math.round(value / sum * 100);
+
       return [
-        Math.round(correctInputTime / sum * 100),
-        Math.round(wrongInputTime / sum * 100),
-        Math.round(deletingTime / sum * 100),
+        format(correctInputTime),
+        format(wrongInputTime),
+        format(deletingTime),
       ];
     },
     options() {

@@ -480,18 +480,19 @@ export default {
     },
     onUnFocus(_, ev) {
       if (ev) {
-        if (process.env.NODE_ENV !== 'production') ev.preventDefault(); // DEV
+        const PROD = process.env.NODE_ENV === 'production';
+        if (!PROD) ev.preventDefault();
         if (!this.isCompleted && this.popUpText !== 'Try again' && ev) {
-          if (process.env.NODE_ENV !== 'production') this.cm.focus(); // DEV
+          if (!PROD) this.cm.focus();
           if (ev.relatedTarget !== null) {
             if (ev.relatedTarget.tagName !== 'BUTTON' && ev.relatedTarget.tagName !== 'A') {
-              if (process.env.NODE_ENV === 'production') this.popUp(true, 'Resume'); // dev
+              if (PROD) this.popUp(true, 'Resume');
             } else if (ev.relatedTarget.className === 'disconnect-btn') {
               this.cm.focus();
             }
           } else {
           // eslint-disable-next-line no-lonely-if
-            if (process.env.NODE_ENV === 'production') this.popUp(true, 'Resume'); // DEV
+            if (PROD) this.popUp(true, 'Resume');
           }
         }
       }

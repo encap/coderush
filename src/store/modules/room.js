@@ -43,11 +43,13 @@ const actions = {
   socket_roomState({ commit, rootState }, roomState) {
     commit('SET_ROOM_PROPERTY', ['name', roomState.roomName]);
     commit('SET_ROOM_PROPERTY', ['connected', true]);
+
     const playersObject = {};
     roomState.players.forEach((player) => {
       playersObject[player.name] = player;
     });
     commit('SET_ROOM_PROPERTY', ['players', playersObject]);
+
     if (roomState.languageIndex) {
       commit('SET_LANGUAGE', rootState.other.languagesList[roomState.languageIndex]);
     } else {
@@ -56,7 +58,6 @@ const actions = {
         name: '',
       });
     }
-
 
     if (roomState.customCode) {
       commit('SET_CUSTOM_CODE', roomState.customCode);
@@ -68,6 +69,7 @@ const actions = {
         showEditor: false,
       });
     }
+
     if (roomState.options) {
       Object.entries(roomState.options).forEach((option) => {
         commit('SET_OPTION', { name: option[0], value: option[1] });

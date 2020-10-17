@@ -31,7 +31,7 @@ const actions = {
         context.commit('SET_LANGUAGES_LIST', languagesList);
         context.commit('SET_DATABASE_STATS', response.data.stats);
       } catch (err) {
-        console.warn('CANNOT GET DATABASE', err);
+        console.warn('Cannot get databse', err);
       }
     }
   },

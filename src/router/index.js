@@ -51,6 +51,7 @@ const router = new VueRouter({
   routes,
 });
 
+// dynamic titles
 router.beforeEach((to, from, next) => {
   let title = to.meta.title || 'CodeRush';
   if (to.path === '/results') {

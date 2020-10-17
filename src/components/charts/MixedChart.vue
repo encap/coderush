@@ -29,13 +29,6 @@ export default {
       const avg = Math.round(this.inputIntervalsPoints.reduce((acc, point) => acc + point.y, 0) / this.inputIntervalsPoints.length);
       return [{ x: 0, y: avg }, { x: this.stats.timeFromFirstInput, y: avg }];
     },
-    // pointsStyle() {
-    //   return this.avgInputIntervals.map((_, index) => {
-    //     if (this.history[index].type === 'mistake') {
-    //       return {};
-    //     }
-    //   });
-    // },
     wpmPoints() {
       const oneThirdTime = this.format(this.stats.oneThirdTime, 0);
       const oneThirdWPM = this.stats.oneThirdCharsCount / oneThirdTime * 60 / 5;

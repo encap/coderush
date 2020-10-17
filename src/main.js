@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon, FontAwesomeLayers } from '@fortawesome/vue-fontawesome';
 
+// import only used icons to reduce bundle size
 import {
   faUsers, faPlay, faInfo, faFileCode, faHeart, faServer, faUser, faSignOutAlt, faCopy, faUserCog, faCheck, faHourglassEnd, faSignal, faSlash, faShareAlt, faTimes, faCompressAlt, faExpandAlt,
 } from '@fortawesome/free-solid-svg-icons';
@@ -16,17 +17,17 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
+library.add(faUsers, faPlay, faInfo, faFileCode, faHeart, faServer, faUser, faSignOutAlt, faCopy, faUserCog, faCheck, faHourglassEnd, faSignal, faSlash, faShareAlt, faTimes, faCompressAlt, faExpandAlt, faFacebookF, faFacebookMessenger, faTwitter);
+
+Vue.component('fa', FontAwesomeIcon);
+Vue.component('faStack', FontAwesomeLayers);
+
 const socket = io('/', {
   autoConnect: false,
   reconnectionAttempts: 3,
   timeout: 10000,
 });
-
-library.add(faUsers, faPlay, faInfo, faFileCode, faHeart, faServer, faUser, faSignOutAlt, faCopy, faUserCog, faCheck, faHourglassEnd, faSignal, faSlash, faShareAlt, faTimes, faCompressAlt, faExpandAlt, faFacebookF, faFacebookMessenger, faTwitter);
-
 Vue.use(VueSocketIOExt, socket, { store });
-Vue.component('fa', FontAwesomeIcon);
-Vue.component('faStack', FontAwesomeLayers);
 
 Vue.config.productionTip = false;
 

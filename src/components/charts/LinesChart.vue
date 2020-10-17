@@ -22,7 +22,6 @@ export default {
       for (let i = 0; i < this.history.length; i += 1) {
         if (this.history[i].type === 'mistake') {
           const startTime = this.history[i].time;
-
           // i+1 must be backspace or another mistake
           for (let j = i + 1; j < this.history.length; j += 1) {
             // console.log(`Looking for correction: ${this.history[j].type}`);
