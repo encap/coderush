@@ -28,7 +28,7 @@ const ensureDeps = (mode, cont) => {
   if (!deps) return cont();
   const missing = [];
   for (let i = 0; i < deps.length; i += 1) {
-    if (!CodeMirror.modes.hasOwnProperty(deps[i])) {
+    if (!Object.prototype.hasOwnProperty.call(CodeMirror.modes, deps[i])) {
       missing.push(deps[i]);
     } else {
       // console.log(`[ensureDeps ${mode}] Skipping ${deps[i]}`);
@@ -45,11 +45,11 @@ const ensureDeps = (mode, cont) => {
 };
 
 CodeMirror.requireMode = (mode, cont, reject) => {
-  if (CodeMirror.modes.hasOwnProperty(mode)) {
+  if (Object.prototype.hasOwnProperty.call(CodeMirror.modes, mode)) {
     // console.log(`[requireMode] Skipping ${mode}`);
     return ensureDeps(mode, cont);
   }
-  if (loading.hasOwnProperty(mode)) {
+  if (Object.prototype.hasOwnProperty.call(loading, mode)) {
     // console.log(`[requireMode.loading] Skipping ${mode}`);
     return loading[mode].push(cont);
   }
@@ -75,7 +75,7 @@ CodeMirror.requireMode = (mode, cont, reject) => {
 };
 
 CodeMirror.autoLoadMode = (instance, mode) => new Promise((resolve, reject) => {
-  if (CodeMirror.modes.hasOwnProperty(mode)) {
+  if (Object.prototype.hasOwnProperty.call(CodeMirror, mode)) {
     // console.log(`[autoLoadMode] Skipping ${mode}`);
     resolve('SKIP');
   }

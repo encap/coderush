@@ -15,34 +15,15 @@ module.exports = {
     'public/', 'dist/', 'master/',
   ],
   rules: {
-    'no-console': 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-shadow': ['error', { allow: ['state'] }],
+    'no-shadow': ['error', { allow: ['state'] }], // vuex exception
     'max-len': 'off',
-    'vue/no-parsing-error': 'off',
-    'import/no-named-as-default': 'off',
-    'import/no-named-as-default-member': 'off',
-    'no-prototype-builtins': 'off',
     'consistent-return': 'off',
-    'no-param-reassign': 'off',
-    'no-multiple-empty-lines': 'off',
-    'no-underscore-dangle': 'off',
-    'prefer-destructuring': 'off',
-    'no-mixed-operators': [
-      'warn',
-      {
-        allowSamePrecedence: true,
-      },
-    ],
-    'vue/max-attributes-per-line': ['error', {
-      singleline: 3,
-      multiline: {
-        max: 1,
-        allowFirstLine: false,
-      },
-    }],
-    'object-property-newline': ['warn', {
-      allowMultiplePropertiesPerLine: true,
-    }],
+    'no-multiple-empty-lines': ['error', { max: 2, maxEOF: 1 }],
+    'no-underscore-dangle': ['error', { allow: ['_vm'] }], // vuex exception
+    'no-mixed-operators': ['warn', { allowSamePrecedence: true }],
+    'vue/max-attributes-per-line': ['error', { singleline: 3, multiline: { max: 1, allowFirstLine: false } }],
+    'object-property-newline': ['warn', { allowMultiplePropertiesPerLine: true }],
   },
 };

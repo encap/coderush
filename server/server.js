@@ -5,6 +5,7 @@ const path = require('path');
 
 const app = express();
 const http = require('http').Server(app);
+
 require('./rooms.js')(http);
 
 
@@ -211,7 +212,7 @@ app.post('/upload', (req, res) => {
 app.post('/api/stats', (req, res) => {
   if (process.env.NODE_ENV === 'production') {
     const stats = req.body;
-    database.stats.avgWPM = Math.round((database.stats.avgWPM * database.stats.total + stats.wpm) / (database.stats.total + 1) * 1000) / 1000;
+    database.stats.avgWPM = Math.round(((database.stats.avgWPM * database.stats.total) + stats.wpm) / (database.stats.total + 1) * 1000) / 1000;
 
     database.stats.total += 1;
 

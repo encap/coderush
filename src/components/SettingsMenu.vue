@@ -8,7 +8,7 @@
       <label
         v-for="(mode, index) in modesList"
         :key="mode[0]"
-        :class="{'selected': index+1 === selectedMode}"
+        :class="{'selected': index+1 === selectedMode }"
         class="mode"
       >
         <h4>{{ mode[0] }}</h4>

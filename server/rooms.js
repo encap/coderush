@@ -1,6 +1,6 @@
 const socketio = require('socket.io');
 
-module.exports = function (http) {
+module.exports = (http) => {
   const io = socketio(http);
 
   const rooms = {};
@@ -15,7 +15,7 @@ module.exports = function (http) {
     const { roomName } = socket.handshake.query;
 
 
-    if (rooms.hasOwnProperty(roomName)) {
+    if (Object.prototype.hasOwnProperty.call(rooms, roomName)) {
       socket.emit('room_exist');
       socket.on('checkPlayerName', (playerName) => {
         if (Object.values(rooms[roomName].players).some((player) => player.name === playerName)) {

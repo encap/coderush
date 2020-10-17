@@ -23,10 +23,10 @@ try {
       core.endGroup();
 
       const file = {
-				name: submission.name,
-				source: submission.author,
-				lines: submission.lines,
-				tabSize: submission.tabSize
+        name: submission.name,
+        source: submission.author,
+        lines: submission.lines,
+        tabSize: submission.tabSize,
       };
       database.languages[submission.languageIndex].files.push(file);
 
@@ -38,7 +38,7 @@ try {
       fs.writeFileSync('server/database.json', JSON.stringify(database, null, 2));
       core.endGroup();
 
-      const ext = database.languages[submission.languageIndex].ext;
+      const { ext } = database.languages[submission.languageIndex];
 
       const filePath = `public/code/${languageName}/${submission.name}.${ext}`;
 
@@ -49,8 +49,7 @@ try {
       core.exportVariable('LANGUAGE_NAME', languageName);
       core.exportVariable('NAME', `${submission.name}.${ext}`);
       core.exportVariable('AUTHOR', submission.author);
-			core.exportVariable('LINES', submission.lines);
-
+      core.exportVariable('LINES', submission.lines);
     } else {
       core.endGroup();
       throw new Error('Invalid Submission!');
