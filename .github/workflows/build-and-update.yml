@@ -68,7 +68,7 @@ jobs:
       run: git commit --allow-empty -m 'Automatic deploy'
     - name: Commit stats update
       if: env.stats == 'true'
-      run: git commit -m 'Scheduled stats update'
+      run: git commit -m 'Stats update deploy'
     - name: Commit new submission
       if: env.code == 'true'
       run: git commit -m 'Code database update - new submission'
