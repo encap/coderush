@@ -40,6 +40,8 @@ if (PROD) {
 
 let cachedIndexHtml = '';
 
+// this will provide 0 downtime and will prevent reseting created rooms
+
 const getIndexHtml = () => {
   if (PROD) {
     console.log('index.html cache update');

@@ -268,7 +268,6 @@ export default {
   width: 100%
 
 
-
 .main-stats
   display: flex
   justify-content: space-between
