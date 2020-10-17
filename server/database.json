@@ -36,7 +36,7 @@
           "tabSize": 4
         }
       ],
-      "mode": "clike",
+      "mode": "shell",
       "name": "Bash"
     },
     {

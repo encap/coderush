@@ -170,6 +170,8 @@ button:disabled
 .CodeMirror-linenumber
   width: 1rem !important
 
+span.cm-comment, .cm-s-Base2Tone-Suburb-dark span.cm-bracket
+  color: #aaa !important
 
 .cm-error:not(.mark)
   background-color: transparent !important
