@@ -137,6 +137,20 @@ app.use((req, res, next) => {
   }
 });
 
+// heroku free tier goes to sleep after 30 minutes of network inactivity
+app.get('/api/ping', (req, res) => {
+  res.send('OK');
+});
+
+const keepAwake = () => {
+  axios.get('https://coderush.herokuapp.com/api/ping')
+    .catch((err) => console.error(`Ping Error: ${err}`));
+};
+
+if (PROD) {
+  setInterval(keepAwake, 1000 * 60 * 20);
+}
+
 // send cached index.html when possible
 app.use((req, res, next) => {
   const match = req.originalUrl.match(/\.\w+$/);
@@ -166,19 +180,6 @@ app.get('/database.json', (_req, res) => {
   }
 });
 
-// heroku free tier goes to sleep after 30 minutes of network inactivity
-app.get('/api/ping', (req, res) => {
-  res.send('OK');
-});
-
-const keepAwake = () => {
-  axios.get('https://coderush.herokuapp.com/api/ping')
-    .catch((err) => console.error(`Ping Error: ${err}`));
-};
-
-if (PROD) {
-  setInterval(keepAwake, 1000 * 60 * 20);
-}
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
