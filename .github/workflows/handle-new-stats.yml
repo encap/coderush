@@ -24,7 +24,7 @@ jobs:
       run: |
         node actions/process-stats-update.js
     - name: Commit and push changes to master
-      uses: stefanzweifel/git-auto-commit-action@v4
+      uses: stefanzweifel/git-auto-commit-action@v4.7.0
       with:
         commit_message: Scheduled stats update
         commit_user_name: Update Stats Action
