@@ -46,11 +46,13 @@
           "lines": 21,
           "name": "check_palindrome",
           "source": "programiz.com",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mode": "clike",
-      "name": "C"
+      "name": "C",
+      "total": 1
     },
     {
       "ext": "cs",
@@ -73,12 +75,12 @@
           "name": "check_prime_number",
           "source": "own",
           "tabSize": 4,
-          "total": 2
+          "total": 4
         }
       ],
       "mode": "clike",
       "name": "C++",
-      "total": 2
+      "total": 4
     },
     {
       "ext": "cook",
@@ -145,11 +147,13 @@
           "lines": 23,
           "name": "random_ints_to_file",
           "source": "cs.utexas.edu",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mode": "clike",
-      "name": "Java"
+      "name": "Java",
+      "total": 1
     },
     {
       "ext": "js",
@@ -239,12 +243,12 @@
           "name": "save_to_database",
           "source": "own",
           "tabSize": 2,
-          "total": 1
+          "total": 2
         }
       ],
       "mode": "php",
       "name": "PHP",
-      "total": 1
+      "total": 2
     },
     {
       "ext": "ps1",
@@ -288,12 +292,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 96
+          "total": 98
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 96
+      "total": 98
     },
     {
       "ext": "js",
@@ -328,11 +332,13 @@
           "lines": 14,
           "name": "pop3",
           "source": "java2s.com/Code/Ruby",
-          "tabSize": 2
+          "tabSize": 2,
+          "total": 2
         }
       ],
       "mode": "ruby",
-      "name": "Ruby"
+      "name": "Ruby",
+      "total": 2
     },
     {
       "ext": "rs",
@@ -457,12 +463,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 34.007,
-    "backspaceClicks": 1271,
+    "avgWPM": 33.824,
+    "backspaceClicks": 1333,
     "best": 61,
-    "correctClicks": 32307,
-    "correctLines": 780,
-    "deletingTime": 652,
-    "total": 133
+    "correctClicks": 33806,
+    "correctLines": 851,
+    "deletingTime": 690,
+    "total": 142
   }
 }
