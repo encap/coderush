@@ -2,7 +2,7 @@
   <div class="container">
     <div class="wrapper">
       <h2>We detected unsupported screen resolution.</h2>
-      <h2>Please open this app on a larger screen.</h2>
+      <h2>Please open this app on a larger device.</h2>
     </div>
   </div>
 </template>
