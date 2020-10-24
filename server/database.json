@@ -46,11 +46,13 @@
           "lines": 21,
           "name": "check_palindrome",
           "source": "programiz.com",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 2
         }
       ],
       "mode": "clike",
-      "name": "C"
+      "name": "C",
+      "total": 2
     },
     {
       "ext": "cs",
@@ -73,12 +75,12 @@
           "name": "check_prime_number",
           "source": "own",
           "tabSize": 4,
-          "total": 2
+          "total": 4
         }
       ],
       "mode": "clike",
       "name": "C++",
-      "total": 2
+      "total": 4
     },
     {
       "ext": "cook",
@@ -117,11 +119,13 @@
           "lines": 26,
           "name": "easyMIDI_lib_function",
           "source": "github.com/algoGuy/EasyMIDI",
-          "tabSize": 2
+          "tabSize": 2,
+          "total": 1
         }
       ],
       "mode": "go",
-      "name": "Go"
+      "name": "Go",
+      "total": 1
     },
     {
       "ext": "html",
@@ -131,12 +135,12 @@
           "name": "clone-it_results_menu",
           "source": "own",
           "tabSize": 2,
-          "total": 4
+          "total": 5
         }
       ],
       "mode": "xml",
       "name": "HTML",
-      "total": 4
+      "total": 5
     },
     {
       "ext": "java",
@@ -145,11 +149,13 @@
           "lines": 23,
           "name": "random_ints_to_file",
           "source": "cs.utexas.edu",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 2
         }
       ],
       "mode": "clike",
-      "name": "Java"
+      "name": "Java",
+      "total": 2
     },
     {
       "ext": "js",
@@ -239,12 +245,12 @@
           "name": "save_to_database",
           "source": "own",
           "tabSize": 2,
-          "total": 1
+          "total": 2
         }
       ],
       "mode": "php",
       "name": "PHP",
-      "total": 1
+      "total": 2
     },
     {
       "ext": "ps1",
@@ -267,18 +273,19 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 3
+          "total": 4
         },
         {
           "lines": 12,
           "name": "UrlParser",
           "source": "Python_boss",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mode": "python",
       "name": "Python",
-      "total": 3
+      "total": 5
     },
     {
       "ext": "r",
@@ -288,12 +295,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 96
+          "total": 101
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 96
+      "total": 101
     },
     {
       "ext": "js",
@@ -328,11 +335,13 @@
           "lines": 14,
           "name": "pop3",
           "source": "java2s.com/Code/Ruby",
-          "tabSize": 2
+          "tabSize": 2,
+          "total": 3
         }
       ],
       "mode": "ruby",
-      "name": "Ruby"
+      "name": "Ruby",
+      "total": 3
     },
     {
       "ext": "rs",
@@ -457,12 +466,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 34.007,
-    "backspaceClicks": 1271,
+    "avgWPM": 33.36,
+    "backspaceClicks": 1494,
     "best": 61,
-    "correctClicks": 32307,
-    "correctLines": 780,
-    "deletingTime": 652,
-    "total": 133
+    "correctClicks": 35894,
+    "correctLines": 927,
+    "deletingTime": 767,
+    "total": 152
   }
 }
