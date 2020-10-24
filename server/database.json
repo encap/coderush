@@ -85,18 +85,18 @@
       "total": 4
     },
     {
-      "ext": "txt",
+      "ext": "cook",
       "files": [
         {
           "lines": 19,
-          "name": "delicious_hello_world",
+          "name": "delicious_world",
           "source": "dangermouse.net",
           "tabSize": 8,
           "total": 1
         }
       ],
       "mode": "ruby",
-      "name": "Chef_(English)",
+      "name": "Chef",
       "total": 1
     },
     {
