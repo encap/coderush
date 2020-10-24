@@ -47,12 +47,12 @@
           "name": "check_palindrome",
           "source": "programiz.com",
           "tabSize": 4,
-          "total": 1
+          "total": 2
         }
       ],
       "mode": "clike",
       "name": "C",
-      "total": 1
+      "total": 2
     },
     {
       "ext": "cs",
@@ -119,11 +119,13 @@
           "lines": 26,
           "name": "easyMIDI_lib_function",
           "source": "github.com/algoGuy/EasyMIDI",
-          "tabSize": 2
+          "tabSize": 2,
+          "total": 1
         }
       ],
       "mode": "go",
-      "name": "Go"
+      "name": "Go",
+      "total": 1
     },
     {
       "ext": "html",
@@ -148,12 +150,12 @@
           "name": "random_ints_to_file",
           "source": "cs.utexas.edu",
           "tabSize": 4,
-          "total": 1
+          "total": 2
         }
       ],
       "mode": "clike",
       "name": "Java",
-      "total": 1
+      "total": 2
     },
     {
       "ext": "js",
@@ -271,18 +273,19 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 3
+          "total": 4
         },
         {
           "lines": 12,
           "name": "UrlParser",
           "source": "Python_boss",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mode": "python",
       "name": "Python",
-      "total": 3
+      "total": 5
     },
     {
       "ext": "r",
@@ -292,12 +295,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 100
+          "total": 101
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 100
+      "total": 101
     },
     {
       "ext": "js",
@@ -463,12 +466,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 33.588,
-    "backspaceClicks": 1355,
+    "avgWPM": 33.36,
+    "backspaceClicks": 1494,
     "best": 61,
-    "correctClicks": 34320,
-    "correctLines": 856,
-    "deletingTime": 704,
-    "total": 146
+    "correctClicks": 35894,
+    "correctLines": 927,
+    "deletingTime": 767,
+    "total": 152
   }
 }
