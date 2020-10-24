@@ -20,7 +20,7 @@
     The best typing speed test for programmers
     <br />
     <br />
-    <a href="https://coderush.herokuapp.com">View Live</a>
+    <a href="https://coderush.herokuapp.com">View live</a>
     ·
     <a href="https://github.com/encap/coderush/issues">Report Bug</a>
     ·
@@ -28,29 +28,14 @@
   </p>
 </p>
 
-<!-- TABLE OF CONTENTS -->
-## Table of Contents
-* [[PL] XIII MFI](#xiii-mfi)
-* [Built With](#built-with)
-* [About the Project](#about-the-project)
-  * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-* [Usage](#usage)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [License](#license)
-* [Contact](#contact)
 
-
-# XIII MFI
+# XIII MFI - WAŻNE INFORMACJE 
 ## Instrukcja pobierania kodu źródłowego w formacie ZIP
 https://github.com/encap/coderush
 ![zip download instruction](.github/images/download_zip.png?raw=true)
 
 ## Opis struktury plików
-### Wszystkie pliki zostały napisane w 100% przeze mnie, chyba że napisano inaczej
+### Wszystkie pliki zostały napisane w 100% przeze mnie chyba że napisano inaczej
 * .github/
   * workflows/ - skrypty do automatycznego przetwarzania statystyk, kontrybucji w postaci przykładowych kodów, proces kompilacji i wysyłania na serwer CDN (rozproszony system dostarczania treści) i jego konfiguracji
   * images/ - przechowuje zdjęcia i grafiki zawarte w tym dokumencie
@@ -89,6 +74,22 @@ https://github.com/encap/coderush
 
 # Pozostała część dokumentacji projektu open-source
 
+<!-- TABLE OF CONTENTS -->
+## Table of Contents
+
+* [About the Project](#about-the-project)
+  * [Built With](#built-with)
+* [Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Installation](#installation)
+* [Usage](#usage)
+* [Roadmap](#roadmap)
+* [Contributing](#contributing)
+* [License](#license)
+* [Contact](#contact)
+
+
+
 <!-- ABOUT THE PROJECT -->
 ## About
 CodeRush allows you to test your writing skills in more than 30 most popular technologies and 3 diffrent game modes. 
@@ -121,7 +122,7 @@ To get a local copy up and running follow these simple steps.
 
 ## Usage
 
-App is up (I hope) and running on https://coderush.herokuapp.com. You can also start a local server as shown below.
+App is up (I hope) and running on https://coderush.herokuapp.com.You can also start a local server as shown below.
 
 
 ### Prerequisites
@@ -175,9 +176,9 @@ Assuming your code passes all our tests it will be waiting for human verificatio
 
 ## License
 
-I made CodeRush open source because without other OS projects I wouldn't be able to get to the point where I am now.
+I made CodeRush open source becouse without other OS projects I wouldn't be able to get to the point where I am now.
 
-Source code is distributed under the [GNU GPL v3][license-url] License. However, I would advise against looking here for the best solutions or forking it because this was my first Vue.js project.
+Source code is distributed under the [GNU GPL v3][license-url] License. However, I would advise against looking here for the best solutions or forking it becouse this was my first Vue.js project.
 
 
 ## Contact
