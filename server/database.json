@@ -295,12 +295,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 101
+          "total": 10
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 101
+      "total": 10
     },
     {
       "ext": "js",
@@ -472,6 +472,6 @@
     "correctClicks": 35894,
     "correctLines": 927,
     "deletingTime": 767,
-    "total": 152
+    "total": 58
   }
 }
