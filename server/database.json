@@ -61,11 +61,13 @@
           "lines": 23,
           "name": "form_mouse_event",
           "source": "sanfoundry.com",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mode": "clike",
-      "name": "C#"
+      "name": "C#",
+      "total": 1
     },
     {
       "ext": "cpp",
@@ -295,12 +297,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 10
+          "total": 101
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 10
+      "total": 101
     },
     {
       "ext": "js",
@@ -466,12 +468,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 33.36,
-    "backspaceClicks": 1494,
+    "avgWPM": 33.345,
+    "backspaceClicks": 1503,
     "best": 61,
-    "correctClicks": 35894,
-    "correctLines": 927,
-    "deletingTime": 767,
-    "total": 58
+    "correctClicks": 36078,
+    "correctLines": 936,
+    "deletingTime": 772,
+    "total": 153
   }
 }
