@@ -75,12 +75,12 @@
           "name": "check_prime_number",
           "source": "own",
           "tabSize": 4,
-          "total": 4
+          "total": 5
         }
       ],
       "mode": "clike",
       "name": "C++",
-      "total": 4
+      "total": 5
     },
     {
       "ext": "txt",
@@ -135,12 +135,12 @@
           "name": "clone-it_results_menu",
           "source": "own",
           "tabSize": 2,
-          "total": 5
+          "total": 6
         }
       ],
       "mode": "xml",
       "name": "HTML",
-      "total": 5
+      "total": 6
     },
     {
       "ext": "java",
@@ -164,11 +164,13 @@
           "lines": 15,
           "name": "clone-it_show_hints",
           "source": "own",
-          "tabSize": 2
+          "tabSize": 2,
+          "total": 3
         }
       ],
       "mode": "javascript",
-      "name": "JavaScript"
+      "name": "JavaScript",
+      "total": 3
     },
     {
       "ext": "kt",
@@ -216,11 +218,13 @@
           "lines": 20,
           "name": "hello_world",
           "source": "journaldev.com",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mode": "clike",
-      "name": "Objective-C"
+      "name": "Objective-C",
+      "total": 1
     },
     {
       "ext": "pl",
@@ -273,7 +277,7 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 4
+          "total": 7
         },
         {
           "lines": 12,
@@ -285,7 +289,7 @@
       ],
       "mode": "python",
       "name": "Python",
-      "total": 5
+      "total": 8
     },
     {
       "ext": "r",
@@ -295,12 +299,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 10
+          "total": 11
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 10
+      "total": 11
     },
     {
       "ext": "js",
@@ -466,12 +470,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 33.36,
-    "backspaceClicks": 1494,
+    "avgWPM": 33.424,
+    "backspaceClicks": 1717,
     "best": 61,
-    "correctClicks": 35894,
-    "correctLines": 927,
-    "deletingTime": 767,
-    "total": 58
+    "correctClicks": 38748,
+    "correctLines": 1075,
+    "deletingTime": 855,
+    "total": 68
   }
 }
