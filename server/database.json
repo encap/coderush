@@ -313,11 +313,13 @@
           "lines": 24,
           "name": "search_input",
           "source": "github.com/ahfarmer/emoji-search",
-          "tabSize": 2
+          "tabSize": 2,
+          "total": 1
         }
       ],
       "mode": "jsx",
-      "name": "React"
+      "name": "React",
+      "total": 1
     },
     {
       "ext": "rock",
@@ -470,12 +472,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 31.504,
+    "avgWPM": 31.078,
     "backspaceClicks": 1733,
     "best": 61,
     "correctClicks": 39024,
-    "correctLines": 1089,
+    "correctLines": 1090,
     "deletingTime": 864,
-    "total": 73
+    "total": 74
   }
 }
