@@ -20,11 +20,13 @@
           "lines": 24,
           "name": "disk_read",
           "source": "github.com/ghaiklor",
-          "tabSize": 8
+          "tabSize": 8,
+          "total": 1
         }
       ],
       "mode": "z80",
-      "name": "Assembly"
+      "name": "Assembly",
+      "total": 1
     },
     {
       "ext": "sh",
@@ -165,12 +167,12 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 4
+          "total": 5
         }
       ],
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 4
+      "total": 5
     },
     {
       "ext": "kt",
@@ -472,12 +474,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 31.078,
-    "backspaceClicks": 1733,
+    "avgWPM": 31.299,
+    "backspaceClicks": 1751,
     "best": 61,
-    "correctClicks": 39024,
-    "correctLines": 1090,
-    "deletingTime": 864,
-    "total": 74
+    "correctClicks": 39451,
+    "correctLines": 1110,
+    "deletingTime": 869,
+    "total": 76
   }
 }
