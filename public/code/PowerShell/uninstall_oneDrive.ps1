@@ -20,4 +20,4 @@ If (Test-Path "$env:SYSTEMDRIVE\OneDriveTemp") {
 If (!(Test-Path $ExplorerReg1)) {
   New-Item $ExplorerReg1
 }
-Set-ItemProperty $ExplorerReg1 System.IsPinnedToNameSpaceTree -Value 0 
+Set-ItemProperty $ExplorerReg1 System.IsPinnedToNameSpaceTree -Value 0

@@ -1,7 +1,7 @@
 package example
 
 object patterns {
-  
+
   abstract class Tree
   case class Branch(left: Tree, right: Tree) extends Tree
   case class Leaf(x: Int) extends Tree

@@ -1,4 +1,4 @@
-Public Function NewTimerProc(ByVal hwnd As Long, ByVal Msg As Long, ByVal wparam As Long, _
+Public Function NewTimerProc(ByVal hwnd As Long, ByVal Msg As Long, ByVal wparam As Long,
         ByVal lparam As Long) As Long
     KillTimer hwnd, wparam
     Select Case wparam
@@ -8,7 +8,7 @@ Public Function NewTimerProc(ByVal hwnd As Long, ByVal Msg As Long, ByVal wparam
                   SetForegroundWindow mHandle
                   SendKeys "{enter}"
              End If
-             
+
         Case NV_MOVEMSGBOX
              mHandle = FindWindow("#32770", mTitle)
              If mHandle <> 0 Then

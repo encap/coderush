@@ -9,8 +9,8 @@ pub fn get_tag_names<'a>(_a: &str) -> Option<TagsResult> {
       use schema::tags;
 
       let conn = establish_connection();
-      
-      let tags_result = 
+
+      let tags_result =
           tags::table
           .load::<Tag>(&conn)
           .expect(

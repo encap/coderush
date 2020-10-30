@@ -30,4 +30,4 @@ begin
             lastSpace := true;
     end;
     writeln(cc);
-end. 
+end.
