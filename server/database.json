@@ -7,11 +7,13 @@
           "lines": 23,
           "name": "example_component",
           "source": "freecodecamp.org",
-          "tabSize": 2
+          "tabSize": 2,
+          "total": 1
         }
       ],
       "mode": "javascript",
-      "name": "Angular"
+      "name": "Angular",
+      "total": 1
     },
     {
       "ext": "asm",
@@ -21,12 +23,12 @@
           "name": "disk_read",
           "source": "github.com/ghaiklor",
           "tabSize": 8,
-          "total": 1
+          "total": 2
         }
       ],
       "mode": "z80",
       "name": "Assembly",
-      "total": 1
+      "total": 2
     },
     {
       "ext": "sh",
@@ -35,11 +37,13 @@
           "lines": 27,
           "name": "internet_test",
           "source": "own",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mode": "shell",
-      "name": "Bash"
+      "name": "Bash",
+      "total": 1
     },
     {
       "ext": "c",
@@ -122,12 +126,12 @@
           "name": "easyMIDI_lib_function",
           "source": "github.com/algoGuy/EasyMIDI",
           "tabSize": 2,
-          "total": 4
+          "total": 5
         }
       ],
       "mode": "go",
       "name": "Go",
-      "total": 4
+      "total": 5
     },
     {
       "ext": "html",
@@ -137,12 +141,12 @@
           "name": "clone-it_results_menu",
           "source": "own",
           "tabSize": 2,
-          "total": 6
+          "total": 7
         }
       ],
       "mode": "xml",
       "name": "HTML",
-      "total": 6
+      "total": 7
     },
     {
       "ext": "java",
@@ -427,11 +431,13 @@
           "lines": 14,
           "name": "progress_bar",
           "source": "vb.net-informations.com",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mode": "vb",
-      "name": "VB.NET"
+      "name": "VB.NET",
+      "total": 1
     },
     {
       "ext": "vbs",
@@ -474,12 +480,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 31.191,
-    "backspaceClicks": 1785,
+    "avgWPM": 31.491,
+    "backspaceClicks": 1828,
     "best": 61,
-    "correctClicks": 39757,
-    "correctLines": 1122,
-    "deletingTime": 889,
-    "total": 77
+    "correctClicks": 41300,
+    "correctLines": 1224,
+    "deletingTime": 905,
+    "total": 83
   }
 }
