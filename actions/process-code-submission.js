@@ -42,8 +42,14 @@ try {
 
       const filePath = `public/code/${languageName}/${submission.name}.${ext}`;
 
+      core.startGroup('Removing trailing whitespace');
+      const lines = submission.code.split('\n');
+      const trimmedLines = languageName === 'Whitespace' ? lines : lines.map((line) => line.trimEnd());
+      const code = trimmedLines.join('\n');
+      core.endGroup();
+
       core.startGroup(`Writing ${filePath}`);
-      fs.writeFileSync(filePath, submission.code);
+      fs.writeFileSync(filePath, code);
       core.endGroup();
 
       core.exportVariable('LANGUAGE_NAME', languageName);
