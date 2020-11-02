@@ -8,12 +8,12 @@
           "name": "example_component",
           "source": "freecodecamp.org",
           "tabSize": 2,
-          "total": 1
+          "total": 2
         }
       ],
       "mode": "javascript",
       "name": "Angular",
-      "total": 1
+      "total": 2
     },
     {
       "ext": "asm",
@@ -67,11 +67,13 @@
           "lines": 23,
           "name": "form_mouse_event",
           "source": "sanfoundry.com",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mode": "clike",
-      "name": "C#"
+      "name": "C#",
+      "total": 1
     },
     {
       "ext": "cpp",
@@ -81,12 +83,12 @@
           "name": "check_prime_number",
           "source": "own",
           "tabSize": 4,
-          "total": 5
+          "total": 6
         }
       ],
       "mode": "clike",
       "name": "C++",
-      "total": 5
+      "total": 6
     },
     {
       "ext": "txt",
@@ -480,12 +482,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 31.491,
-    "backspaceClicks": 1828,
+    "avgWPM": 31.439,
+    "backspaceClicks": 1832,
     "best": 61,
-    "correctClicks": 41300,
-    "correctLines": 1224,
-    "deletingTime": 905,
-    "total": 83
+    "correctClicks": 41433,
+    "correctLines": 1233,
+    "deletingTime": 906,
+    "total": 86
   }
 }
