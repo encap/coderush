@@ -8,12 +8,12 @@
           "name": "example_component",
           "source": "freecodecamp.org",
           "tabSize": 2,
-          "total": 2
+          "total": 3
         }
       ],
       "mode": "javascript",
       "name": "Angular",
-      "total": 2
+      "total": 3
     },
     {
       "ext": "asm",
@@ -285,7 +285,7 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 7
+          "total": 8
         },
         {
           "lines": 12,
@@ -297,7 +297,7 @@
       ],
       "mode": "python",
       "name": "Python",
-      "total": 9
+      "total": 10
     },
     {
       "ext": "r",
@@ -482,12 +482,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 31.439,
-    "backspaceClicks": 1832,
+    "avgWPM": 31.156,
+    "backspaceClicks": 1835,
     "best": 61,
-    "correctClicks": 41433,
-    "correctLines": 1233,
-    "deletingTime": 906,
-    "total": 86
+    "correctClicks": 41567,
+    "correctLines": 1241,
+    "deletingTime": 909,
+    "total": 88
   }
 }
