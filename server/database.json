@@ -336,11 +336,13 @@
           "lines": 26,
           "name": "fizzBuzz_dylan_beattie",
           "source": "codewithrockstar.com",
-          "tabSize": 8
+          "tabSize": 8,
+          "total": 1
         }
       ],
       "mode": "vb",
-      "name": "Rockstar"
+      "name": "Rockstar",
+      "total": 1
     },
     {
       "ext": "rb",
@@ -482,12 +484,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 31.188,
-    "backspaceClicks": 1843,
-    "best": 61,
-    "correctClicks": 41784,
-    "correctLines": 1241,
-    "deletingTime": 913,
-    "total": 89
+    "avgWPM": 31.886,
+    "backspaceClicks": 1846,
+    "best": 94,
+    "correctClicks": 41959,
+    "correctLines": 1249,
+    "deletingTime": 916,
+    "total": 90
   }
 }
