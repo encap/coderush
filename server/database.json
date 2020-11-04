@@ -53,12 +53,12 @@
           "name": "check_palindrome",
           "source": "programiz.com",
           "tabSize": 4,
-          "total": 2
+          "total": 3
         }
       ],
       "mode": "clike",
       "name": "C",
-      "total": 2
+      "total": 3
     },
     {
       "ext": "cs",
@@ -158,12 +158,12 @@
           "name": "random_ints_to_file",
           "source": "cs.utexas.edu",
           "tabSize": 4,
-          "total": 2
+          "total": 3
         }
       ],
       "mode": "clike",
       "name": "Java",
-      "total": 2
+      "total": 3
     },
     {
       "ext": "js",
@@ -395,12 +395,12 @@
           "name": "advanced_select",
           "source": "sqlservercentral.com",
           "tabSize": 4,
-          "total": 2
+          "total": 4
         }
       ],
       "mode": "sql",
       "name": "SQL",
-      "total": 2
+      "total": 4
     },
     {
       "ext": "swift",
@@ -484,12 +484,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 31.886,
-    "backspaceClicks": 1846,
+    "avgWPM": 31.337,
+    "backspaceClicks": 1863,
     "best": 94,
-    "correctClicks": 41959,
-    "correctLines": 1249,
-    "deletingTime": 916,
-    "total": 90
+    "correctClicks": 42494,
+    "correctLines": 1279,
+    "deletingTime": 928,
+    "total": 94
   }
 }
