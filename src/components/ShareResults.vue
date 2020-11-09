@@ -44,13 +44,13 @@ export default {
       window.open(url, 'Share', `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${w}, height=${h}, top=${top}, left=${left}`);
     },
     shareFacebook() {
-      this.popUpWindow('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=https%3A%2F%2Fcoderush.herokuapp.com%2F&display=popup&ref=plugin&src=share_button', 500, 600);
+      this.popUpWindow('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=https%3A%2F%2Fcoderush.xyz%2F&display=popup&ref=plugin&src=share_button', 500, 600);
     },
     shareMessenger() {
-      this.popUpWindow('http://www.facebook.com/dialog/send?app_id=346639949987830&link=https://coderush.herokuapp.com/&redirect_uri=https://coderush.herokuapp.com/', 1000, 700);
+      this.popUpWindow('http://www.facebook.com/dialog/send?app_id=346639949987830&link=https://coderush.xyz/&redirect_uri=https://coderush.xyz/', 1000, 700);
     },
     shareTwitter() {
-      this.popUpWindow('https://twitter.com/intent/tweet?text=Check%20your%20code%20writing%20speed%20on%20CodeRush&url=https://coderush.herokuapp.com/', 600, 600);
+      this.popUpWindow('https://twitter.com/intent/tweet?text=Check%20your%20code%20writing%20speed%20on%20CodeRush&url=https://coderush.xyz/', 600, 600);
     },
 
   },
