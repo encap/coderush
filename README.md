@@ -10,7 +10,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://coderush.herokuapp.com">
+  <a href="https://coderush.xyz">
     <img src=".github/images/logo.webp" alt="Logo" width="256" height="256">
   </a>
 
@@ -20,59 +20,13 @@
     The best typing speed test for programmers
     <br />
     <br />
-    <a href="https://coderush.herokuapp.com">View live</a>
+    <a href="https://coderush.xyz">View Live</a>
     ·
     <a href="https://github.com/encap/coderush/issues">Report Bug</a>
     ·
     <a href="https://github.com/encap/coderush/issues">Request Feature</a>
   </p>
 </p>
-
-
-# XIII MFI - WAŻNE INFORMACJE 
-## Instrukcja pobierania kodu źródłowego w formacie ZIP
-https://github.com/encap/coderush
-![zip download instruction](.github/images/download_zip.png?raw=true)
-
-## Opis struktury plików
-### Wszystkie pliki zostały napisane w 100% przeze mnie chyba że napisano inaczej
-* .github/
-  * workflows/ - skrypty do automatycznego przetwarzania statystyk, kontrybucji w postaci przykładowych kodów, proces kompilacji i wysyłania na serwer CDN (rozproszony system dostarczania treści) i jego konfiguracji
-  * images/ - przechowuje zdjęcia i grafiki zawarte w tym dokumencie
-* actions/ - skrypty pomocnicze wykonywane podczas skryptów z katalogu .github/workflows/
-* node_modules/ - tworzony podczas lokalnej instalacji (npm install) zewnętrznych bibliotek wykorzystywanych w CodeRush
-* dist/ - generowany podczas kompilacji i "pakowania", zawiera skompresowane pliki CSS, JS i HTML
-* public/
-  * cm/ - moduły biblioteki CodeMirror, zmodyfikowane przeze mnie dla lepszej wydajności i skompresowane
-  * code/ - kody wykorzystywany podczas testu pisania, kod (poza C++, HTML, JS, CSS, PHP, VUE) nie jest mojego autorstwa (licencja MIT). Skrócony, sformatowany i sprawdzany przeze mnie. Do tego folderu po sprawdzeniu trafiają także kontrubucje ze strony https://coderush.herokuapp.com/contribute
-* server/
-  * database.json - publicznie dostępna baza danych ze statystykami i opisem kodów do testów generowana przez serwer bądź w.w skrypty
-  * rooms.js - logika serwera do obsługi trybu wieloosobowego
-  * server.js - główny plik wykonawczy serwera (obsługa zapytań, caching, obsługa statystyk i kontrybucji itd.)
-* src/ - kod źródłowy aplikacji (front-end'u)
-  * components/ oraz views/ - modułowe komponenty z których zbudowany jest interfejs wraz z logiką napisaną w Vue, JavaScript (ES9)
-  * router/ - konfiguracja routingu aplikacji Vue (single page application)
-  * store/ - konfiguracja, logika i stan początkowy scentralizowanego magazynu danych całej apliakcji i synchronizacji danych między komponentami
-  * styles/ - globalne style wykorzystywane we wszystkich komponentach, napisane w składni SASS (preprocesor CSS)
-  * App.vue - główny plik aplikacji Vue
-  * cmLoader.js - ładuje moduły edytora kodu na żądanie, napisany przeze mnie na podstawie statycznego loadera dostępnego w repozytorium biblioteki CodeMirror
-  * main.js - główny plik wykonawczy i konfiguracyjny aplikacji Vue
-* vue.config.js oraz webpack.config.js - pliki konfiguracyjne procesu kompilacji i pakowania
-* package-lock.json - plik wygenerowany przez package-manager podczas instalacji (npm install)
-* package.json - tak jak wyżej + skrypty napisane przeze mnie
-* pozostałe pliki - inne pliki konfiguracyjne napisane przeze mnie
-
-## Wykorzystywane bilbioteki zewnętrzne
-### Wszystkie na licencji MIT, chyba że napisano inaczej
-* [Vue.js 2](https://vuejs.org/) - framework JS wykorzystywany po stronie klienta
-* [CodeMirror 5](https://codemirror.net/) - edytor kodu
-* [Chart.js 2](https://www.chartjs.org/) - biblioteka do generowania wykresów
-* [Express 4](https://expressjs.com/) - framework JS wykorzystywany na serwerze do obsługi zapytań
-* [Socket.io 2](https://socket.io/) - biblioteka do komunikacji w czasie rzeczywistym oparta o protokół WebSocket
-* [Webpack 4](https://webpack.js.org/) - przetwarza kod i "pakuje" go w pliki dostarczane do użytkowników
-* [Font Awesome 5](https://fontawesome.com/) - ikony widoczne w aplikacji; kod biblioteki na licencji MIT, ikony na licencji CC BY 4.0
-
-# Pozostała część dokumentacji projektu open-source
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
@@ -87,8 +41,6 @@ https://github.com/encap/coderush
 * [Contributing](#contributing)
 * [License](#license)
 * [Contact](#contact)
-
-
 
 <!-- ABOUT THE PROJECT -->
 ## About
@@ -107,7 +59,7 @@ On CodeRush you can create a private multiplayer server, so that you can compete
 
 ### Built With
 
-* [Passion and love :heart:](https://coderush.herokuapp.com/about)
+* [Passion and love :heart:](https://coderush.xyz/about)
 * [Vue.js 2](https://vuejs.org/)
 * [CodeMirror 5](https://codemirror.net/)
 * [Chart.js 2](https://www.chartjs.org/)
@@ -122,7 +74,7 @@ To get a local copy up and running follow these simple steps.
 
 ## Usage
 
-App is up (I hope) and running on https://coderush.herokuapp.com.You can also start a local server as shown below.
+App is up (I hope) and running on https://coderush.xyz. You can also start a local server as shown below.
 
 
 ### Prerequisites
@@ -176,9 +128,9 @@ Assuming your code passes all our tests it will be waiting for human verificatio
 
 ## License
 
-I made CodeRush open source becouse without other OS projects I wouldn't be able to get to the point where I am now.
+I made CodeRush open source because without other OS projects I wouldn't be able to get to the point where I am now.
 
-Source code is distributed under the [GNU GPL v3][license-url] License. However, I would advise against looking here for the best solutions or forking it becouse this was my first Vue.js project.
+Source code is distributed under the [GNU GPL v3][license-url] License. However, I would advise against looking here for the best solutions or forking it because this was my first Vue.js project.
 
 
 ## Contact
@@ -193,11 +145,11 @@ encapsulation4@gmail.com
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [license-shield]: https://img.shields.io/badge/License-GPL%20v3-yellow.svg
 [license-url]: https://www.gnu.org/licenses/gpl-3.0.en.html
-[website-shield]: https://img.shields.io/website-up-down-green-red/https/coderush.herokuapp.com.svg
+[website-shield]: https://img.shields.io/website-up-down-green-red/https/coderush.xyz.svg
 [ama-shield]: https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg
 [email-link]: 'mailto:encapsulation4@gmail.com?subject=[GitHub]%20'
-[main-url]: https://coderush.herokuapp.com
-[contribute-url]: https://coderush.herokuapp.com/contribute
+[main-url]: https://coderush.xyz
+[contribute-url]: https://coderush.xyz/contribute
 [pulls-url]: https://github.com/encap/coderush/pulls
 [issues-url]: https://github.com/encap/coderush/issues
 [issues-shield]: https://img.shields.io/github/issues/encap/coderush

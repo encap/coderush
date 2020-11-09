@@ -11,7 +11,7 @@ module.exports = {
     ecmaVersion: 2020,
   },
   ignorePatterns: [
-    'public/', 'dist/', 'master/',
+    'public/', 'dist/',
   ],
   rules: {
     'no-console': 'off',
