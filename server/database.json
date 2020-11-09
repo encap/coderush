@@ -158,12 +158,12 @@
           "name": "random_ints_to_file",
           "source": "cs.utexas.edu",
           "tabSize": 4,
-          "total": 3
+          "total": 4
         }
       ],
       "mode": "clike",
       "name": "Java",
-      "total": 3
+      "total": 4
     },
     {
       "ext": "js",
@@ -484,12 +484,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 31.736,
-    "backspaceClicks": 1959,
+    "avgWPM": 31.45,
+    "backspaceClicks": 1960,
     "best": 94,
-    "correctClicks": 44184,
-    "correctLines": 1357,
-    "deletingTime": 968,
-    "total": 103
+    "correctClicks": 44185,
+    "correctLines": 1358,
+    "deletingTime": 969,
+    "total": 104
   }
 }
