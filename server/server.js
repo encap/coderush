@@ -125,7 +125,7 @@ app.enable('trust proxy'); // trust heroku and cloudflare
 
 // redirect to coderush.xyz
 app.use((req, res, next) => {
-  if (!req.subdomains.length) {
+  if (req.subdomains.length) {
     res.redirect(301, `https://coderush.xyz${req.path}`);
   } else {
     next();
