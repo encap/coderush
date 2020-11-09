@@ -59,8 +59,8 @@ const getIndexHtml = () => {
       });
   }
 };
-
-setInterval(getIndexHtml, 1000 * 60 * 60 * 24);
+setTimeout(getIndexHtml, 1000 * 60 * 2); // wait for cdn to update
+setInterval(getIndexHtml, 1000 * 60 * 60 * 12);
 
 let database = {};
 let cachedStringifiedDatabase = '';
