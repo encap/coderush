@@ -14,13 +14,13 @@ const routes = [
     path: '/',
     name: 'Start',
     component: Start,
-    meta: { title: 'CodeRush' },
+    meta: { title: 'CodeRush · the best typing speed test for programmers' },
   },
   {
     path: '/about',
     name: 'About',
     component: About,
-    meta: { title: 'About - CodeRush' },
+    meta: { title: 'About · CodeRush' },
 
   },
   {
@@ -28,13 +28,13 @@ const routes = [
     name: 'Run',
     component: Run,
     alias: '/results',
-    meta: { title: 'Test in progress - CodeRush' },
+    meta: { title: 'Test in progress · CodeRush' },
   },
   {
     path: '/contribute',
     name: 'Contribute',
     component: Contribute,
-    meta: { title: 'CodeRush - Contribute' },
+    meta: { title: 'Contribute · CodeRush' },
   },
   {
     path: '/join/:roomName',
@@ -55,7 +55,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   let title = to.meta.title || 'CodeRush';
   if (to.path === '/results') {
-    title = 'Test results - CodeRush';
+    title = 'Test results · CodeRush';
   }
   document.title = title;
   next();
