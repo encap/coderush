@@ -157,7 +157,7 @@ const keepAwake = () => {
 };
 
 if (PROD) {
-  setInterval(keepAwake, 1000 * 60 * 20);
+  setInterval(keepAwake, 1000 * 60 * 10);
 }
 
 // send cached index.html when possible
