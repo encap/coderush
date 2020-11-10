@@ -309,4 +309,8 @@ export default {
     width: 100%
     height: 100%
     max-height: 200px
+
+@media (max-width: 800px), (max-height: 480px)
+  .main-stats
+    font-size: 0.8rem
 </style>

@@ -1,10 +1,33 @@
 <template>
   <div>
-    <h1>Welcome to CodeRush</h1>
+    <h1 class="title">
+      Welcome to CodeRush
+    </h1>
+
+    <template v-if="smallScreen">
+      <p class="small-screen-msg">
+        Unfortunately there is not enough space on your screen to use this app.
+        Please come back here later when you will have access to a larger device.
+      </p>
+
+
+      <nav>
+        <a href="#description">
+          About
+        </a>
+        <button class="results-btn" @click="loadExampleResults">
+          {{ showResults && !resultsReady ? 'Loading...' : (resultsReady ? 'Hide Results' : 'Example Results') }}
+        </button>
+      </nav>
+    </template>
+
 
     <section class="container">
       <main>
-        <article>
+        <article id="description">
+          <h2 v-if="smallScreen">
+            Our mission
+          </h2>
           <p>
             Keyboard is an essential tool for the programmer. It turns out that the most commonly used key is a backspace. Very often, mistakes are coused by miss-click or a bad typing technique. That reduces our efficiency and causes programmer to loose focus on the actual coding problem.
           </p>
@@ -18,7 +41,7 @@
             We do our best to ensure the diversity and quality of the code on which you will test your skills. You can <a>donate here</a> or <a @click="$router.push('/contribute')">contribute</a> if you like it.
           </p>
         </article>
-        <button @click="loadExampleResults">
+        <button class="results-btn" @click="loadExampleResults">
           {{ resultsReady ? 'Hide' : 'Load' }}{{ showResults && !resultsReady ? 'ing' : '' }} example results
         </button>
       </main>
@@ -29,7 +52,7 @@
         <h3>{{ stats.total }}</h3><p>Times Played</p>
 
 
-        <h3>{{ stats.avgWPM }}</h3><p>Avarage Speed in WPM ({{ stats.avgWPM * 5 }} CPM)</p>
+        <h3>{{ Math.round(stats.avgWPM * 10) / 10 }}</h3><p>Avarage Speed in WPM ({{ Math.round(stats.avgWPM * 5) }} CPM)</p>
 
 
         <h3>{{ stats.best }}</h3><p>Best Score in WPM</p>
@@ -42,11 +65,15 @@
       </aside>
     </section>
 
-    <Results
-      v-if="showResults && exampleStats"
-      :stats="exampleStats"
-      @ready="onResultsReady"
-    />
+    <div class="results-container">
+      <Results
+        v-if="showResults && exampleStats"
+        id="example"
+        :stats="exampleStats"
+        class="results-component"
+        @ready="onResultsReady"
+      />
+    </div>
   </div>
 </template>
 
@@ -74,7 +101,7 @@ export default {
     ...mapGetters({
       stats: 'databaseStats',
     }),
-    ...mapGetters(['languagesList']),
+    ...mapGetters(['smallScreen', 'languagesList']),
   },
   methods: {
     async loadExampleResults() {
@@ -102,7 +129,7 @@ export default {
     onResultsReady() {
       this.resultsReady = true;
       window.scroll({
-        top: window.innerHeight / 2,
+        top: this.smallScreen ? window.innerHeight : window.innerHeight / 2,
         behavior: 'smooth',
       });
     },
@@ -110,42 +137,56 @@ export default {
 
 };
 </script>
+<style lang="sass">
+@media (max-width: 800px), (max-height: 480px)
+  html
+    scroll-behavior: smooth
 
+</style>
 <style lang="sass" scoped>
+button, nav a
+  display: flex
+  align-items: center
+  justify-content: space-around
+  height: 47px
+  background: $navy-grey
+  padding: 0 1em
+  box-shadow: 0px 0px 2px 2px rgba(black, .05)
+
+  &.results-btn
+    background: linear-gradient(to left, $purple-gradient-colors)
+
+
 .container
   display: flex
   justify-content: space-between
   margin-bottom: $gap
 
+  main
+    flex-grow: 0.5
+    flex-shrink: 2
+    max-width: min(50%, 600px)
+    margin-right: 2 * $gap
+    display: flex
+    flex-direction: column
+    justify-content: space-between
 
-main
-  flex-grow: 0.5
-  flex-shrink: 2
-  max-width: min(50%, 600px)
-  margin-right: 2 * $gap
-  display: flex
-  flex-direction: column
-  justify-content: space-between
+    h2
+      margin-top: 1.5em
 
-  h1
-    font-size: 2rem
-    margin-bottom: 1em
+    p
+      font-size: 1rem
+      line-height: 1.4
+      margin: 1em 0
 
-  p
-    font-size: 16px
-    line-height: 1.4
-    margin: 1em 0
+    a
+      color: $dark-pink
+      text-decoration: underline
 
-  a
-    color: $dark-pink
-    text-decoration: underline
+    button
+      margin-top: 3em
+      width: 250px
 
-  button
-    margin-top: 3em
-    text-align: center
-    height: 47px
-    width: 250px
-    background: linear-gradient(to left, $purple-gradient-colors)
 
 .stats
   flex-grow: 0.3
@@ -166,8 +207,41 @@ main
     -webkit-background-clip: text
     -webkit-text-fill-color: transparent
 
-
   p
     grid-column: 2
     font-size: 1.1em
+
+
+@media (max-width: 800px), (max-height: 480px)
+  nav
+    display: flex
+    justify-content: space-between
+    margin: 2em 0
+
+    a
+      margin-right: 1em
+
+    button, a
+      flex-grow: 1
+
+
+  .container
+    flex-direction: column-reverse
+
+    main
+      flex-grow: 1
+      max-width: none
+      margin-right: 0
+
+  .stats
+    h3
+      justify-self: center
+
+
+  .results-container
+    margin-top: 3em
+    overflow: scroll
+
+    .results-component
+      width: 190vw
 </style>

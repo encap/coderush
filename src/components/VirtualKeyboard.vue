@@ -493,4 +493,12 @@ span
 .special > span
   font-size: 0.75rem
 
+
+@media (max-width: 800px), (max-height: 480px)
+  .info p
+    font-size: 1rem
+
+  .keyboard
+    min-width: 100%
+    height: calc(5 * 3rem)
 </style>

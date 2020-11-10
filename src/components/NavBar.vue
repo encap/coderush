@@ -106,12 +106,7 @@ nav:after
   transition: backdrop-filter $nav-trans-dur $nav-trans-timing 0s
   pointer-events: none
 
-
-.thin:after
-  transition-delay: 1s
-  backdrop-filter: hue-rotate(10deg) brightness(80%)
-
-.thin
+.thin nav
   $translate: translateX(calc(#{$nav-size} - 2.5em - #{$nav-move} / 2))
   .btn-text, .title, .room
     opacity: 0
@@ -124,6 +119,10 @@ nav:after
   .author
     opacity: 0
     transition-delay: $nav-trans-dur
+
+.run.thin nav:after
+  transition-delay: 1s
+  backdrop-filter: hue-rotate(10deg) brightness(80%)
 
 .btn-text, .room, .author
   transition: opacity $nav-trans-dur $nav-trans-timing $nav-trans-dur
@@ -184,4 +183,5 @@ svg
 
     .author-name
       white-space: nowrap
+
 </style>

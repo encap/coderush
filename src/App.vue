@@ -1,47 +1,61 @@
 <template>
   <div id="app" ref="app">
-    <template v-if="!tooSmall">
-      <aside ref="navLeft" class="nav-left" :class="{thin: isPlaying, wide: room.connected }">
-        <NavBar :class="[{thin: isPlaying }]" @start="$children[1].run()" />
-      </aside>
-      <main>
-        <keep-alive :exclude="['Run', 'Results']">
-          <router-view />
-        </keep-alive>
-      </main>
-    </template>
-    <SmallScreen v-else />
+    <aside
+      v-if="!smallScreen"
+      ref="navLeft"
+      class="nav-left"
+      :class="{thin: isThin, run: $route.path === '/run', wide: room.connected }"
+    >
+      <NavBar @start="$children[1].run()" />
+    </aside>
+    <main>
+      <keep-alive :exclude="['Run', 'Results']">
+        <router-view />
+      </keep-alive>
+    </main>
   </div>
 </template>
 
 <script>
 import NavBar from '@/components/NavBar.vue';
-import SmallScreen from '@/views/SmallScreen.vue';
 import { mapGetters } from 'vuex';
 
 export default {
   components: {
     NavBar,
-    SmallScreen,
+  },
+  data() {
+    return {
+      innerWidth: 1920,
+    };
   },
   computed: {
-    ...mapGetters(['room', 'trackedContainers']),
-    tooSmall() {
-      return window.innerWidth < 640 || window.innerHeight < 480;
-      // return false; // DEV
-    },
-    isPlaying() {
-      return this.$route.path === '/run';
+    ...mapGetters(['room', 'trackedContainers', 'smallScreen']),
+    isThin() {
+      console.log('UPDATE');
+      const { path } = this.$route;
+      return path === '/run' || (this.innerWidth < 900 && !this.room.connected && path !== '/');
     },
   },
   created() {
     this.$store.dispatch('loadLanguagesList');
+
+    if (window.innerWidth < 640 || window.innerHeight < 480) {
+      this.$store.commit('SMALL_SCREEN');
+      this.$router.push('/about');
+    }
   },
   mounted() {
     if (window.innerWidth > 1300) {
       document.addEventListener('mousemove', this.trackMouse);
+
       this.$store.commit('ADD_TRACKED_CONTAINER', this.$refs.navLeft);
     }
+    console.log('mounted');
+
+    window.addEventListener('resize', () => {
+      this.innerWidth = window.innerWidth;
+    });
   },
   methods: {
     trackMouse(ev) {
@@ -84,7 +98,6 @@ aside
   min-width: $nav-size
   transition: transform $nav-trans-dur $nav-trans-timing 0s, min-width .5s ease-in-out
 
-
   &.wide:not(.thin)
     min-width: 15vw
 
@@ -98,7 +111,6 @@ main
   flex-grow: 1
   position: relative
   min-width: 0
-  // overflow-x: hidden
 
 @media (max-width: 900px), (max-height: 700px)
   #app
@@ -106,6 +118,7 @@ main
 
   aside:not(.thin)
     margin-right: 1em
+
 </style>
 
 <style lang="sass">
@@ -152,6 +165,9 @@ input[type="checkbox"], input[type="radio"]
 
 button:disabled
   cursor: not-allowed
+
+.run
+  $nav-trans-duration: 2s
 
 .CodeMirror, .CodeMirror-gutters
   font-size: 1.5rem

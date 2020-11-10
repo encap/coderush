@@ -12,6 +12,7 @@ const state = {
   },
   codeInfo: {},
   trackedContainers: [],
+  smallScreen: false,
 };
 
 const getters = {
@@ -20,6 +21,8 @@ const getters = {
   customCode: (state) => state.customCode,
   codeInfo: (state) => state.codeInfo,
   trackedContainers: (state) => state.trackedContainers,
+  smallScreen: (state) => state.smallScreen,
+
 };
 
 const actions = {
@@ -80,6 +83,9 @@ const mutations = {
     if (index !== -1) {
       state.trackedContainers.splice(index, 1);
     }
+  },
+  SMALL_SCREEN(state) {
+    state.smallScreen = true;
   },
 };
 
