@@ -173,12 +173,12 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 6
+          "total": 7
         }
       ],
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 6
+      "total": 7
     },
     {
       "ext": "kt",
@@ -307,12 +307,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 13
+          "total": 14
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 13
+      "total": 14
     },
     {
       "ext": "js",
@@ -367,12 +367,12 @@
           "name": "rust_example",
           "source": "github.com/gothinkster",
           "tabSize": 4,
-          "total": 1
+          "total": 2
         }
       ],
       "mode": "rust",
       "name": "Rust",
-      "total": 1
+      "total": 2
     },
     {
       "ext": "scala",
@@ -484,12 +484,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 31.45,
-    "backspaceClicks": 1960,
+    "avgWPM": 31.895,
+    "backspaceClicks": 1997,
     "best": 94,
-    "correctClicks": 44185,
-    "correctLines": 1358,
-    "deletingTime": 969,
-    "total": 104
+    "correctClicks": 45269,
+    "correctLines": 1395,
+    "deletingTime": 983,
+    "total": 107
   }
 }
