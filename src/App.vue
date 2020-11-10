@@ -34,7 +34,7 @@ export default {
     isThin() {
       console.log('UPDATE');
       const { path } = this.$route;
-      return path === '/run' || (this.innerWidth < 900 && !this.room.connected && path !== '/');
+      return path === '/run' || (this.innerWidth < 1300 && !this.room.connected && path !== '/');
     },
   },
   created() {
@@ -90,21 +90,22 @@ export default {
   min-height: 100vh
 
 aside
+  --nav-trans-dur: #{$nav-trans-dur}
   @include cursor-shadow()
   @include shadow()
   flex-shrink: 0
   padding: $thin-gap
   margin-right: $gap * 2
   min-width: $nav-size
-  transition: transform $nav-trans-dur $nav-trans-timing 0s, min-width .5s ease-in-out
-
-  &.wide:not(.thin)
-    min-width: 15vw
+  transition: transform var(--nav-trans-dur) $nav-trans-timing 0s, min-width .5s ease-in-out
 
   &.thin
     margin-right: calc( -1 * min(150px, calc(300px - 20vw)))
     transform: translateX(calc(-100% + #{$nav-move}))
-    transition-delay: $nav-trans-dur
+    transition-delay: var(--nav-trans-dur)
+
+  &.wide:not(.thin)
+    min-width: 15vw
 
 
 main
@@ -144,6 +145,13 @@ body
   &::-webkit-scrollbar-corner
     background-color: $navy-grey
 
+// TODO: results loading animation
+// aside:not(.run)
+//   --nav-trans-dur: 0.2s !important
+//   transition-delay: 0s !important
+//   svg
+//     transition-delay: 0s !important
+
 input, textarea, button
   font-family: inherit
 
@@ -165,9 +173,6 @@ input[type="checkbox"], input[type="radio"]
 
 button:disabled
   cursor: not-allowed
-
-.run
-  $nav-trans-duration: 2s
 
 .CodeMirror, .CodeMirror-gutters
   font-size: 1.5rem

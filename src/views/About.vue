@@ -240,7 +240,7 @@ button, nav a
 
   .results-container
     margin-top: 3em
-    overflow: scroll
+    overflow: auto
 
     .results-component
       width: 190vw

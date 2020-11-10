@@ -81,7 +81,7 @@ export default {
   padding-top: 1.1rem
   padding-bottom: 1.1rem
   width: 100%
-  transition: opacity $nav-trans-dur $nav-trans-timing $nav-trans-dur, background-color .15s ease-in-out
+  transition: opacity var(--nav-trans-dur) $nav-trans-timing var(--nav-trans-dur), background-color .15s ease-in-out
 
 
   .beta
@@ -103,7 +103,7 @@ nav:after
   @include pos0
   content: ''
   position: absolute
-  transition: backdrop-filter $nav-trans-dur $nav-trans-timing 0s
+  transition: backdrop-filter var(--nav-trans-dur) $nav-trans-timing 0s
   pointer-events: none
 
 .thin nav
@@ -113,19 +113,19 @@ nav:after
     transition-delay: 0s
   svg:not(.heart)
     transform: $translate
-    transition-delay: $nav-trans-dur
+    transition-delay: var(--nav-trans-dur)
   .flip
     transform: $translate rotate(180deg) !important
   .author
     opacity: 0
-    transition-delay: $nav-trans-dur
+    transition-delay: var(--nav-trans-dur)
 
 .run.thin nav:after
   transition-delay: 1s
   backdrop-filter: hue-rotate(10deg) brightness(80%)
 
 .btn-text, .room, .author
-  transition: opacity $nav-trans-dur $nav-trans-timing $nav-trans-dur
+  transition: opacity var(--nav-trans-dur) $nav-trans-timing var(--nav-trans-dur)
 
 .links
   margin: 6% 0 10% 0
@@ -161,7 +161,7 @@ nav:after
 svg
   display: inline-block
   width: 1em !important
-  transition: transform $nav-trans-dur $nav-trans-timing 0s
+  transition: transform var(--nav-trans-dur) $nav-trans-timing 0s
 
 .room
   @include padding-left

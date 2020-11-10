@@ -51,6 +51,8 @@ const codemirror = () => import(/* webpackChunkName: "cmLoader" */ '@/cmLoader.j
   return module.default;
 });
 
+const DEV = process.env.NODE_ENV === 'production';
+
 
 export default {
   components: {
@@ -343,35 +345,37 @@ export default {
       }
 
       // Code for development
-      // if (ev.ctrlKey && ev.key === 'Insert') {
-      //   this.cm.execCommand('goLineEnd');
-      //   this.cm.execCommand('goCharRight');
-      //   this.cm.markText(
-      //     { line: this.currentLine, ch: this.currentChar },
-      //     { line: this.currentLine, ch: this.cm.getLine(this.currentLine).length + 1 },
-      //     { className: 'correct' },
-      //   );
-      //   this.currentLine += 1;
-      //   this.currentChar = 0;
-      //   this.correctCharsInLine = 0;
-      //   this.stats.cheat = true;
-      //   return;
-      // } if (ev.ctrlKey && ev.key === 'End') {
-      //   this.stats.cheat = true;
-      //   this.completed(true);
-      //   return;
-      // } if (ev.ctrlKey && ev.key === 'Home') {
-      //   this.cm.execCommand('goDocEnd');
-      //   this.cm.markText(
-      //     { line: 0, ch: 0 },
-      //     { line: this.codeInfo.lines + 1, ch: 1 },
-      //     { className: 'correct' },
-      //   );
-      //   this.currentLine = this.codeInfo.lines - 1;
-      //   this.currentChar = this.cm.getLine(this.currentLine);
-      //   this.correctCharsInLine = this.currentChar;
-      //   this.stats.cheat = true;
-
+      if (DEV) {
+        if (ev.ctrlKey && ev.key === 'Insert') {
+          this.cm.execCommand('goLineEnd');
+          this.cm.execCommand('goCharRight');
+          this.cm.markText(
+            { line: this.currentLine, ch: this.currentChar },
+            { line: this.currentLine, ch: this.cm.getLine(this.currentLine).length + 1 },
+            { className: 'correct' },
+          );
+          this.currentLine += 1;
+          this.currentChar = 0;
+          this.correctCharsInLine = 0;
+          this.stats.cheats = true;
+          return;
+        } if (ev.ctrlKey && ev.key === 'End') {
+          this.stats.cheats = true;
+          this.completed();
+          return;
+        } if (ev.ctrlKey && ev.key === 'Home') {
+          this.cm.execCommand('goDocEnd');
+          this.cm.markText(
+            { line: 0, ch: 0 },
+            { line: this.codeInfo.lines + 1, ch: 1 },
+            { className: 'correct' },
+          );
+          this.currentLine = this.codeInfo.lines - 1;
+          this.currentChar = this.cm.getLine(this.currentLine);
+          this.correctCharsInLine = this.currentChar;
+          this.stats.cheats = true;
+        }
+      }
       if (ev.key === 'Shift' || ev.key === 'CapsLock' || ev.key === 'Alt' || ev.key === 'PageUp' || ev.key === 'PageDown' || ev.key === 'ScrollLock' || ev.key === 'Insert' || ev.key === 'Home' || ev.key === 'End' || ev.ctrlKey || ev.metaKey || ev.key.slice(0, 5) === 'Arrow' || (ev.key.length > 1 && ev.key[0] === 'F')) {
         // prevent double event and block keys
         return;
@@ -480,19 +484,18 @@ export default {
     },
     onUnFocus(_, ev) {
       if (ev) {
-        const PROD = process.env.NODE_ENV === 'production';
-        if (!PROD) ev.preventDefault();
+        if (DEV) ev.preventDefault();
         if (!this.isCompleted && this.popUpText !== 'Try again' && ev) {
-          if (!PROD) this.cm.focus();
+          if (DEV) this.cm.focus();
           if (ev.relatedTarget !== null) {
             if (ev.relatedTarget.tagName !== 'BUTTON' && ev.relatedTarget.tagName !== 'A') {
-              if (PROD) this.popUp(true, 'Resume');
+              if (!DEV) this.popUp(true, 'Resume');
             } else if (ev.relatedTarget.className === 'disconnect-btn') {
               this.cm.focus();
             }
           } else {
           // eslint-disable-next-line no-lonely-if
-            if (PROD) this.popUp(true, 'Resume');
+            if (!DEV) this.popUp(true, 'Resume');
           }
         }
       }
@@ -561,7 +564,7 @@ export default {
         } else if (this.countdown === 0) {
           this.start(interval);
         }
-      }, process.env.NODE_ENV === 'production' ? 500 : 100); // DEV 500
+      }, DEV ? 100 : 500);
 
       Promise.all([this.getCode(), loadTheme(this.options.selectedTheme), loadMode(this.cm, this.language.mode)])
         .then((resp) => {
@@ -612,7 +615,7 @@ export default {
       setTimeout(() => {
         this.$router.replace('/results');
         this.popUp(false);
-      }, process.env.NODE_ENV === 'production' ? 2000 : 200); // DEV 2000
+      }, DEV ? 200 : 2000);
     },
   },
 };
@@ -725,7 +728,7 @@ export default {
         filter: none
         opacity: 1
 
-        // transition: padding $nav-trans-dur $nav-trans-timing 2s, background-color .4s ease-out 3s
+        // transition: padding var(--nav-trans-dur) $nav-trans-timing 2s, background-color .4s ease-out 3s
 
         //maintain that order
         &.alone
