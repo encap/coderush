@@ -83,12 +83,12 @@
           "name": "check_prime_number",
           "source": "own",
           "tabSize": 4,
-          "total": 6
+          "total": 7
         }
       ],
       "mode": "clike",
       "name": "C++",
-      "total": 6
+      "total": 7
     },
     {
       "ext": "txt",
@@ -484,12 +484,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 31.841,
-    "backspaceClicks": 2006,
+    "avgWPM": 31.688,
+    "backspaceClicks": 2013,
     "best": 94,
-    "correctClicks": 45505,
-    "correctLines": 1396,
-    "deletingTime": 987,
-    "total": 109
+    "correctClicks": 45771,
+    "correctLines": 1422,
+    "deletingTime": 992,
+    "total": 110
   }
 }
