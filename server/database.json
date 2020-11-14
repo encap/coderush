@@ -200,11 +200,13 @@
           "lines": 21,
           "name": "turtle_example",
           "source": "michael0x2a.com",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mode": "",
-      "name": "Logo"
+      "name": "Logo",
+      "total": 1
     },
     {
       "ext": "m",
@@ -307,12 +309,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 17
+          "total": 19
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 17
+      "total": 19
     },
     {
       "ext": "js",
@@ -464,12 +466,12 @@
           "name": "codeRush_languages_list",
           "source": "own",
           "tabSize": 2,
-          "total": 2
+          "total": 3
         }
       ],
       "mode": "vue",
       "name": "Vue",
-      "total": 2
+      "total": 3
     },
     {
       "ext": "ws",
@@ -486,12 +488,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 32.323,
-    "backspaceClicks": 2351,
+    "avgWPM": 32.096,
+    "backspaceClicks": 2367,
     "best": 94,
-    "correctClicks": 52145,
-    "correctLines": 1708,
-    "deletingTime": 1141,
-    "total": 129
+    "correctClicks": 52617,
+    "correctLines": 1712,
+    "deletingTime": 1149,
+    "total": 133
   }
 }
