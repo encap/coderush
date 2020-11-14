@@ -68,12 +68,12 @@
           "name": "form_mouse_event",
           "source": "sanfoundry.com",
           "tabSize": 4,
-          "total": 4
+          "total": 5
         }
       ],
       "mode": "clike",
       "name": "C#",
-      "total": 4
+      "total": 5
     },
     {
       "ext": "cpp",
@@ -488,12 +488,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 32.096,
-    "backspaceClicks": 2367,
+    "avgWPM": 32.14,
+    "backspaceClicks": 2397,
     "best": 94,
-    "correctClicks": 52617,
-    "correctLines": 1712,
-    "deletingTime": 1149,
-    "total": 133
+    "correctClicks": 53152,
+    "correctLines": 1735,
+    "deletingTime": 1162,
+    "total": 134
   }
 }
