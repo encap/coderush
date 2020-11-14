@@ -259,12 +259,12 @@
           "name": "save_to_database",
           "source": "own",
           "tabSize": 2,
-          "total": 4
+          "total": 5
         }
       ],
       "mode": "php",
       "name": "PHP",
-      "total": 4
+      "total": 5
     },
     {
       "ext": "ps1",
@@ -488,12 +488,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 32.14,
-    "backspaceClicks": 2397,
+    "avgWPM": 31.983,
+    "backspaceClicks": 2400,
     "best": 94,
-    "correctClicks": 53152,
-    "correctLines": 1735,
-    "deletingTime": 1162,
-    "total": 134
+    "correctClicks": 53195,
+    "correctLines": 1737,
+    "deletingTime": 1166,
+    "total": 135
   }
 }
