@@ -259,12 +259,12 @@
           "name": "save_to_database",
           "source": "own",
           "tabSize": 2,
-          "total": 5
+          "total": 4
         }
       ],
       "mode": "php",
       "name": "PHP",
-      "total": 5
+      "total": 4
     },
     {
       "ext": "ps1",
@@ -309,12 +309,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 19
+          "total": 21
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 19
+      "total": 21
     },
     {
       "ext": "js",
@@ -488,12 +488,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 31.983,
-    "backspaceClicks": 2400,
+    "avgWPM": 32.168,
+    "backspaceClicks": 2413,
     "best": 94,
-    "correctClicks": 53195,
-    "correctLines": 1737,
-    "deletingTime": 1166,
-    "total": 135
+    "correctClicks": 53586,
+    "correctLines": 1735,
+    "deletingTime": 1170,
+    "total": 136
   }
 }
