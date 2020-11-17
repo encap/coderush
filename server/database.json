@@ -173,12 +173,12 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 17
+          "total": 20
         }
       ],
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 17
+      "total": 20
     },
     {
       "ext": "kt",
@@ -309,12 +309,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 21
+          "total": 22
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 21
+      "total": 22
     },
     {
       "ext": "js",
@@ -324,12 +324,12 @@
           "name": "search_input",
           "source": "github.com/ahfarmer/emoji-search",
           "tabSize": 2,
-          "total": 4
+          "total": 5
         }
       ],
       "mode": "jsx",
       "name": "React",
-      "total": 4
+      "total": 5
     },
     {
       "ext": "rock",
@@ -488,12 +488,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 33.363,
-    "backspaceClicks": 2522,
+    "avgWPM": 33.44,
+    "backspaceClicks": 2569,
     "best": 94,
-    "correctClicks": 56251,
-    "correctLines": 1854,
-    "deletingTime": 1207,
-    "total": 143
+    "correctClicks": 57667,
+    "correctLines": 1909,
+    "deletingTime": 1232,
+    "total": 148
   }
 }
