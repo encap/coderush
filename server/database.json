@@ -354,12 +354,12 @@
           "name": "pop3",
           "source": "java2s.com/Code/Ruby",
           "tabSize": 2,
-          "total": 3
+          "total": 4
         }
       ],
       "mode": "ruby",
       "name": "Ruby",
-      "total": 3
+      "total": 4
     },
     {
       "ext": "rs",
@@ -488,12 +488,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 32.745,
-    "backspaceClicks": 3052,
+    "avgWPM": 32.681,
+    "backspaceClicks": 3067,
     "best": 94,
-    "correctClicks": 64530,
-    "correctLines": 2232,
-    "deletingTime": 1449,
-    "total": 168
+    "correctClicks": 64772,
+    "correctLines": 2246,
+    "deletingTime": 1464,
+    "total": 169
   }
 }
