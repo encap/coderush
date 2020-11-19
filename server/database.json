@@ -8,12 +8,12 @@
           "name": "example_component",
           "source": "freecodecamp.org",
           "tabSize": 2,
-          "total": 4
+          "total": 5
         }
       ],
       "mode": "javascript",
       "name": "Angular",
-      "total": 4
+      "total": 5
     },
     {
       "ext": "asm",
@@ -173,12 +173,12 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 22
+          "total": 24
         }
       ],
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 22
+      "total": 24
     },
     {
       "ext": "kt",
@@ -354,12 +354,12 @@
           "name": "pop3",
           "source": "java2s.com/Code/Ruby",
           "tabSize": 2,
-          "total": 4
+          "total": 3
         }
       ],
       "mode": "ruby",
       "name": "Ruby",
-      "total": 4
+      "total": 3
     },
     {
       "ext": "rs",
@@ -383,11 +383,13 @@
           "lines": 35,
           "name": "patterns_example",
           "source": "scala-lang.org",
-          "tabSize": 2
+          "tabSize": 2,
+          "total": 1
         }
       ],
       "mode": "clike",
-      "name": "Scala"
+      "name": "Scala",
+      "total": 1
     },
     {
       "ext": "sql",
@@ -466,12 +468,12 @@
           "name": "codeRush_languages_list",
           "source": "own",
           "tabSize": 2,
-          "total": 4
+          "total": 5
         }
       ],
       "mode": "vue",
       "name": "Vue",
-      "total": 4
+      "total": 5
     },
     {
       "ext": "ws",
@@ -488,12 +490,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 32.681,
-    "backspaceClicks": 3067,
+    "avgWPM": 32.99,
+    "backspaceClicks": 3178,
     "best": 94,
-    "correctClicks": 64772,
-    "correctLines": 2246,
-    "deletingTime": 1464,
-    "total": 169
+    "correctClicks": 66957,
+    "correctLines": 2331,
+    "deletingTime": 1502,
+    "total": 173
   }
 }
