@@ -468,12 +468,12 @@
           "name": "codeRush_languages_list",
           "source": "own",
           "tabSize": 2,
-          "total": 5
+          "total": 6
         }
       ],
       "mode": "vue",
       "name": "Vue",
-      "total": 5
+      "total": 6
     },
     {
       "ext": "ws",
@@ -490,12 +490,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 32.99,
-    "backspaceClicks": 3178,
+    "avgWPM": 33.019,
+    "backspaceClicks": 3184,
     "best": 94,
-    "correctClicks": 66957,
-    "correctLines": 2331,
-    "deletingTime": 1502,
-    "total": 173
+    "correctClicks": 67085,
+    "correctLines": 2337,
+    "deletingTime": 1505,
+    "total": 174
   }
 }
