@@ -259,12 +259,12 @@
           "name": "save_to_database",
           "source": "own",
           "tabSize": 2,
-          "total": 5
+          "total": 6
         }
       ],
       "mode": "php",
       "name": "PHP",
-      "total": 5
+      "total": 6
     },
     {
       "ext": "ps1",
@@ -468,12 +468,12 @@
           "name": "codeRush_languages_list",
           "source": "own",
           "tabSize": 2,
-          "total": 6
+          "total": 7
         }
       ],
       "mode": "vue",
       "name": "Vue",
-      "total": 6
+      "total": 7
     },
     {
       "ext": "ws",
@@ -490,12 +490,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 33.042,
-    "backspaceClicks": 3213,
+    "avgWPM": 32.77,
+    "backspaceClicks": 3367,
     "best": 94,
-    "correctClicks": 67510,
-    "correctLines": 2363,
-    "deletingTime": 1517,
-    "total": 175
+    "correctClicks": 68200,
+    "correctLines": 2394,
+    "deletingTime": 1703,
+    "total": 177
   }
 }
