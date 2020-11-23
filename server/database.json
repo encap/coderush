@@ -128,12 +128,12 @@
           "name": "easyMIDI_lib_function",
           "source": "github.com/algoGuy/EasyMIDI",
           "tabSize": 2,
-          "total": 6
+          "total": 7
         }
       ],
       "mode": "go",
       "name": "Go",
-      "total": 6
+      "total": 7
     },
     {
       "ext": "html",
@@ -490,12 +490,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 33.019,
-    "backspaceClicks": 3184,
+    "avgWPM": 33.042,
+    "backspaceClicks": 3213,
     "best": 94,
-    "correctClicks": 67085,
-    "correctLines": 2337,
-    "deletingTime": 1505,
-    "total": 174
+    "correctClicks": 67510,
+    "correctLines": 2363,
+    "deletingTime": 1517,
+    "total": 175
   }
 }
