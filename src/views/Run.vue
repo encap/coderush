@@ -2,7 +2,6 @@
   <main
     :key="resetSelfKey"
     :class="{wide: stats }"
-    @keydown.alt="resetSelf"
   >
     <div class="top-bar">
       <div class="info">
