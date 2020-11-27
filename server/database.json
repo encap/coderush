@@ -128,12 +128,12 @@
           "name": "easyMIDI_lib_function",
           "source": "github.com/algoGuy/EasyMIDI",
           "tabSize": 2,
-          "total": 7
+          "total": 8
         }
       ],
       "mode": "go",
       "name": "Go",
-      "total": 7
+      "total": 8
     },
     {
       "ext": "html",
@@ -294,12 +294,12 @@
           "name": "UrlParser",
           "source": "Python_boss",
           "tabSize": 4,
-          "total": 7
+          "total": 9
         }
       ],
       "mode": "python",
       "name": "Python",
-      "total": 21
+      "total": 23
     },
     {
       "ext": "r",
@@ -309,12 +309,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 28
+          "total": 29
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 28
+      "total": 29
     },
     {
       "ext": "js",
@@ -492,12 +492,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 31.514,
-    "backspaceClicks": 3763,
+    "avgWPM": 31.45,
+    "backspaceClicks": 3805,
     "best": 94,
-    "correctClicks": 75875,
-    "correctLines": 2705,
-    "deletingTime": 1911,
-    "total": 213
+    "correctClicks": 77129,
+    "correctLines": 2755,
+    "deletingTime": 1935,
+    "total": 217
   }
 }
