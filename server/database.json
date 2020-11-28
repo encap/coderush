@@ -53,12 +53,12 @@
           "name": "check_palindrome",
           "source": "programiz.com",
           "tabSize": 4,
-          "total": 3
+          "total": 4
         }
       ],
       "mode": "clike",
       "name": "C",
-      "total": 3
+      "total": 4
     },
     {
       "ext": "cs",
@@ -68,12 +68,12 @@
           "name": "form_mouse_event",
           "source": "sanfoundry.com",
           "tabSize": 4,
-          "total": 6
+          "total": 7
         }
       ],
       "mode": "clike",
       "name": "C#",
-      "total": 6
+      "total": 7
     },
     {
       "ext": "cpp",
@@ -83,12 +83,12 @@
           "name": "check_prime_number",
           "source": "own",
           "tabSize": 4,
-          "total": 8
+          "total": 9
         }
       ],
       "mode": "clike",
       "name": "C++",
-      "total": 8
+      "total": 9
     },
     {
       "ext": "txt",
@@ -128,12 +128,12 @@
           "name": "easyMIDI_lib_function",
           "source": "github.com/algoGuy/EasyMIDI",
           "tabSize": 2,
-          "total": 8
+          "total": 7
         }
       ],
       "mode": "go",
       "name": "Go",
-      "total": 8
+      "total": 7
     },
     {
       "ext": "html",
@@ -158,12 +158,12 @@
           "name": "random_ints_to_file",
           "source": "cs.utexas.edu",
           "tabSize": 4,
-          "total": 5
+          "total": 6
         }
       ],
       "mode": "clike",
       "name": "Java",
-      "total": 5
+      "total": 6
     },
     {
       "ext": "js",
@@ -173,12 +173,12 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 30
+          "total": 32
         }
       ],
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 30
+      "total": 32
     },
     {
       "ext": "kt",
@@ -294,12 +294,12 @@
           "name": "UrlParser",
           "source": "Python_boss",
           "tabSize": 4,
-          "total": 9
+          "total": 8
         }
       ],
       "mode": "python",
       "name": "Python",
-      "total": 23
+      "total": 22
     },
     {
       "ext": "r",
@@ -324,12 +324,12 @@
           "name": "search_input",
           "source": "github.com/ahfarmer/emoji-search",
           "tabSize": 2,
-          "total": 6
+          "total": 7
         }
       ],
       "mode": "jsx",
       "name": "React",
-      "total": 6
+      "total": 7
     },
     {
       "ext": "rock",
@@ -369,12 +369,12 @@
           "name": "rust_example",
           "source": "github.com/gothinkster",
           "tabSize": 4,
-          "total": 3
+          "total": 4
         }
       ],
       "mode": "rust",
       "name": "Rust",
-      "total": 3
+      "total": 4
     },
     {
       "ext": "scala",
@@ -384,12 +384,12 @@
           "name": "patterns_example",
           "source": "scala-lang.org",
           "tabSize": 2,
-          "total": 1
+          "total": 2
         }
       ],
       "mode": "clike",
       "name": "Scala",
-      "total": 1
+      "total": 2
     },
     {
       "ext": "sql",
@@ -399,12 +399,12 @@
           "name": "advanced_select",
           "source": "sqlservercentral.com",
           "tabSize": 4,
-          "total": 4
+          "total": 5
         }
       ],
       "mode": "sql",
       "name": "SQL",
-      "total": 4
+      "total": 5
     },
     {
       "ext": "swift",
@@ -470,12 +470,12 @@
           "name": "codeRush_languages_list",
           "source": "own",
           "tabSize": 2,
-          "total": 10
+          "total": 11
         }
       ],
       "mode": "vue",
       "name": "Vue",
-      "total": 10
+      "total": 11
     },
     {
       "ext": "ws",
@@ -484,20 +484,22 @@
           "lines": 34,
           "name": "hardcore_hello_world",
           "source": "github.com/rdebath/whitespace",
-          "tabSize": 2
+          "tabSize": 2,
+          "total": 1
         }
       ],
       "mode": "",
-      "name": "Whitespace"
+      "name": "Whitespace",
+      "total": 1
     }
   ],
   "stats": {
-    "avgWPM": 31.45,
-    "backspaceClicks": 3805,
+    "avgWPM": 30.896,
+    "backspaceClicks": 3860,
     "best": 94,
-    "correctClicks": 77129,
-    "correctLines": 2755,
-    "deletingTime": 1935,
-    "total": 217
+    "correctClicks": 78241,
+    "correctLines": 2818,
+    "deletingTime": 1973,
+    "total": 227
   }
 }
