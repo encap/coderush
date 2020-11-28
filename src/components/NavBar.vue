@@ -29,8 +29,8 @@
     </div>
     <RoomPanel class="room" />
     <div class="author">
-      <div v-if="$route.path === '/results' && $route.path === '/contribute'" class="donate">
-        <a>Donate</a><span> if you like it</span>
+      <div v-if="$route.path !== '/run' && $route.path !== '/'" class="donate">
+        <a href="https://paypal.me/encap" target="_blank">Donate</a><span> if you like it</span>
       </div>
       <span class="author-text">
         Made with <fa :icon="['fas', 'heart']" class="heart" /> by <span class="author-name">Łukasz Wielgus</span>

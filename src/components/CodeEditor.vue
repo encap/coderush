@@ -156,7 +156,7 @@ export default {
     },
     onKeyDown(ev) {
       // const allowedKeys = 'qwertyuiopasdfghjklzxcvbnm1234567890!@#$%^&*()-=_+[]{};\'\\:"|,./<>?`~';
-      console.log(ev);
+      // console.log(ev);
 
       const handleEnter = () => {
         const expectedText = this.cm.getLine(this.currentLine);
@@ -365,6 +365,7 @@ export default {
           this.completed();
           return;
         } if (ev.ctrlKey && ev.key === 'Home') {
+          // must import stats first
           this.cm.execCommand('goDocEnd');
           this.cm.markText(
             { line: 0, ch: 0 },
@@ -375,6 +376,8 @@ export default {
           this.currentChar = this.cm.getLine(this.currentLine);
           this.correctCharsInLine = this.currentChar;
           this.stats.cheats = true;
+          // this.completed();
+          return;
         }
       }
       if (ev.key.length > 9 || ev.key === 'Shift' || ev.key === 'CapsLock' || ev.key === 'Alt' || ev.key === 'AltGraph' || ev.key === 'PageUp' || ev.key === 'Delete' || ev.key === 'PageDown' || ev.key === 'Insert' || ev.key === 'Home' || ev.key === 'End' || ev.ctrlKey || ev.metaKey || ev.key.slice(0, 5) === 'Arrow' || (ev.key.length > 1 && ev.key[0] === 'F')) {
@@ -590,6 +593,7 @@ export default {
         return;
       }
       if (this.stats.history.length < 2) {
+        console.log('history');
         this.$router.push('/');
         return;
       }
