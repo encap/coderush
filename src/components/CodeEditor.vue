@@ -569,7 +569,7 @@ export default {
         } else if (this.countdown === 0) {
           this.start(interval);
         }
-      }, DEV ? 100 : 500);
+      }, DEV ? 10 : 500);
 
       Promise.all([this.getCode(), loadTheme(this.options.selectedTheme), loadMode(this.cm, this.language.mode)])
         .then((resp) => {

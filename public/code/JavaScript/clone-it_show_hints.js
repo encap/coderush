@@ -1,4 +1,4 @@
-function showHints() {
+const showHints = () => {
   puzzles.innerHTML = '';
 
   shuffleArray(this.json.cssHints);
