@@ -24,7 +24,7 @@
     ·
     <a href="https://github.com/encap/coderush/issues">Report Bug</a>
     ·
-    <a href="https://github.com/encap/coderush/issues">Request Feature</a>
+    <a href="https://github.com/encap/coderush/issues">Request a Feature</a>
   </p>
 </p>
 
