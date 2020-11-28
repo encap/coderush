@@ -25,6 +25,8 @@
     <a href="https://github.com/encap/coderush/issues">Report Bug</a>
     ·
     <a href="https://github.com/encap/coderush/issues">Request a Feature</a>
+    ·
+    <a href="https://paypal.me/encap">Donate</a>
   </p>
 </p>
 
@@ -143,6 +145,8 @@ Source code is distributed under the [GNU GPL v3][license-url] License. However,
 Poland
 
 encapsulation4@gmail.com
+
+Donate on PayPal: https://paypal.me/encap
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
