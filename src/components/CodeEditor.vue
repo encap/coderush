@@ -156,6 +156,7 @@ export default {
     },
     onKeyDown(ev) {
       // const allowedKeys = 'qwertyuiopasdfghjklzxcvbnm1234567890!@#$%^&*()-=_+[]{};\'\\:"|,./<>?`~';
+      console.log(ev);
 
       const handleEnter = () => {
         const expectedText = this.cm.getLine(this.currentLine);
@@ -376,7 +377,7 @@ export default {
           this.stats.cheats = true;
         }
       }
-      if (ev.key === 'Shift' || ev.key === 'CapsLock' || ev.key === 'Alt' || ev.key === 'PageUp' || ev.key === 'PageDown' || ev.key === 'ScrollLock' || ev.key === 'Insert' || ev.key === 'Home' || ev.key === 'End' || ev.ctrlKey || ev.metaKey || ev.key.slice(0, 5) === 'Arrow' || (ev.key.length > 1 && ev.key[0] === 'F')) {
+      if (ev.key.length > 9 || ev.key === 'Shift' || ev.key === 'CapsLock' || ev.key === 'Alt' || ev.key === 'AltGraph' || ev.key === 'PageUp' || ev.key === 'Delete' || ev.key === 'PageDown' || ev.key === 'Insert' || ev.key === 'Home' || ev.key === 'End' || ev.ctrlKey || ev.metaKey || ev.key.slice(0, 5) === 'Arrow' || (ev.key.length > 1 && ev.key[0] === 'F')) {
         // prevent double event and block keys
         return;
       }
@@ -463,6 +464,7 @@ export default {
           };
         }
       } else {
+        console.log('handlewrite ', ev.key);
         handleWrite(ev.key, ev);
       }
 
