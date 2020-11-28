@@ -126,6 +126,10 @@ You can now submit code examples on which our users will test their typing skill
 
 Assuming your code passes all our tests it will be waiting for human verification as a pull request [here][pulls-url].
 
+## Known Issues
+  * Sometimes after disconnecting from server not all variables updated
+  * In multiplayer language changes above editor when admin selects new one and the player is still on the results page
+
 ## License
 
 I made CodeRush open source because without other OS projects I wouldn't be able to get to the point where I am now.
