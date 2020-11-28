@@ -38,12 +38,12 @@
           "name": "internet_test",
           "source": "own",
           "tabSize": 4,
-          "total": 1
+          "total": 2
         }
       ],
       "mode": "shell",
       "name": "Bash",
-      "total": 1
+      "total": 2
     },
     {
       "ext": "c",
@@ -68,12 +68,12 @@
           "name": "form_mouse_event",
           "source": "sanfoundry.com",
           "tabSize": 4,
-          "total": 7
+          "total": 8
         }
       ],
       "mode": "clike",
       "name": "C#",
-      "total": 7
+      "total": 8
     },
     {
       "ext": "cpp",
@@ -83,12 +83,12 @@
           "name": "check_prime_number",
           "source": "own",
           "tabSize": 4,
-          "total": 9
+          "total": 10
         }
       ],
       "mode": "clike",
       "name": "C++",
-      "total": 9
+      "total": 10
     },
     {
       "ext": "txt",
@@ -128,12 +128,12 @@
           "name": "easyMIDI_lib_function",
           "source": "github.com/algoGuy/EasyMIDI",
           "tabSize": 2,
-          "total": 7
+          "total": 8
         }
       ],
       "mode": "go",
       "name": "Go",
-      "total": 7
+      "total": 8
     },
     {
       "ext": "html",
@@ -143,12 +143,12 @@
           "name": "clone-it_results_menu",
           "source": "own",
           "tabSize": 2,
-          "total": 17
+          "total": 18
         }
       ],
       "mode": "xml",
       "name": "HTML",
-      "total": 17
+      "total": 18
     },
     {
       "ext": "java",
@@ -173,12 +173,12 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 32
+          "total": 33
         }
       ],
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 32
+      "total": 33
     },
     {
       "ext": "kt",
@@ -309,12 +309,12 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 29
+          "total": 30
         }
       ],
       "mode": "r",
       "name": "R",
-      "total": 29
+      "total": 30
     },
     {
       "ext": "js",
@@ -470,12 +470,12 @@
           "name": "codeRush_languages_list",
           "source": "own",
           "tabSize": 2,
-          "total": 11
+          "total": 12
         }
       ],
       "mode": "vue",
       "name": "Vue",
-      "total": 11
+      "total": 12
     },
     {
       "ext": "ws",
@@ -494,12 +494,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.896,
-    "backspaceClicks": 3860,
+    "avgWPM": 30.729,
+    "backspaceClicks": 3912,
     "best": 94,
-    "correctClicks": 78241,
-    "correctLines": 2818,
-    "deletingTime": 1973,
-    "total": 227
+    "correctClicks": 79164,
+    "correctLines": 2869,
+    "deletingTime": 1999,
+    "total": 235
   }
 }
