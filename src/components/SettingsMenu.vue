@@ -89,7 +89,8 @@ export default {
     return {
       themesList: [
         ['material-darker', 'Material Dark'],
-        ['one-dark', 'Atom One Dark'],
+        // ['one-dark', 'Atom One Dark'],
+        ['vscode-dark', 'Visual Studio Code'],
         ['Base2Tone-Suburb-dark', 'Base2Tone Suburb Dark'],
         ['', 'Plain white'],
       ],
