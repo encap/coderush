@@ -74,22 +74,24 @@ CodeMirror.requireMode = (mode, cont, reject) => {
   others.parentNode.insertBefore(script, others);
 };
 
-CodeMirror.autoLoadMode = (instance, mode) => new Promise((resolve, reject) => {
+CodeMirror.autoLoadMode = (instance, mode, mime) => new Promise((resolve, reject) => {
   if (Object.prototype.hasOwnProperty.call(CodeMirror, mode)) {
     // console.log(`[autoLoadMode] Skipping ${mode}`);
     resolve('SKIP');
   }
 
   CodeMirror.requireMode(mode, () => {
-    instance.setOption('mode', mode);
+    // instance.setOption('mode', mode);
+    console.log(mime);
+    instance.setOption('mode', mime); // DEV
     resolve('CB');
   }, reject);
 });
 
-const loadMode = async (cm, mode) => {
+const loadMode = async (cm, mode, mime) => {
   if (mode) {
     loading = {};
-    const resp = await CodeMirror.autoLoadMode(cm, mode);
+    const resp = await CodeMirror.autoLoadMode(cm, mode, mime);
     return resp;
   }
   return 'no mode to load';

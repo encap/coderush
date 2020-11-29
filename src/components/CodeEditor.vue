@@ -571,7 +571,7 @@ export default {
         }
       }, DEV ? 10 : 500);
 
-      Promise.all([this.getCode(), loadTheme(this.options.selectedTheme), loadMode(this.cm, this.language.mode)])
+      Promise.all([this.getCode(), loadTheme(this.options.selectedTheme), loadMode(this.cm, this.language.mode, this.language.mime)])
         .then((resp) => {
           [this.codeText] = resp;
           this.cmReady = true;
