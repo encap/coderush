@@ -11,6 +11,7 @@
           "total": 7
         }
       ],
+      "mime": "application/typescript",
       "mode": "javascript",
       "name": "Angular",
       "total": 7
@@ -23,12 +24,13 @@
           "name": "disk_read",
           "source": "github.com/ghaiklor",
           "tabSize": 8,
-          "total": 3
+          "total": 4
         }
       ],
+      "mime": "text/x-z80",
       "mode": "z80",
       "name": "Assembly",
-      "total": 3
+      "total": 4
     },
     {
       "ext": "sh",
@@ -41,6 +43,7 @@
           "total": 2
         }
       ],
+      "mime": "text/x-sh",
       "mode": "shell",
       "name": "Bash",
       "total": 2
@@ -56,6 +59,7 @@
           "total": 4
         }
       ],
+      "mime": "text/x-csrc",
       "mode": "clike",
       "name": "C",
       "total": 4
@@ -71,6 +75,7 @@
           "total": 8
         }
       ],
+      "mime": "text/x-csharp",
       "mode": "clike",
       "name": "C#",
       "total": 8
@@ -86,6 +91,7 @@
           "total": 10
         }
       ],
+      "mime": "text/x-c++src",
       "mode": "clike",
       "name": "C++",
       "total": 10
@@ -101,8 +107,9 @@
           "total": 1
         }
       ],
+      "mime": "text/x-ruby",
       "mode": "ruby",
-      "name": "Chef_(English)",
+      "name": "English",
       "total": 1
     },
     {
@@ -113,12 +120,13 @@
           "name": "clone-it_example_level",
           "source": "own",
           "tabSize": 2,
-          "total": 30
+          "total": 31
         }
       ],
+      "mime": "text/css",
       "mode": "css",
       "name": "CSS",
-      "total": 30
+      "total": 31
     },
     {
       "ext": "go",
@@ -131,6 +139,7 @@
           "total": 8
         }
       ],
+      "mime": "text/x-go",
       "mode": "go",
       "name": "Go",
       "total": 8
@@ -146,6 +155,7 @@
           "total": 18
         }
       ],
+      "mime": "text/xml",
       "mode": "xml",
       "name": "HTML",
       "total": 18
@@ -161,6 +171,7 @@
           "total": 6
         }
       ],
+      "mime": "text/x-java",
       "mode": "clike",
       "name": "Java",
       "total": 6
@@ -173,12 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 33
+          "total": 36
         }
       ],
+      "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 33
+      "total": 36
     },
     {
       "ext": "kt",
@@ -190,7 +202,8 @@
           "tabSize": 4
         }
       ],
-      "mode": "python",
+      "mime": "text/x-kotlin",
+      "mode": "clike",
       "name": "Kotlin"
     },
     {
@@ -201,12 +214,13 @@
           "name": "turtle_example",
           "source": "michael0x2a.com",
           "tabSize": 4,
-          "total": 1
+          "total": 2
         }
       ],
+      "mime": "text/plain",
       "mode": "",
       "name": "Logo",
-      "total": 1
+      "total": 2
     },
     {
       "ext": "m",
@@ -218,6 +232,7 @@
           "tabSize": 4
         }
       ],
+      "mime": "text/x-octave",
       "mode": "octave",
       "name": "MATLAB"
     },
@@ -232,6 +247,7 @@
           "total": 1
         }
       ],
+      "mime": "text/x-objectivec",
       "mode": "clike",
       "name": "Objective-C",
       "total": 1
@@ -247,6 +263,7 @@
           "total": 3
         }
       ],
+      "mime": "text/x-perl",
       "mode": "perl",
       "name": "Perl",
       "total": 3
@@ -262,6 +279,7 @@
           "total": 8
         }
       ],
+      "mime": "text/x-php",
       "mode": "php",
       "name": "PHP",
       "total": 8
@@ -276,6 +294,7 @@
           "tabSize": 2
         }
       ],
+      "mime": "application/x-powershell",
       "mode": "powershell",
       "name": "PowerShell"
     },
@@ -287,19 +306,20 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 14
+          "total": 15
         },
         {
           "lines": 12,
           "name": "UrlParser",
           "source": "Python_boss",
           "tabSize": 4,
-          "total": 8
+          "total": 9
         }
       ],
+      "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 22
+      "total": 24
     },
     {
       "ext": "r",
@@ -309,12 +329,13 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 31
+          "total": 40
         }
       ],
+      "mime": "text/x-rsrc",
       "mode": "r",
       "name": "R",
-      "total": 31
+      "total": 40
     },
     {
       "ext": "js",
@@ -324,12 +345,13 @@
           "name": "search_input",
           "source": "github.com/ahfarmer/emoji-search",
           "tabSize": 2,
-          "total": 7
+          "total": 8
         }
       ],
+      "mime": "text/jsx",
       "mode": "jsx",
       "name": "React",
-      "total": 7
+      "total": 8
     },
     {
       "ext": "rock",
@@ -342,6 +364,7 @@
           "total": 1
         }
       ],
+      "mime": "text/x-vb",
       "mode": "vb",
       "name": "Rockstar",
       "total": 1
@@ -357,6 +380,7 @@
           "total": 3
         }
       ],
+      "mime": "text/x-ruby",
       "mode": "ruby",
       "name": "Ruby",
       "total": 3
@@ -372,6 +396,7 @@
           "total": 4
         }
       ],
+      "mime": "text/x-rustsrc",
       "mode": "rust",
       "name": "Rust",
       "total": 4
@@ -387,6 +412,7 @@
           "total": 2
         }
       ],
+      "mime": "text/x-scala",
       "mode": "clike",
       "name": "Scala",
       "total": 2
@@ -399,12 +425,13 @@
           "name": "advanced_select",
           "source": "sqlservercentral.com",
           "tabSize": 4,
-          "total": 5
+          "total": 6
         }
       ],
+      "mime": "text/x-sql",
       "mode": "sql",
       "name": "SQL",
-      "total": 5
+      "total": 6
     },
     {
       "ext": "swift",
@@ -416,6 +443,7 @@
           "tabSize": 4
         }
       ],
+      "mime": "text/x-swift",
       "mode": "swift",
       "name": "Swift"
     },
@@ -429,8 +457,9 @@
           "tabSize": 4
         }
       ],
+      "mime": "text/x-pascal",
       "mode": "pascal",
-      "name": "Turbo_Pascal"
+      "name": "Pascal"
     },
     {
       "ext": "vb",
@@ -440,12 +469,13 @@
           "name": "progress_bar",
           "source": "vb.net-informations.com",
           "tabSize": 4,
-          "total": 3
+          "total": 4
         }
       ],
+      "mime": "text/x-vb",
       "mode": "vb",
       "name": "VB.NET",
-      "total": 3
+      "total": 4
     },
     {
       "ext": "vbs",
@@ -458,6 +488,7 @@
           "total": 2
         }
       ],
+      "mime": "text/vbscript",
       "mode": "vbscript",
       "name": "VBScript",
       "total": 2
@@ -470,12 +501,13 @@
           "name": "codeRush_languages_list",
           "source": "own",
           "tabSize": 2,
-          "total": 12
+          "total": 13
         }
       ],
+      "mime": "text/x-vue",
       "mode": "vue",
       "name": "Vue",
-      "total": 12
+      "total": 13
     },
     {
       "ext": "ws",
@@ -488,18 +520,19 @@
           "total": 1
         }
       ],
+      "mime": "text/plain",
       "mode": "",
       "name": "Whitespace",
       "total": 1
     }
   ],
   "stats": {
-    "avgWPM": 30.743,
-    "backspaceClicks": 3920,
+    "avgWPM": 30.638,
+    "backspaceClicks": 4210,
     "best": 94,
-    "correctClicks": 79381,
-    "correctLines": 2869,
-    "deletingTime": 2003,
-    "total": 236
+    "correctClicks": 85143,
+    "correctLines": 3075,
+    "deletingTime": 2172,
+    "total": 257
   }
 }
