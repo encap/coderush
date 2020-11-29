@@ -45,33 +45,37 @@ const ensureDeps = (mode, cont) => {
 };
 
 CodeMirror.requireMode = (mode, cont, reject) => {
-  if (Object.prototype.hasOwnProperty.call(CodeMirror.modes, mode)) {
+  if (mode) {
+    if (Object.prototype.hasOwnProperty.call(CodeMirror.modes, mode)) {
     // console.log(`[requireMode] Skipping ${mode}`);
-    return ensureDeps(mode, cont);
-  }
-  if (Object.prototype.hasOwnProperty.call(loading, mode)) {
+      return ensureDeps(mode, cont);
+    }
+    if (Object.prototype.hasOwnProperty.call(loading, mode)) {
     // console.log(`[requireMode.loading] Skipping ${mode}`);
-    return loading[mode].push(cont);
-  }
+      return loading[mode].push(cont);
+    }
 
-  const script = document.createElement('script');
-  script.onerror = () => reject(Error('No internet'));
-  script.async = true;
-  script.src = `${process.env.VUE_APP_ASSETS_PATH || ''}/cm/mode/${mode}/${mode}.js`;
-  const others = document.getElementsByTagName('script')[0];
-  loading[mode] = [cont];
+    const script = document.createElement('script');
+    script.onerror = () => reject(Error('No internet'));
+    script.async = true;
+    script.src = `${process.env.VUE_APP_ASSETS_PATH || ''}/cm/mode/${mode}/${mode}.js`;
+    const others = document.getElementsByTagName('script')[0];
+    loading[mode] = [cont];
 
-  const list = loading[mode];
+    const list = loading[mode];
 
-  CodeMirror.on(script, 'load', () => {
-    ensureDeps(mode, () => {
-      for (let i = 0; i < list.length; i += 1) {
-        list[i]();
-      }
+    CodeMirror.on(script, 'load', () => {
+      ensureDeps(mode, () => {
+        for (let i = 0; i < list.length; i += 1) {
+          list[i]();
+        }
+      });
     });
-  });
 
-  others.parentNode.insertBefore(script, others);
+    others.parentNode.insertBefore(script, others);
+  } else {
+    cont();
+  }
 };
 
 CodeMirror.autoLoadMode = (instance, mode, mime) => new Promise((resolve, reject) => {
@@ -82,19 +86,19 @@ CodeMirror.autoLoadMode = (instance, mode, mime) => new Promise((resolve, reject
 
   CodeMirror.requireMode(mode, () => {
     // instance.setOption('mode', mode);
-    console.log(mime);
-    instance.setOption('mode', mime); // DEV
+    console.log(mode, mime);
+    instance.setOption('mode', mime || mode);
     resolve('CB');
   }, reject);
 });
 
 const loadMode = async (cm, mode, mime) => {
-  if (mode) {
-    loading = {};
-    const resp = await CodeMirror.autoLoadMode(cm, mode, mime);
-    return resp;
-  }
-  return 'no mode to load';
+  // if (mode) {
+  loading = {};
+  const resp = await CodeMirror.autoLoadMode(cm, mode, mime);
+  return resp;
+  // }
+  // return 'no mode to load';
 };
 
 const loadTheme = (name = 'material-darker') => {

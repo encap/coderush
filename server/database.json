@@ -28,6 +28,7 @@
         }
       ],
       "mode": "z80",
+      "mime": "text/x-z80",
       "name": "Assembly",
       "total": 3
     },
@@ -43,6 +44,7 @@
         }
       ],
       "mode": "shell",
+      "mime": "text/x-sh",
       "name": "Bash",
       "total": 2
     },
@@ -74,7 +76,7 @@
         }
       ],
       "mode": "clike",
-      "mime": "text/x-",
+      "mime": "text/x-csharp",
       "name": "C#",
       "total": 8
     },
@@ -106,6 +108,7 @@
         }
       ],
       "mode": "ruby",
+      "mime": "text/x-ruby",
       "name": "English",
       "total": 1
     },
@@ -121,6 +124,7 @@
         }
       ],
       "mode": "css",
+      "mime": "text/css",
       "name": "CSS",
       "total": 30
     },
@@ -136,6 +140,7 @@
         }
       ],
       "mode": "go",
+      "mime": "text/x-go",
       "name": "Go",
       "total": 8
     },
@@ -151,6 +156,7 @@
         }
       ],
       "mode": "xml",
+      "mime": "text/xml",
       "name": "HTML",
       "total": 18
     },
@@ -182,6 +188,7 @@
         }
       ],
       "mode": "javascript",
+      "mime": "application/javascript",
       "name": "JavaScript",
       "total": 33
     },
@@ -195,8 +202,8 @@
           "tabSize": 4
         }
       ],
-      "mime": "text/x-kotlin",
       "mode": "clike",
+      "mime": "text/x-kotlin",
       "name": "Kotlin"
     },
     {
@@ -211,6 +218,7 @@
         }
       ],
       "mode": "",
+      "mime": "text/plain",
       "name": "Logo",
       "total": 1
     },
@@ -225,6 +233,7 @@
         }
       ],
       "mode": "octave",
+      "mime": "text/x-octave",
       "name": "MATLAB"
     },
     {
@@ -255,6 +264,7 @@
         }
       ],
       "mode": "perl",
+      "mime": "text/x-perl",
       "name": "Perl",
       "total": 3
     },
@@ -270,6 +280,7 @@
         }
       ],
       "mode": "php",
+      "mime": "text/x-php",
       "name": "PHP",
       "total": 8
     },
@@ -284,6 +295,7 @@
         }
       ],
       "mode": "powershell",
+      "mime": "application/x-powershell",
       "name": "PowerShell"
     },
     {
@@ -305,6 +317,7 @@
         }
       ],
       "mode": "python",
+      "mime": "text/x-python",
       "name": "Python",
       "total": 22
     },
@@ -320,6 +333,7 @@
         }
       ],
       "mode": "r",
+      "mime": "text/x-rsrc",
       "name": "R",
       "total": 30
     },
@@ -335,6 +349,7 @@
         }
       ],
       "mode": "jsx",
+      "mime": "text/jsx",
       "name": "React",
       "total": 7
     },
@@ -350,6 +365,7 @@
         }
       ],
       "mode": "vb",
+      "mime": "text/x-vb",
       "name": "Rockstar",
       "total": 1
     },
@@ -365,6 +381,7 @@
         }
       ],
       "mode": "ruby",
+      "mime": "text/x-ruby",
       "name": "Ruby",
       "total": 3
     },
@@ -380,6 +397,7 @@
         }
       ],
       "mode": "rust",
+      "mime": "text/x-rustsrc",
       "name": "Rust",
       "total": 4
     },
@@ -411,6 +429,7 @@
         }
       ],
       "mode": "sql",
+      "mime": "text/x-sql",
       "name": "SQL",
       "total": 5
     },
@@ -425,6 +444,7 @@
         }
       ],
       "mode": "swift",
+      "mime": "text/x-swift",
       "name": "Swift"
     },
     {
@@ -453,6 +473,7 @@
         }
       ],
       "mode": "vb",
+      "mime": "text/x-vb",
       "name": "VB.NET",
       "total": 3
     },
@@ -468,6 +489,7 @@
         }
       ],
       "mode": "vbscript",
+      "mime": "text/vbscript",
       "name": "VBScript",
       "total": 2
     },
@@ -483,6 +505,7 @@
         }
       ],
       "mode": "vue",
+      "mime": "text/x-vue",
       "name": "Vue",
       "total": 12
     },
@@ -498,6 +521,7 @@
         }
       ],
       "mode": "",
+      "mime": "text/plain",
       "name": "Whitespace",
       "total": 1
     }
