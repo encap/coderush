@@ -100,7 +100,7 @@ export default {
   watch: {
     async language() {
       this.editorReady = false;
-      await loadMode(this.cm, this.language.mode);
+      await loadMode(this.cm, this.language.mode, this.language.mime);
       this.fixHeight();
       this.editorReady = true;
     },
@@ -157,7 +157,7 @@ export default {
       this.cm = cm;
       loadTheme();
       if (this.language.name) {
-        loadMode(this.cm, this.language.mode);
+        loadMode(this.cm, this.language.mode, this.language.mime);
         this.editorReady = true;
       }
       cm.focus();
