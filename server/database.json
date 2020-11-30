@@ -136,13 +136,13 @@
           "name": "easyMIDI_lib_function",
           "source": "github.com/algoGuy/EasyMIDI",
           "tabSize": 2,
-          "total": 9
+          "total": 10
         }
       ],
       "mime": "text/x-go",
       "mode": "go",
       "name": "Go",
-      "total": 9
+      "total": 10
     },
     {
       "ext": "html",
@@ -152,13 +152,13 @@
           "name": "clone-it_results_menu",
           "source": "own",
           "tabSize": 2,
-          "total": 18
+          "total": 19
         }
       ],
       "mime": "text/xml",
       "mode": "xml",
       "name": "HTML",
-      "total": 18
+      "total": 19
     },
     {
       "ext": "java",
@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 41
+          "total": 43
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 41
+      "total": 43
     },
     {
       "ext": "kt",
@@ -199,12 +199,14 @@
           "lines": 49,
           "name": "location_api_long",
           "source": "androdocs.com",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mime": "text/x-kotlin",
       "mode": "clike",
-      "name": "Kotlin"
+      "name": "Kotlin",
+      "total": 1
     },
     {
       "ext": "lgo",
@@ -276,13 +278,13 @@
           "name": "save_to_database",
           "source": "own",
           "tabSize": 2,
-          "total": 8
+          "total": 9
         }
       ],
       "mime": "text/x-php",
       "mode": "php",
       "name": "PHP",
-      "total": 8
+      "total": 9
     },
     {
       "ext": "ps1",
@@ -329,13 +331,13 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 43
+          "total": 44
         }
       ],
       "mime": "text/x-rsrc",
       "mode": "r",
       "name": "R",
-      "total": 43
+      "total": 44
     },
     {
       "ext": "js",
@@ -529,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.638,
-    "backspaceClicks": 4410,
+    "avgWPM": 30.379,
+    "backspaceClicks": 4487,
     "best": 94,
-    "correctClicks": 88024,
-    "correctLines": 3178,
-    "deletingTime": 2259,
-    "total": 270
+    "correctClicks": 89157,
+    "correctLines": 3227,
+    "deletingTime": 2297,
+    "total": 277
   }
 }
