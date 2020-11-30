@@ -56,13 +56,13 @@
           "name": "check_palindrome",
           "source": "programiz.com",
           "tabSize": 4,
-          "total": 4
+          "total": 5
         }
       ],
       "mime": "text/x-csrc",
       "mode": "clike",
       "name": "C",
-      "total": 4
+      "total": 5
     },
     {
       "ext": "cs",
@@ -97,22 +97,6 @@
       "total": 11
     },
     {
-      "ext": "css",
-      "files": [
-        {
-          "lines": 28,
-          "name": "clone-it_example_level",
-          "source": "own",
-          "tabSize": 2,
-          "total": 31
-        }
-      ],
-      "mime": "text/css",
-      "mode": "css",
-      "name": "CSS",
-      "total": 31
-    },
-    {
       "ext": "txt",
       "files": [
         {
@@ -127,6 +111,22 @@
       "mode": "ruby",
       "name": "English",
       "total": 1
+    },
+    {
+      "ext": "css",
+      "files": [
+        {
+          "lines": 28,
+          "name": "clone-it_example_level",
+          "source": "own",
+          "tabSize": 2,
+          "total": 31
+        }
+      ],
+      "mime": "text/css",
+      "mode": "css",
+      "name": "CSS",
+      "total": 31
     },
     {
       "ext": "go",
@@ -152,13 +152,13 @@
           "name": "clone-it_results_menu",
           "source": "own",
           "tabSize": 2,
-          "total": 19
+          "total": 20
         }
       ],
       "mime": "text/xml",
       "mode": "xml",
       "name": "HTML",
-      "total": 19
+      "total": 20
     },
     {
       "ext": "java",
@@ -168,13 +168,13 @@
           "name": "random_ints_to_file",
           "source": "cs.utexas.edu",
           "tabSize": 4,
-          "total": 6
+          "total": 8
         }
       ],
       "mime": "text/x-java",
       "mode": "clike",
       "name": "Java",
-      "total": 6
+      "total": 8
     },
     {
       "ext": "js",
@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 43
+          "total": 45
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 43
+      "total": 45
     },
     {
       "ext": "kt",
@@ -255,20 +255,6 @@
       "total": 1
     },
     {
-      "ext": "pas",
-      "files": [
-        {
-          "lines": 33,
-          "name": "camel_case",
-          "source": "progopedia.com",
-          "tabSize": 4
-        }
-      ],
-      "mime": "text/x-pascal",
-      "mode": "pascal",
-      "name": "Pascal"
-    },
-    {
       "ext": "pl",
       "files": [
         {
@@ -292,13 +278,13 @@
           "name": "save_to_database",
           "source": "own",
           "tabSize": 2,
-          "total": 9
+          "total": 11
         }
       ],
       "mime": "text/x-php",
       "mode": "php",
       "name": "PHP",
-      "total": 9
+      "total": 11
     },
     {
       "ext": "ps1",
@@ -425,13 +411,13 @@
           "name": "patterns_example",
           "source": "scala-lang.org",
           "tabSize": 2,
-          "total": 2
+          "total": 3
         }
       ],
       "mime": "text/x-scala",
       "mode": "clike",
       "name": "Scala",
-      "total": 2
+      "total": 3
     },
     {
       "ext": "sql",
@@ -464,6 +450,20 @@
       "mode": "swift",
       "name": "Swift",
       "total": 1
+    },
+    {
+      "ext": "pas",
+      "files": [
+        {
+          "lines": 33,
+          "name": "camel_case",
+          "source": "progopedia.com",
+          "tabSize": 4
+        }
+      ],
+      "mime": "text/x-pascal",
+      "mode": "pascal",
+      "name": "Pascal"
     },
     {
       "ext": "vb",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.379,
-    "backspaceClicks": 4487,
+    "avgWPM": 30.252,
+    "backspaceClicks": 4530,
     "best": 94,
-    "correctClicks": 89157,
-    "correctLines": 3227,
-    "deletingTime": 2297,
-    "total": 277
+    "correctClicks": 90364,
+    "correctLines": 3281,
+    "deletingTime": 2321,
+    "total": 286
   }
 }
