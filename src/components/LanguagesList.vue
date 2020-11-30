@@ -17,7 +17,13 @@
         </button>
       </div>
     </div>
-    <div ref="languagesList" class="languages list" :class="{'showStats': !($route.path !== '/' || (room.connected && !room.owner))} ">
+    <div
+      ref="languagesList"
+      tabindex="0"
+      class="languages list"
+      :class="{'showStats': !($route.path !== '/' || (room.connected && !room.owner)), 'forceStats': forceStats} "
+      @keydown.shift.capture.prevent="toggleStats"
+    >
       <button
         :disabled="room.connected && !room.owner"
         class="language random"
@@ -63,6 +69,7 @@ export default {
   data() {
     return {
       searchText: '',
+      forceStats: false,
     };
   },
   computed: {
@@ -140,6 +147,9 @@ export default {
         this.$nextTick(() => this.$socket.client.emit('languageChange', ev.target.getAttribute('data-index')));
       }
     },
+    toggleStats() {
+      this.forceStats = !this.forceStats;
+    },
   },
 };
 </script>
@@ -184,6 +194,7 @@ export default {
   text-align: center
   grid-gap: $thin-gap
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
+  outline: none // ctrl-space force stats
 
 
   &::-webkit-scrollbar
@@ -200,7 +211,7 @@ export default {
 .language-radio
   display: none
 
-.showStats .language:hover:not(.random)
+.showStats .language:hover:not(.random), .forceStats .language:not(.random)
   & > .language-name
     transform: translateX(-25%)
   & > .stat
