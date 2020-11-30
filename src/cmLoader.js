@@ -93,7 +93,7 @@ CodeMirror.autoLoadMode = (instance, mode, mime) => new Promise((resolve, reject
 });
 
 const loadMode = async (cm, mode, mime) => {
-  // if (mode) {
+  // if (mode) { // logo has empty mode but has mime
   loading = {};
   const resp = await CodeMirror.autoLoadMode(cm, mode, mime);
   return resp;

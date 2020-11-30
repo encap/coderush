@@ -97,22 +97,6 @@
       "total": 11
     },
     {
-      "ext": "txt",
-      "files": [
-        {
-          "lines": 19,
-          "name": "delicious_hello_world",
-          "source": "dangermouse.net",
-          "tabSize": 8,
-          "total": 1
-        }
-      ],
-      "mime": "text/x-ruby",
-      "mode": "ruby",
-      "name": "English",
-      "total": 1
-    },
-    {
       "ext": "css",
       "files": [
         {
@@ -127,6 +111,22 @@
       "mode": "css",
       "name": "CSS",
       "total": 31
+    },
+    {
+      "ext": "txt",
+      "files": [
+        {
+          "lines": 19,
+          "name": "delicious_hello_world",
+          "source": "dangermouse.net",
+          "tabSize": 8,
+          "total": 1
+        }
+      ],
+      "mime": "text/x-ruby",
+      "mode": "ruby",
+      "name": "English",
+      "total": 1
     },
     {
       "ext": "go",
@@ -253,6 +253,20 @@
       "mode": "clike",
       "name": "Objective-C",
       "total": 1
+    },
+    {
+      "ext": "pas",
+      "files": [
+        {
+          "lines": 33,
+          "name": "camel_case",
+          "source": "progopedia.com",
+          "tabSize": 4
+        }
+      ],
+      "mime": "text/x-pascal",
+      "mode": "pascal",
+      "name": "Pascal"
     },
     {
       "ext": "pl",
@@ -450,20 +464,6 @@
       "mode": "swift",
       "name": "Swift",
       "total": 1
-    },
-    {
-      "ext": "pas",
-      "files": [
-        {
-          "lines": 33,
-          "name": "camel_case",
-          "source": "progopedia.com",
-          "tabSize": 4
-        }
-      ],
-      "mime": "text/x-pascal",
-      "mode": "pascal",
-      "name": "Pascal"
     },
     {
       "ext": "vb",
