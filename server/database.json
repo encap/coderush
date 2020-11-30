@@ -8,13 +8,13 @@
           "name": "example_component",
           "source": "freecodecamp.org",
           "tabSize": 2,
-          "total": 7
+          "total": 8
         }
       ],
       "mime": "application/typescript",
       "mode": "javascript",
       "name": "Angular",
-      "total": 7
+      "total": 8
     },
     {
       "ext": "asm",
@@ -88,13 +88,13 @@
           "name": "check_prime_number",
           "source": "own",
           "tabSize": 4,
-          "total": 10
+          "total": 11
         }
       ],
       "mime": "text/x-c++src",
       "mode": "clike",
       "name": "C++",
-      "total": 10
+      "total": 11
     },
     {
       "ext": "txt",
@@ -136,13 +136,13 @@
           "name": "easyMIDI_lib_function",
           "source": "github.com/algoGuy/EasyMIDI",
           "tabSize": 2,
-          "total": 8
+          "total": 9
         }
       ],
       "mime": "text/x-go",
       "mode": "go",
       "name": "Go",
-      "total": 8
+      "total": 9
     },
     {
       "ext": "html",
@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 36
+          "total": 41
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 36
+      "total": 41
     },
     {
       "ext": "kt",
@@ -306,7 +306,7 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 15
+          "total": 16
         },
         {
           "lines": 12,
@@ -319,7 +319,7 @@
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 24
+      "total": 25
     },
     {
       "ext": "r",
@@ -329,13 +329,13 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 40
+          "total": 43
         }
       ],
       "mime": "text/x-rsrc",
       "mode": "r",
       "name": "R",
-      "total": 40
+      "total": 43
     },
     {
       "ext": "js",
@@ -440,12 +440,14 @@
           "lines": 23,
           "name": "load_webView",
           "source": "swiftdeveloperblog.com",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mime": "text/x-swift",
       "mode": "swift",
-      "name": "Swift"
+      "name": "Swift",
+      "total": 1
     },
     {
       "ext": "pas",
@@ -528,11 +530,11 @@
   ],
   "stats": {
     "avgWPM": 30.638,
-    "backspaceClicks": 4210,
+    "backspaceClicks": 4410,
     "best": 94,
-    "correctClicks": 85143,
-    "correctLines": 3075,
-    "deletingTime": 2172,
-    "total": 257
+    "correctClicks": 88024,
+    "correctLines": 3178,
+    "deletingTime": 2259,
+    "total": 270
   }
 }
