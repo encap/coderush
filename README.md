@@ -105,7 +105,7 @@ Check out package.json for other useful scripts
 
 ## Roadmap
 
-See the [this page][issues-url] for a list of proposed features (and known issues) that I will implement (and fix) in the near future.
+See the [this page][issues-url] for a list of proposed features (and [known issues](#known-issues)) that I will implement (and fix) in the near future.
 
 
 ## Contributing
