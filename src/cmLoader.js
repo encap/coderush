@@ -86,7 +86,7 @@ CodeMirror.autoLoadMode = (instance, mode, mime) => new Promise((resolve, reject
 
   CodeMirror.requireMode(mode, () => {
     // instance.setOption('mode', mode);
-    console.log(mode, mime);
+    console.log(`[CMLOADER] loading: ${mode} ${mime}`);
     instance.setOption('mode', mime || mode);
     resolve('CB');
   }, reject);
