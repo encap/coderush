@@ -331,13 +331,13 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 44
+          "total": 4
         }
       ],
       "mime": "text/x-rsrc",
       "mode": "r",
       "name": "R",
-      "total": 44
+      "total": 4
     },
     {
       "ext": "js",
@@ -537,6 +537,6 @@
     "correctClicks": 90364,
     "correctLines": 3281,
     "deletingTime": 2321,
-    "total": 286
+    "total": 246
   }
 }
