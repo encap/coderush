@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 45
+          "total": 46
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 45
+      "total": 46
     },
     {
       "ext": "kt",
@@ -322,7 +322,7 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 16
+          "total": 18
         },
         {
           "lines": 12,
@@ -335,7 +335,7 @@
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 25
+      "total": 27
     },
     {
       "ext": "r",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.144,
-    "backspaceClicks": 4578,
+    "avgWPM": 30.149,
+    "backspaceClicks": 4611,
     "best": 94,
-    "correctClicks": 90979,
-    "correctLines": 3306,
-    "deletingTime": 2349,
-    "total": 249
+    "correctClicks": 91812,
+    "correctLines": 3321,
+    "deletingTime": 2366,
+    "total": 252
   }
 }
