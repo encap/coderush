@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 46
+          "total": 48
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 46
+      "total": 48
     },
     {
       "ext": "kt",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.149,
-    "backspaceClicks": 4611,
+    "avgWPM": 30.088,
+    "backspaceClicks": 4631,
     "best": 94,
-    "correctClicks": 91812,
-    "correctLines": 3321,
-    "deletingTime": 2366,
-    "total": 252
+    "correctClicks": 92274,
+    "correctLines": 3340,
+    "deletingTime": 2383,
+    "total": 254
   }
 }
