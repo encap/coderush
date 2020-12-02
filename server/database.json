@@ -104,13 +104,13 @@
           "name": "clone-it_example_level",
           "source": "own",
           "tabSize": 2,
-          "total": 31
+          "total": 32
         }
       ],
       "mime": "text/css",
       "mode": "css",
       "name": "CSS",
-      "total": 31
+      "total": 32
     },
     {
       "ext": "txt",
@@ -136,13 +136,13 @@
           "name": "easyMIDI_lib_function",
           "source": "github.com/algoGuy/EasyMIDI",
           "tabSize": 2,
-          "total": 10
+          "total": 11
         }
       ],
       "mime": "text/x-go",
       "mode": "go",
       "name": "Go",
-      "total": 10
+      "total": 11
     },
     {
       "ext": "html",
@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 48
+          "total": 50
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 48
+      "total": 50
     },
     {
       "ext": "kt",
@@ -216,13 +216,13 @@
           "name": "turtle_example",
           "source": "michael0x2a.com",
           "tabSize": 4,
-          "total": 2
+          "total": 4
         }
       ],
       "mime": "text/plain",
       "mode": "",
       "name": "Logo",
-      "total": 2
+      "total": 4
     },
     {
       "ext": "m",
@@ -292,13 +292,13 @@
           "name": "save_to_database",
           "source": "own",
           "tabSize": 2,
-          "total": 11
+          "total": 12
         }
       ],
       "mime": "text/x-php",
       "mode": "php",
       "name": "PHP",
-      "total": 11
+      "total": 12
     },
     {
       "ext": "ps1",
@@ -322,7 +322,7 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 18
+          "total": 20
         },
         {
           "lines": 12,
@@ -335,7 +335,7 @@
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 27
+      "total": 29
     },
     {
       "ext": "r",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.088,
-    "backspaceClicks": 4631,
+    "avgWPM": 30.059,
+    "backspaceClicks": 4667,
     "best": 94,
-    "correctClicks": 92274,
-    "correctLines": 3340,
-    "deletingTime": 2383,
-    "total": 254
+    "correctClicks": 93000,
+    "correctLines": 3361,
+    "deletingTime": 2411,
+    "total": 263
   }
 }
