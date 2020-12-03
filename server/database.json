@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 50
+          "total": 52
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 50
+      "total": 52
     },
     {
       "ext": "kt",
@@ -292,13 +292,13 @@
           "name": "save_to_database",
           "source": "own",
           "tabSize": 2,
-          "total": 12
+          "total": 13
         }
       ],
       "mime": "text/x-php",
       "mode": "php",
       "name": "PHP",
-      "total": 12
+      "total": 13
     },
     {
       "ext": "ps1",
@@ -322,7 +322,7 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 20
+          "total": 21
         },
         {
           "lines": 12,
@@ -335,7 +335,7 @@
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 29
+      "total": 30
     },
     {
       "ext": "r",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.059,
-    "backspaceClicks": 4667,
+    "avgWPM": 30.092,
+    "backspaceClicks": 4742,
     "best": 94,
-    "correctClicks": 93000,
-    "correctLines": 3361,
-    "deletingTime": 2411,
-    "total": 263
+    "correctClicks": 94516,
+    "correctLines": 3415,
+    "deletingTime": 2444,
+    "total": 267
   }
 }
