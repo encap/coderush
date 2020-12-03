@@ -88,13 +88,13 @@
           "name": "check_prime_number",
           "source": "own",
           "tabSize": 4,
-          "total": 11
+          "total": 13
         }
       ],
       "mime": "text/x-c++src",
       "mode": "clike",
       "name": "C++",
-      "total": 11
+      "total": 13
     },
     {
       "ext": "css",
@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 52
+          "total": 55
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 52
+      "total": 55
     },
     {
       "ext": "kt",
@@ -322,7 +322,7 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 21
+          "total": 23
         },
         {
           "lines": 12,
@@ -335,7 +335,7 @@
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 30
+      "total": 32
     },
     {
       "ext": "r",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.092,
-    "backspaceClicks": 4742,
+    "avgWPM": 29.915,
+    "backspaceClicks": 4863,
     "best": 94,
-    "correctClicks": 94516,
-    "correctLines": 3415,
-    "deletingTime": 2444,
-    "total": 267
+    "correctClicks": 96121,
+    "correctLines": 3479,
+    "deletingTime": 2508,
+    "total": 274
   }
 }
