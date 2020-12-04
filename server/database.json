@@ -40,13 +40,13 @@
           "name": "internet_test",
           "source": "own",
           "tabSize": 4,
-          "total": 2
+          "total": 3
         }
       ],
       "mime": "text/x-sh",
       "mode": "shell",
       "name": "Bash",
-      "total": 2
+      "total": 3
     },
     {
       "ext": "c",
@@ -104,13 +104,13 @@
           "name": "clone-it_example_level",
           "source": "own",
           "tabSize": 2,
-          "total": 32
+          "total": 33
         }
       ],
       "mime": "text/css",
       "mode": "css",
       "name": "CSS",
-      "total": 32
+      "total": 33
     },
     {
       "ext": "txt",
@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 55
+          "total": 58
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 55
+      "total": 58
     },
     {
       "ext": "kt",
@@ -322,14 +322,14 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 23
+          "total": 24
         },
         {
           "lines": 12,
           "name": "UrlParser",
           "source": "Python_boss",
           "tabSize": 4,
-          "total": 10
+          "total": 9
         }
       ],
       "mime": "text/x-python",
@@ -361,13 +361,13 @@
           "name": "search_input",
           "source": "github.com/ahfarmer/emoji-search",
           "tabSize": 2,
-          "total": 9
+          "total": 10
         }
       ],
       "mime": "text/jsx",
       "mode": "jsx",
       "name": "React",
-      "total": 9
+      "total": 10
     },
     {
       "ext": "rock",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 29.806,
-    "backspaceClicks": 4864,
+    "avgWPM": 30.095,
+    "backspaceClicks": 5040,
     "best": 94,
-    "correctClicks": 96121,
-    "correctLines": 3480,
-    "deletingTime": 2510,
-    "total": 275
+    "correctClicks": 98546,
+    "correctLines": 3586,
+    "deletingTime": 2567,
+    "total": 281
   }
 }
