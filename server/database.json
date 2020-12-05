@@ -72,13 +72,13 @@
           "name": "form_mouse_event",
           "source": "sanfoundry.com",
           "tabSize": 4,
-          "total": 8
+          "total": 9
         }
       ],
       "mime": "text/x-csharp",
       "mode": "clike",
       "name": "C#",
-      "total": 8
+      "total": 9
     },
     {
       "ext": "cpp",
@@ -104,13 +104,13 @@
           "name": "clone-it_example_level",
           "source": "own",
           "tabSize": 2,
-          "total": 33
+          "total": 34
         }
       ],
       "mime": "text/css",
       "mode": "css",
       "name": "CSS",
-      "total": 33
+      "total": 34
     },
     {
       "ext": "txt",
@@ -120,13 +120,13 @@
           "name": "delicious_hello_world",
           "source": "dangermouse.net",
           "tabSize": 8,
-          "total": 1
+          "total": 2
         }
       ],
       "mime": "text/x-ruby",
       "mode": "ruby",
       "name": "English",
-      "total": 1
+      "total": 2
     },
     {
       "ext": "go",
@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 58
+          "total": 59
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 58
+      "total": 59
     },
     {
       "ext": "kt",
@@ -425,13 +425,13 @@
           "name": "patterns_example",
           "source": "scala-lang.org",
           "tabSize": 2,
-          "total": 3
+          "total": 4
         }
       ],
       "mime": "text/x-scala",
       "mode": "clike",
       "name": "Scala",
-      "total": 3
+      "total": 4
     },
     {
       "ext": "sql",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.095,
-    "backspaceClicks": 5040,
+    "avgWPM": 30.328,
+    "backspaceClicks": 5180,
     "best": 94,
-    "correctClicks": 98546,
-    "correctLines": 3586,
-    "deletingTime": 2567,
-    "total": 281
+    "correctClicks": 101210,
+    "correctLines": 3697,
+    "deletingTime": 2620,
+    "total": 286
   }
 }
