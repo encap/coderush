@@ -31,7 +31,7 @@ jobs:
       run: npm install
     - name: Vue build
       if: env.stats == 'false' && env.code == 'false'
-      run: npm run build
+      run: npm run build:prod
     - name: Copy submitted code
       if: env.code == 'true'
       run: |
