@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve --port 80",
     "dev": "concurrently -r \"npm:serve\" \"npm:server\"",
     "vue-ui": "vue ui",
-    "build": "echo TEST=$VUE_APP_ASSETS_PATH && vue-cli-service build",
+    "build": "VUE_APP_ASSETS_PATH=\"\" echo TEST=$VUE_APP_ASSETS_PATH && vue-cli-service build",
     "build-local": "VUE_APP_ASSETS_PATH=\"\" vue-cli-service build",
     "lint": "vue-cli-service lint",
     "server": "DEBUG=socket.io:client* nodemon -V -w server/ -e js -x \"node ./server/server.js\"",
