@@ -18,14 +18,14 @@ jobs:
         output: ','
     - name: 'Analyze changes'
       run: |
-       [ "${{ steps.changes.outputs.files }}" =~ "server/(?!database" ] && echo "backend=true" >> $GITHUB_ENV;
-       [ "${{ steps.changes.outputs.files }}" =~ "src/|config\.js|\.env|public(?!/code" ] && echo "frontend=true" >> $GITHUB_ENV;
-       [ "${{ steps.changes.outputs.files }}" =~ "database\.json" ] && echo "database=true" >> $GITHUB_ENV;
-       [ "${{ steps.changes.outputs.files }}" =~ "public/code" ] && echo "code_examples=true" >> $GITHUB_ENV;
-       [ "${{ steps.changes.outputs.files }}" =~ "package\.json" ] && echo "package_json=true" >> $GITHUB_ENV;
-       [ "${{ steps.changes.outputs.files }}" =~ "\.github/|actions/" ] && echo "github_actions=true" >> $GITHUB_ENV;
-       [ $github_actions ] || [ $package_json ] || { [ $backend ] && [ $frontend ] } && echo "all=true" >> $GITHUB_ENV;
-       [ "${{ steps.changes.outputs.files }}" =~ "^(?!README.md$).*$" ] && echo "any=true" >> $GITHUB_ENV;
+       [[ "${{ steps.changes.outputs.files }}" =~ "server/(?!database" ]] && echo "backend=true" >> $GITHUB_ENV;
+       [[ "${{ steps.changes.outputs.files }}" =~ "src/|config\.js|\.env|public(?!/code" ]] && echo "frontend=true" >> $GITHUB_ENV;
+       [[ "${{ steps.changes.outputs.files }}" =~ "database\.json" ]] && echo "database=true" >> $GITHUB_ENV;
+       [[ "${{ steps.changes.outputs.files }}" =~ "public/code" ]] && echo "code_examples=true" >> $GITHUB_ENV;
+       [[ "${{ steps.changes.outputs.files }}" =~ "package\.json" ]] && echo "package_json=true" >> $GITHUB_ENV;
+       [[ "${{ steps.changes.outputs.files }}" =~ "\.github/|actions/" ]] && echo "github_actions=true" >> $GITHUB_ENV;
+       [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]] } && echo "all=true" >> $GITHUB_ENV;
+       [[ "${{ steps.changes.outputs.files }}" =~ "^(?!README.md$).*$" ]] && echo "any=true" >> $GITHUB_ENV;
 
     - name: Clone repository
       if: env.any
