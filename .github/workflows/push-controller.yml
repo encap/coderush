@@ -10,9 +10,6 @@ jobs:
   dispatch-push:
     name: Build and update
     runs-on: ubuntu-latest
-    env:
-      stats: ${{ contains(github.event.head_commit.message, 'Scheduled stats update') }}
-      code: ${{ contains(github.event.head_commit.message, 'Code submission') }}
     steps:
     - id: changes
       name: Get changed files
