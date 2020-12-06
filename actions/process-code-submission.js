@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-
+// eslint-disable-next-line import/no-extraneous-dependencies
 const core = require('@actions/core');
 
 const fs = require('fs');
