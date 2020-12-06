@@ -18,7 +18,7 @@ jobs:
       name: Get changed files
       uses: trilom/file-changes-action@v1.2.4
       with:
-        output: ',',
+        output: ','
     - name: 'Analyze changes'
       run: |
        [ "${{ steps.changes.outputs.files }}" =~ "server/(?!database" ] && echo "backend=true" >> $GITHUB_ENV;
