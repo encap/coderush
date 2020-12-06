@@ -10,8 +10,8 @@ require('./rooms.js')(http);
 
 
 const PATH = path.join(__dirname, '../dist');
-const PROD = process.env.NODE_ENV === 'production';
-console.log(`Environment ${process.env.NODE_ENV}`);
+const PROD = process.env.PRODUCTION;
+console.log(`Environment ${process.env.PROD}`);
 
 const toggleMaintanceMode = (action) => {
   axios({
