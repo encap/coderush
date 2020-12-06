@@ -72,13 +72,13 @@
           "name": "form_mouse_event",
           "source": "sanfoundry.com",
           "tabSize": 4,
-          "total": 9
+          "total": 10
         }
       ],
       "mime": "text/x-csharp",
       "mode": "clike",
       "name": "C#",
-      "total": 9
+      "total": 10
     },
     {
       "ext": "cpp",
@@ -104,13 +104,13 @@
           "name": "clone-it_example_level",
           "source": "own",
           "tabSize": 2,
-          "total": 34
+          "total": 35
         }
       ],
       "mime": "text/css",
       "mode": "css",
       "name": "CSS",
-      "total": 34
+      "total": 35
     },
     {
       "ext": "txt",
@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 59
+          "total": 62
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 59
+      "total": 62
     },
     {
       "ext": "kt",
@@ -322,7 +322,7 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 24
+          "total": 25
         },
         {
           "lines": 12,
@@ -335,7 +335,7 @@
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 33
+      "total": 34
     },
     {
       "ext": "r",
@@ -457,13 +457,13 @@
           "name": "load_webView",
           "source": "swiftdeveloperblog.com",
           "tabSize": 4,
-          "total": 1
+          "total": 2
         }
       ],
       "mime": "text/x-swift",
       "mode": "swift",
       "name": "Swift",
-      "total": 1
+      "total": 2
     },
     {
       "ext": "vb",
@@ -505,13 +505,13 @@
           "name": "codeRush_languages_list",
           "source": "own",
           "tabSize": 2,
-          "total": 13
+          "total": 14
         }
       ],
       "mime": "text/x-vue",
       "mode": "vue",
       "name": "Vue",
-      "total": 13
+      "total": 14
     },
     {
       "ext": "ws",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.328,
-    "backspaceClicks": 5180,
+    "avgWPM": 30.751,
+    "backspaceClicks": 5395,
     "best": 94,
-    "correctClicks": 101210,
-    "correctLines": 3697,
-    "deletingTime": 2620,
-    "total": 286
+    "correctClicks": 104392,
+    "correctLines": 3828,
+    "deletingTime": 2679,
+    "total": 294
   }
 }
