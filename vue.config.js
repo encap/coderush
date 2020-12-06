@@ -2,7 +2,7 @@ const zopfli = require('@gfx/zopfli');
 // const fs = require('fs');
 // const StatsPlugin = require('stats-webpack-plugin');
 
-console.log('TEST: `process.env.VUE_APP_ASSETS_PATH`');
+console.log(`TEST: '${process.env.VUE_APP_ASSETS_PATH}'`);
 const assetsPath = process.env.VUE_APP_ASSETS_PATH || '';
 
 module.exports = {
