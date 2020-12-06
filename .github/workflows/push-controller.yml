@@ -26,6 +26,7 @@ jobs:
        [[ "${{ steps.changes.outputs.files }}" =~ "\.github/|actions/" ]] && echo "github_actions=true" >> $GITHUB_ENV;
        [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
        [[ "${{ steps.changes.outputs.files }}" =~ "^(?!README.md$).*$" ]] && echo "any=true" >> $GITHUB_ENV;
+       exit 0;
 
     - name: Clone repository
       if: env.any
