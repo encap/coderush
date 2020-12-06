@@ -1,7 +1,6 @@
 ![Build and update][build-shield]
 ![Deploy to CDN][deploy-shield]
 [![Website status][website-shield]][main-url]
-![Dependecies Status][deps-shield]
 [![GitHub issues][issues-shield]][issues-url]
 [![GPLv3 License][license-shield]][license-url]
 [![Ask Me Anything !][ama-shield]][email-link]
@@ -161,7 +160,6 @@ Donate on PayPal: https://paypal.me/encap
 [pulls-url]: https://github.com/encap/coderush/pulls
 [issues-url]: https://github.com/encap/coderush/issues
 [issues-shield]: https://img.shields.io/github/issues/encap/coderush
-[deps-shield]: https://david-dm.org/encap/coderush.svg
 [main-screenshot]: .github/images/main-screenshot.webp
 [results-screenshot]: .github/images/results-screenshot.webp
 [deploy-shield]: https://github.com/encap/coderush/workflows/Deploy%20to%20CDN/badge.svg
