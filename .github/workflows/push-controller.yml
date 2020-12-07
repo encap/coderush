@@ -133,7 +133,7 @@ jobs:
         echo "message=$message database" >> $GITHUB_ENV;
     - name: Commit on deploy branch
       if: env.any
-      run: git commit -m $message
+      run: git commit -m "$message"
     - name: Push for deployment
       if: env.any
       run: git push
