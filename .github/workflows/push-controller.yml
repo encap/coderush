@@ -27,8 +27,10 @@ jobs:
        [[ $( echo ${{ steps.changes.outputs.files }} | wc -m ) -gt 10 ]] && echo "any=true" >> $GITHUB_ENV;
        exit 0;
     - name: 'Prepare env variable'
+        # env variables are avaible only in next steps
       run: |
        [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
+       exit 0;
     - name: DEBUG
       run: |
        echo "backend=$backend";
@@ -119,7 +121,7 @@ jobs:
       if: env.any
       run: |
         git add .
-        
+
     - name: Create commit message
       if: env.any
       run: |
