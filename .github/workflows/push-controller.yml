@@ -10,6 +10,8 @@ jobs:
   dispatch-push:
     name: Dispatch Push
     runs-on: ubuntu-latest
+    env:
+      workflow_dispatch: ${{ contains(github.event_name, 'workflow_dispatch') }}
     steps:
     - id: changes
       name: Get changed files
@@ -24,12 +26,12 @@ jobs:
         [[ "${{ steps.changes.outputs.files }}" =~ public/code ]] && echo "code_examples=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ package\.json ]] && echo "package_json=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ \.github/|actions/ ]] && echo "github_actions=true" >> $GITHUB_ENV;
-        [[ $( echo ${{ steps.changes.outputs.files }} | wc -m ) -gt 10 ]] && echo "any=true" >> $GITHUB_ENV;
+        [[ $( echo ${{ steps.changes.outputs.files }} | wc -m ) -gt 10 ]] || [[ $workflow_dispatch == true ]] && echo "any=true" >> $GITHUB_ENV;
         exit 0;
     - name: 'Prepare env variable'
         # env variables are available only in next steps
       run: |
-        [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
+        [[ "workflow_dispatch == true ]] || [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
         exit 0;
     - name: DEBUG
       run: |
