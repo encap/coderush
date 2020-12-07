@@ -26,8 +26,19 @@ jobs:
        [[ "${{ steps.changes.outputs.files }}" =~ "\.github/|actions/" ]] && echo "github_actions=true" >> $GITHUB_ENV;
        [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
        [[ "${{ steps.changes.outputs.files }}" =~ "^(?!README.md$).*$" ]] && echo "any=true" >> $GITHUB_ENV;
+       echo "test=test123" >> $GITHUB_ENV;
        exit 0;
-
+    - name: DEBUG
+      run: |
+      echo "test=$test";
+      echo "backend=$backend";
+      echo "frontend=$frontend";
+      echo "database=$database";
+      echo "code_examples=$code_examples";
+      echo "package_json=$package_json";
+      echo "github_actions=$github_actions";
+      echo "all=$all";
+      echo "any=$any";
     - name: Clone repository
       if: env.any
       run: "git clone --depth 1 https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git ."
