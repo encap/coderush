@@ -81,25 +81,17 @@ jobs:
         git config --global user.email "bot@github.com"
         git config --global user.name "Bot"
 
-    - name: Stage server and dist
-      if: env.all
-      run: |
-        git add -f server/ dist/
-    - name: Stage server
-      if: (env.backend || env.database) && !env.all
-      run: |
-        git add -f server/
-    - name: Stage dist
-      if: env.frontend && !env.all
+    - name: Stage frontend
+      if: env.frontend
       run: |
         git add -f dist/
-    - name: Stage dist/code
-      if: env.code_examples && !env.frontend && !env.all
+    - name: Stage code examples
+      if: env.code_examples && !env.frontend
       run: |
         git add -f dist/code/
 
     - name: Make temporary commit on master
-      if: env.any
+      if: env.frontend || env.code_examples
       run: |
         git commit -m 'temp commit'
     - name: Switch to deploy branch
