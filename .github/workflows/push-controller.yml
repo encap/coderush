@@ -1,4 +1,4 @@
-name: Push controller
+name: Push Controller
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   dispatch-push:
-    name: Build and update
+    name: Dispatch Push
     runs-on: ubuntu-latest
     steps:
     - id: changes
