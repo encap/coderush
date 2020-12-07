@@ -27,6 +27,14 @@ jobs:
        [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
        [[ "${{ steps.changes.outputs.files }}" =~ "^(?!README.md$).*$" ]] && echo "any=true" >> $GITHUB_ENV;
        echo "test=test123" >> $GITHUB_ENV;
+       echo "test=$test";
+       echo "backend=$backend";
+       echo "frontend=$frontend";
+       echo "database=$database";
+       echo "code_examples=$code_examples";
+       echo "package_json=$package_json";
+       echo "github_actions=$github_actions";
+       echo "all=$all";
        exit 0;
     - name: DEBUG
       run: |
