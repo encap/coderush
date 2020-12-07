@@ -45,7 +45,7 @@ jobs:
     - name: Clone repository
       if: env.any
       run: |
-        git clone --depth 1 --no-single-branch https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git .;
+        git clone --depth 1 --no-single-branch https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git .
 
     - name: Setup Node.js
       if: env.all || env.frontend
@@ -132,6 +132,7 @@ jobs:
         git add .
     - name: Check for changes
       if: env.any
+      continue-on-error: true
       run: |
         git diff-index --quiet HEAD --;
         [[ $? -eq 1 ]] && echo "changes=true" >> $GITHUB_ENV;
