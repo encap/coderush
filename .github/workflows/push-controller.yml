@@ -114,23 +114,23 @@ jobs:
     - name: Append all to commit message
       if: env.all
       run: |
-        echo "message=${$message all}" >> $GITHUB_ENV;
+        echo "message=$message all" >> $GITHUB_ENV;
     - name: Append frontend to commit message
       if: env.frontend && !env.all
       run: |
-        echo "message=${$message frontend}" >> $GITHUB_ENV;
+        echo "message=$message frontend" >> $GITHUB_ENV;
     - name: Append code examples to commit message
       if: env.code_examples && !env.all
       run: |
-        echo "message=${$message code examples}" >> $GITHUB_ENV;
+        echo "message=$message code examples" >> $GITHUB_ENV;
     - name: Append backend to commit message
       if: env.backend && !env.all
       run: |
-        echo "message=${$message backend}" >> $GITHUB_ENV;
+        echo "message=$message backend" >> $GITHUB_ENV;
     - name: Append database to commit message
       if: env.databse && !env.all && !env.backend
       run: |
-        echo "message=${$message database}" >> $GITHUB_ENV;
+        echo "message=$message database" >> $GITHUB_ENV;
     - name: Commit on deploy branch
       if: env.any
       run: git commit -m $message
