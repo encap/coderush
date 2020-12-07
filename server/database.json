@@ -120,13 +120,13 @@
           "name": "delicious_hello_world",
           "source": "dangermouse.net",
           "tabSize": 8,
-          "total": 2
+          "total": 3
         }
       ],
       "mime": "text/x-ruby",
       "mode": "ruby",
       "name": "English",
-      "total": 2
+      "total": 3
     },
     {
       "ext": "go",
@@ -152,13 +152,13 @@
           "name": "clone-it_results_menu",
           "source": "own",
           "tabSize": 2,
-          "total": 20
+          "total": 21
         }
       ],
       "mime": "text/xml",
       "mode": "xml",
       "name": "HTML",
-      "total": 20
+      "total": 21
     },
     {
       "ext": "java",
@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 62
+          "total": 63
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 62
+      "total": 63
     },
     {
       "ext": "kt",
@@ -261,12 +261,14 @@
           "lines": 33,
           "name": "camel_case",
           "source": "progopedia.com",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mime": "text/x-pascal",
       "mode": "pascal",
-      "name": "Pascal"
+      "name": "Pascal",
+      "total": 1
     },
     {
       "ext": "pl",
@@ -322,7 +324,7 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 25
+          "total": 27
         },
         {
           "lines": 12,
@@ -335,7 +337,7 @@
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 34
+      "total": 36
     },
     {
       "ext": "r",
@@ -505,13 +507,13 @@
           "name": "codeRush_languages_list",
           "source": "own",
           "tabSize": 2,
-          "total": 14
+          "total": 15
         }
       ],
       "mime": "text/x-vue",
       "mode": "vue",
       "name": "Vue",
-      "total": 14
+      "total": 15
     },
     {
       "ext": "ws",
@@ -531,12 +533,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.752,
-    "backspaceClicks": 5436,
+    "avgWPM": 30.827,
+    "backspaceClicks": 5517,
     "best": 94,
-    "correctClicks": 104893,
-    "correctLines": 3852,
-    "deletingTime": 2700,
-    "total": 295
+    "correctClicks": 106609,
+    "correctLines": 3900,
+    "deletingTime": 2732,
+    "total": 302
   }
 }
