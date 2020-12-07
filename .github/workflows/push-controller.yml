@@ -19,7 +19,7 @@ jobs:
     - name: 'Analyze changes'
       run: |
        echo "xd=dx" >> $GITHUB_ENV;
-       [[ "${{ steps.changes.outputs.files }}" =~ server/(?!database ]] && echo "backend=true" >> $GITHUB_ENV;
+       [[ "${{ steps.changes.outputs.files }}" =~ server/(?!database) ]] && echo "backend=true" >> $GITHUB_ENV;
        [[ "${{ steps.changes.outputs.files }}" =~ src/|config\.js|\.env|public(?!/code ]] && echo "frontend=true" >> $GITHUB_ENV;
        [[ "${{ steps.changes.outputs.files }}" =~ database\.json ]] && echo "database=true" >> $GITHUB_ENV;
        [[ "${{ steps.changes.outputs.files }}" =~ public/code ]] && echo "code_examples=true" >> $GITHUB_ENV;
