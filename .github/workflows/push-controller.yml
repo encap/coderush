@@ -31,7 +31,7 @@ jobs:
     - name: 'Prepare env variable'
         # env variables are available only in next steps
       run: |
-        [[ "workflow_dispatch == true ]] || [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
+        [[ $workflow_dispatch == true ]] || [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
         exit 0;
     - name: DEBUG
       run: |
