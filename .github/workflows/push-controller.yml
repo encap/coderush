@@ -134,14 +134,13 @@ jobs:
       if: env.any
       continue-on-error: true
       run: |
-        git diff-index --quiet HEAD --;
-        [[ $? -eq 1 ]] && echo "changes=true" >> $GITHUB_ENV;
+        ! git diff-index --quiet HEAD -- && echo "changes=true" >> $GITHUB_ENV;
         exit 0;
     - name: DEBUG
       if: env.any
       run: |
         echo "changes=$changes";
-        
+
     - name: Create commit message
       if: env.changes
       run: |
