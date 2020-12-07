@@ -18,33 +18,34 @@ jobs:
         output: ','
     - name: 'Analyze changes'
       run: |
-       [[ "${{ steps.changes.outputs.files }}" =~ server/(?!database) ]] && echo "backend=true" >> $GITHUB_ENV;
-       [[ "${{ steps.changes.outputs.files }}" =~ src/|config\.js|\.env|public(?!/code) ]] && echo "frontend=true" >> $GITHUB_ENV;
-       [[ "${{ steps.changes.outputs.files }}" =~ database\.json ]] && echo "database=true" >> $GITHUB_ENV;
-       [[ "${{ steps.changes.outputs.files }}" =~ public/code ]] && echo "code_examples=true" >> $GITHUB_ENV;
-       [[ "${{ steps.changes.outputs.files }}" =~ package\.json ]] && echo "package_json=true" >> $GITHUB_ENV;
-       [[ "${{ steps.changes.outputs.files }}" =~ \.github/|actions/ ]] && echo "github_actions=true" >> $GITHUB_ENV;
-       [[ $( echo ${{ steps.changes.outputs.files }} | wc -m ) -gt 10 ]] && echo "any=true" >> $GITHUB_ENV;
-       exit 0;
+        [[ "${{ steps.changes.outputs.files }}" =~ server/(?!database) ]] && echo "backend=true" >> $GITHUB_ENV;
+        [[ "${{ steps.changes.outputs.files }}" =~ src/|config\.js|\.env|public(?!/code) ]] && echo "frontend=true" >> $GITHUB_ENV;
+        [[ "${{ steps.changes.outputs.files }}" =~ database\.json ]] && echo "database=true" >> $GITHUB_ENV;
+        [[ "${{ steps.changes.outputs.files }}" =~ public/code ]] && echo "code_examples=true" >> $GITHUB_ENV;
+        [[ "${{ steps.changes.outputs.files }}" =~ package\.json ]] && echo "package_json=true" >> $GITHUB_ENV;
+        [[ "${{ steps.changes.outputs.files }}" =~ \.github/|actions/ ]] && echo "github_actions=true" >> $GITHUB_ENV;
+        [[ $( echo ${{ steps.changes.outputs.files }} | wc -m ) -gt 10 ]] && echo "any=true" >> $GITHUB_ENV;
+        exit 0;
     - name: 'Prepare env variable'
-        # env variables are avaible only in next steps
+        # env variables are available only in next steps
       run: |
-       [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
-       exit 0;
+        [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
+        exit 0;
     - name: DEBUG
       run: |
-       echo "backend=$backend";
-       echo "frontend=$frontend";
-       echo "database=$database";
-       echo "code_examples=$code_examples";
-       echo "package_json=$package_json";
-       echo "github_actions=$github_actions";
-       echo "all=$all";
-       echo "any=$any";
+        echo "backend=$backend";
+        echo "frontend=$frontend";
+        echo "database=$database";
+        echo "code_examples=$code_examples";
+        echo "package_json=$package_json";
+        echo "github_actions=$github_actions";
+        echo "all=$all";
+        echo "any=$any";
 
     - name: Clone repository
       if: env.any
-      run: "git clone --depth 1 --no-single-branch https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git ."
+      run: |
+        git clone --depth 1 --no-single-branch https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git .;
 
     - name: Setup Node.js
       if: env.all || env.frontend
@@ -58,10 +59,12 @@ jobs:
         key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
     - name: Run npm install
       if: env.all || env.frontend
-      run: npm install
+      run: |
+        npm install
     - name: Vue build
       if: env.all || env.frontend
-      run: npm run build:prod
+      run: |
+        npm run build:prod
     - name: Copy submitted code
       if: env.code_examples && !env.frontend
       run: |
@@ -77,23 +80,29 @@ jobs:
 
     - name: Stage server and dist
       if: env.all
-      run: git add -f server/ dist/
+      run: |
+        git add -f server/ dist/
     - name: Stage server
       if: (env.backend || env.database) && !env.all
-      run: git add -f server/
+      run: |
+        git add -f server/
     - name: Stage dist
       if: env.frontend && !env.all
-      run: git add -f dist/
+      run: |
+        git add -f dist/
     - name: Stage dist/code
       if: env.code_examples && !env.frontend && !env.all
-      run: git add -f dist/code/
+      run: |
+        git add -f dist/code/
 
     - name: Make temporary commit on master
       if: env.any
-      run: git commit -m 'temp commit'
+      run: |
+        git commit -m 'temp commit'
     - name: Switch to deploy branch
       if: env.any
-      run: git checkout -f deploy
+      run: |
+        git checkout -f deploy
 
     - name: Clear all old files
       if: env.all || env.frontend
@@ -121,35 +130,41 @@ jobs:
       if: env.any
       run: |
         git add .
+    - name: Check for changes
+      if: env.any
+      run: |
+        [[ ! $(git diff-index --quiet HEAD --) ]] && echo "changes=true" >> $GITHUB_ENV;
 
     - name: Create commit message
-      if: env.any
+      if: env.changes
       run: |
         echo "message=Deploy" >> $GITHUB_ENV;
     - name: Append all to commit message
-      if: env.all
+      if: env.changes && env.all
       run: |
         echo "message=$message all" >> $GITHUB_ENV;
     - name: Append frontend to commit message
-      if: env.frontend && !env.all
+      if: env.changes && env.frontend && !env.all
       run: |
         echo "message=$message frontend" >> $GITHUB_ENV;
     - name: Append code examples to commit message
-      if: env.code_examples && !env.all
+      if: env.changes && env.code_examples && !env.all
       run: |
         echo "message=$message code examples" >> $GITHUB_ENV;
     - name: Append backend to commit message
-      if: env.backend && !env.all
+      if: env.changes && env.backend && !env.all
       run: |
         echo "message=$message backend" >> $GITHUB_ENV;
     - name: Append database to commit message
-      if: env.databse && !env.all && !env.backend
+      if: env.changes && env.databse && !env.all && !env.backend
       run: |
         echo "message=$message database" >> $GITHUB_ENV;
         
     - name: Commit on deploy branch
-      if: env.any
-      run: git commit -m "$message"
+      if: env.changes
+      run: |
+        git commit -m "$message"
     - name: Push for deployment
-      if: env.any
-      run: git push
+      if: env.changes
+      run: |
+        git push
