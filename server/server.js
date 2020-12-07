@@ -13,6 +13,40 @@ const PATH = path.join(__dirname, '../dist');
 const PROD = process.env.PRODUCTION;
 console.log(`Environment ${PROD}`);
 
+if (process.env.AUTO_PROMOTE) {
+  axios({
+    url: 'https://api.heroku.com/apps/coderush',
+    method: 'POST',
+    headers: {
+      Accept: 'application/vnd.heroku+json; version=3',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.HEROKU_API_KEY}`,
+    },
+    withCredentials: true,
+    data: {
+      pipeline: {
+        id: process.env.PIPELINE_ID,
+      },
+      source: {
+        app: {
+          id: process.env.SOURCE_APP_ID,
+        },
+      },
+      targets: [
+        {
+          app: {
+            id: process.env.TARGET_APP_ID,
+          },
+        },
+      ],
+    },
+  }).then(() => {
+    console.log('Auto promotion succeded');
+  }).catch(() => {
+    console.error('Auto promotion failed');
+  });
+}
+
 const toggleMaintanceMode = (action) => {
   axios({
     url: 'https://api.heroku.com/apps/coderush',
