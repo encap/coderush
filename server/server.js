@@ -15,7 +15,7 @@ console.log(`Environment ${PROD}`);
 
 if (process.env.AUTO_PROMOTE) {
   axios({
-    url: 'https://api.heroku.com/apps/coderush',
+    url: 'https://api.heroku.com/pipeline-promotions',
     method: 'POST',
     headers: {
       Accept: 'application/vnd.heroku+json; version=3',
