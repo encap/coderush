@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 62
+          "total": 63
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 62
+      "total": 63
     },
     {
       "ext": "kt",
@@ -261,12 +261,14 @@
           "lines": 33,
           "name": "camel_case",
           "source": "progopedia.com",
-          "tabSize": 4
+          "tabSize": 4,
+          "total": 1
         }
       ],
       "mime": "text/x-pascal",
       "mode": "pascal",
-      "name": "Pascal"
+      "name": "Pascal",
+      "total": 1
     },
     {
       "ext": "pl",
@@ -505,13 +507,13 @@
           "name": "codeRush_languages_list",
           "source": "own",
           "tabSize": 2,
-          "total": 14
+          "total": 15
         }
       ],
       "mime": "text/x-vue",
       "mode": "vue",
       "name": "Vue",
-      "total": 14
+      "total": 15
     },
     {
       "ext": "ws",
@@ -531,12 +533,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.682,
-    "backspaceClicks": 5471,
+    "avgWPM": 30.827,
+    "backspaceClicks": 5517,
     "best": 94,
-    "correctClicks": 105864,
-    "correctLines": 3870,
-    "deletingTime": 2719,
-    "total": 299
+    "correctClicks": 106609,
+    "correctLines": 3900,
+    "deletingTime": 2732,
+    "total": 302
   }
 }
