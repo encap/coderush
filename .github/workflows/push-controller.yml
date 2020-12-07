@@ -91,10 +91,14 @@ jobs:
       if: env.all || env.frontend
       run: |
         rm -r server/ dist/
-    - name: Clear only old server and code examples
-      if: env.frontend == ''
+    - name: Clear only server files
+      if: env.backend && !env.all && !env.frontend
       run: |
-        rm -r server/ dist/code/
+        rm -r server/*.js
+    - name: Clear only old database and code examples
+      if: env.code_examples && !env.frontend && !env.all && 
+      run: |
+        rm -r server/database.json dist/code/
     - name: Checkout all files from master
       if: env.all || env.frontend
       run: |
