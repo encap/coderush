@@ -77,13 +77,13 @@ jobs:
       if: env.all
       run: git add -f server/ dist/
     - name: Stage server
-      if: env.backend || env.database
+      if: (env.backend || env.database) && !env.all
       run: git add -f server/
     - name: Stage dist
-      if: env.frontend
+      if: env.frontend && !env.all
       run: git add -f dist/
     - name: Stage dist/code
-      if: env.code_examples && !env.frontend
+      if: env.code_examples && !env.frontend && !env.all
       run: git add -f dist/code/
 
     - name: Make temporary commit on master
@@ -115,6 +115,11 @@ jobs:
       run: |
         git checkout master -- "server/" "dist/code/"
 
+    - name: Stage all changes
+      if: env.any
+      run: |
+        git add .
+        
     - name: Create commit message
       if: env.any
       run: |
