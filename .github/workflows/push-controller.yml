@@ -133,7 +133,9 @@ jobs:
     - name: Check for changes
       if: env.any
       run: |
-        [[ ! $(git diff-index --quiet HEAD --) ]] && echo "changes=true" >> $GITHUB_ENV;
+        git diff-index --quiet HEAD --;
+        [[ $? -eq 1 ]] && echo "changes=true" >> $GITHUB_ENV;
+        exit 0;
 
     - name: Create commit message
       if: env.changes
