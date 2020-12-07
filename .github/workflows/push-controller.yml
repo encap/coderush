@@ -137,7 +137,11 @@ jobs:
         git diff-index --quiet HEAD --;
         [[ $? -eq 1 ]] && echo "changes=true" >> $GITHUB_ENV;
         exit 0;
-
+    - name: DEBUG
+      if: env.any
+      run: |
+        echo "changes=$changes";
+        
     - name: Create commit message
       if: env.changes
       run: |
