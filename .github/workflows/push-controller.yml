@@ -19,8 +19,9 @@ jobs:
       with:
         output: ','
     - name: 'Analyze changes'
+      # regex lookahead and lookbehind don't work in [[ ]]
       run: |
-        [[ "${{ steps.changes.outputs.files }}" =~ server/.+\.js(?=(,|$)) ]] && echo "backend=true" >> $GITHUB_ENV;
+        [[ "$(echo "${{ steps.changes.outputs.files }}" | sed "s/database.json//")" =~ server/\W+\.js ]] && echo "backend=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ src/|config\.js|\.env|public(?!/code) ]] && echo "frontend=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ database\.json ]] && echo "database=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ public/code ]] && echo "code_examples=true" >> $GITHUB_ENV;
