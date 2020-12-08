@@ -86,12 +86,12 @@ jobs:
       run: |
         git add -f dist/
     - name: Stage code examples
-      if: env.code_examples && !env.frontend
+      if: env.code_examples && !env.frontend && !env.all
       run: |
         git add -f dist/code/
 
     - name: Make temporary commit on master
-      if: env.frontend || env.code_examples
+      if: env.all || env.frontend || env.code_examples
       run: |
         git commit -m 'temp commit'
     - name: Switch to deploy branch
