@@ -94,8 +94,8 @@ const getIndexHtml = () => {
       });
   }
 };
-setTimeout(getIndexHtml, 1000 * 60 * 2); // wait for cdn to update
-setInterval(getIndexHtml, 1000 * 60 * 60 * 12);
+
+getIndexHtml();
 
 let database = {};
 let cachedStringifiedDatabase = '';
@@ -183,6 +183,7 @@ app.use((req, res, next) => {
 
 // heroku free tier goes to sleep after 30 minutes of network inactivity
 app.get('/api/ping', (req, res) => {
+  getIndexHtml();
   res.send('OK');
 });
 
@@ -279,6 +280,11 @@ app.post('/api/stats', (req, res) => {
   }
 
   res.send('OK');
+});
+
+app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
+  getIndexHtml();
+  res.sendStatus(200);
 });
 
 if (!PROD) {

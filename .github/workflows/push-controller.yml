@@ -117,7 +117,7 @@ jobs:
       run: |
         git checkout -f master -- "server/" "dist/"
     - name: Checkout only server and code_examples from master
-      if: env.frontend == ''
+      if: env.frontend == '' && !env.all
       run: |
         git checkout master -- "server/" "dist/code/"
 
