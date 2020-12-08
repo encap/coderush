@@ -329,13 +329,13 @@
           "name": "UrlParser",
           "source": "Python_boss",
           "tabSize": 4,
-          "total": 9
+          "total": 10
         }
       ],
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 34
+      "total": 35
     },
     {
       "ext": "r",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.797,
-    "backspaceClicks": 5449,
+    "avgWPM": 30.878,
+    "backspaceClicks": 5457,
     "best": 94,
-    "correctClicks": 105428,
-    "correctLines": 3875,
-    "deletingTime": 2705,
-    "total": 296
+    "correctClicks": 105622,
+    "correctLines": 3884,
+    "deletingTime": 2708,
+    "total": 297
   }
 }
