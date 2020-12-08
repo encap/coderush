@@ -184,7 +184,7 @@ app.use((req, res, next) => {
 // heroku free tier goes to sleep after 30 minutes of network inactivity
 app.get('/api/ping', (req, res) => {
   getIndexHtml();
-  res.send('OK');
+  res.sendStatus(200);
 });
 
 const keepAwake = () => {
@@ -246,7 +246,7 @@ app.post('/api/upload', (req, res) => {
     })
       .then(() => {
         console.log('Code submission succeded');
-        res.send('OK');
+        res.sendStatus(200);
       })
       .catch((error) => {
         console.warn('Code submission failed');
@@ -279,7 +279,7 @@ app.post('/api/stats', (req, res) => {
     newStats = true;
   }
 
-  res.send('OK');
+  res.sendStatus(200);
 });
 
 app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
