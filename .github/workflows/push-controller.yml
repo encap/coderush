@@ -82,7 +82,7 @@ jobs:
         git config --global user.name "Bot"
 
     - name: Stage frontend
-      if: env.frontend
+      if: env.all || env.frontend
       run: |
         git add -f dist/
     - name: Stage code examples
