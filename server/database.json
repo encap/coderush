@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 62
+          "total": 63
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 62
+      "total": 63
     },
     {
       "ext": "kt",
@@ -322,20 +322,20 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 26
+          "total": 25
         },
         {
           "lines": 12,
           "name": "UrlParser",
           "source": "Python_boss",
           "tabSize": 4,
-          "total": 12
+          "total": 9
         }
       ],
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 38
+      "total": 34
     },
     {
       "ext": "r",
@@ -345,13 +345,13 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 6
+          "total": 4
         }
       ],
       "mime": "text/x-rsrc",
       "mode": "r",
       "name": "R",
-      "total": 6
+      "total": 4
     },
     {
       "ext": "js",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.971,
-    "backspaceClicks": 5498,
+    "avgWPM": 30.811,
+    "backspaceClicks": 5471,
     "best": 94,
-    "correctClicks": 106755,
-    "correctLines": 3937,
-    "deletingTime": 2722,
-    "total": 302
+    "correctClicks": 105827,
+    "correctLines": 3890,
+    "deletingTime": 2712,
+    "total": 297
   }
 }
