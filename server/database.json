@@ -322,20 +322,20 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 25
+          "total": 26
         },
         {
           "lines": 12,
           "name": "UrlParser",
           "source": "Python_boss",
           "tabSize": 4,
-          "total": 10
+          "total": 12
         }
       ],
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 35
+      "total": 38
     },
     {
       "ext": "r",
@@ -345,13 +345,13 @@
           "name": "factorial_of_a_number",
           "source": "datamentor.io",
           "tabSize": 2,
-          "total": 4
+          "total": 6
         }
       ],
       "mime": "text/x-rsrc",
       "mode": "r",
       "name": "R",
-      "total": 4
+      "total": 6
     },
     {
       "ext": "js",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.878,
-    "backspaceClicks": 5457,
+    "avgWPM": 30.971,
+    "backspaceClicks": 5498,
     "best": 94,
-    "correctClicks": 105622,
-    "correctLines": 3884,
-    "deletingTime": 2708,
-    "total": 297
+    "correctClicks": 106755,
+    "correctLines": 3937,
+    "deletingTime": 2722,
+    "total": 302
   }
 }
