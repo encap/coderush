@@ -116,10 +116,14 @@ jobs:
       if: env.all || env.frontend
       run: |
         git checkout -f master -- "server/" "dist/"
-    - name: Checkout only server and code_examples from master
-      if: env.frontend == '' && !env.all
+    - name: Checkout only server from master
+      if: env.backend && !env.all && !env.frontend
       run: |
-        git checkout master -- "server/" "dist/code/"
+        git checkout master -- "server/"
+    - name: Checkotu only code examples from master
+      if: env.code_examples && !env.all && !env.frontend
+      run: |
+        git checkout master -- "dist/code/"
 
     - name: Stage all changes
       if: env.any
