@@ -137,6 +137,9 @@ I made CodeRush open source because without other OS projects I wouldn't be able
 
 Source code is distributed under the [GNU GPL v3][license-url] License. However, I would advise against looking here for the best solutions or forking it because this was my first Vue.js project.
 
+## Miscellaneous
+  I am aware that the use of CDN and multiple steps in GitHub Actions is probably an overkill for this project, but I just wanted to play with it.
+
 
 ## Contact
 Łukasz Wielgus
