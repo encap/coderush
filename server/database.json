@@ -72,13 +72,13 @@
           "name": "form_mouse_event",
           "source": "sanfoundry.com",
           "tabSize": 4,
-          "total": 12
+          "total": 11
         }
       ],
       "mime": "text/x-csharp",
       "mode": "clike",
       "name": "C#",
-      "total": 12
+      "total": 11
     },
     {
       "ext": "cpp",
@@ -152,13 +152,13 @@
           "name": "clone-it_results_menu",
           "source": "own",
           "tabSize": 2,
-          "total": 20
+          "total": 21
         }
       ],
       "mime": "text/xml",
       "mode": "xml",
       "name": "HTML",
-      "total": 20
+      "total": 21
     },
     {
       "ext": "java",
@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 63
+          "total": 62
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 63
+      "total": 62
     },
     {
       "ext": "kt",
@@ -322,7 +322,7 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 26
+          "total": 25
         },
         {
           "lines": 12,
@@ -335,7 +335,7 @@
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 35
+      "total": 34
     },
     {
       "ext": "r",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.776,
-    "backspaceClicks": 5490,
+    "avgWPM": 30.714,
+    "backspaceClicks": 5449,
     "best": 94,
-    "correctClicks": 106082,
-    "correctLines": 3892,
-    "deletingTime": 2721,
-    "total": 299
+    "correctClicks": 105438,
+    "correctLines": 3876,
+    "deletingTime": 2705,
+    "total": 297
   }
 }
