@@ -152,13 +152,13 @@
           "name": "clone-it_results_menu",
           "source": "own",
           "tabSize": 2,
-          "total": 21
+          "total": 22
         }
       ],
       "mime": "text/xml",
       "mode": "xml",
       "name": "HTML",
-      "total": 21
+      "total": 22
     },
     {
       "ext": "java",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.714,
-    "backspaceClicks": 5449,
+    "avgWPM": 30.728,
+    "backspaceClicks": 5467,
     "best": 94,
-    "correctClicks": 105438,
-    "correctLines": 3876,
-    "deletingTime": 2705,
-    "total": 297
+    "correctClicks": 105590,
+    "correctLines": 3881,
+    "deletingTime": 2715,
+    "total": 298
   }
 }
