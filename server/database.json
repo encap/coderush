@@ -72,13 +72,13 @@
           "name": "form_mouse_event",
           "source": "sanfoundry.com",
           "tabSize": 4,
-          "total": 11
+          "total": 12
         }
       ],
       "mime": "text/x-csharp",
       "mode": "clike",
       "name": "C#",
-      "total": 11
+      "total": 12
     },
     {
       "ext": "cpp",
@@ -322,7 +322,7 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 25
+          "total": 26
         },
         {
           "lines": 12,
@@ -335,7 +335,7 @@
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 34
+      "total": 35
     },
     {
       "ext": "r",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.811,
-    "backspaceClicks": 5471,
+    "avgWPM": 30.776,
+    "backspaceClicks": 5490,
     "best": 94,
-    "correctClicks": 105827,
-    "correctLines": 3890,
-    "deletingTime": 2712,
-    "total": 297
+    "correctClicks": 106082,
+    "correctLines": 3892,
+    "deletingTime": 2721,
+    "total": 299
   }
 }
