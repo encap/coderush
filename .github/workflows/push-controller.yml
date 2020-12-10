@@ -107,7 +107,7 @@ jobs:
       run: |
         rm -r server/*.js
     - name: Clear only old database and code examples
-      if: env.code_examples && !env.frontend && !env.all
+      if: env.code_examples && !env.all && !env.frontend 
       run: |
         rm -r server/database.json dist/code/
 
