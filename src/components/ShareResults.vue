@@ -1,17 +1,12 @@
 <template>
   <div class="container" :class="{showAll: showAll, shrink: shrink}">
-    <template v-if="showAll">
-      <button @click="shareFacebook">
-        <fa :icon="['fab', 'facebook-f']" size="lg" />
-      </button>
-      <button @click="shareMessenger">
-        <fa :icon="['fab', 'facebook-messenger']" size="lg" />
-      </button>
-      <button @click="shareTwitter">
-        <fa :icon="['fab', 'twitter']" size="lg" />
-      </button>
-    </template>
-    <label>
+    <ShareButtons
+      ref="ShareButtons"
+      size="lg"
+      :show-link="false"
+      class="share-buttons"
+    />
+    <label class="results-share-button">
       <fa :icon="['fas', showAll ? 'times' : 'share-alt']" size="lg" />
       <input
         :disabled="$route.path === '/about'"
@@ -23,13 +18,28 @@
 </template>
 
 <script>
+import ShareButtons from '@/components/ShareButtons.vue';
+
 export default {
   name: 'ShareResults',
+  components: {
+    ShareButtons,
+  },
   data() {
     return {
       showAll: false,
       shrink: false,
     };
+  },
+  mounted() {
+    // an ugly subsitution for fragment components which don't exist in Vue yet
+    Array.from(this.$refs.ShareButtons.$el.children)
+      .forEach((child) => {
+        child.classList.add('results-share-button');
+        this.$el.appendChild(child);
+      });
+    const el = this.$refs.ShareButtons.$el;
+    el.parentNode.removeChild(el);
   },
   methods: {
     async animate() {
@@ -38,21 +48,6 @@ export default {
       this.showAll = !this.showAll;
       this.shrink = false;
     },
-    popUpWindow(url, w, h) {
-      const left = (window.innerWidth / 2) - (w / 2);
-      const top = (window.innerHeight / 2) - (h / 2);
-      window.open(url, 'Share', `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${w}, height=${h}, top=${top}, left=${left}`);
-    },
-    shareFacebook() {
-      this.popUpWindow('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=https%3A%2F%2Fcoderush.xyz%2F&display=popup&ref=plugin&src=share_button', 500, 600);
-    },
-    shareMessenger() {
-      this.popUpWindow('http://www.facebook.com/dialog/send?app_id=346639949987830&link=https://coderush.xyz/&redirect_uri=https://coderush.xyz/', 1000, 700);
-    },
-    shareTwitter() {
-      this.popUpWindow('https://twitter.com/intent/tweet?text=Check%20your%20code%20writing%20speed%20on%20CodeRush&url=https://coderush.xyz/', 600, 600);
-    },
-
   },
 };
 </script>
@@ -71,9 +66,6 @@ export default {
     grid-template-rows: 1fr 1fr
     grid-template-columns: 1fr 1fr
 
-    button,label
-      @include shadow(0.2)
-
     label
       width: auto
       height: auto
@@ -81,7 +73,15 @@ export default {
   &.shrink
     transform: scale(0.3)
 
-button, label
+</style>
+
+<style lang="sass">
+// can't be in scope becouse of vue attributes selector
+.showAll .results-share-button
+  display: flex
+  @include shadow(0.2)
+
+.results-share-button
   @include shadow(0.1)
   display: flex
   align-items: center
@@ -104,4 +104,7 @@ button, label
     opacity: 0
     transition: opacity 0.15s ease-in-out
     z-index: -1
+
+button.results-share-button
+  display: none
 </style>

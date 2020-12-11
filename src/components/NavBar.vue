@@ -26,6 +26,16 @@
           Contribute
         </span>
       </router-link>
+      <div class="line" />
+      <button class="link" :disabled="thin" @click="toggleShare">
+        <fa :icon="['fas', showShareOptions ? 'times' : 'share-alt']" />
+
+        <span class="btn-text">
+          <ShareButtons v-if="showShareOptions" class="share-buttons" @linkCopied="showCopyConfirmation = true" />
+
+          <template v-else> {{ showCopyConfirmation ? 'Link copied' : 'Share' }}</template>
+        </span>
+      </button>
     </div>
     <RoomPanel class="room" />
     <div class="author">
@@ -40,18 +50,40 @@
 </template>
 
 <script>
+import ShareButtons from '@/components/ShareButtons.vue';
 import RoomPanel from '@/components/RoomPanel.vue';
-import { mapGetters } from 'vuex';
 
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'NavBar',
   components: {
     RoomPanel,
+    ShareButtons,
   },
-
+  props: {
+    thin: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      showShareOptions: false,
+      showCopyConfirmation: false,
+    };
+  },
   computed: {
     ...mapGetters(['room', 'language', 'userLanguage']),
+  },
+  watch: {
+    showCopyConfirmation(current) {
+      if (current) {
+        setTimeout(() => {
+          this.showCopyConfirmation = false;
+        }, 5000);
+      }
+    },
   },
   methods: {
     mainPage(action = false) {
@@ -62,6 +94,9 @@ export default {
       } else {
         this.$router.push('/');
       }
+    },
+    toggleShare() {
+      this.showShareOptions = !this.showShareOptions;
     },
   },
 };
@@ -163,6 +198,14 @@ svg
   width: 1em !important
   transition: transform var(--nav-trans-dur) $nav-trans-timing 0s
 
+.share-buttons
+  display: inline-flex
+
+  &::v-deep
+    button
+      display: inline-block
+      margin: 0 0.5em
+
 .room
   @include padding-left
   flex-grow: 1
@@ -183,5 +226,6 @@ svg
 
     .author-name
       white-space: nowrap
+
 
 </style>

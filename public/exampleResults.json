@@ -1906,7 +1906,7 @@
     }
   ],
   "firstCharTime": 1597688868017,
-  "earlyFinish": false,
+  "complete": true,
   "startTime": 1597688867022,
   "oneThirdCharsCount": 103,
   "oneThirdTime": 34888,
@@ -1914,7 +1914,8 @@
   "lastThirdStartTime": 61622,
   "timeFromFirstInput": 76782,
   "codeLength": 216,
-  "mode": 1,
+  "correctInputs": 216,
+  "mode": 0,
   "file": {
     "languageName": "R",
     "languageIndex": 20,

@@ -152,7 +152,7 @@ export default {
       }, 1000);
     },
     finish() {
-      this.$refs.codeEditor.completed(true);
+      this.$refs.codeEditor.completed();
     },
     completed(stats) {
       this.stats = stats;

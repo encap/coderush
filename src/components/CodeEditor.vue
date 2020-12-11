@@ -20,10 +20,10 @@
         <p v-show="popUpText === 'Try again'" class="hardcore-info">
           We can't generate accurate results from this round.
         </p>
-        <h2 v-show="roomPlace.place && options.selectedMode === 1">
+        <h2 v-show="roomPlace.place && options.selectedMode === 0">
           {{ roomPlace.place }}<sup>{{ roomPlace.sup }}</sup> place
         </h2>
-        <p v-show="options.selectedMode !== 1 && stats.history.length - 1 > 0">
+        <p v-show="options.selectedMode !== 0 && stats.history.length - 1 > 0">
           {{ popUpText === 'Try again' ? 'You made mistake after ' : '' }}{{ stats.history.length - 1 }} correct character{{ stats.history.length - 1 === 1 ? '' : 's' }}
         </p>
         <h2 v-show="!(room.connected && room.place > 3)" @click="popUp(false)">
@@ -80,7 +80,6 @@ export default {
       stats: {
         history: [],
         firstCharTime: 0,
-        earlyFinish: false,
       },
     };
   },
@@ -376,7 +375,7 @@ export default {
           this.currentChar = this.cm.getLine(this.currentLine);
           this.correctCharsInLine = this.currentChar;
           this.stats.cheats = true;
-          // this.completed();
+          this.completed(true);
           return;
         }
       }
@@ -472,11 +471,12 @@ export default {
       }
 
       if (this.currentChange.type !== 'initialType') {
-        if (this.options.selectedMode === 3 && this.currentChange.type !== 'correct') {
+        if (this.options.selectedMode === 2 && this.currentChange.type !== 'correct') {
           if (this.stats.history.length < 30) {
+            this.cm.setOption('readOnly', 'nocursor');
             this.popUp(true, 'Try again');
           } else {
-            this.completed(false, true);
+            this.completed();
           }
         }
         this.stats.history.push(this.currentChange);
@@ -547,7 +547,7 @@ export default {
       this.started = true;
       this.cm.focus();
       console.log('START');
-      if (this.options.selectedMode === 2) {
+      if (this.options.selectedMode === 1) {
         this.$emit('start');
       }
       this.stats.startTime = Date.now();
@@ -587,33 +587,46 @@ export default {
           }
         });
     },
-    completed(forced = false, complete = true) {
-      if (this.$route.path === '/results' || (forced && this.stats.history.length < 10)) {
-        // return if finished too early
+    async completed(devStats = false) {
+      if (this.$route.path === '/results' || (!devStats && this.stats.history.length < 10)) {
+        // TODO: disable Finish now button in Run component
         return;
       }
-      if (this.stats.history.length < 2) {
-        console.log('history');
+      if (!devStats && this.stats.history.length < 2) {
+        console.log('history too short');
         this.$router.push('/');
         return;
       }
+
       this.cm.setOption('readOnly', 'nocursor');
-      const congratulations = this.options.selectedMode === 3 && !complete ? 'Game over' : 'Congratulations';
-      this.popUp(true, forced ? 'Too long, uh?' : `${this.options.selectedMode === 2 ? 'Time is over' : congratulations}`);
+
       if (this.room.connected) {
         this.$socket.client.emit('completed');
       }
 
-      this.stats = {
-        ...this.stats,
-        timeFromFirstInput: this.timeElapsed(),
-        codeLength: this.codeText.length,
-        correctLines: this.currentLine + 1,
-        file: this.codeInfo,
-        mode: this.options.selectedMode,
-      };
-      if (forced) {
-        this.stats.earlyFinish = true;
+      const correctInputs = this.stats.history.reduce((acc, event) => (event.type === 'correct' ? acc + 1 : acc), 0);
+
+      const complete = correctInputs === this.codeText.length;
+
+      const endMsgList = ['Too long, uh?', 'Time is over', 'Game over'];
+      this.popUp(true, complete ? 'Congratulations' : endMsgList[this.options.selectedMode]);
+
+
+      if (DEV && devStats) {
+        const resp = await axios.get('/exampleResults.json');
+        this.stats = resp.data;
+        console.log(resp);
+      } else {
+        this.stats = {
+          ...this.stats,
+          timeFromFirstInput: this.timeElapsed(),
+          codeLength: this.codeText.length,
+          correctLines: this.currentLine + 1,
+          file: this.codeInfo,
+          mode: this.options.selectedMode,
+          complete,
+          correctInputs,
+        };
       }
 
       this.$emit('completed', this.stats);
