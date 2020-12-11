@@ -34,7 +34,7 @@
                   Characters
                 </p>
                 <h2 class="value">
-                  {{ correctInputs }}
+                  {{ stats.correctInputs }}
                 </h2>
               </div>
             </div>
@@ -47,8 +47,8 @@
                   <p>Longest correction time: {{ format(longestTimeOfCorrection) }} s</p>
                 </template>
                 <template v-else>
-                  <p>You made a mistake after {{ correctInputs }} correct characters</p>
-                  <p>{{ stats.codeLength - correctInputs }} characters left</p>
+                  <p>You made a mistake after {{ stats.correctInputs }} correct characters</p>
+                  <p>{{ stats.codeLength - stats.correctInputs }} characters left</p>
                   <p>{{ procentCompleted }}% completed</p>
                 </template>
               </div>
@@ -122,17 +122,14 @@ export default {
     seconds() {
       return Math.round((this.stats.timeFromFirstInput / 1000) % 60);
     },
-    correctInputs() {
-      return this.history.filter((change) => change.type === 'correct').length;
-    },
     CPM() {
-      return this.correctInputs / this.format(this.stats.timeFromFirstInput, 4) * 60;
+      return this.stats.correctInputs / this.format(this.stats.timeFromFirstInput, 4) * 60;
     },
     WPM() {
       return this.CPM / 5;
     },
     procentCompleted() {
-      return this.format(this.correctInputs / this.stats.codeLength, 1, 100);
+      return this.format(this.stats.correctInputs / this.stats.codeLength, 1, 100);
     },
     mostMistakesInARow() {
       return this.mistakes.map((obj) => obj.fixQueuePos)
@@ -159,7 +156,7 @@ export default {
       return timesAcc;
     },
     WPMWithoutTimeLost() {
-      return this.correctInputs / this.format(this.stats.timeFromFirstInput - this.totalTimeLost, 4) * 60 / 5;
+      return this.stats.correctInputs / this.format(this.stats.timeFromFirstInput - this.totalTimeLost, 4) * 60 / 5;
     },
     totalTimeLost() {
       return this.correctionTimes.reduce((acc, value) => acc + value, 0);
@@ -179,7 +176,7 @@ export default {
       wpm: this.format(this.WPM, 0, 1),
       minutes: this.minutes,
       seconds: this.seconds,
-      correct: this.correctInputs,
+      correct: this.stats.correctInputs,
     });
     if (process.env.VUE_APP_ASSETS_PATH && this.stats.file.index !== -1) {
       this.sendStats();
@@ -212,7 +209,7 @@ export default {
         languageIndex: this.stats.file.languageIndex,
         wpm: this.format(this.WPM, 0, 1),
         fileIndex: this.stats.file.index,
-        correctClicks: this.correctInputs,
+        correctClicks: this.stats.correctInputs,
         correctLines: this.stats.correctLines,
         backspaceClicks,
         deletingTime: this.format(deletingTime, 0),

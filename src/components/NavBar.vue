@@ -26,6 +26,13 @@
           Contribute
         </span>
       </router-link>
+      <div class="line" />
+      <button class="link" @click="toggleShare">
+        <fa :icon="['fas', 'share-alt']" />
+        <span class="btn-text">
+          Share
+        </span>
+      </button>
     </div>
     <RoomPanel class="room" />
     <div class="author">
@@ -62,6 +69,9 @@ export default {
       } else {
         this.$router.push('/');
       }
+    },
+    toggleShare() {
+      this.showShareOptions = !this.showShareOptions;
     },
   },
 };
