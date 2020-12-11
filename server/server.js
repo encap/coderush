@@ -307,19 +307,10 @@ if (PROD) {
         && languageFromNewDB.files.length > language.files.length
       ) {
         console.log(`Language update ${language.name}`);
-        const newFilesArray = languageFromNewDB.files.map((file, fileIndex) => {
-          if (fileIndex < language.files.length) {
-            console.log(`keeping old file ${file.name}`);
-            return language.files[fileIndex];
-          }
-
-          console.log(`adding new file ${file.name}`);
-          return file;
-        });
 
         return {
           ...language,
-          files: newFilesArray,
+          files: [...language.files, ...languageFromNewDB.files.slice(language.files.length)],
         };
       }
 
