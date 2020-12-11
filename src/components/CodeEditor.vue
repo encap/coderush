@@ -588,12 +588,12 @@ export default {
         });
     },
     async completed(devStats = false) {
-      if (this.$route.path === '/results' || this.stats.history.length < 10) {
+      if (this.$route.path === '/results' || (!devStats && this.stats.history.length < 10)) {
         // TODO: disable Finish now button in Run component
         return;
       }
-      if (this.stats.history.length < 2) {
-        console.log('history');
+      if (!devStats && this.stats.history.length < 2) {
+        console.log('history too short');
         this.$router.push('/');
         return;
       }
@@ -613,8 +613,9 @@ export default {
 
 
       if (DEV && devStats) {
-        debugger;
-        this.stats = await axios.get('/exampleResults.json');
+        const resp = await axios.get('/exampleResults.json');
+        this.stats = resp.data;
+        console.log(resp);
       } else {
         this.stats = {
           ...this.stats,
