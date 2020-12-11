@@ -6,7 +6,7 @@
       class="nav-left"
       :class="{thin: isThin, run: $route.path === '/run', wide: room.connected }"
     >
-      <NavBar @start="$children[1].run()" />
+      <NavBar :thin="isThin" @start="$children[1].run()" />
     </aside>
     <main>
       <keep-alive :exclude="['Run', 'Results']">

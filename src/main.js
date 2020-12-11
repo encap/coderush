@@ -6,7 +6,7 @@ import { FontAwesomeIcon, FontAwesomeLayers } from '@fortawesome/vue-fontawesome
 
 // import only used icons to reduce bundle size
 import {
-  faUsers, faPlay, faInfo, faFileCode, faHeart, faServer, faUser, faSignOutAlt, faCopy, faUserCog, faCheck, faHourglassEnd, faSignal, faSlash, faShareAlt, faTimes, faCompressAlt, faExpandAlt,
+  faUsers, faPlay, faInfo, faFileCode, faShareAlt, faTimes, faLink, faHeart, faServer, faUser, faSignOutAlt, faCopy, faUserCog, faCheck, faHourglassEnd, faSignal, faSlash, faCompressAlt, faExpandAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -17,7 +17,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
-library.add(faUsers, faPlay, faInfo, faFileCode, faHeart, faServer, faUser, faSignOutAlt, faCopy, faUserCog, faCheck, faHourglassEnd, faSignal, faSlash, faShareAlt, faTimes, faCompressAlt, faExpandAlt, faFacebookF, faFacebookMessenger, faTwitter);
+library.add(faUsers, faPlay, faInfo, faFileCode, faShareAlt, faTimes, faLink, faFacebookF, faFacebookMessenger, faTwitter, faHeart, faServer, faUser, faSignOutAlt, faCopy, faUserCog, faCheck, faHourglassEnd, faSignal, faSlash, faCompressAlt, faExpandAlt);
 
 Vue.component('fa', FontAwesomeIcon);
 Vue.component('faStack', FontAwesomeLayers);
