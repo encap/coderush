@@ -473,6 +473,7 @@ export default {
       if (this.currentChange.type !== 'initialType') {
         if (this.options.selectedMode === 2 && this.currentChange.type !== 'correct') {
           if (this.stats.history.length < 30) {
+            this.cm.setOption('readOnly', 'nocursor');
             this.popUp(true, 'Try again');
           } else {
             this.completed();
