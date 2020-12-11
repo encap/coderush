@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 62
+          "total": 63
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 62
+      "total": 63
     },
     {
       "ext": "kt",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.728,
+    "avgWPM": 30.625,
     "backspaceClicks": 5467,
     "best": 94,
     "correctClicks": 105590,
-    "correctLines": 3881,
+    "correctLines": 3882,
     "deletingTime": 2715,
-    "total": 298
+    "total": 299
   }
 }
