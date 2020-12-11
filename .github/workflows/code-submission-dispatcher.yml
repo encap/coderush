@@ -1,4 +1,4 @@
-name: Process code submission
+name: Code Submission Dispatcher
 
 on:
   repository_dispatch:
@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  main:
-    name: Main job
+  dispatch-code-submission:
+    name: Dispatch Code Submission
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master

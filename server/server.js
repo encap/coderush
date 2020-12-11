@@ -8,10 +8,45 @@ const http = require('http').Server(app);
 
 require('./rooms.js')(http);
 
-
 const PATH = path.join(__dirname, '../dist');
 const PROD = process.env.PRODUCTION;
 console.log(`Environment ${PROD}`);
+
+if (process.env.AUTO_PROMOTE) {
+  axios({
+    url: 'https://api.heroku.com/pipeline-promotions',
+    method: 'POST',
+    headers: {
+      Accept: 'application/vnd.heroku+json; version=3',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.HEROKU_API_KEY}`,
+    },
+    withCredentials: true,
+    data: {
+      pipeline: {
+        id: process.env.PIPELINE_ID,
+      },
+      source: {
+        app: {
+          id: process.env.SOURCE_APP_ID,
+        },
+      },
+      targets: [
+        {
+          app: {
+            id: process.env.TARGET_APP_ID,
+          },
+        },
+      ],
+    },
+  })
+    .then(() => {
+      console.log('Auto promotion succeded');
+    })
+    .catch(() => {
+      console.error('Auto promotion failed');
+    });
+}
 
 const toggleMaintanceMode = (action) => {
   axios({
@@ -28,11 +63,13 @@ const toggleMaintanceMode = (action) => {
       maintenance: action,
       name: 'coderush',
     },
-  }).then(() => {
-    console.log('Toogle maintance mode succeded');
-  }).catch(() => {
-    console.error('Toggle maintance mode failed');
-  });
+  })
+    .then(() => {
+      console.log('Toogle maintance mode succeded');
+    })
+    .catch(() => {
+      console.error('Toggle maintance mode failed');
+    });
 };
 
 if (PROD) {
@@ -46,7 +83,8 @@ let cachedIndexHtml = '';
 const getIndexHtml = () => {
   if (PROD) {
     console.log('index.html cache update');
-    axios.get('https://coderushcdn.ddns.net/index.html')
+    axios
+      .get('https://coderushcdn.ddns.net/index.html')
       .then((res) => {
         if (res.status === 200) {
           cachedIndexHtml = res.data;
@@ -60,17 +98,17 @@ const getIndexHtml = () => {
       });
   }
 };
-setTimeout(getIndexHtml, 1000 * 60 * 2); // wait for cdn to update
-setInterval(getIndexHtml, 1000 * 60 * 60 * 12);
+
+getIndexHtml();
 
 let database = {};
 let cachedStringifiedDatabase = '';
 
-
 if (PROD) {
   console.log('fetching database from cdn');
 
-  axios.get('https://coderushcdn.ddns.net/database.json')
+  axios
+    .get('https://coderushcdn.ddns.net/database.json')
     .then((res) => {
       if (res.status === 200) {
         database = res.data;
@@ -89,7 +127,6 @@ if (PROD) {
     cachedStringifiedDatabase = JSON.stringify(database);
   }, 1000 * 60 * 60 * 6);
 }
-
 
 let newStats = false;
 
@@ -149,12 +186,12 @@ app.use((req, res, next) => {
 
 // heroku free tier goes to sleep after 30 minutes of network inactivity
 app.get('/api/ping', (req, res) => {
-  res.send('OK');
+  getIndexHtml();
+  res.sendStatus(200);
 });
 
 const keepAwake = () => {
-  axios.get('https://coderush.xyz/api/ping')
-    .catch((err) => console.error(`Ping Error: ${err}`));
+  axios.get('https://coderush.xyz/api/ping').catch((err) => console.error(`Ping Error: ${err}`));
 };
 
 if (PROD) {
@@ -180,7 +217,8 @@ app.use((req, res, next) => {
 
 // send cached stringified database.json when possible
 app.get('/database.json', (_req, res) => {
-  if (cachedStringifiedDatabase.length > 2) { // {} empty object
+  if (cachedStringifiedDatabase.length > 2) {
+    // {} empty object
     console.log('sending cached database');
     res.setHeader('Content-Type', 'application/json');
     res.send(cachedStringifiedDatabase);
@@ -189,7 +227,6 @@ app.get('/database.json', (_req, res) => {
     res.sendFile('database.json', { root: __dirname }); // database.json is in the same dir as server
   }
 });
-
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -211,7 +248,7 @@ app.post('/api/upload', (req, res) => {
     })
       .then(() => {
         console.log('Code submission succeded');
-        res.send('OK');
+        res.sendStatus(200);
       })
       .catch((error) => {
         console.warn('Code submission failed');
@@ -226,7 +263,10 @@ app.post('/api/upload', (req, res) => {
 app.post('/api/stats', (req, res) => {
   if (PROD) {
     const stats = req.body;
-    database.stats.avgWPM = Math.round(((database.stats.avgWPM * database.stats.total) + stats.wpm) / (database.stats.total + 1) * 1000) / 1000;
+    database.stats.avgWPM = Math.round(
+      (((database.stats.avgWPM * database.stats.total) + stats.wpm) / (database.stats.total + 1))
+          * 1000,
+    ) / 1000;
 
     database.stats.total += 1;
 
@@ -244,8 +284,43 @@ app.post('/api/stats', (req, res) => {
     newStats = true;
   }
 
-  res.send('OK');
+  res.sendStatus(200);
 });
+
+if (PROD) {
+  app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
+    getIndexHtml();
+    res.sendStatus(200);
+  });
+
+  app.post(process.env.DATABASE_UPDATE_URL, (req, res) => {
+    const newDB = req.body;
+
+    if (newDB.languages.length !== database.languages.length) {
+      res.sendStatus(409);
+    }
+
+    database.languages = database.languages.map((language, index) => {
+      const languageFromNewDB = newDB.languages[index];
+      if (
+        language.name === languageFromNewDB.name
+        && languageFromNewDB.files.length > language.files.length
+      ) {
+        console.log(`Language update ${language.name}`);
+
+        return {
+          ...language,
+          files: [...language.files, ...languageFromNewDB.files.slice(language.files.length)],
+        };
+      }
+
+      return language;
+    });
+
+    cachedStringifiedDatabase = JSON.stringify(database);
+    res.sendStatus(200);
+  });
+}
 
 if (!PROD) {
   // local server
@@ -280,6 +355,4 @@ const shutdown = () => {
   }
 };
 
-process
-  .on('SIGTERM', shutdown)
-  .on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown).on('SIGINT', shutdown);

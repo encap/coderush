@@ -1,7 +1,6 @@
-![Build and update][build-shield]
-![Deploy to CDN][deploy-shield]
+![Build][build-shield]
+![Deploy][deploy-shield]
 [![Website status][website-shield]][main-url]
-![Dependecies Status][deps-shield]
 [![GitHub issues][issues-shield]][issues-url]
 [![GPLv3 License][license-shield]][license-url]
 [![Ask Me Anything !][ama-shield]][email-link]
@@ -138,6 +137,9 @@ I made CodeRush open source because without other OS projects I wouldn't be able
 
 Source code is distributed under the [GNU GPL v3][license-url] License. However, I would advise against looking here for the best solutions or forking it because this was my first Vue.js project.
 
+## Miscellaneous
+  I am aware that the use of CDN and multiple steps in GitHub Actions is probably an overkill for this project, but I just wanted to play with it.
+
 
 ## Contact
 Łukasz Wielgus
@@ -161,9 +163,8 @@ Donate on PayPal: https://paypal.me/encap
 [pulls-url]: https://github.com/encap/coderush/pulls
 [issues-url]: https://github.com/encap/coderush/issues
 [issues-shield]: https://img.shields.io/github/issues/encap/coderush
-[deps-shield]: https://david-dm.org/encap/coderush.svg
 [main-screenshot]: .github/images/main-screenshot.webp
 [results-screenshot]: .github/images/results-screenshot.webp
-[deploy-shield]: https://github.com/encap/coderush/workflows/Deploy%20to%20CDN/badge.svg
-[build-shield]: https://github.com/encap/coderush/workflows/Vue%20build%20and%20update%20stats/badge.svg
+[deploy-shield]: https://github.com/encap/coderush/workflows/Deploy%20Controller/badge.svg
+[build-shield]: https://github.com/encap/coderush/workflows/Push%20Controller/badge.svg
 [os-shield]: https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github

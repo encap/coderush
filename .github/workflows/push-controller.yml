@@ -1,0 +1,171 @@
+name: Push Controller
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '**.md'
+      - 'package-lock.json'
+  workflow_dispatch:
+
+jobs:
+  dispatch-push:
+    name: Dispatch Push
+    runs-on: ubuntu-latest
+    env:
+      workflow_dispatch: ${{ contains(github.event_name, 'workflow_dispatch') }}
+    steps:
+    - id: changes
+      name: Get changed files
+      uses: trilom/file-changes-action@v1.2.4
+      with:
+        output: ','
+    - name: 'Analyze changes'
+      # regex lookahead and lookbehind, \w don't work here
+      run: |
+        [[ "$(echo "${{ steps.changes.outputs.files }}" | sed "s/database.json//")" =~ server/[a-zA-Z/].+\.js ]] && echo "backend=true" >> $GITHUB_ENV;
+        [[ "${{ steps.changes.outputs.files }}" =~ src/|config\.js|eslintrc|\.env|public(?!/code) ]] && echo "frontend=true" >> $GITHUB_ENV;
+        [[ "${{ steps.changes.outputs.files }}" =~ database\.json ]] && echo "database=true" >> $GITHUB_ENV;
+        [[ "${{ steps.changes.outputs.files }}" =~ public/code ]] && echo "code_examples=true" >> $GITHUB_ENV;
+        [[ "${{ steps.changes.outputs.files }}" =~ package\.json ]] && echo "package_json=true" >> $GITHUB_ENV;
+        [[ "${{ steps.changes.outputs.files }}" =~ \.github/|actions/ ]] && echo "github_actions=true" >> $GITHUB_ENV;
+        exit 0;
+    - name: 'Prepare env variable'
+        # env variables are available only in next steps
+      run: |
+        [[ $workflow_dispatch == true ]] || [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
+        exit 0;
+    - name: DEBUG
+      run: |
+        echo "backend=$backend";
+        echo "frontend=$frontend";
+        echo "database=$database";
+        echo "code_examples=$code_examples";
+        echo "package_json=$package_json";
+        echo "github_actions=$github_actions";
+        echo "all=$all";
+        echo "any=$any";
+
+    - name: Clone repository
+      run: |
+        git clone --depth 1 --no-single-branch https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git .
+
+    - name: Setup Node.js
+      if: env.all || env.frontend
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12'
+    - uses: actions/cache@v2
+      if: env.all || env.frontend
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+    - name: Run npm install
+      if: env.all || env.frontend
+      run: |
+        npm install
+    - name: Vue build
+      if: env.all || env.frontend
+      run: |
+        npm run build:prod
+    - name: Copy submitted code
+      if: env.code_examples && !env.frontend
+      run: |
+        mkdir -p dist
+        cp -r public/code dist/code
+
+    - name: Configure git
+      run: |
+        git config --global credential.helper cache
+        git config --global user.email "bot@github.com"
+        git config --global user.name "Bot"
+
+    - name: Stage frontend
+      if: env.all || env.frontend
+      run: |
+        git add -f dist/
+    - name: Stage code examples
+      if: env.code_examples && !env.frontend && !env.all
+      run: |
+        git add -f dist/code/
+
+    - name: Make temporary commit on master
+      if: env.all || env.frontend || env.code_examples
+      run: |
+        git commit -m 'temp commit'
+    - name: Switch to deploy branch
+      run: |
+        git checkout -f deploy
+
+    - name: Clear all old files
+      if: env.all || env.frontend
+      run: |
+        rm -r server/ dist/
+    - name: Clear only server files
+      if: env.backend && !env.all && !env.frontend
+      run: |
+        rm -r server/*.js
+    - name: Clear only old database and code examples
+      if: env.code_examples && !env.all && !env.frontend 
+      run: |
+        rm -r server/database.json dist/code/
+
+    - name: Checkout all files from master
+      if: env.all || env.frontend
+      run: |
+        git checkout -f master -- "server/" "dist/"
+    - name: Checkout only server from master
+      if: env.backend && !env.all && !env.frontend
+      run: |
+        git checkout master -- "server/"
+    - name: Checkotu only code examples from master
+      if: env.code_examples && !env.all && !env.frontend
+      run: |
+        git checkout master -- "dist/code/"
+
+    - name: Stage all changes
+      run: |
+        git add .
+    - name: Check for changes
+      continue-on-error: true
+      run: |
+        ! git diff-index --quiet HEAD -- && echo "changes=true" >> $GITHUB_ENV;
+        exit 0;
+    - name: DEBUG
+      run: |
+        echo "changes=$changes";
+
+    - name: Create commit message
+      if: env.changes
+      run: |
+        echo "message=Deploy" >> $GITHUB_ENV;
+    - name: Append all to commit message
+      if: env.changes && env.all
+      run: |
+        echo "message=$message all" >> $GITHUB_ENV;
+    - name: Append frontend to commit message
+      if: env.changes && env.frontend && !env.all
+      run: |
+        echo "message=$message frontend" >> $GITHUB_ENV;
+    - name: Append code examples to commit message
+      if: env.changes && env.code_examples && !env.all
+      run: |
+        echo "message=$message code examples" >> $GITHUB_ENV;
+    - name: Append backend to commit message
+      if: env.changes && env.backend && !env.all
+      run: |
+        echo "message=$message backend" >> $GITHUB_ENV;
+    - name: Append database to commit message
+      if: env.changes && env.databse && !env.all && !env.backend
+      run: |
+        echo "message=$message database" >> $GITHUB_ENV;
+        
+    - name: Commit on deploy branch
+      if: env.changes
+      run: |
+        git commit -m "$message"
+    - name: Push for deployment
+      if: env.changes
+      run: |
+        git push

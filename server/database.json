@@ -72,13 +72,13 @@
           "name": "form_mouse_event",
           "source": "sanfoundry.com",
           "tabSize": 4,
-          "total": 10
+          "total": 11
         }
       ],
       "mime": "text/x-csharp",
       "mode": "clike",
       "name": "C#",
-      "total": 10
+      "total": 11
     },
     {
       "ext": "cpp",
@@ -152,13 +152,13 @@
           "name": "clone-it_results_menu",
           "source": "own",
           "tabSize": 2,
-          "total": 20
+          "total": 22
         }
       ],
       "mime": "text/xml",
       "mode": "xml",
       "name": "HTML",
-      "total": 20
+      "total": 22
     },
     {
       "ext": "java",
@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 62
+          "total": 63
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 62
+      "total": 63
     },
     {
       "ext": "kt",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.752,
-    "backspaceClicks": 5436,
+    "avgWPM": 30.625,
+    "backspaceClicks": 5467,
     "best": 94,
-    "correctClicks": 104893,
-    "correctLines": 3852,
-    "deletingTime": 2700,
-    "total": 295
+    "correctClicks": 105590,
+    "correctLines": 3882,
+    "deletingTime": 2715,
+    "total": 299
   }
 }
