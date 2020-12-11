@@ -10,7 +10,7 @@ const state = {
     codeLength: false,
     lineNumbers: true,
     selectedTheme: 'material-darker',
-    selectedMode: 1,
+    selectedMode: 0,
     autoIndent: true,
     underScore: false,
   },

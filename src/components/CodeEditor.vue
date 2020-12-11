@@ -20,10 +20,10 @@
         <p v-show="popUpText === 'Try again'" class="hardcore-info">
           We can't generate accurate results from this round.
         </p>
-        <h2 v-show="roomPlace.place && options.selectedMode === 1">
+        <h2 v-show="roomPlace.place && options.selectedMode === 0">
           {{ roomPlace.place }}<sup>{{ roomPlace.sup }}</sup> place
         </h2>
-        <p v-show="options.selectedMode !== 1 && stats.history.length - 1 > 0">
+        <p v-show="options.selectedMode !== 0 && stats.history.length - 1 > 0">
           {{ popUpText === 'Try again' ? 'You made mistake after ' : '' }}{{ stats.history.length - 1 }} correct character{{ stats.history.length - 1 === 1 ? '' : 's' }}
         </p>
         <h2 v-show="!(room.connected && room.place > 3)" @click="popUp(false)">
@@ -471,7 +471,7 @@ export default {
       }
 
       if (this.currentChange.type !== 'initialType') {
-        if (this.options.selectedMode === 3 && this.currentChange.type !== 'correct') {
+        if (this.options.selectedMode === 2 && this.currentChange.type !== 'correct') {
           if (this.stats.history.length < 30) {
             this.popUp(true, 'Try again');
           } else {
@@ -546,7 +546,7 @@ export default {
       this.started = true;
       this.cm.focus();
       console.log('START');
-      if (this.options.selectedMode === 2) {
+      if (this.options.selectedMode === 1) {
         this.$emit('start');
       }
       this.stats.startTime = Date.now();

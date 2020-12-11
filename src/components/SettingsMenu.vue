@@ -8,7 +8,7 @@
       <label
         v-for="(mode, index) in modesList"
         :key="mode[0]"
-        :class="{'selected': index+1 === selectedMode }"
+        :class="{'selected': index === selectedMode }"
         class="mode"
       >
         <h4>{{ mode[0] }}</h4>
@@ -17,7 +17,7 @@
         <input
           v-model="selectedMode"
           name="selectedMode"
-          :value="index+1"
+          :value="index"
           type="radio"
         >
       </label>

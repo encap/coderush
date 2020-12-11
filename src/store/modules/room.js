@@ -75,7 +75,7 @@ const actions = {
         commit('SET_OPTION', { name: option[0], value: option[1] });
       });
     } else {
-      commit('SET_OPTION', { name: 'selectedMode', value: 1 });
+      commit('SET_OPTION', { name: 'selectedMode', value: 0 });
       commit('SET_OPTION', { name: 'codeLength', value: false });
       commit('SET_OPTION', { name: 'autoIndent', value: true });
     }

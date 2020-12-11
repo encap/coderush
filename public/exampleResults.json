@@ -1915,7 +1915,7 @@
   "timeFromFirstInput": 76782,
   "codeLength": 216,
   "correctInputs": 216,
-  "mode": 1,
+  "mode": 0,
   "file": {
     "languageName": "R",
     "languageIndex": 20,

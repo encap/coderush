@@ -21,7 +21,7 @@
                   {{ format(CPM, 0, 1) }}
                 </h2>
               </div>
-              <div v-if="stats.mode !== 2" class="time">
+              <div v-if="stats.mode !== 1" class="time">
                 <p class="unit">
                   Time
                 </p>
@@ -40,7 +40,7 @@
             </div>
             <div v-if="mistakes.length" class="middle">
               <div class="mistakes-info">
-                <template v-if="stats.mode !== 3">
+                <template v-if="stats.mode !== 2">
                   <p>Time wasted by mistakes: {{ format(totalTimeLost) }} s</p>
                   <p>Speed counting down that time {{ format(WPMWithoutTimeLost, 0, 1) }} WPM</p>
                   <p>Most mistakes in a row: {{ mostMistakesInARow }} mistakes</p>

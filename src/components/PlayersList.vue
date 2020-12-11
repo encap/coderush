@@ -67,7 +67,7 @@
             <template v-if="player.place">
               <output>{{ player.stats.wpm }} WPM</output>
 
-              <output v-if="options.selectedMode === 1">{{ player.stats.minutes ? `${player.stats.minutes}min ${player.stats.seconds}s` : `${player.stats.seconds}s` }} </output>
+              <output v-if="options.selectedMode === 0">{{ player.stats.minutes ? `${player.stats.minutes}min ${player.stats.seconds}s` : `${player.stats.seconds}s` }} </output>
 
               <output v-else>{{ player.stats.correct }} correct</output>
             </template>
@@ -96,7 +96,7 @@ export default {
       return [...this.playersArray].sort((p1, p2) => {
         console.log(p1.name, p2.name);
         if (p1.place && p2.place) {
-          if (this.options.selectedMode === 1) {
+          if (this.options.selectedMode === 0) {
             return p1.place - p2.place;
           }
           return p2.stats.correct - p1.stats.correct;
