@@ -1,9 +1,11 @@
 <template>
   <div class="container">
-    <button v-if="link" @click="copyLink">
-      <fa :icon="['fa', 'link']" :size="size" />
-    </button>
-    <input ref="linkInput" type="text" :value="link">
+    <template v-if="showLink">
+      <button @click="copyLink">
+        <fa :icon="['fa', 'link']" :size="size" />
+      </button>
+      <input ref="linkInput" type="text" :value="link">
+    </template>
 
     <button @click="shareFacebook">
       <fa :icon="['fab', 'facebook-f']" :size="size" />
@@ -27,7 +29,7 @@ export default {
     },
     showLink: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   computed: {

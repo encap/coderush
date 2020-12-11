@@ -50,9 +50,10 @@
 </template>
 
 <script>
-import RoomPanel from '@/components/RoomPanel.vue';
-import { mapGetters } from 'vuex';
 import ShareButtons from '@/components/ShareButtons.vue';
+import RoomPanel from '@/components/RoomPanel.vue';
+
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'NavBar',
