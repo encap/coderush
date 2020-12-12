@@ -40,13 +40,13 @@
           "name": "internet_test",
           "source": "own",
           "tabSize": 4,
-          "total": 4
+          "total": 3
         }
       ],
       "mime": "text/x-sh",
       "mode": "shell",
       "name": "Bash",
-      "total": 4
+      "total": 3
     },
     {
       "ext": "c",
@@ -120,13 +120,13 @@
           "name": "delicious_hello_world",
           "source": "dangermouse.net",
           "tabSize": 8,
-          "total": 4
+          "total": 2
         }
       ],
       "mime": "text/x-ruby",
       "mode": "ruby",
       "name": "English",
-      "total": 4
+      "total": 2
     },
     {
       "ext": "go",
@@ -136,13 +136,13 @@
           "name": "easyMIDI_lib_function",
           "source": "github.com/algoGuy/EasyMIDI",
           "tabSize": 2,
-          "total": 12
+          "total": 11
         }
       ],
       "mime": "text/x-go",
       "mode": "go",
       "name": "Go",
-      "total": 12
+      "total": 11
     },
     {
       "ext": "html",
@@ -292,13 +292,13 @@
           "name": "save_to_database",
           "source": "own",
           "tabSize": 2,
-          "total": 16
+          "total": 14
         }
       ],
       "mime": "text/x-php",
       "mode": "php",
       "name": "PHP",
-      "total": 16
+      "total": 14
     },
     {
       "ext": "ps1",
@@ -322,20 +322,20 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 27
+          "total": 26
         },
         {
           "lines": 12,
           "name": "UrlParser",
           "source": "Python_boss",
           "tabSize": 4,
-          "total": 10
+          "total": 9
         }
       ],
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 37
+      "total": 35
     },
     {
       "ext": "r",
@@ -505,13 +505,13 @@
           "name": "codeRush_languages_list",
           "source": "own",
           "tabSize": 2,
-          "total": 15
+          "total": 14
         }
       ],
       "mime": "text/x-vue",
       "mode": "vue",
       "name": "Vue",
-      "total": 15
+      "total": 14
     },
     {
       "ext": "ws",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.412,
-    "backspaceClicks": 5596,
+    "avgWPM": 30.636,
+    "backspaceClicks": 5475,
     "best": 94,
-    "correctClicks": 107848,
-    "correctLines": 3968,
-    "deletingTime": 2794,
-    "total": 309
+    "correctClicks": 105806,
+    "correctLines": 3882,
+    "deletingTime": 2719,
+    "total": 300
   }
 }
