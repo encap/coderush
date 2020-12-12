@@ -322,7 +322,7 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 26
+          "total": 27
         },
         {
           "lines": 12,
@@ -335,7 +335,7 @@
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 35
+      "total": 36
     },
     {
       "ext": "r",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.569,
-    "backspaceClicks": 5531,
+    "avgWPM": 30.58,
+    "backspaceClicks": 5539,
     "best": 94,
-    "correctClicks": 107648,
+    "correctClicks": 107864,
     "correctLines": 3967,
-    "deletingTime": 2734,
-    "total": 305
+    "deletingTime": 2738,
+    "total": 306
   }
 }
