@@ -120,13 +120,13 @@
           "name": "delicious_hello_world",
           "source": "dangermouse.net",
           "tabSize": 8,
-          "total": 2
+          "total": 3
         }
       ],
       "mime": "text/x-ruby",
       "mode": "ruby",
       "name": "English",
-      "total": 2
+      "total": 3
     },
     {
       "ext": "go",
@@ -152,13 +152,13 @@
           "name": "clone-it_results_menu",
           "source": "own",
           "tabSize": 2,
-          "total": 22
+          "total": 23
         }
       ],
       "mime": "text/xml",
       "mode": "xml",
       "name": "HTML",
-      "total": 22
+      "total": 23
     },
     {
       "ext": "java",
@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 63
+          "total": 65
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 63
+      "total": 65
     },
     {
       "ext": "kt",
@@ -521,22 +521,22 @@
           "name": "hardcore_hello_world",
           "source": "github.com/rdebath/whitespace",
           "tabSize": 2,
-          "total": 1
+          "total": 2
         }
       ],
       "mime": "text/plain",
       "mode": "",
       "name": "Whitespace",
-      "total": 1
+      "total": 2
     }
   ],
   "stats": {
-    "avgWPM": 30.636,
-    "backspaceClicks": 5475,
+    "avgWPM": 30.569,
+    "backspaceClicks": 5531,
     "best": 94,
-    "correctClicks": 105806,
-    "correctLines": 3882,
-    "deletingTime": 2719,
-    "total": 300
+    "correctClicks": 107648,
+    "correctLines": 3967,
+    "deletingTime": 2734,
+    "total": 305
   }
 }
