@@ -63,6 +63,11 @@ jobs:
       if: env.all || env.frontend
       run: |
         npm install
+    - name: Install only @actions/core
+      if: env.database || env.backend && !env.all && !env.frontend
+      run: |
+        npm install --no-package-lock --no-save @actions/core
+        
     - name: Vue build
       if: env.all || env.frontend
       run: |
@@ -89,7 +94,6 @@ jobs:
         git add -f dist/code/
         
     - name: 'Merge new stats before Heroku restart'
-      continue-on-error: true
       if: env.all || env.backend || env.database
       run: |
         node actions/merge-stats.js && git add ./server/database.json
