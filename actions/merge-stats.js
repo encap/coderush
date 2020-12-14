@@ -84,7 +84,7 @@ try {
           core.endGroup();
 
           core.startGroup('Write to database.json');
-          fs.writeFileSync('server/database2.json', JSON.stringify(database, null, 2));
+          fs.writeFileSync('server/database.json', JSON.stringify(database, null, 2));
           core.endGroup();
         }
       }
