@@ -89,11 +89,14 @@ jobs:
       if: env.code_examples && !env.frontend && !env.all
       run: |
         git add -f dist/code/
-    - name: 'Save database before Heroku restart'
+        
+    - name: 'Merge new stats before Heroku restart'
       continue-on-error: true
       if: env.all || env.backend || env.database
       run: |
-        curl -f ${{ secrets.FRESH_DATABASE_URL }} -o ./server/serverDatabase.json && git show HEAD~1:server/database.json >> server/ancestor.json && git merge-file server/database.json server/ancestor.json server/serverDatabase.json && git add ./server/database.json
+        node actions/merge-stats.js && git add ./server/database.json
+      env:
+        SOURCE_URL: ${{ secrets.FRESH_DATABASE_URL }}
 
     - name: Make temporary commit on master
       run: |
