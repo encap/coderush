@@ -25,7 +25,7 @@ jobs:
       # regex lookahead and lookbehind, \w don't work here
       run: |
         [[ "$(echo "${{ steps.changes.outputs.files }}" | sed "s/database.json//")" =~ server/[a-zA-Z/].+\.js ]] && echo "backend=true" >> $GITHUB_ENV;
-        [[ "${{ steps.changes.outputs.files }}" =~ src/|config\.js|eslintrc|\.env|public(?!/code) ]] && echo "frontend=true" >> $GITHUB_ENV;
+        [[  "$(echo "src/components/NavBar.vue" | sed "s/public\/code//")" =~ src/|config\.js|eslintrc|\.env|public/ ]] && echo "frontend=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ database\.json ]] && echo "database=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ public/code ]] && echo "code_examples=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ package\.json ]] && echo "package_json=true" >> $GITHUB_ENV;
