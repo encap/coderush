@@ -91,9 +91,9 @@ jobs:
         git add -f dist/code/
     - name: 'Save database before Heroku restart'
       continue-on-error: true
-      if: env.all || env.backend
+      if: env.all || env.backend || env.database
       run: |
-        curl -f ${{ secrets.FRESH_DATABASE_URL }} -o ./server/database.json && git add ./server/database.json
+        curl -f ${{ secrets.FRESH_DATABASE_URL }} -o ./server/serverDatabase.json && git show HEAD~1:server/database.json >> server/ancestor.json && git merge-file server/database.json server/ancestor.json server/serverDatabase.json && git add ./server/database.json
 
     - name: Make temporary commit on master
       run: |
