@@ -90,6 +90,7 @@ jobs:
       run: |
         git add -f dist/code/
     - name: 'Save database before Heroku restart'
+      continue-on-error: true
       if: env.all || env.backend
       run: |
         curl -f ${{ secrets.FRESH_DATABASE_URL }} -o ./server/database.json && git add ./server/database.json
