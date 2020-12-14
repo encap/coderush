@@ -45,14 +45,12 @@ jobs:
         echo "package_json=$package_json";
         echo "github_actions=$github_actions";
         echo "all=$all";
-        echo "any=$any";
 
     - name: Clone repository
       run: |
         git clone --depth 1 --no-single-branch https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git .
 
     - name: Setup Node.js
-      if: env.all || env.frontend
       uses: actions/setup-node@v1
       with:
         node-version: '12'
