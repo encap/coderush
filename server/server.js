@@ -77,8 +77,9 @@ app.use(bodyParser.json());
 
 let cachedIndexHtml = fs.readFileSync('./dist/index.html', 'utf8');
 
-let stringifiedDB = fs.readFileSync('./server/database.json', 'utf8');
-const database = JSON.parse(stringifiedDB);
+// no spaces
+const database = JSON.parse(fs.readFileSync('./server/database.json', 'utf8'));
+let stringifiedDB = JSON.stringify(database);
 
 let newStats = false;
 
