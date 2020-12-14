@@ -78,7 +78,7 @@ app.use(bodyParser.json());
 let cachedIndexHtml = fs.readFileSync('./dist/index.html', 'utf8');
 
 // no spaces
-const database = JSON.parse(fs.readFileSync('./server/database.json', 'utf8'));
+let database = JSON.parse(fs.readFileSync('./server/database.json', 'utf8'));
 let stringifiedDB = JSON.stringify(database);
 
 let newStats = false;
@@ -130,31 +130,17 @@ if (PROD) {
   });
 
   app.post(process.env.DATABASE_UPDATE_URL, (req, res) => {
+    console.log('DATABASE HOT UPDATE');
     const newDB = req.body;
 
-    if (newDB.languages.length !== database.languages.length) {
+    if (typeof newDB.stats === 'object' && newDB.languages.length >= database.languages.length) {
+      database = newDB;
+      stringifiedDB = JSON.stringify(database);
+      res.sendStatus(200);
+    } else {
+      console.error('DATABASE HOT UPDATE FAILED');
       res.sendStatus(409);
     }
-
-    database.languages = database.languages.map((language, index) => {
-      const languageFromNewDB = newDB.languages[index];
-      if (
-        language.name === languageFromNewDB.name
-        && languageFromNewDB.files.length > language.files.length
-      ) {
-        console.log(`Language update ${language.name}`);
-
-        return {
-          ...language,
-          files: [...language.files, ...languageFromNewDB.files.slice(language.files.length)],
-        };
-      }
-
-      return language;
-    });
-
-    stringifiedDB = JSON.stringify(database);
-    res.sendStatus(200);
   });
 
   // redirect to coderush.xyz

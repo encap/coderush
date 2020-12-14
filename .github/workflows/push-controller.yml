@@ -134,7 +134,7 @@ jobs:
     - name: Checkout only code examples from master
       if: env.code_examples && !env.all && !env.frontend
       run: |
-        git checkout master -- "dist/code/" "server/database.json"
+        git checkout master -- "dist/code/"
 
     - name: Stage all changes
       run: |
