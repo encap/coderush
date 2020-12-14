@@ -4,7 +4,6 @@ const core = require('@actions/core');
 const https = require('https');
 const fs = require('fs');
 
-
 try {
   const merge = (source) => {
     core.startGroup('Read target database');
@@ -24,12 +23,11 @@ try {
     ) {
       core.endGroup();
 
-      core.info(`Current total: ${source.stats.total || 'ERROR'}`);
+      core.info(`Server total: ${source.stats.total || 'ERROR'}`);
 
       core.startGroup('Merge');
       if (source.stats.total > target.stats.total) {
         const database = {
-          stats: source.stats,
           languages: target.languages.map((language, langIndex) => {
             const srcLang = source.languages[langIndex];
             if (srcLang && srcLang.total && srcLang.total > language.total) {
@@ -37,7 +35,7 @@ try {
                 ...language,
                 total: srcLang.total,
                 files: language.files.map((file, fileIndex) => {
-                  const srcFile = source.files[fileIndex];
+                  const srcFile = srcLang.files[fileIndex];
                   if (srcFile && srcFile.total && srcFile.total > file.total) {
                     return {
                       ...file,
@@ -52,12 +50,43 @@ try {
 
             return language;
           }),
+          stats: source.stats, // must be at the bottom
         };
         core.endGroup();
 
-        core.startGroup('Write to database.json');
-        fs.writeFileSync('server/database.json', JSON.stringify(database, null, 2));
-        core.endGroup();
+        core.startGroup('Check total');
+        const count = (arr) => arr.reduce((acc, item) => {
+          if (item.total) {
+            // eslint-disable-next-line no-param-reassign
+            acc += item.total;
+          }
+          return acc;
+        }, 0);
+
+        database.languages.forEach((language) => {
+          const counted = count(language.files);
+          console.log('\x1b[0m', `${language.name}: ${counted}`);
+          if (counted !== (language.total || 0)) {
+            const msg = `DOESN'T MATCH: ${counted} | ${language.total} - in ${language.name}`;
+            console.log('\x1b[31m', msg);
+            core.setFailed(msg);
+          }
+        });
+
+        const totalCounted = count(database.languages);
+
+        if (totalCounted !== database.stats.total) {
+          console.log('\x1b[31m', 'TOTAL DOESN\'T MATCH');
+          console.log(`TOTAL IN DB: ${database.stats.total}`);
+          core.setFailed('TOTAL DOESN\'T MATCH');
+        } else {
+          console.log('\x1b[32m', `TOTAL: ${totalCounted}`);
+          core.endGroup();
+
+          core.startGroup('Write to database.json');
+          fs.writeFileSync('server/database2.json', JSON.stringify(database, null, 2));
+          core.endGroup();
+        }
       }
     } else {
       throw new Error('Database corrupted!');

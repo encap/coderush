@@ -1,4 +1,5 @@
-{
+{ 
+  "client_payload": {
   "languages": [
     {
       "ext": "ts",
@@ -502,16 +503,16 @@
       "files": [
         {
           "lines": 31,
-          "name": "coderush_languages_list",
+          "name": "codeRush_languages_list",
           "source": "own",
           "tabSize": 2,
-          "total": 12
+          "total": 14
         }
       ],
       "mime": "text/x-vue",
       "mode": "vue",
       "name": "Vue",
-      "total": 12
+      "total": 14
     },
     {
       "ext": "ws",
@@ -537,6 +538,7 @@
     "correctClicks": 107194,
     "correctLines": 3943,
     "deletingTime": 2759,
-    "total": 302
+    "total": 304
   }
+}
 }
