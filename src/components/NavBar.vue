@@ -4,40 +4,41 @@
       CodeRush
       <span class="beta" />
     </button>
+    <div class="sticky-container">
+      <div class="links" :class="{'room-connected': room.connected}">
+        <button class="link" @click="mainPage(true)">
+          <fa :icon="['fas', 'play']" :class="{flip: $route.path === '/run'}" />
+          <span class="btn-text">
+            Start
+          </span>
+        </button>
+        <div class="line" />
+        <router-link to="/about" class="link">
+          <fa :icon="['fas', 'info']" />
+          <span class="btn-text">
+            About
+          </span>
+        </router-link>
+        <div class="line" />
+        <router-link to="/contribute" class="link">
+          <fa :icon="['fas', 'file-code']" />
+          <span class="btn-text">
+            Contribute
+          </span>
+        </router-link>
+        <div class="line" />
+        <button class="link" :disabled="thin" @click="toggleShare">
+          <fa :icon="['fas', showShareOptions ? 'times' : 'share-alt']" />
 
-    <div class="links" :class="{'room-connected': room.connected}">
-      <button class="link" @click="mainPage(true)">
-        <fa :icon="['fas', 'play']" :class="{flip: $route.path === '/run'}" />
-        <span class="btn-text">
-          Start
-        </span>
-      </button>
-      <div class="line" />
-      <router-link to="/about" class="link">
-        <fa :icon="['fas', 'info']" />
-        <span class="btn-text">
-          About
-        </span>
-      </router-link>
-      <div class="line" />
-      <router-link to="/contribute" class="link">
-        <fa :icon="['fas', 'file-code']" />
-        <span class="btn-text">
-          Contribute
-        </span>
-      </router-link>
-      <div class="line" />
-      <button class="link" :disabled="thin" @click="toggleShare">
-        <fa :icon="['fas', showShareOptions ? 'times' : 'share-alt']" />
+          <span class="btn-text">
+            <ShareButtons v-if="showShareOptions" class="share-buttons" @linkCopied="showCopyConfirmation = true" />
 
-        <span class="btn-text">
-          <ShareButtons v-if="showShareOptions" class="share-buttons" @linkCopied="showCopyConfirmation = true" />
-
-          <template v-else> {{ showCopyConfirmation ? 'Link copied' : 'Share' }}</template>
-        </span>
-      </button>
+            <template v-else> {{ showCopyConfirmation ? 'Link copied' : 'Share' }}</template>
+          </span>
+        </button>
+      </div>
+      <RoomPanel class="room" />
     </div>
-    <RoomPanel class="room" />
     <div class="author">
       <div v-if="$route.path !== '/run' && $route.path !== '/'" class="donate">
         <a href="https://paypal.me/encap" target="_blank">Donate</a><span> if you like it</span>
@@ -118,7 +119,6 @@ export default {
   width: 100%
   transition: opacity var(--nav-trans-dur) $nav-trans-timing var(--nav-trans-dur), background-color .15s ease-in-out
 
-
   .beta
     position: absolute
     font-size: 13px
@@ -126,7 +126,6 @@ export default {
 
 nav
   display: flex
-  justify-content: flex-start
   flex-direction: column
   position: relative
   font-size: 1rem
@@ -162,17 +161,25 @@ nav:after
 .btn-text, .room, .author
   transition: opacity var(--nav-trans-dur) $nav-trans-timing var(--nav-trans-dur)
 
+.sticky-container
+  display: flex
+  flex-direction: column
+  height: 100%
+  max-height: 90vh
+  position: sticky
+  top: 0
+  padding-bottom: 2em
+
 .links
   margin: 6% 0 10% 0
   $line: 1px solid $grey
   border-top: $line
   border-bottom: $line
-  min-height: 35%
+  min-height: 20em
   display: flex
   flex-direction: column
   justify-content: space-evenly
   transition: min-height .5s ease-in-out
-
 
   .link
     @include padding-left
@@ -182,16 +189,14 @@ nav:after
     padding-bottom: 1.1rem
     width: 100%
 
-
   .line
-    // border-bottom: 1px solid $grey
     width: 100%
 
   .btn-text
     margin-left: 1em
 
-.links.room-connected
-  min-height: 25%
+  &.room-connected
+    min-height: 15em
 
 svg
   display: inline-block
@@ -213,7 +218,7 @@ svg
 
 .author
   @include padding-left
-  margin-top: 2em
+  margin-top: auto
 
   .donate
     margin: 1em 0
