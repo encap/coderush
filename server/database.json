@@ -322,7 +322,7 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 27
+          "total": 25
         },
         {
           "lines": 12,
@@ -335,7 +335,7 @@
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 36
+      "total": 34
     },
     {
       "ext": "r",
@@ -502,7 +502,7 @@
       "files": [
         {
           "lines": 31,
-          "name": "coderush_languages_list",
+          "name": "codeRush_languages_list",
           "source": "own",
           "tabSize": 2,
           "total": 14
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 30.643,
-    "backspaceClicks": 5577,
+    "avgWPM": 30.621,
+    "backspaceClicks": 5561,
     "best": 94,
-    "correctClicks": 107626,
+    "correctClicks": 107194,
     "correctLines": 3943,
-    "deletingTime": 2767,
-    "total": 306
+    "deletingTime": 2759,
+    "total": 304
   }
 }
