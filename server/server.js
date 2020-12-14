@@ -59,7 +59,7 @@ const toggleMaintanceMode = (action) => {
     },
     withCredentials: true,
     data: {
-      build_stack: 'heroku-18',
+      build_stack: 'heroku-20',
       maintenance: action,
       name: 'coderush',
     },
