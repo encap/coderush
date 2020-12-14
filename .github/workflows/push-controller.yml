@@ -89,11 +89,14 @@ jobs:
       if: env.code_examples && !env.frontend && !env.all
       run: |
         git add -f dist/code/
+    - name: 'Save database before Heroku restart'
+      if: env.all || env.backend
+      run: |
+        curl -f ${{ secrets.FRESH_DATABASE_URL }} -o ./server/database.json && git add ./server/database.json
 
     - name: Make temporary commit on master
-      if: env.all || env.frontend || env.code_examples
       run: |
-        git commit -m 'temp commit'
+        git commit --allow-empty -m 'temp commit'
     - name: Switch to deploy branch
       run: |
         git checkout -f deploy
@@ -106,10 +109,10 @@ jobs:
       if: env.backend && !env.all && !env.frontend
       run: |
         rm -r server/*.js
-    - name: Clear only old database and code examples
+    - name: Clear only code examples
       if: env.code_examples && !env.all && !env.frontend 
       run: |
-        rm -r server/database.json dist/code/
+        rm -r dist/code/
 
     - name: Checkout all files from master
       if: env.all || env.frontend
@@ -119,10 +122,15 @@ jobs:
       if: env.backend && !env.all && !env.frontend
       run: |
         git checkout master -- "server/"
-    - name: Checkotu only code examples from master
+
+    - name: Checkout only database from master
+      if: env.database && !env.all && !env.backend
+      run: |
+        git checkout master -- "server/database.json"
+    - name: Checkout only code examples from master
       if: env.code_examples && !env.all && !env.frontend
       run: |
-        git checkout master -- "dist/code/"
+        git checkout master -- "dist/code/" "server/database.json"
 
     - name: Stage all changes
       run: |
@@ -157,7 +165,7 @@ jobs:
       run: |
         echo "message=$message backend" >> $GITHUB_ENV;
     - name: Append database to commit message
-      if: env.changes && env.databse && !env.all && !env.backend
+      if: env.changes && env.database && !env.all && !env.backend
       run: |
         echo "message=$message database" >> $GITHUB_ENV;
         

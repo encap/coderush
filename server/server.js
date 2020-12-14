@@ -1,6 +1,7 @@
 const axios = require('axios');
 const express = require('express');
 const bodyParser = require('body-parser');
+const fs = require('fs');
 const path = require('path');
 
 const app = express();
@@ -8,9 +9,8 @@ const http = require('http').Server(app);
 
 require('./rooms.js')(http);
 
-const PATH = path.join(__dirname, '../dist');
 const PROD = process.env.PRODUCTION;
-console.log(`Environment ${PROD}`);
+console.log(`Environment ${PROD || 'DEV'}`);
 
 if (process.env.AUTO_PROMOTE) {
   axios({
@@ -72,66 +72,20 @@ const toggleMaintanceMode = (action) => {
     });
 };
 
-if (PROD) {
-  toggleMaintanceMode(false);
-}
+app.enable('trust proxy'); // trust heroku and cloudflare
+app.set('json spaces', 2);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-let cachedIndexHtml = '';
+let cachedIndexHtml = fs.readFileSync('./dist/index.html', 'utf8');
 
-// this will provide 0 downtime and will prevent reseting created rooms
-
-const getIndexHtml = () => {
-  if (PROD) {
-    console.log('index.html cache update');
-    axios
-      .get('https://coderushcdn.ddns.net/index.html')
-      .then((res) => {
-        if (res.status === 200) {
-          cachedIndexHtml = res.data;
-        } else {
-          throw new Error(`Response status: "${res.status}"`);
-        }
-      })
-      .catch((err) => {
-        console.warn('Error: cannot get index.html from cdn');
-        console.error(err);
-      });
-  }
-};
-
-getIndexHtml();
-
-let database = {};
-let cachedStringifiedDatabase = '';
-
-if (PROD) {
-  console.log('fetching database from cdn');
-
-  axios
-    .get('https://coderushcdn.ddns.net/database.json')
-    .then((res) => {
-      if (res.status === 200) {
-        database = res.data;
-        cachedStringifiedDatabase = JSON.stringify(database);
-      } else {
-        throw new Error(`Response status: "${res.status}"`);
-      }
-    })
-    .catch((err) => {
-      console.warn('Error: cannot get database from cdn');
-      console.error(err);
-    });
-
-  setInterval(() => {
-    console.log('Database cache update');
-    cachedStringifiedDatabase = JSON.stringify(database);
-  }, 1000 * 60 * 60 * 6);
-}
+let stringifiedDB = fs.readFileSync('./server/database.json', 'utf8');
+const database = JSON.parse(stringifiedDB);
 
 let newStats = false;
 
 const sendStats = () => {
-  if (newStats && PROD) {
+  if (newStats) {
     newStats = false;
 
     axios({
@@ -157,79 +111,124 @@ const sendStats = () => {
   }
 };
 
-setInterval(sendStats, 1000 * 60 * 60 * 12);
-
-app.enable('trust proxy'); // trust heroku and cloudflare
-
-// redirect to coderush.xyz
-app.use((req, res, next) => {
-  if (req.subdomains[0] === 'coderush') {
-    res.redirect(301, `https://coderush.xyz${req.path}`);
-  } else {
-    next();
-  }
-});
-
-// redirect to https
-app.use((req, res, next) => {
-  if (req.protocol === 'http' && PROD) {
-    if (req.method === 'GET' || req.method === 'HEAD') {
-      console.log('Redirecting client to https');
-      res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
-    } else {
-      res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
-    }
-  } else {
-    next();
-  }
-});
-
-// heroku free tier goes to sleep after 30 minutes of network inactivity
-app.get('/api/ping', (req, res) => {
-  getIndexHtml();
-  res.sendStatus(200);
-});
-
-const keepAwake = () => {
-  axios.get('https://coderush.xyz/api/ping').catch((err) => console.error(`Ping Error: ${err}`));
-};
 
 if (PROD) {
-  setInterval(keepAwake, 1000 * 60 * 10);
+  toggleMaintanceMode(false);
+
+  setInterval(sendStats, 1000 * 60 * 60 * 24);
+
+  app.get(process.env.FRESH_DATABASE_URL, (req, res) => {
+    res.json(database);
+  });
+
+  app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
+    if (res.body.length > 100) {
+      cachedIndexHtml = res.body;
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(400);
+    }
+  });
+
+  app.post(process.env.DATABASE_UPDATE_URL, (req, res) => {
+    const newDB = req.body;
+
+    if (newDB.languages.length !== database.languages.length) {
+      res.sendStatus(409);
+    }
+
+    database.languages = database.languages.map((language, index) => {
+      const languageFromNewDB = newDB.languages[index];
+      if (
+        language.name === languageFromNewDB.name
+        && languageFromNewDB.files.length > language.files.length
+      ) {
+        console.log(`Language update ${language.name}`);
+
+        return {
+          ...language,
+          files: [...language.files, ...languageFromNewDB.files.slice(language.files.length)],
+        };
+      }
+
+      return language;
+    });
+
+    stringifiedDB = JSON.stringify(database);
+    res.sendStatus(200);
+  });
+
+  // redirect to coderush.xyz
+  app.use((req, res, next) => {
+    if (req.subdomains[0] === 'coderush') {
+      res.redirect(301, `https://coderush.xyz${req.path}`);
+    } else {
+      next();
+    }
+  });
+
+  // redirect to https
+  app.use((req, res, next) => {
+    if (req.protocol === 'http') {
+      if (req.method === 'GET' || req.method === 'HEAD') {
+        console.log('Redirecting client to https');
+        res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
+      } else {
+        res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
+      }
+    } else {
+      next();
+    }
+  });
+
+  // heroku free tier goes to sleep after 30 minutes of network inactivity
+  app.get('/api/ping', (req, res) => {
+    res.sendStatus(200);
+  });
+
+  setInterval(() => {
+    axios.get('https://coderush.xyz/api/ping').catch((err) => console.error(`Ping Error: ${err}`));
+  }, 1000 * 60 * 10);
+} else {
+  app.use((req, res, next) => {
+    if (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css') {
+      res.header('content-encoding', 'gzip');
+    }
+    next();
+  });
 }
+
+setInterval(() => {
+  if (newStats) {
+    stringifiedDB = JSON.stringify(database);
+  }
+}, 1000 * 60 * 5);
+
 
 // send cached index.html when possible
 app.use((req, res, next) => {
   const match = req.originalUrl.match(/\.\w+$/);
   const ext = match ? match[0][0] : '';
   if ((req.method === 'GET' || req.method === 'HEAD') && (ext === '' || ext === 'html')) {
-    if (cachedIndexHtml) {
-      console.log('sending cached index.html');
-      res.send(cachedIndexHtml);
-    } else {
-      console.log('sending index.html from a file');
-      res.sendFile('index.html', { root: PATH });
-    }
+    res.send(cachedIndexHtml);
   } else {
     next();
   }
 });
 
 // send cached stringified database.json when possible
-app.get('/database.json', (_req, res) => {
-  if (cachedStringifiedDatabase.length > 2) {
+app.get('/database.json', (req, res) => {
+  if (stringifiedDB.length > 2) {
     // {} empty object
-    console.log('sending cached database');
     res.setHeader('Content-Type', 'application/json');
-    res.send(cachedStringifiedDatabase);
+    res.send(stringifiedDB);
   } else {
+    // failover
     console.log('sending database from file');
     res.sendFile('database.json', { root: __dirname }); // database.json is in the same dir as server
   }
 });
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 app.post('/api/upload', (req, res) => {
   if (typeof req.body.code === 'string' && req.body.code.length > 20) {
@@ -261,78 +260,33 @@ app.post('/api/upload', (req, res) => {
 });
 
 app.post('/api/stats', (req, res) => {
-  if (PROD) {
-    const stats = req.body;
-    database.stats.avgWPM = Math.round(
-      (((database.stats.avgWPM * database.stats.total) + stats.wpm) / (database.stats.total + 1))
-          * 1000,
-    ) / 1000;
+  const stats = req.body;
+  database.stats.avgWPM = Math.round(
+    (((database.stats.avgWPM * database.stats.total) + stats.wpm) / (database.stats.total + 1))
+        * 1000,
+  ) / 1000;
 
-    database.stats.total += 1;
+  database.stats.total += 1;
 
-    if (stats.wpm < 200 && stats.wpm > database.stats.best) {
-      database.stats.best = stats.wpm;
-    }
-
-    database.stats.correctClicks = database.stats.correctClicks + stats.correctClicks || database.stats.correctClicks;
-    database.stats.correctLines = database.stats.correctLines + stats.correctLines || database.stats.correctLines;
-    database.stats.backspaceClicks = database.stats.backspaceClicks + stats.backspaceClicks || database.stats.backspaceClicks;
-    database.stats.deletingTime = database.stats.deletingTime + stats.deletingTime || database.stats.deletingTime;
-    database.languages[stats.languageIndex].total = database.languages[stats.languageIndex].total + 1 || 1;
-    database.languages[stats.languageIndex].files[stats.fileIndex].total = database.languages[stats.languageIndex].files[stats.fileIndex].total + 1 || 1;
-
-    newStats = true;
+  if (stats.wpm < 200 && stats.wpm > database.stats.best) {
+    database.stats.best = stats.wpm;
   }
+
+  database.stats.correctClicks = database.stats.correctClicks + stats.correctClicks || database.stats.correctClicks;
+  database.stats.correctLines = database.stats.correctLines + stats.correctLines || database.stats.correctLines;
+  database.stats.backspaceClicks = database.stats.backspaceClicks + stats.backspaceClicks || database.stats.backspaceClicks;
+  database.stats.deletingTime = database.stats.deletingTime + stats.deletingTime || database.stats.deletingTime;
+  database.languages[stats.languageIndex].total = database.languages[stats.languageIndex].total + 1 || 1;
+  database.languages[stats.languageIndex].files[stats.fileIndex].total = database.languages[stats.languageIndex].files[stats.fileIndex].total + 1 || 1;
+
+  newStats = true;
 
   res.sendStatus(200);
 });
 
-if (PROD) {
-  app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
-    getIndexHtml();
-    res.sendStatus(200);
-  });
 
-  app.post(process.env.DATABASE_UPDATE_URL, (req, res) => {
-    const newDB = req.body;
+app.use(express.static(path.join(__dirname, '../dist')));
 
-    if (newDB.languages.length !== database.languages.length) {
-      res.sendStatus(409);
-    }
-
-    database.languages = database.languages.map((language, index) => {
-      const languageFromNewDB = newDB.languages[index];
-      if (
-        language.name === languageFromNewDB.name
-        && languageFromNewDB.files.length > language.files.length
-      ) {
-        console.log(`Language update ${language.name}`);
-
-        return {
-          ...language,
-          files: [...language.files, ...languageFromNewDB.files.slice(language.files.length)],
-        };
-      }
-
-      return language;
-    });
-
-    cachedStringifiedDatabase = JSON.stringify(database);
-    res.sendStatus(200);
-  });
-}
-
-if (!PROD) {
-  // local server
-  app.use((req, res, next) => {
-    if (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css') {
-      res.header('content-encoding', 'gzip');
-    }
-    next();
-  });
-}
-
-app.use(express.static(PATH));
 
 const PORT = process.env.PORT || 3000;
 
