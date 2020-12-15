@@ -4,8 +4,15 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 
+require('dotenv').config({ path: `${__dirname}/./../.env.local` });
+
 const app = express();
 const http = require('http').Server(app);
+
+const faunadb = require('faunadb');
+
+const q = faunadb.query;
+const client = new faunadb.Client({ secret: process.env.FAUNA_KEY });
 
 require('./rooms.js')(http);
 
@@ -71,54 +78,40 @@ const toggleMaintanceMode = (action) => {
 };
 
 app.enable('trust proxy'); // trust heroku and cloudflare
-app.set('json spaces', 2);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 let cachedIndexHtml = fs.readFileSync('./dist/index.html', 'utf8');
 
-// no spaces
-let database = JSON.parse(fs.readFileSync('./server/database.json', 'utf8'));
-let stringifiedDB = JSON.stringify(database);
-
-let newStats = false;
-
-const sendStats = () => {
-  if (newStats) {
-    newStats = false;
-
-    axios({
-      url: 'https://api.github.com/repos/encap/coderush/dispatches',
-      method: 'post',
-      headers: {
-        Accept: 'application/vnd.github.everest-preview+json',
-        Authorization: `token ${process.env.GH_PERSONAL_TOKEN}`,
-      },
-      withCredentials: true,
-      data: {
-        event_type: 'update-stats',
-        client_payload: database,
-      },
-    })
-      .then(() => {
-        console.log(`Stats sent. Total: ${database.stats.total}`);
-      })
-      .catch((response) => {
-        console.warn('Stats update failed');
-        console.error(response);
-      });
-  }
-};
+let database = {};
+let stringifiedDB = '';
+client.query(
+  [
+    q.Map(
+      q.Paginate(q.Documents(q.Collection('main'))),
+      (languageRef) => q.Select(['data'], q.Get(languageRef)),
+    ),
+    q.Map(
+      q.Paginate(q.Documents(q.Collection('totalStats'))),
+      (statsRef) => q.Select(['data'], q.Get(statsRef)),
+    ),
+  ],
+)
+  .then((ret) => {
+    console.log(ret);
+    database = {
+      languages: ret[0].data,
+      stats: Object.fromEntries(ret[1].data.map((entry) => ([entry.name, entry.value]))),
+    };
+    stringifiedDB = JSON.stringify(database);
+    console.log('Fetched database');
+  })
+  .catch((err) => console.error('Error: %s', err));
 
 
 if (PROD) {
   toggleMaintanceMode(false);
 
-  setInterval(sendStats, 1000 * 60 * 60 * 24);
-
-  app.get(process.env.FRESH_DATABASE_URL, (req, res) => {
-    res.json(database);
-  });
 
   app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
     if (res.body.length > 100) {
@@ -126,20 +119,6 @@ if (PROD) {
       res.sendStatus(200);
     } else {
       res.sendStatus(400);
-    }
-  });
-
-  app.post(process.env.DATABASE_UPDATE_URL, (req, res) => {
-    console.log('DATABASE HOT UPDATE');
-    const newDB = req.body;
-
-    if (typeof newDB.stats === 'object' && newDB.languages.length >= database.languages.length) {
-      database = newDB;
-      stringifiedDB = JSON.stringify(database);
-      res.sendStatus(200);
-    } else {
-      console.error('DATABASE HOT UPDATE FAILED');
-      res.sendStatus(409);
     }
   });
 
@@ -183,13 +162,6 @@ if (PROD) {
   });
 }
 
-setInterval(() => {
-  if (newStats) {
-    stringifiedDB = JSON.stringify(database);
-  }
-}, 1000 * 60 * 5);
-
-
 // send cached index.html when possible
 app.use((req, res, next) => {
   const match = req.originalUrl.match(/\.\w+$/);
@@ -201,17 +173,9 @@ app.use((req, res, next) => {
   }
 });
 
-// send cached stringified database.json when possible
 app.get('/database.json', (req, res) => {
-  if (stringifiedDB.length > 2) {
-    // {} empty object
-    res.setHeader('Content-Type', 'application/json');
-    res.send(stringifiedDB);
-  } else {
-    // failover
-    console.log('sending database from file');
-    res.sendFile('database.json', { root: __dirname }); // database.json is in the same dir as server
-  }
+  res.setHeader('Content-Type', 'application/json');
+  res.send(stringifiedDB);
 });
 
 
@@ -267,6 +231,7 @@ app.post('/api/stats', (req, res) => {
   newStats = true;
 
   res.sendStatus(200);
+  stringifiedDB = JSON.stringify(database);
 });
 
 
@@ -283,7 +248,6 @@ const shutdown = () => {
   console.warn('Server is pending shutdown');
   server.close();
   if (PROD) {
-    sendStats();
     toggleMaintanceMode(true);
     setTimeout(() => {
       console.warn('Ready for shutdown');
