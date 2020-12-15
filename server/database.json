@@ -24,13 +24,13 @@
           "name": "disk_read",
           "source": "github.com/ghaiklor",
           "tabSize": 8,
-          "total": 4
+          "total": 5
         }
       ],
       "mime": "text/x-z80",
       "mode": "z80",
       "name": "Assembly",
-      "total": 4
+      "total": 5
     },
     {
       "ext": "sh",
@@ -120,13 +120,13 @@
           "name": "delicious_hello_world",
           "source": "dangermouse.net",
           "tabSize": 8,
-          "total": 2
+          "total": 3
         }
       ],
       "mime": "text/x-ruby",
       "mode": "ruby",
       "name": "English",
-      "total": 2
+      "total": 3
     },
     {
       "ext": "go",
@@ -168,13 +168,13 @@
           "name": "random_ints_to_file",
           "source": "cs.utexas.edu",
           "tabSize": 4,
-          "total": 9
+          "total": 11
         }
       ],
       "mime": "text/x-java",
       "mode": "clike",
       "name": "Java",
-      "total": 9
+      "total": 11
     },
     {
       "ext": "js",
@@ -184,13 +184,13 @@
           "name": "clone-it_show_hints",
           "source": "own",
           "tabSize": 2,
-          "total": 67
+          "total": 69
         }
       ],
       "mime": "application/javascript",
       "mode": "javascript",
       "name": "JavaScript",
-      "total": 67
+      "total": 69
     },
     {
       "ext": "kt",
@@ -216,13 +216,13 @@
           "name": "turtle_example",
           "source": "michael0x2a.com",
           "tabSize": 4,
-          "total": 4
+          "total": 5
         }
       ],
       "mime": "text/plain",
       "mode": "",
       "name": "Logo",
-      "total": 4
+      "total": 5
     },
     {
       "ext": "m",
@@ -322,20 +322,20 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 25
+          "total": 26
         },
         {
           "lines": 12,
           "name": "UrlParser",
           "source": "Python_boss",
           "tabSize": 4,
-          "total": 9
+          "total": 11
         }
       ],
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 34
+      "total": 37
     },
     {
       "ext": "r",
@@ -505,13 +505,13 @@
           "name": "coderush_languages_list",
           "source": "own",
           "tabSize": 2,
-          "total": 12
+          "total": 14
         }
       ],
       "mime": "text/x-vue",
       "mode": "vue",
       "name": "Vue",
-      "total": 12
+      "total": 14
     },
     {
       "ext": "ws",
@@ -521,22 +521,22 @@
           "name": "hardcore_hello_world",
           "source": "github.com/rdebath/whitespace",
           "tabSize": 2,
-          "total": 1
+          "total": 2
         }
       ],
       "mime": "text/plain",
       "mode": "",
       "name": "Whitespace",
-      "total": 1
+      "total": 2
     }
   ],
   "stats": {
-    "avgWPM": 32.621,
-    "backspaceClicks": 5561,
+    "avgWPM": 33.521,
+    "backspaceClicks": 5591,
     "best": 94,
-    "correctClicks": 107194,
-    "correctLines": 3943,
-    "deletingTime": 2759,
-    "total": 302
+    "correctClicks": 107394,
+    "correctLines": 4034,
+    "deletingTime": 2779,
+    "total": 315
   }
 }
