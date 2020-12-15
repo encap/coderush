@@ -77,6 +77,7 @@ try {
 
         if (totalCounted !== database.stats.total) {
           console.log('\x1b[31m', 'TOTAL DOESN\'T MATCH');
+          console.log(`TOTAL COUNTED: ${totalCounted}`);
           console.log(`TOTAL IN DB: ${database.stats.total}`);
           core.setFailed('TOTAL DOESN\'T MATCH');
         } else {
