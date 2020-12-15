@@ -25,7 +25,7 @@ jobs:
       # regex lookahead and lookbehind, \w don't work here
       run: |
         [[ "$(echo "${{ steps.changes.outputs.files }}" | sed "s/database.json//")" =~ server/[a-zA-Z/].+\.js ]] && echo "backend=true" >> $GITHUB_ENV;
-        [[ "${{ steps.changes.outputs.files }}" =~ src/|config\.js|eslintrc|\.env|public(?!/code) ]] && echo "frontend=true" >> $GITHUB_ENV;
+        [[  "$(echo "${{ steps.changes.outputs.files }}" | sed "s/public\/code//")" =~ src/|config\.js|eslintrc|\.env|public/ ]] && echo "frontend=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ database\.json ]] && echo "database=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ public/code ]] && echo "code_examples=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ package\.json ]] && echo "package_json=true" >> $GITHUB_ENV;
@@ -45,14 +45,12 @@ jobs:
         echo "package_json=$package_json";
         echo "github_actions=$github_actions";
         echo "all=$all";
-        echo "any=$any";
 
     - name: Clone repository
       run: |
         git clone --depth 1 --no-single-branch https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git .
 
     - name: Setup Node.js
-      if: env.all || env.frontend
       uses: actions/setup-node@v1
       with:
         node-version: '12'
@@ -65,6 +63,11 @@ jobs:
       if: env.all || env.frontend
       run: |
         npm install
+    - name: Install only @actions/core
+      if: env.database || env.backend && !env.all && !env.frontend
+      run: |
+        npm install --no-package-lock --no-save @actions/core
+
     - name: Vue build
       if: env.all || env.frontend
       run: |
@@ -89,11 +92,20 @@ jobs:
       if: env.code_examples && !env.frontend && !env.all
       run: |
         git add -f dist/code/
+    - name: Stage database to overwrite
+      if: contains(github.event.head_commit.message, '[OVERWRITE DB]')
+      run: |
+        git add ./server/database.json
+    - name: 'Merge new stats before Heroku restart'
+      if: env.all || env.backend || env.database && !contains(github.event.head_commit.message, '[OVERWRITE DB]')
+      run: |
+        node actions/merge-stats.js && git add ./server/database.json
+      env:
+        SOURCE_URL: ${{ secrets.FRESH_DATABASE_URL }}
 
     - name: Make temporary commit on master
-      if: env.all || env.frontend || env.code_examples
       run: |
-        git commit -m 'temp commit'
+        git commit --allow-empty -m 'temp commit'
     - name: Switch to deploy branch
       run: |
         git checkout -f deploy
@@ -106,10 +118,10 @@ jobs:
       if: env.backend && !env.all && !env.frontend
       run: |
         rm -r server/*.js
-    - name: Clear only old database and code examples
+    - name: Clear only code examples
       if: env.code_examples && !env.all && !env.frontend 
       run: |
-        rm -r server/database.json dist/code/
+        rm -r dist/code/
 
     - name: Checkout all files from master
       if: env.all || env.frontend
@@ -119,7 +131,12 @@ jobs:
       if: env.backend && !env.all && !env.frontend
       run: |
         git checkout master -- "server/"
-    - name: Checkotu only code examples from master
+
+    - name: Checkout only database from master
+      if: env.database && !env.all && !env.backend
+      run: |
+        git checkout master -- "server/database.json"
+    - name: Checkout only code examples from master
       if: env.code_examples && !env.all && !env.frontend
       run: |
         git checkout master -- "dist/code/"
@@ -157,7 +174,7 @@ jobs:
       run: |
         echo "message=$message backend" >> $GITHUB_ENV;
     - name: Append database to commit message
-      if: env.changes && env.databse && !env.all && !env.backend
+      if: env.changes && env.database && !env.all && !env.backend
       run: |
         echo "message=$message database" >> $GITHUB_ENV;
         

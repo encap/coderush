@@ -11,8 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-      with:
-        token: ${{ secrets.GH_PERSONAL_TOKEN }}
     - name: Setup Node.js
       uses: actions/setup-node@v1
       with:
@@ -22,7 +20,7 @@ jobs:
         npm install --no-package-lock --no-save @actions/core
     - name: Process stats
       run: |
-        node actions/process-stats-update.js
+        node actions/merge-stats.js
     - name: Commit and push changes to master
       uses: stefanzweifel/git-auto-commit-action@v4.6.0
       with:
