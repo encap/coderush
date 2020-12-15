@@ -67,7 +67,7 @@ jobs:
       if: env.database || env.backend && !env.all && !env.frontend
       run: |
         npm install --no-package-lock --no-save @actions/core
-        
+
     - name: Vue build
       if: env.all || env.frontend
       run: |
@@ -92,9 +92,12 @@ jobs:
       if: env.code_examples && !env.frontend && !env.all
       run: |
         git add -f dist/code/
-        
+    - name: Stage database to overwrite
+      if: contains(github.event.head_commit.message, '[OVERWRITE DB]')
+      run: |
+        git add ./server/database.json
     - name: 'Merge new stats before Heroku restart'
-      if: env.all || env.backend || env.database
+      if: env.all || env.backend || env.database && !contains(github.event.head_commit.message, '[OVERWRITE DB]')
       run: |
         node actions/merge-stats.js && git add ./server/database.json
       env:
