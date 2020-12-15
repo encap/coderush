@@ -200,13 +200,13 @@
           "name": "location_api_long",
           "source": "androdocs.com",
           "tabSize": 4,
-          "total": 2
+          "total": 3
         }
       ],
       "mime": "text/x-kotlin",
       "mode": "clike",
       "name": "Kotlin",
-      "total": 2
+      "total": 3
     },
     {
       "ext": "lgo",
@@ -537,6 +537,6 @@
     "correctClicks": 107394,
     "correctLines": 4034,
     "deletingTime": 2779,
-    "total": 315
+    "total": 316
   }
 }
