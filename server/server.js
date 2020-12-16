@@ -1,3 +1,4 @@
+/* eslint-disable function-paren-newline */
 const axios = require('axios');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -85,42 +86,42 @@ let cachedIndexHtml = fs.readFileSync('./dist/index.html', 'utf8');
 
 let database = {};
 let stringifiedDB = '';
+
+const updateDatabaseCache = () => {
+  stringifiedDB = JSON.stringify(database);
+};
+
 client.query(
   [
     q.Map(
-      q.Paginate(q.Documents(q.Collection('main'))),
-      (languageRef) => q.Select(['data'], q.Get(languageRef)),
+      q.Paginate(q.Match(q.Index('allLanguagesByIndex'))),
+      q.Lambda('ret',
+        q.Select(['data'], q.Get(q.Select([1], q.Var('ret')))),
+      ),
     ),
     q.Map(
       q.Paginate(q.Documents(q.Collection('totalStats'))),
-      (statsRef) => q.Select(['data'], q.Get(statsRef)),
+      q.Lambda('ref',
+        q.Select(['data'], q.Get(q.Var('ref'))),
+      ),
     ),
   ],
 )
   .then((ret) => {
-    console.log(ret);
     database = {
       languages: ret[0].data,
       stats: Object.fromEntries(ret[1].data.map((entry) => ([entry.name, entry.value]))),
     };
-    stringifiedDB = JSON.stringify(database);
+    updateDatabaseCache();
     console.log('Fetched database');
   })
-  .catch((err) => console.error('Error: %s', err));
+  .catch((err) => {
+    console.error('Error: %s', err);
+  });
 
 
 if (PROD) {
   toggleMaintanceMode(false);
-
-
-  app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
-    if (res.body.length > 100) {
-      cachedIndexHtml = res.body;
-      res.sendStatus(200);
-    } else {
-      res.sendStatus(400);
-    }
-  });
 
   // redirect to coderush.xyz
   app.use((req, res, next) => {
@@ -161,6 +162,15 @@ if (PROD) {
     next();
   });
 }
+
+app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
+  if (res.body.length > 100) {
+    cachedIndexHtml = res.body;
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(400);
+  }
+});
 
 // send cached index.html when possible
 app.use((req, res, next) => {
@@ -208,30 +218,138 @@ app.post('/api/upload', (req, res) => {
   }
 });
 
-app.post('/api/stats', (req, res) => {
-  const stats = req.body;
-  database.stats.avgWPM = Math.round(
-    (((database.stats.avgWPM * database.stats.total) + stats.wpm) / (database.stats.total + 1))
-        * 1000,
-  ) / 1000;
+app.post('/api/stats', async (req, res) => {
+  const { main, misc } = req.body;
+  // database.stats.avg = Math.round(
+  //   (((database.stats.avg * database.stats.total) + stats.wpm) / (database.stats.total + 1))
+  //       * 1000,
+  // ) / 1000;
 
-  database.stats.total += 1;
+  try {
+    // console.log(`langTotalBefore: ${database.languages[main.languageIndex].total}`);
+    database.languages[main.languageIndex].total = await client.query(
+      q.Select(['data', 'total'],
+        q.Let({
+          lang: q.Get(q.Match(q.Index('languageByIndex'), main.languageIndex)),
+          ref: q.Select(['ref'], q.Var('lang')),
+        },
+        q.Update(q.Var('ref'),
+          {
+            data: {
+              total: q.Add(q.Select(['data', 'total'], q.Var('lang')), 1),
+            },
+          }))),
+    );
+    // console.log(`langTotalAfter: ${database.languages[main.languageIndex].total}`);
 
-  if (stats.wpm < 200 && stats.wpm > database.stats.best) {
-    database.stats.best = stats.wpm;
+    // save run
+    client.query(
+      q.Create(
+        q.Collection('runs'),
+        {
+          data: main,
+        },
+      ),
+    );
+
+    // console.log(`bestBefore: ${database.stats.best}`);
+    database.stats.best = await client.query(
+      q.Select(['data', 'value'],
+        q.Let(
+          {
+            doc: q.Get(q.Match(q.Index('statByName'), 'best')),
+            ref: q.Select(['ref'], q.Var('doc')),
+          },
+          q.Update(q.Var('ref'),
+            {
+              data: {
+                value: q.Max([q.Select(['data', 'value'], q.Var('doc')), main.wpm]),
+              },
+            },
+          ),
+        ),
+      ),
+    );
+    // console.log(`bestAfter: ${database.stats.best}`);
+
+    // console.log(`avgBefore: ${database.stats.avg}`);
+    database.stats.avg = await client.query(
+      q.Select(['data', 'value'],
+        q.Let(
+          {
+            doc: q.Get(q.Match(q.Index('statByName'), 'avg')),
+            ref: q.Select(['ref'], q.Var('doc')),
+          },
+          q.Update(q.Var('ref'),
+            {
+              data: {
+                value: q.Select(
+                  ['data', 0],
+                  q.Mean(
+                    q.Map(
+                      q.Paginate(q.Match(q.Index('runsWpmByDate')), { size: 100 }),
+                      q.Lambda(['ts', 'wpm'], q.Var('wpm')),
+                    ),
+                  ),
+                ),
+              },
+            },
+          ),
+        ),
+      ),
+    );
+    // console.log(`avgAfter: ${database.stats.avg}`);
+
+    // to simplify next query
+    misc.total = 1;
+
+    const statsResponse = await client.query(
+      q.Map(
+        Object.entries(misc),
+        q.Lambda(
+          ['name', 'value'],
+          // q.Var('value'),
+          q.Let(
+            {
+              ret: q.Let(
+                {
+                  doc: q.Get(q.Match(q.Index('statByName'), q.Var('name'))),
+                  ref: q.Select(['ref'], q.Var('doc')),
+                },
+                q.Update(q.Var('ref'),
+                  {
+                    data: {
+                      value: q.Add(q.Select(['data', 'value'], q.Var('doc')), q.Var('value')),
+                    },
+                  },
+                ),
+              ),
+            },
+            [
+              q.Select(['data', 'name'], q.Var('ret')),
+              q.Select(['data', 'value'], q.Var('ret')),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    // debugger;
+
+    database.stats = {
+      ...database.stats,
+      ...Object.fromEntries(statsResponse),
+    };
+
+    updateDatabaseCache();
+  } catch (e) {
+    console.log('Stats update failed');
+    debugger;
+    console.error(e);
   }
 
-  database.stats.correctClicks = database.stats.correctClicks + stats.correctClicks || database.stats.correctClicks;
-  database.stats.correctLines = database.stats.correctLines + stats.correctLines || database.stats.correctLines;
-  database.stats.backspaceClicks = database.stats.backspaceClicks + stats.backspaceClicks || database.stats.backspaceClicks;
-  database.stats.deletingTime = database.stats.deletingTime + stats.deletingTime || database.stats.deletingTime;
-  database.languages[stats.languageIndex].total = database.languages[stats.languageIndex].total + 1 || 1;
-  database.languages[stats.languageIndex].files[stats.fileIndex].total = database.languages[stats.languageIndex].files[stats.fileIndex].total + 1 || 1;
-
-  newStats = true;
 
   res.sendStatus(200);
-  stringifiedDB = JSON.stringify(database);
 });
 
 

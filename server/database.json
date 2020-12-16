@@ -531,7 +531,7 @@
     }
   ],
   "stats": {
-    "avgWPM": 33.521,
+    "avg": 33.521,
     "backspaceClicks": 5591,
     "best": 94,
     "correctClicks": 107394,

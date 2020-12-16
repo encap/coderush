@@ -1,18 +1,31 @@
 const faunadb = require('faunadb');
+require('dotenv').config({ path: `${__dirname}/env.local` });
+
 const db = require('./server/database.json');
 
 const q = faunadb.query;
 
-const client = new faunadb.Client({ secret: 'fnAD9JL_aHACBxtFnhe8nEKiu6DM0H3l5A5J_2Z3' });
+const client = new faunadb.Client({ secret: process.env.FAUNA_KEY });
 
+// Object.entries(db.stats).forEach(([key, value]) => {
+//   client.query(
+//     q.Create(
+//       q.Collection('totalStats'),
+//       {
+//         data: { name: key, value },
+//       },
+//     ),
+//   )
+//     .then((ret) => console.log(ret))
+//     .catch((err) => console.error(err));
+// });
 
-console.log(Object.entries(db.stats));
-Object.entries(db.stats).forEach(([key, value]) => {
+db.languages.map((lang, index) => ({ ...lang, index })).forEach((lang) => {
   client.query(
     q.Create(
-      q.Collection('totalStats'),
+      q.Collection('main'),
       {
-        data: { name: key, value },
+        data: lang,
       },
     ),
   )
