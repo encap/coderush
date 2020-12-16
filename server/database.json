@@ -152,13 +152,13 @@
           "name": "clone-it_results_menu",
           "source": "own",
           "tabSize": 2,
-          "total": 23
+          "total": 25
         }
       ],
       "mime": "text/xml",
       "mode": "xml",
       "name": "HTML",
-      "total": 23
+      "total": 25
     },
     {
       "ext": "java",
@@ -322,20 +322,20 @@
           "name": "8_queens_problem",
           "source": "wiki.python.org",
           "tabSize": 4,
-          "total": 26
+          "total": 28
         },
         {
           "lines": 12,
           "name": "UrlParser",
           "source": "Python_boss",
           "tabSize": 4,
-          "total": 11
+          "total": 12
         }
       ],
       "mime": "text/x-python",
       "mode": "python",
       "name": "Python",
-      "total": 37
+      "total": 40
     },
     {
       "ext": "r",
@@ -505,13 +505,13 @@
           "name": "coderush_languages_list",
           "source": "own",
           "tabSize": 2,
-          "total": 14
+          "total": 18
         }
       ],
       "mime": "text/x-vue",
       "mode": "vue",
       "name": "Vue",
-      "total": 14
+      "total": 18
     },
     {
       "ext": "ws",
@@ -531,12 +531,12 @@
     }
   ],
   "stats": {
-    "avgWPM": 33.521,
-    "backspaceClicks": 5591,
+    "avgWPM": 33.207,
+    "backspaceClicks": 5679,
     "best": 94,
-    "correctClicks": 107394,
-    "correctLines": 4034,
-    "deletingTime": 2779,
-    "total": 316
+    "correctClicks": 108841,
+    "correctLines": 4076,
+    "deletingTime": 2819,
+    "total": 325
   }
 }
