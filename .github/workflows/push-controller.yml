@@ -111,7 +111,7 @@ jobs:
         gsutil -m setmeta -h "Content-Encoding:gzip" gs://${GCS_BUCKET}/cm/**/*
 
     - name: Hot update index.html
-      if: env.frontend && !env.backend' && !env.all
+      if: env.frontend && !env.backend && !env.all
       run: |
         curl -d "@/dist/index.html" -X POST ${{ secrets.INDEX_HTML_UPDATE_URL }}
 
