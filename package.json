@@ -8,6 +8,7 @@
     "vue-ui": "vue ui",
     "build:prod": "vue-cli-service build",
     "build": "VUE_APP_ASSETS_PATH=\"\" vue-cli-service build",
+    "heroku-postbuild": "echo SKIP",
     "lint": "vue-cli-service lint",
     "server": "kill $(lsof -ti :3000) & DEBUG=socket.io:client* nodemon -V -w server/ -e js --inspect ./server/server.js",
     "report": "VUE_APP_ASSETS_PATH=\"\" vue-cli-service build --report"
