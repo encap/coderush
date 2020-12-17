@@ -123,9 +123,6 @@ jobs:
       if: env.code_submission
       run: |
         node actions/add-code-submission-to-db.js
-      env:
-        FAUNA_KEY: ${{ secrets.FAUNA_KEY }}
-        PAT: ${{ secrets.GH_PERSONAL_TOKEN }}
 
     - name: Push backend to Heroku
       if: env.backend || env.all

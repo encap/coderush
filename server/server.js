@@ -12,13 +12,11 @@ const http = require('http').Server(app);
 
 const faunadb = require('faunadb');
 
-const q = faunadb.query;
-const client = new faunadb.Client({ secret: process.env.FAUNA_KEY });
-
 require('./rooms.js')(http);
 
 const PROD = process.env.PRODUCTION;
 console.log(`Environment ${PROD || 'DEV'}`);
+
 
 if (process.env.AUTO_PROMOTE) {
   axios({
@@ -78,47 +76,59 @@ const toggleMaintanceMode = (action) => {
     });
 };
 
+const q = faunadb.query;
+const client = new faunadb.Client({ secret: PROD ? process.env.FAUNA_KEY : process.env.FAUNA_DEV_KEY });
+
 app.enable('trust proxy'); // trust heroku and cloudflare
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 let cachedIndexHtml = fs.readFileSync('./dist/index.html', 'utf8');
 
-let database = {};
+let database = null;
 let stringifiedDB = '';
 
 const updateDatabaseCache = () => {
   stringifiedDB = JSON.stringify(database);
 };
 
-client.query(
-  [
-    q.Map(
-      q.Paginate(q.Match(q.Index('allLanguagesByIndex'))),
-      q.Lambda('ret',
-        q.Select(['data'], q.Get(q.Select([1], q.Var('ret')))),
-      ),
-    ),
-    q.Map(
-      q.Paginate(q.Documents(q.Collection('totalStats'))),
-      q.Lambda('ref',
-        q.Select(['data'], q.Get(q.Var('ref'))),
-      ),
-    ),
-  ],
-)
-  .then((ret) => {
+const fetchDatabase = async () => {
+  try {
+    const [languagesRet, statsRet] = await client.query(
+      [
+        q.Map(
+          q.Paginate(q.Match(q.Index('allLanguagesByIndex'))),
+          q.Lambda('ret',
+            q.Select(['data'], q.Get(q.Select([1], q.Var('ret')))),
+          ),
+        ),
+        q.Map(
+          q.Paginate(q.Documents(q.Collection('totalStats'))),
+          q.Lambda('ref',
+            q.Select(['data'], q.Get(q.Var('ref'))),
+          ),
+        ),
+      ],
+    );
+
     database = {
-      languages: ret[0].data,
-      stats: Object.fromEntries(ret[1].data.map((entry) => ([entry.name, entry.value]))),
+      languages: languagesRet.data,
+      stats: Object.fromEntries(statsRet.data.map((entry) => ([entry.name, entry.value]))),
     };
     updateDatabaseCache();
     console.log('Fetched database');
-  })
-  .catch((err) => {
+    return 0;
+  } catch (err) {
+    console.log('Database fetch failed');
     console.error('Error: %s', err);
-  });
+    if (database === null) {
+      process.exit(1);
+    }
+    return 1;
+  }
+};
 
+fetchDatabase();
 
 if (PROD) {
   toggleMaintanceMode(false);
@@ -156,7 +166,7 @@ if (PROD) {
   }, 1000 * 60 * 10);
 } else {
   app.use((req, res, next) => {
-    if (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css') {
+    if (!req.path.includes('code/') && (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css')) {
       res.header('content-encoding', 'gzip');
     }
     next();
@@ -166,9 +176,17 @@ if (PROD) {
 app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
   if (res.body.length > 100) {
     cachedIndexHtml = res.body;
-    res.sendStatus(200);
+    res.sendStatus(201);
   } else {
     res.sendStatus(400);
+  }
+});
+
+app.post(process.env.DB_UPDATE_URL, (req, res) => {
+  if (fetchDatabase()) {
+    res.sendStatus(201);
+  } else {
+    res.sendStatus(500);
   }
 });
 
@@ -220,10 +238,6 @@ app.post('/api/upload', (req, res) => {
 
 app.post('/api/stats', async (req, res) => {
   const { main, misc } = req.body;
-  // database.stats.avg = Math.round(
-  //   (((database.stats.avg * database.stats.total) + stats.wpm) / (database.stats.total + 1))
-  //       * 1000,
-  // ) / 1000;
 
   try {
     // console.log(`langTotalBefore: ${database.languages[main.languageIndex].total}`);
@@ -334,22 +348,18 @@ app.post('/api/stats', async (req, res) => {
       ),
     );
 
-    // debugger;
-
     database.stats = {
       ...database.stats,
       ...Object.fromEntries(statsResponse),
     };
 
     updateDatabaseCache();
+    res.sendStatus(200);
   } catch (e) {
     console.log('Stats update failed');
-    debugger;
     console.error(e);
+    res.sendStatus(500);
   }
-
-
-  res.sendStatus(200);
 });
 
 

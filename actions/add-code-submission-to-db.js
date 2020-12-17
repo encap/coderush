@@ -4,12 +4,11 @@ const { GitHub, context } = require('@actions/github');
 
 const faunadb = require('faunadb');
 
-const token = core.getInput('github-token', { required: true });
 
 const main = async () => {
   core.startGroup('Get PR body');
 
-  const ghClient = new GitHub(token, {});
+  const ghClient = new GitHub(context.token, {}); // check context.token name
   const { data } = await ghClient.repos.listPullRequestsAssociatedWithCommit({
     owner: context.repo.owner,
     repo: context.repo.repo,
@@ -44,7 +43,7 @@ const main = async () => {
 
   core.startGroup('Establish connection with faunaDB');
   const q = faunadb.query;
-  const client = new faunadb.Client({ secret: process.env.FAUNA_KEY });
+  const client = new faunadb.Client({ secret: context.secrets.FAUNA_KEY });
   core.groupEnd();
 
   core.startGroup('Add file entry to database');
