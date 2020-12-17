@@ -182,7 +182,7 @@ app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
   }
 });
 
-app.post(process.env.DB_UPDATE_URL, (req, res) => {
+app.post(process.env.DATABASE_UPDATE_URL, (req, res) => {
   if (fetchDatabase()) {
     console.log('Updated server database cache');
     res.sendStatus(201);
