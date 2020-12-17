@@ -34,7 +34,7 @@ jobs:
         # env variables are available only in next steps
       run: |
         [[ $workflow_dispatch == true ]] || [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
-        [[ $code_examples && "${{ startsWith(github.event.head_commit.message, '[Code submission]') }}" == "true"]] && echo "code_submission" >> $GITHUB_ENV;
+        [[ $code_examples && { "${{ startsWith(github.event.head_commit.message, '[Code submission]') }}" == "true" } ]] && echo "code_submission" >> $GITHUB_ENV;
         exit 0;
     - name: DEBUG
       run: |
