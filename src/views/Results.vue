@@ -49,7 +49,7 @@
                 <template v-else>
                   <p>You made a mistake after {{ stats.correctInputs }} correct characters</p>
                   <p>{{ stats.codeLength - stats.correctInputs }} characters left</p>
-                  <p>{{ procentCompleted }}% completed</p>
+                  <p>{{ percentCompleted }}% completed</p>
                 </template>
               </div>
               <ShareResults class="share" />
@@ -128,7 +128,7 @@ export default {
     WPM() {
       return this.CPM / 5;
     },
-    procentCompleted() {
+    percentCompleted() {
       return this.format(this.stats.correctInputs / this.stats.codeLength, 1, 100);
     },
     mostMistakesInARow() {
@@ -178,9 +178,9 @@ export default {
       seconds: this.seconds,
       correct: this.stats.correctInputs,
     });
-    if (process.env.VUE_APP_ASSETS_PATH && this.stats.file.index !== -1) {
-      this.sendStats();
-    }
+    // if (this.stats.file.index !== -1) {
+    this.sendStats();
+    // }
   },
   methods: {
     format(number, precision = 2, scaler = 0.001) {
@@ -205,14 +205,19 @@ export default {
         }
       }
       const data = {
-        languageName: this.stats.file.languageName,
-        languageIndex: this.stats.file.languageIndex,
-        wpm: this.format(this.WPM, 0, 1),
-        fileIndex: this.stats.file.index,
-        correctClicks: this.stats.correctInputs,
-        correctLines: this.stats.correctLines,
-        backspaceClicks,
-        deletingTime: this.format(deletingTime, 0),
+        main: {
+          languageIndex: this.stats.file.languageIndex,
+          languageName: this.stats.file.languageName,
+          fileIndex: this.stats.file.index,
+          wpm: this.format(this.WPM, 0, 1),
+          percentCompleted: this.percentCompleted,
+        },
+        misc: {
+          correctClicks: this.stats.correctInputs,
+          correctLines: this.stats.correctLines,
+          backspaceClicks,
+          deletingTime: this.format(deletingTime, 0),
+        },
       };
       const url = `${window.location.origin}/api/stats`;
       axios.post(url, data)

@@ -30,7 +30,7 @@ const actions = {
     if (!context.state.languagesList.length) {
       try {
         const response = await axios.get('/database.json');
-        const languagesList = response.data.languages.map((language, index) => ({ ...language, index }));
+        const languagesList = response.data.languages;
         context.commit('SET_LANGUAGES_LIST', languagesList);
         context.commit('SET_DATABASE_STATS', response.data.stats);
       } catch (err) {

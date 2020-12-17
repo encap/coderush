@@ -24,9 +24,8 @@ jobs:
     - name: 'Analyze changes'
       # regex lookahead and lookbehind, \w don't work here
       run: |
-        [[ "$(echo "${{ steps.changes.outputs.files }}" | sed "s/database.json//")" =~ server/[a-zA-Z/].+\.js ]] && echo "backend=true" >> $GITHUB_ENV;
+        [[ "${{ steps.changes.outputs.files }}" =~ server/[a-zA-Z/].+\.js ]] && echo "backend=true" >> $GITHUB_ENV;
         [[  "$(echo "${{ steps.changes.outputs.files }}" | sed "s/public\/code//")" =~ src/|config\.js|eslintrc|\.env|public/ ]] && echo "frontend=true" >> $GITHUB_ENV;
-        [[ "${{ steps.changes.outputs.files }}" =~ database\.json ]] && echo "database=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ public/code ]] && echo "code_examples=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ package\.json ]] && echo "package_json=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ \.github/|actions/ ]] && echo "github_actions=true" >> $GITHUB_ENV;
@@ -35,22 +34,24 @@ jobs:
         # env variables are available only in next steps
       run: |
         [[ $workflow_dispatch == true ]] || [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
+        [[ $code_examples && "${{ startsWith(github.event.head_commit.message, [Code submission] }} == "true"]] && echo "code_submission" >> $GITHUB_ENV;
         exit 0;
     - name: DEBUG
       run: |
         echo "backend=$backend";
         echo "frontend=$frontend";
-        echo "database=$database";
         echo "code_examples=$code_examples";
         echo "package_json=$package_json";
         echo "github_actions=$github_actions";
         echo "all=$all";
+        echo "code_submission=$code_submission";
 
     - name: Clone repository
       run: |
         git clone --depth 1 --no-single-branch https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git .
 
     - name: Setup Node.js
+      if: env.all || env.frontend || env.code_submission
       uses: actions/setup-node@v1
       with:
         node-version: '12'
@@ -63,10 +64,6 @@ jobs:
       if: env.all || env.frontend
       run: |
         npm install
-    - name: Install only @actions/core
-      if: env.database || env.backend && !env.all && !env.frontend
-      run: |
-        npm install --no-package-lock --no-save @actions/core
 
     - name: Vue build
       if: env.all || env.frontend
@@ -77,69 +74,6 @@ jobs:
       run: |
         mkdir -p dist
         cp -r public/code dist/code
-
-    - name: Configure git
-      run: |
-        git config --global credential.helper cache
-        git config --global user.email "bot@github.com"
-        git config --global user.name "Bot"
-
-    - name: Stage frontend
-      if: env.all || env.frontend
-      run: |
-        git add -f dist/
-    - name: Stage code examples
-      if: env.code_examples && !env.frontend && !env.all
-      run: |
-        git add -f dist/code/
-    - name: Stage database to overwrite
-      if: contains(github.event.head_commit.message, '[OVERWRITE DB]')
-      run: |
-        git add ./server/database.json
-    - name: 'Merge new stats before Heroku restart'
-      if: env.all || env.backend || env.database && !contains(github.event.head_commit.message, '[OVERWRITE DB]')
-      run: |
-        node actions/merge-stats.js && git add ./server/database.json
-      env:
-        SOURCE_URL: ${{ secrets.FRESH_DATABASE_URL }}
-
-    - name: Make temporary commit on master
-      run: |
-        git commit --allow-empty -m 'temp commit'
-    - name: Switch to deploy branch
-      run: |
-        git checkout -f deploy
-
-    - name: Clear all old files
-      if: env.all || env.frontend
-      run: |
-        rm -r server/ dist/
-    - name: Clear only server files
-      if: env.backend && !env.all && !env.frontend
-      run: |
-        rm -r server/*.js
-    - name: Clear only code examples
-      if: env.code_examples && !env.all && !env.frontend 
-      run: |
-        rm -r dist/code/
-
-    - name: Checkout all files from master
-      if: env.all || env.frontend
-      run: |
-        git checkout -f master -- "server/" "dist/"
-    - name: Checkout only server from master
-      if: env.backend && !env.all && !env.frontend
-      run: |
-        git checkout master -- "server/"
-
-    - name: Checkout only database from master
-      if: env.database && !env.all && !env.backend
-      run: |
-        git checkout master -- "server/database.json"
-    - name: Checkout only code examples from master
-      if: env.code_examples && !env.all && !env.frontend
-      run: |
-        git checkout master -- "dist/code/"
 
     - name: Stage all changes
       run: |
@@ -153,36 +87,47 @@ jobs:
       run: |
         echo "changes=$changes";
 
-    - name: Create commit message
-      if: env.changes
+    - name: Setup - gcloud / gsutil
+      if: env.all || env.frontend || env.code_examples
+      uses: google-github-actions/setup-gcloud@v0.2.0
+      with:
+        service_account_key: ${{ secrets.GCS_SA_KEY }}
+        project_id: ${{ secrets.GCS_PROJECT_ID }}
+        export_default_credentials: true
+
+    - name: Upload frontend without code examples
+      if: env.all || env.frontend
       run: |
-        echo "message=Deploy" >> $GITHUB_ENV;
-    - name: Append all to commit message
-      if: env.changes && env.all
+        gsutil -m -h "Cache-Control:no-store" rsync -r -d -x "dist/code.*$" dist gs://$GCS_BUCKET 
+    - name: Upload code examples
+      if: env.code_examples
       run: |
-        echo "message=$message all" >> $GITHUB_ENV;
-    - name: Append frontend to commit message
-      if: env.changes && env.frontend && !env.all
+        gsutil -m -h "Cache-Control:no-store" rsync -r -d dist/code gs://$GCS_BUCKET/code
+
+    - name: Set headers
+      if: env.frontend || env.all
       run: |
-        echo "message=$message frontend" >> $GITHUB_ENV;
-    - name: Append code examples to commit message
-      if: env.changes && env.code_examples && !env.all
+        gsutil -m setmeta -h "Content-Encoding:gzip" gs://${GCS_BUCKET}/*/*
+        gsutil -m setmeta -h "Content-Encoding:gzip" gs://${GCS_BUCKET}/cm/**/*
+
+    - name: Hot update index.html
+      if: env.frontend && !env.backend' && !env.all
       run: |
-        echo "message=$message code examples" >> $GITHUB_ENV;
-    - name: Append backend to commit message
-      if: env.changes && env.backend && !env.all
+        curl -d "@/dist/index.html" -X POST ${{ secrets.INDEX_HTML_UPDATE_URL }}
+
+    - name: Install @actions/core
+      if: env.code_submission
       run: |
-        echo "message=$message backend" >> $GITHUB_ENV;
-    - name: Append database to commit message
-      if: env.changes && env.database && !env.all && !env.backend
+        npm install --no-package-lock --no-save @actions/core @actions/github faunadb
+    - name: Accept code submission
+      if: env.code_submission
       run: |
-        echo "message=$message database" >> $GITHUB_ENV;
-        
-    - name: Commit on deploy branch
-      if: env.changes
-      run: |
-        git commit -m "$message"
-    - name: Push for deployment
-      if: env.changes
-      run: |
-        git push
+        node actions/add-code-submission-to-db.js
+
+    - name: Push backend to Heroku
+      if: env.backend || env.all
+      uses: akhileshns/heroku-deploy@v3.6.8
+      with:
+        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+        heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+        heroku_email: ${{ secrets.HEROKU_EMAIL }}

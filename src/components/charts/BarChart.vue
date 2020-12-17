@@ -26,7 +26,7 @@ export default {
     chartData() {
       const scores = [
         { name: 'player', value: this.wpm },
-        { name: 'avg', value: this.databaseStats.avgWPM },
+        { name: 'avg', value: this.databaseStats.avg },
         { name: 'best', value: this.databaseStats.best },
       ];
       scores.sort((a, b) => a.value - b.value);

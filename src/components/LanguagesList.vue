@@ -35,11 +35,11 @@
         </span>
       </button>
       <label
-        v-for="(filteredLanguage, index) in filteredList"
-        :key="filteredLanguage.name === 'Loading...' ? index : filteredLanguage.name"
+        v-for="(filteredLanguage) in filteredList"
+        :key="filteredLanguage.name === 'Loading...' ? filteredLanguage.index : filteredLanguage.name"
         class="language"
         :class="{'selected':language.index === filteredLanguage.index}"
-        :data-index="index"
+        :data-index="filteredLanguage.index"
       >
         <input
           v-model="language"
@@ -47,7 +47,7 @@
           class="language-radio"
           :disabled="room.connected && !room.owner"
           :value="languagesList[filteredLanguage.index]"
-          :data-index="index"
+          :data-index="filteredLanguage.index"
           @input="setRoomLanguage"
         >
         <span class="language-name" :class="{'greyed-out': options.codeLength && !filteredLanguage.files.some((code) => code.lines <= 17 )}">{{ filteredLanguage.name.replace('_', ' ') }}</span>

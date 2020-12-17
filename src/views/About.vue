@@ -52,7 +52,7 @@
         <h3>{{ stats.total }}</h3><p>Times Played</p>
 
 
-        <h3>{{ Math.round(stats.avgWPM * 10) / 10 }}</h3><p>Avarage Speed in WPM ({{ Math.round(stats.avgWPM * 5) }} CPM)</p>
+        <h3>{{ Math.round(stats.avg * 10) / 10 }}</h3><p>Avarage Speed in WPM ({{ Math.round(stats.avg * 5) }} CPM)</p>
 
 
         <h3>{{ stats.best }}</h3><p>Best Score in WPM</p>

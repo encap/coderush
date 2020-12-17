@@ -1,16 +1,22 @@
+/* eslint-disable function-paren-newline */
 const axios = require('axios');
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 
+require('dotenv').config({ path: `${__dirname}/./../.env.local` });
+
 const app = express();
 const http = require('http').Server(app);
+
+const faunadb = require('faunadb');
 
 require('./rooms.js')(http);
 
 const PROD = process.env.PRODUCTION;
 console.log(`Environment ${PROD || 'DEV'}`);
+
 
 if (process.env.AUTO_PROMOTE) {
   axios({
@@ -70,78 +76,62 @@ const toggleMaintanceMode = (action) => {
     });
 };
 
+const q = faunadb.query;
+const client = new faunadb.Client({ secret: PROD ? process.env.FAUNA_KEY : process.env.FAUNA_DEV_KEY });
+
 app.enable('trust proxy'); // trust heroku and cloudflare
-app.set('json spaces', 2);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 let cachedIndexHtml = fs.readFileSync('./dist/index.html', 'utf8');
 
-// no spaces
-let database = JSON.parse(fs.readFileSync('./server/database.json', 'utf8'));
-let stringifiedDB = JSON.stringify(database);
+let database = null;
+let stringifiedDB = '';
 
-let newStats = false;
+const updateDatabaseCache = () => {
+  stringifiedDB = JSON.stringify(database);
+};
 
-const sendStats = () => {
-  if (newStats) {
-    newStats = false;
+const fetchDatabase = async () => {
+  try {
+    const [languagesRet, statsRet] = await client.query(
+      [
+        q.Map(
+          q.Paginate(q.Match(q.Index('allLanguagesByIndex'))),
+          q.Lambda('ret',
+            q.Select(['data'], q.Get(q.Select([1], q.Var('ret')))),
+          ),
+        ),
+        q.Map(
+          q.Paginate(q.Documents(q.Collection('totalStats'))),
+          q.Lambda('ref',
+            q.Select(['data'], q.Get(q.Var('ref'))),
+          ),
+        ),
+      ],
+    );
 
-    axios({
-      url: 'https://api.github.com/repos/encap/coderush/dispatches',
-      method: 'post',
-      headers: {
-        Accept: 'application/vnd.github.everest-preview+json',
-        Authorization: `token ${process.env.GH_PERSONAL_TOKEN}`,
-      },
-      withCredentials: true,
-      data: {
-        event_type: 'update-stats',
-        client_payload: database,
-      },
-    })
-      .then(() => {
-        console.log(`Stats sent. Total: ${database.stats.total}`);
-      })
-      .catch((response) => {
-        console.warn('Stats update failed');
-        console.error(response);
-      });
+    database = {
+      languages: languagesRet.data,
+      stats: Object.fromEntries(statsRet.data.map((entry) => ([entry.name, entry.value]))),
+    };
+    updateDatabaseCache();
+    console.log('Fetched database');
+    return 0;
+  } catch (err) {
+    console.log('Database fetch failed');
+    console.error('Error: %s', err);
+    if (database === null) {
+      process.exit(1);
+    }
+    return 1;
   }
 };
 
+fetchDatabase();
 
 if (PROD) {
   toggleMaintanceMode(false);
-
-  setInterval(sendStats, 1000 * 60 * 60 * 24);
-
-  app.get(process.env.FRESH_DATABASE_URL, (req, res) => {
-    res.json(database);
-  });
-
-  app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
-    if (res.body.length > 100) {
-      cachedIndexHtml = res.body;
-      res.sendStatus(200);
-    } else {
-      res.sendStatus(400);
-    }
-  });
-
-  app.post(process.env.DATABASE_UPDATE_URL, (req, res) => {
-    console.log('DATABASE HOT UPDATE');
-    const newDB = req.body;
-
-    if (typeof newDB.stats === 'object' && newDB.languages.length >= database.languages.length) {
-      database = newDB;
-      stringifiedDB = JSON.stringify(database);
-      res.sendStatus(200);
-    } else {
-      console.error('DATABASE HOT UPDATE FAILED');
-      res.sendStatus(409);
-    }
-  });
 
   // redirect to coderush.xyz
   app.use((req, res, next) => {
@@ -176,19 +166,30 @@ if (PROD) {
   }, 1000 * 60 * 10);
 } else {
   app.use((req, res, next) => {
-    if (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css') {
+    if (!req.path.includes('code/') && (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css')) {
       res.header('content-encoding', 'gzip');
     }
     next();
   });
 }
 
-setInterval(() => {
-  if (newStats) {
-    stringifiedDB = JSON.stringify(database);
+app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
+  if (res.body.length > 100) {
+    cachedIndexHtml = res.body;
+    res.sendStatus(201);
+  } else {
+    res.sendStatus(400);
   }
-}, 1000 * 60 * 5);
+});
 
+app.post(process.env.DB_UPDATE_URL, (req, res) => {
+  if (fetchDatabase()) {
+    console.log('Updated server database cache');
+    res.sendStatus(201);
+  } else {
+    res.sendStatus(500);
+  }
+});
 
 // send cached index.html when possible
 app.use((req, res, next) => {
@@ -201,17 +202,9 @@ app.use((req, res, next) => {
   }
 });
 
-// send cached stringified database.json when possible
 app.get('/database.json', (req, res) => {
-  if (stringifiedDB.length > 2) {
-    // {} empty object
-    res.setHeader('Content-Type', 'application/json');
-    res.send(stringifiedDB);
-  } else {
-    // failover
-    console.log('sending database from file');
-    res.sendFile('database.json', { root: __dirname }); // database.json is in the same dir as server
-  }
+  res.setHeader('Content-Type', 'application/json');
+  res.send(stringifiedDB);
 });
 
 
@@ -244,29 +237,133 @@ app.post('/api/upload', (req, res) => {
   }
 });
 
-app.post('/api/stats', (req, res) => {
-  const stats = req.body;
-  database.stats.avgWPM = Math.round(
-    (((database.stats.avgWPM * database.stats.total) + stats.wpm) / (database.stats.total + 1))
-        * 1000,
-  ) / 1000;
+app.post('/api/stats', async (req, res) => {
+  const { main, misc } = req.body;
 
-  database.stats.total += 1;
+  try {
+    // console.log(`langTotalBefore: ${database.languages[main.languageIndex].total}`);
+    database.languages[main.languageIndex].total = await client.query(
+      q.Select(['data', 'total'],
+        q.Let({
+          lang: q.Get(q.Match(q.Index('languageByIndex'), main.languageIndex)),
+          ref: q.Select(['ref'], q.Var('lang')),
+        },
+        q.Update(q.Var('ref'),
+          {
+            data: {
+              total: q.Add(q.Select(['data', 'total'], q.Var('lang')), 1),
+            },
+          }))),
+    );
+    // console.log(`langTotalAfter: ${database.languages[main.languageIndex].total}`);
 
-  if (stats.wpm < 200 && stats.wpm > database.stats.best) {
-    database.stats.best = stats.wpm;
+    // save run
+    client.query(
+      q.Create(
+        q.Collection('runs'),
+        {
+          data: main,
+        },
+      ),
+    );
+
+    // console.log(`bestBefore: ${database.stats.best}`);
+    database.stats.best = await client.query(
+      q.Select(['data', 'value'],
+        q.Let(
+          {
+            doc: q.Get(q.Match(q.Index('statByName'), 'best')),
+            ref: q.Select(['ref'], q.Var('doc')),
+          },
+          q.Update(q.Var('ref'),
+            {
+              data: {
+                value: q.Max([q.Select(['data', 'value'], q.Var('doc')), main.wpm]),
+              },
+            },
+          ),
+        ),
+      ),
+    );
+    // console.log(`bestAfter: ${database.stats.best}`);
+
+    // console.log(`avgBefore: ${database.stats.avg}`);
+    database.stats.avg = await client.query(
+      q.Select(['data', 'value'],
+        q.Let(
+          {
+            doc: q.Get(q.Match(q.Index('statByName'), 'avg')),
+            ref: q.Select(['ref'], q.Var('doc')),
+          },
+          q.Update(q.Var('ref'),
+            {
+              data: {
+                value: q.Round(
+                  q.Select(
+                    ['data', 0],
+                    q.Mean(
+                      q.Map(
+                        q.Paginate(q.Match(q.Index('runsWpmByDate')), { size: 100 }),
+                        q.Lambda(['ts', 'wpm'], q.Var('wpm')),
+                      ),
+                    ),
+                  ),
+                  1, // precision
+                ),
+              },
+            },
+          ),
+        ),
+      ),
+    );
+    // console.log(`avgAfter: ${database.stats.avg}`);
+
+    // to simplify next query
+    misc.total = 1;
+
+    const statsResponse = await client.query(
+      q.Map(
+        Object.entries(misc),
+        q.Lambda(
+          ['name', 'value'],
+          // q.Var('value'),
+          q.Let(
+            {
+              ret: q.Let(
+                {
+                  doc: q.Get(q.Match(q.Index('statByName'), q.Var('name'))),
+                  ref: q.Select(['ref'], q.Var('doc')),
+                },
+                q.Update(q.Var('ref'),
+                  {
+                    data: {
+                      value: q.Add(q.Select(['data', 'value'], q.Var('doc')), q.Var('value')),
+                    },
+                  },
+                ),
+              ),
+            },
+            [
+              q.Select(['data', 'name'], q.Var('ret')),
+              q.Select(['data', 'value'], q.Var('ret')),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    database.stats = {
+      ...database.stats,
+      ...Object.fromEntries(statsResponse),
+    };
+
+    updateDatabaseCache();
+    res.sendStatus(200);
+  } catch (e) {
+    console.log('Stats update failed');
+    console.error(e);
+    res.sendStatus(500);
   }
-
-  database.stats.correctClicks = database.stats.correctClicks + stats.correctClicks || database.stats.correctClicks;
-  database.stats.correctLines = database.stats.correctLines + stats.correctLines || database.stats.correctLines;
-  database.stats.backspaceClicks = database.stats.backspaceClicks + stats.backspaceClicks || database.stats.backspaceClicks;
-  database.stats.deletingTime = database.stats.deletingTime + stats.deletingTime || database.stats.deletingTime;
-  database.languages[stats.languageIndex].total = database.languages[stats.languageIndex].total + 1 || 1;
-  database.languages[stats.languageIndex].files[stats.fileIndex].total = database.languages[stats.languageIndex].files[stats.fileIndex].total + 1 || 1;
-
-  newStats = true;
-
-  res.sendStatus(200);
 });
 
 
@@ -283,7 +380,6 @@ const shutdown = () => {
   console.warn('Server is pending shutdown');
   server.close();
   if (PROD) {
-    sendStats();
     toggleMaintanceMode(true);
     setTimeout(() => {
       console.warn('Ready for shutdown');
