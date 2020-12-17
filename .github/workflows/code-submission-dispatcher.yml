@@ -17,16 +17,20 @@ jobs:
         node-version: '12'
     - name: Install Github actions
       run: |
-        npm install --no-package-lock --no-save @actions/core
+        npm install --no-package-lock --no-save @actions/core faunadb
     - name: Process submission 
       run: |
         node actions/process-code-submission.js
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
       with:
-        title: '[Code submission] ${{ env.NAME }} by ${{ env.AUTHOR }}'
+        title: '[Code submission] ${{ env.NAME }}${{ env.EXT }} by ${{ env.AUTHOR }} (${{ env.LANGUAGE_NAME }})'
         body: |
-          ${{ env.LINES }} lines written in ${{ env.LANGUAGE_NAME }}
+          Name: ${{ env.NAME }}
+          Author: ${{ env.AUTHOR }}
+          Lines: ${{ env.LINES }}
+          TabSize: ${{ env.TAB_SIZE }}
+          LanguageIndex: ${{ env.LANGUAGE_INDEX }}
         delete-branch: true
         branch-suffix: short-commit-hash
         
