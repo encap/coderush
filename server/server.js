@@ -184,6 +184,7 @@ app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
 
 app.post(process.env.DB_UPDATE_URL, (req, res) => {
   if (fetchDatabase()) {
+    console.log('Updated server database cache');
     res.sendStatus(201);
   } else {
     res.sendStatus(500);
@@ -297,14 +298,17 @@ app.post('/api/stats', async (req, res) => {
           q.Update(q.Var('ref'),
             {
               data: {
-                value: q.Select(
-                  ['data', 0],
-                  q.Mean(
-                    q.Map(
-                      q.Paginate(q.Match(q.Index('runsWpmByDate')), { size: 100 }),
-                      q.Lambda(['ts', 'wpm'], q.Var('wpm')),
+                value: q.Round(
+                  q.Select(
+                    ['data', 0],
+                    q.Mean(
+                      q.Map(
+                        q.Paginate(q.Match(q.Index('runsWpmByDate')), { size: 100 }),
+                        q.Lambda(['ts', 'wpm'], q.Var('wpm')),
+                      ),
                     ),
                   ),
+                  1, // precision
                 ),
               },
             },
