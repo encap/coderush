@@ -68,7 +68,6 @@ if (process.env.AUTO_PROMOTE) {
   }).then(async () => {
     console.log('Auto promotion succeded');
     await toggleMaintanceMode(true);
-    console.log('Toggle Maintance Mode succeded');
 
     // cannot process.exit(0) becouse heroku will restart anyway
   }).catch(() => {
@@ -384,12 +383,6 @@ if (process.env.AUTO_PROMOTE) {
   app.use(express.static(path.join(__dirname, '../dist')));
 
 
-  const PORT = process.env.PORT || 3000;
-
-  const server = http.listen(PORT, () => {
-    console.log('\x1b[36m%s\x1b[0m', `Server listening on port ${PORT}!`);
-  });
-
   const shutdown = () => {
     console.warn('Server is pending shutdown');
     server.close();
@@ -406,3 +399,9 @@ if (process.env.AUTO_PROMOTE) {
 
   process.on('SIGTERM', shutdown).on('SIGINT', shutdown);
 }
+
+const PORT = process.env.PORT || 3000;
+
+const server = http.listen(PORT, () => {
+  console.log('\x1b[36m%s\x1b[0m', `Server listening on port ${PORT}!`);
+});
