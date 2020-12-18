@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const core = require('@actions/core');
-const { GitHub, context } = require('@actions/github');
+const github = require('@actions/github');
 
 const faunadb = require('faunadb');
 
@@ -8,14 +8,17 @@ const faunadb = require('faunadb');
 const main = async () => {
   core.startGroup('Get PR body');
 
-  const ghClient = new GitHub(context.token, {}); // check context.token name
-  const { data } = await ghClient.repos.listPullRequestsAssociatedWithCommit({
+  const { context } = github;
+  const octokit = github.getOctokit(context.token);
+
+  const { data } = await octokit.repos.listPullRequestsAssociatedWithCommit({
     owner: context.repo.owner,
     repo: context.repo.repo,
     commit_sha: context.sha,
   });
 
   const prBody = data[0].body;
+
   core.groupEnd();
 
   core.startGroup('Parse PR body');
