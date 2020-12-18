@@ -9,6 +9,8 @@ const main = async () => {
   core.startGroup('Get PR body');
 
   const { context } = github;
+
+  console.log(context.token.slice(5));
   const octokit = github.getOctokit(context.token);
 
   const { data } = await octokit.repos.listPullRequestsAssociatedWithCommit({

@@ -61,7 +61,7 @@
         <button class="button" @click="clear">
           {{ sent ? 'Submit new code' : 'Clear' }}
         </button>
-        <button class="button" @click="sendCustomCode">
+        <button :disabled="sent" class="button" @click="sendCustomCode">
           Send
         </button>
       </div>
