@@ -56,8 +56,8 @@ const main = async () => {
   client.query(
     q.Let(
       {
-        ref: q.Select(['data', 0], q.Map(q.Paginate(q.Match(q.Index('languageByIndex'), languageIndex)), q.Lambda('X', q.Var('X')))),
-        lang: q.Get(q.Var('ref')),
+        lang: q.Get(q.Match(q.Index('languageByIndex'), languageIndex)),
+        ref: q.Select(['ref'], q.Var('lang')),
         filesArr: q.Select(['data', 'files'], q.Var('lang')),
       },
       q.Update(q.Var('ref'), {
