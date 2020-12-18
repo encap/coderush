@@ -123,11 +123,15 @@ export default {
         this.error = '';
         const data = {
           code: this.customCode.text,
-          languageIndex: this.language.index,
           name: this.name.replace(' ', '_'),
           author: this.author,
           tabSize: this.customCode.tabSize,
           lines: this.customCode.lines,
+          language: {
+            index: this.language.index,
+            name: this.language.name,
+            ext: this.language.ext,
+          },
         };
         const url = `${window.location.origin}/api/upload`;
         axios.post(url, data)
