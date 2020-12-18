@@ -29,8 +29,10 @@ const main = async () => {
   const json = lines.map((line, index) => {
     const [name, value] = line.split(':');
     const nameParsed = name.trim().charAt(0).toLowerCase() + name.trim().slice(1);
+    const quoteValue = nameParsed === 'name' || nameParsed === 'author';
+    const parsedValue = `${quoteValue ? '"' : ''}${value.trim()}${quoteValue ? '"' : ''}`;
 
-    return `"${nameParsed === 'author' ? 'source' : nameParsed}": ${value.trim()}${index + 1 === lines.length ? '' : ','}`;
+    return `"${nameParsed === 'author' ? 'source' : nameParsed}": ${parsedValue}${index + 1 === lines.length ? '' : ','}`;
   }).join('\n');
 
   console.log(json);
