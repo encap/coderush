@@ -114,7 +114,7 @@ jobs:
     - name: Hot update index.html
       if: env.frontend && !env.backend && !env.all
       run: |
-        curl -d "@/dist/index.html" -X POST ${{ secrets.INDEX_HTML_UPDATE_URL }}
+        curl -X POST ${{ secrets.INDEX_HTML_UPDATE_URL }}
 
     - name: Install @actions/core
       if: env.code_submission

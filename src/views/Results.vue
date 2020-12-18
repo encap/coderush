@@ -179,7 +179,9 @@ export default {
       correct: this.stats.correctInputs,
     });
     // if (this.stats.file.index !== -1) {
-    this.sendStats();
+    if (this.$route.path !== '/about') {
+      this.sendStats();
+    }
     // }
   },
   methods: {

@@ -2,7 +2,6 @@
 const axios = require('axios');
 const express = require('express');
 const bodyParser = require('body-parser');
-const fs = require('fs');
 const path = require('path');
 
 require('dotenv').config({ path: `${__dirname}/./../.env.local` });
@@ -17,377 +16,396 @@ require('./rooms.js')(http);
 const PROD = process.env.PRODUCTION;
 console.log(`Environment ${PROD || 'DEV'}`);
 
-
-if (process.env.AUTO_PROMOTE) {
-  axios({
-    url: 'https://api.heroku.com/pipeline-promotions',
-    method: 'POST',
-    headers: {
-      Accept: 'application/vnd.heroku+json; version=3',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.HEROKU_API_KEY}`,
-    },
-    withCredentials: true,
-    data: {
-      pipeline: {
-        id: process.env.PIPELINE_ID,
-      },
-      source: {
-        app: {
-          id: process.env.SOURCE_APP_ID,
+const asyncWrapper = async () => {
+  const toggleMaintanceMode = async (action) => {
+    try {
+      await axios({
+        url: 'https://api.heroku.com/apps/coderush',
+        method: 'PATCH',
+        headers: {
+          Accept: 'application/vnd.heroku+json; version=3',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.HEROKU_API_KEY}`,
         },
-      },
-      targets: [
-        {
-          app: {
-            id: process.env.TARGET_APP_ID,
-          },
+        withCredentials: true,
+        data: {
+          maintenance: action,
         },
-      ],
-    },
-  })
-    .then(() => {
-      console.log('Auto promotion succeded');
-    })
-    .catch(() => {
-      console.error('Auto promotion failed');
-    });
-}
-
-const toggleMaintanceMode = (action) => {
-  axios({
-    url: 'https://api.heroku.com/apps/coderush',
-    method: 'PATCH',
-    headers: {
-      Accept: 'application/vnd.heroku+json; version=3',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.HEROKU_API_KEY}`,
-    },
-    withCredentials: true,
-    data: {
-      maintenance: action,
-    },
-  })
-    .then(() => {
+      });
       console.log('Toogle maintance mode succeded');
-    })
-    .catch(() => {
+    } catch (e) {
       console.error('Toggle maintance mode failed');
-    });
-};
+    }
+  };
 
-const q = faunadb.query;
-const client = new faunadb.Client({ secret: PROD ? process.env.FAUNA_KEY : process.env.FAUNA_DEV_KEY });
-
-app.enable('trust proxy'); // trust heroku and cloudflare
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-let cachedIndexHtml = fs.readFileSync('./dist/index.html', 'utf8');
-
-let database = null;
-let stringifiedDB = '';
-
-const updateDatabaseCache = () => {
-  stringifiedDB = JSON.stringify(database);
-};
-
-const fetchDatabase = async () => {
-  try {
-    const [languagesRet, statsRet] = await client.query(
-      [
-        q.Map(
-          q.Paginate(q.Match(q.Index('allLanguagesByIndex'))),
-          q.Lambda('ret',
-            q.Select(['data'], q.Get(q.Select([1], q.Var('ret')))),
-          ),
-        ),
-        q.Map(
-          q.Paginate(q.Documents(q.Collection('totalStats'))),
-          q.Lambda('ref',
-            q.Select(['data'], q.Get(q.Var('ref'))),
-          ),
-        ),
-      ],
-    );
-
-    database = {
-      languages: languagesRet.data,
-      stats: Object.fromEntries(statsRet.data.map((entry) => ([entry.name, entry.value]))),
-    };
-    updateDatabaseCache();
-    console.log('Fetched database');
-    return 0;
-  } catch (err) {
-    console.log('Database fetch failed');
-    console.error('Error: %s', err);
-    if (database === null) {
+  if (process.env.AUTO_PROMOTE) {
+    try {
+      await axios({
+        url: 'https://api.heroku.com/pipeline-promotions',
+        method: 'POST',
+        headers: {
+          Accept: 'application/vnd.heroku+json; version=3',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.HEROKU_API_KEY}`,
+        },
+        withCredentials: true,
+        data: {
+          pipeline: {
+            id: process.env.PIPELINE_ID,
+          },
+          source: {
+            app: {
+              id: process.env.SOURCE_APP_ID,
+            },
+          },
+          targets: [
+            {
+              app: {
+                id: process.env.TARGET_APP_ID,
+              },
+            },
+          ],
+        },
+      });
+      console.error('Auto promotion succeded');
+      await toggleMaintanceMode(true);
+      process.exit(0);
+    } catch (e) {
+      console.error('Auto promotion failed');
       process.exit(1);
     }
-    return 1;
   }
-};
 
-fetchDatabase();
+  const q = faunadb.query;
+  const client = new faunadb.Client({ secret: PROD ? process.env.FAUNA_KEY : process.env.FAUNA_DEV_KEY });
 
-if (PROD) {
-  toggleMaintanceMode(false);
+  app.enable('trust proxy'); // trust heroku and cloudflare
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
 
-  // redirect to coderush.xyz
-  app.use((req, res, next) => {
-    if (req.subdomains[0] === 'coderush') {
-      res.redirect(301, `https://coderush.xyz${req.path}`);
-    } else {
-      next();
+
+  let cachedIndexHtml = '';
+
+  const updateIndexHtmlCache = async () => {
+    try {
+      const res = await axios.get(process.env.INDEX_HTML_URL);
+      cachedIndexHtml = res.data;
+    } catch (err) {
+      console.log('Failed to get index.html from cdn.');
+      console.error(err);
+      process.exit(1);
     }
-  });
+  };
 
-  // redirect to https
-  app.use((req, res, next) => {
-    if (req.protocol === 'http') {
-      if (req.method === 'GET' || req.method === 'HEAD') {
-        console.log('Redirecting client to https');
-        res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
-      } else {
-        res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
+  updateIndexHtmlCache();
+
+  let database = null;
+  let stringifiedDB = '';
+
+
+  const updateDatabaseCache = () => {
+    stringifiedDB = JSON.stringify(database);
+  };
+
+  const fetchDatabase = async () => {
+    try {
+      const [languagesRet, statsRet] = await client.query(
+        [
+          q.Map(
+            q.Paginate(q.Match(q.Index('allLanguagesByIndex'))),
+            q.Lambda('ret',
+              q.Select(['data'], q.Get(q.Select([1], q.Var('ret')))),
+            ),
+          ),
+          q.Map(
+            q.Paginate(q.Documents(q.Collection('totalStats'))),
+            q.Lambda('ref',
+              q.Select(['data'], q.Get(q.Var('ref'))),
+            ),
+          ),
+        ],
+      );
+
+      database = {
+        languages: languagesRet.data,
+        stats: Object.fromEntries(statsRet.data.map((entry) => ([entry.name, entry.value]))),
+      };
+      updateDatabaseCache();
+      console.log('Fetched database');
+      return 0;
+    } catch (err) {
+      console.log('Database fetch failed');
+      console.error('Error: %s', err);
+      if (database === null) {
+        process.exit(1);
       }
+      return 1;
+    }
+  };
+
+  fetchDatabase();
+
+  if (PROD) {
+    toggleMaintanceMode(false);
+
+    // redirect to coderush.xyz
+    app.use((req, res, next) => {
+      if (req.subdomains[0] === 'coderush') {
+        res.redirect(301, `https://coderush.xyz${req.path}`);
+      } else {
+        next();
+      }
+    });
+
+    // redirect to https
+    app.use((req, res, next) => {
+      if (req.protocol === 'http') {
+        if (req.method === 'GET' || req.method === 'HEAD') {
+          console.log('Redirecting client to https');
+          res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
+        } else {
+          res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
+        }
+      } else {
+        next();
+      }
+    });
+
+    // heroku free tier goes to sleep after 30 minutes of network inactivity
+    app.get('/api/ping', (req, res) => {
+      res.sendStatus(200);
+    });
+
+    setInterval(() => {
+      axios.get('https://coderush.xyz/api/ping').catch((err) => console.error(`Ping Error: ${err}`));
+    }, 1000 * 60 * 10);
+  } else {
+    app.use((req, res, next) => {
+      if (!req.path.includes('code/') && (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css')) {
+        res.header('content-encoding', 'gzip');
+      }
+      next();
+    });
+  }
+
+  app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
+    if (updateIndexHtmlCache()) {
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(400);
+    }
+  });
+
+  app.post(process.env.DATABASE_UPDATE_URL, (req, res) => {
+    if (fetchDatabase()) {
+      console.log('Updated server database cache');
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(500);
+    }
+  });
+
+  // send cached index.html when possible
+  app.use((req, res, next) => {
+    const match = req.originalUrl.match(/\.\w+$/);
+    const ext = match ? match[0][0] : '';
+    if ((req.method === 'GET' || req.method === 'HEAD') && (ext === '' || ext === 'html')) {
+      res.send(cachedIndexHtml);
     } else {
       next();
     }
   });
 
-  // heroku free tier goes to sleep after 30 minutes of network inactivity
-  app.get('/api/ping', (req, res) => {
-    res.sendStatus(200);
+  app.get('/database.json', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(stringifiedDB);
   });
 
-  setInterval(() => {
-    axios.get('https://coderush.xyz/api/ping').catch((err) => console.error(`Ping Error: ${err}`));
-  }, 1000 * 60 * 10);
-} else {
-  app.use((req, res, next) => {
-    if (!req.path.includes('code/') && (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css')) {
-      res.header('content-encoding', 'gzip');
-    }
-    next();
-  });
-}
 
-app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
-  if (res.body.length > 100) {
-    cachedIndexHtml = res.body;
-    res.sendStatus(201);
-  } else {
-    res.sendStatus(400);
-  }
-});
-
-app.post(process.env.DATABASE_UPDATE_URL, (req, res) => {
-  if (fetchDatabase()) {
-    console.log('Updated server database cache');
-    res.sendStatus(201);
-  } else {
-    res.sendStatus(500);
-  }
-});
-
-// send cached index.html when possible
-app.use((req, res, next) => {
-  const match = req.originalUrl.match(/\.\w+$/);
-  const ext = match ? match[0][0] : '';
-  if ((req.method === 'GET' || req.method === 'HEAD') && (ext === '' || ext === 'html')) {
-    res.send(cachedIndexHtml);
-  } else {
-    next();
-  }
-});
-
-app.get('/database.json', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(stringifiedDB);
-});
-
-
-app.post('/api/upload', (req, res) => {
-  if (typeof req.body.code === 'string' && req.body.code.length > 20) {
-    axios({
-      url: 'https://api.github.com/repos/encap/coderush/dispatches',
-      method: 'post',
-      headers: {
-        Accept: 'application/vnd.github.everest-preview+json',
-        Authorization: `token ${process.env.GH_PERSONAL_TOKEN}`,
-      },
-      withCredentials: true,
-      data: {
-        event_type: 'code-submission',
-        client_payload: req.body,
-      },
-    })
-      .then(() => {
-        console.log('Code submission succeded');
-        res.sendStatus(200);
+  app.post('/api/upload', (req, res) => {
+    if (typeof req.body.code === 'string' && req.body.code.length > 20) {
+      axios({
+        url: 'https://api.github.com/repos/encap/coderush/dispatches',
+        method: 'post',
+        headers: {
+          Accept: 'application/vnd.github.everest-preview+json',
+          Authorization: `token ${process.env.GH_PERSONAL_TOKEN}`,
+        },
+        withCredentials: true,
+        data: {
+          event_type: 'code-submission',
+          client_payload: req.body,
+        },
       })
-      .catch((error) => {
-        console.warn('Code submission failed');
-        console.error(error.response);
-        res.status(error.response.status).send(res.data);
-      });
-  } else {
-    res.status(400).send('Invalid input');
-  }
-});
+        .then(() => {
+          console.log('Code submission succeded');
+          res.sendStatus(200);
+        })
+        .catch((error) => {
+          console.warn('Code submission failed');
+          console.error(error.response);
+          res.status(error.response.status).send(res.data);
+        });
+    } else {
+      res.status(400).send('Invalid input');
+    }
+  });
 
-app.post('/api/stats', async (req, res) => {
-  const { main, misc } = req.body;
+  app.post('/api/stats', async (req, res) => {
+    const { main, misc } = req.body;
 
-  try {
+    try {
     // console.log(`langTotalBefore: ${database.languages[main.languageIndex].total}`);
-    database.languages[main.languageIndex].total = await client.query(
-      q.Select(['data', 'total'],
-        q.Let({
-          lang: q.Get(q.Match(q.Index('languageByIndex'), main.languageIndex)),
-          ref: q.Select(['ref'], q.Var('lang')),
-        },
-        q.Update(q.Var('ref'),
-          {
-            data: {
-              total: q.Add(q.Select(['data', 'total'], q.Var('lang')), 1),
-            },
-          }))),
-    );
-    // console.log(`langTotalAfter: ${database.languages[main.languageIndex].total}`);
-
-    // save run
-    client.query(
-      q.Create(
-        q.Collection('runs'),
-        {
-          data: main,
-        },
-      ),
-    );
-
-    // console.log(`bestBefore: ${database.stats.best}`);
-    database.stats.best = await client.query(
-      q.Select(['data', 'value'],
-        q.Let(
-          {
-            doc: q.Get(q.Match(q.Index('statByName'), 'best')),
-            ref: q.Select(['ref'], q.Var('doc')),
+      database.languages[main.languageIndex].total = await client.query(
+        q.Select(['data', 'total'],
+          q.Let({
+            lang: q.Get(q.Match(q.Index('languageByIndex'), main.languageIndex)),
+            ref: q.Select(['ref'], q.Var('lang')),
           },
           q.Update(q.Var('ref'),
             {
               data: {
-                value: q.Max([q.Select(['data', 'value'], q.Var('doc')), main.wpm]),
+                total: q.Add(q.Select(['data', 'total'], q.Var('lang')), 1),
               },
-            },
-          ),
-        ),
-      ),
-    );
-    // console.log(`bestAfter: ${database.stats.best}`);
+            }))),
+      );
+      // console.log(`langTotalAfter: ${database.languages[main.languageIndex].total}`);
 
-    // console.log(`avgBefore: ${database.stats.avg}`);
-    database.stats.avg = await client.query(
-      q.Select(['data', 'value'],
-        q.Let(
+      // save run
+      client.query(
+        q.Create(
+          q.Collection('runs'),
           {
-            doc: q.Get(q.Match(q.Index('statByName'), 'avg')),
-            ref: q.Select(['ref'], q.Var('doc')),
+            data: main,
           },
-          q.Update(q.Var('ref'),
-            {
-              data: {
-                value: q.Round(
-                  q.Select(
-                    ['data', 0],
-                    q.Mean(
-                      q.Map(
-                        q.Paginate(q.Match(q.Index('runsWpmByDate')), { size: 100 }),
-                        q.Lambda(['ts', 'wpm'], q.Var('wpm')),
-                      ),
-                    ),
-                  ),
-                  1, // precision
-                ),
-              },
-            },
-          ),
         ),
-      ),
-    );
-    // console.log(`avgAfter: ${database.stats.avg}`);
+      );
 
-    // to simplify next query
-    misc.total = 1;
-
-    const statsResponse = await client.query(
-      q.Map(
-        Object.entries(misc),
-        q.Lambda(
-          ['name', 'value'],
-          // q.Var('value'),
+      // console.log(`bestBefore: ${database.stats.best}`);
+      database.stats.best = await client.query(
+        q.Select(['data', 'value'],
           q.Let(
             {
-              ret: q.Let(
-                {
-                  doc: q.Get(q.Match(q.Index('statByName'), q.Var('name'))),
-                  ref: q.Select(['ref'], q.Var('doc')),
-                },
-                q.Update(q.Var('ref'),
-                  {
-                    data: {
-                      value: q.Add(q.Select(['data', 'value'], q.Var('doc')), q.Var('value')),
-                    },
-                  },
-                ),
-              ),
+              doc: q.Get(q.Match(q.Index('statByName'), 'best')),
+              ref: q.Select(['ref'], q.Var('doc')),
             },
-            [
-              q.Select(['data', 'name'], q.Var('ret')),
-              q.Select(['data', 'value'], q.Var('ret')),
-            ],
+            q.Update(q.Var('ref'),
+              {
+                data: {
+                  value: q.Max([q.Select(['data', 'value'], q.Var('doc')), main.wpm]),
+                },
+              },
+            ),
           ),
         ),
-      ),
-    );
+      );
+      // console.log(`bestAfter: ${database.stats.best}`);
 
-    database.stats = {
-      ...database.stats,
-      ...Object.fromEntries(statsResponse),
-    };
+      // console.log(`avgBefore: ${database.stats.avg}`);
+      database.stats.avg = await client.query(
+        q.Select(['data', 'value'],
+          q.Let(
+            {
+              doc: q.Get(q.Match(q.Index('statByName'), 'avg')),
+              ref: q.Select(['ref'], q.Var('doc')),
+            },
+            q.Update(q.Var('ref'),
+              {
+                data: {
+                  value: q.Round(
+                    q.Select(
+                      ['data', 0],
+                      q.Mean(
+                        q.Map(
+                          q.Paginate(q.Match(q.Index('runsWpmByDate')), { size: 100 }),
+                          q.Lambda(['ts', 'wpm'], q.Var('wpm')),
+                        ),
+                      ),
+                    ),
+                    1, // precision
+                  ),
+                },
+              },
+            ),
+          ),
+        ),
+      );
+      // console.log(`avgAfter: ${database.stats.avg}`);
 
-    updateDatabaseCache();
-    res.sendStatus(200);
-  } catch (e) {
-    console.log('Stats update failed');
-    console.error(e);
-    res.sendStatus(500);
-  }
-});
+      // to simplify next query
+      misc.total = 1;
+
+      const statsResponse = await client.query(
+        q.Map(
+          Object.entries(misc),
+          q.Lambda(
+            ['name', 'value'],
+            // q.Var('value'),
+            q.Let(
+              {
+                ret: q.Let(
+                  {
+                    doc: q.Get(q.Match(q.Index('statByName'), q.Var('name'))),
+                    ref: q.Select(['ref'], q.Var('doc')),
+                  },
+                  q.Update(q.Var('ref'),
+                    {
+                      data: {
+                        value: q.Add(q.Select(['data', 'value'], q.Var('doc')), q.Var('value')),
+                      },
+                    },
+                  ),
+                ),
+              },
+              [
+                q.Select(['data', 'name'], q.Var('ret')),
+                q.Select(['data', 'value'], q.Var('ret')),
+              ],
+            ),
+          ),
+        ),
+      );
+
+      database.stats = {
+        ...database.stats,
+        ...Object.fromEntries(statsResponse),
+      };
+
+      updateDatabaseCache();
+      res.sendStatus(200);
+    } catch (e) {
+      console.log('Stats update failed');
+      console.error(e);
+      res.sendStatus(500);
+    }
+  });
 
 
-app.use(express.static(path.join(__dirname, '../dist')));
+  app.use(express.static(path.join(__dirname, '../dist')));
 
 
-const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || 3000;
 
-const server = http.listen(PORT, () => {
-  console.log('\x1b[36m%s\x1b[0m', `Server listening on port ${PORT}!`);
-});
+  const server = http.listen(PORT, () => {
+    console.log('\x1b[36m%s\x1b[0m', `Server listening on port ${PORT}!`);
+  });
 
-const shutdown = () => {
-  console.warn('Server is pending shutdown');
-  server.close();
-  if (PROD) {
-    toggleMaintanceMode(true);
-    setTimeout(() => {
-      console.warn('Ready for shutdown');
+  const shutdown = () => {
+    console.warn('Server is pending shutdown');
+    server.close();
+    if (PROD) {
+      toggleMaintanceMode(true);
+      setTimeout(() => {
+        console.warn('Ready for shutdown');
+        process.exit(0);
+      }, 2000);
+    } else {
       process.exit(0);
-    }, 2000);
-  } else {
-    process.exit(0);
-  }
+    }
+  };
+
+  process.on('SIGTERM', shutdown).on('SIGINT', shutdown);
 };
 
-process.on('SIGTERM', shutdown).on('SIGINT', shutdown);
+
+asyncWrapper();
