@@ -126,6 +126,7 @@ jobs:
         node actions/add-code-submission-to-db.js
       env:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        FAUNA_KEY: ${{ secrets.FAUNA_KEY }}
 
     - name: Push backend to Heroku
       if: env.backend || env.all

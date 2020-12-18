@@ -49,7 +49,7 @@ const main = async () => {
 
   core.startGroup('Establish connection with faunaDB');
   const q = faunadb.query;
-  const client = new faunadb.Client({ secret: context.secrets.FAUNA_KEY });
+  const client = new faunadb.Client({ secret: process.env.FAUNA_KEY });
   core.endGroup();
 
   core.startGroup('Add file entry to database');
