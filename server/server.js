@@ -16,66 +16,66 @@ require('./rooms.js')(http);
 const PROD = process.env.PRODUCTION;
 console.log(`Environment ${PROD || 'DEV'}`);
 
-const asyncWrapper = async () => {
-  const toggleMaintanceMode = async (action) => {
-    try {
-      await axios({
-        url: 'https://api.heroku.com/apps/coderush',
-        method: 'PATCH',
-        headers: {
-          Accept: 'application/vnd.heroku+json; version=3',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.HEROKU_API_KEY}`,
-        },
-        withCredentials: true,
-        data: {
-          maintenance: action,
-        },
-      });
-      console.log('Toogle maintance mode succeded');
-    } catch (e) {
-      console.error('Toggle maintance mode failed');
-    }
-  };
 
-  if (process.env.AUTO_PROMOTE) {
-    try {
-      await axios({
-        url: 'https://api.heroku.com/pipeline-promotions',
-        method: 'POST',
-        headers: {
-          Accept: 'application/vnd.heroku+json; version=3',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.HEROKU_API_KEY}`,
-        },
-        withCredentials: true,
-        data: {
-          pipeline: {
-            id: process.env.PIPELINE_ID,
-          },
-          source: {
-            app: {
-              id: process.env.SOURCE_APP_ID,
-            },
-          },
-          targets: [
-            {
-              app: {
-                id: process.env.TARGET_APP_ID,
-              },
-            },
-          ],
-        },
-      });
-      console.error('Auto promotion succeded');
-      await toggleMaintanceMode(true);
-      process.exit(0);
-    } catch (e) {
-      console.error('Auto promotion failed');
-      process.exit(1);
-    }
+const toggleMaintanceMode = async (action) => {
+  try {
+    await axios({
+      url: 'https://api.heroku.com/apps/coderush',
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/vnd.heroku+json; version=3',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.HEROKU_API_KEY}`,
+      },
+      withCredentials: true,
+      data: {
+        maintenance: action,
+      },
+    });
+    console.log('Toogle maintance mode succeded');
+  } catch (e) {
+    console.error('Toggle maintance mode failed');
   }
+};
 
+if (process.env.AUTO_PROMOTE) {
+  axios({
+    url: 'https://api.heroku.com/pipeline-promotions',
+    method: 'POST',
+    headers: {
+      Accept: 'application/vnd.heroku+json; version=3',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.HEROKU_API_KEY}`,
+    },
+    withCredentials: true,
+    data: {
+      pipeline: {
+        id: process.env.PIPELINE_ID,
+      },
+      source: {
+        app: {
+          id: process.env.SOURCE_APP_ID,
+        },
+      },
+      targets: [
+        {
+          app: {
+            id: process.env.TARGET_APP_ID,
+          },
+        },
+      ],
+    },
+  }).then(async () => {
+    console.log('Auto promotion succeded');
+    await toggleMaintanceMode(true);
+    console.log('Toggle Maintance Mode succeded');
+
+    // cannot process.exit(0) becouse heroku will restart anyway
+  }).catch(() => {
+    console.error('Auto promotion failed');
+    process.exit(1);
+  });
+} else {
   const q = faunadb.query;
   const client = new faunadb.Client({ secret: PROD ? process.env.FAUNA_KEY : process.env.FAUNA_DEV_KEY });
 
@@ -405,7 +405,4 @@ const asyncWrapper = async () => {
   };
 
   process.on('SIGTERM', shutdown).on('SIGINT', shutdown);
-};
-
-
-asyncWrapper();
+}
