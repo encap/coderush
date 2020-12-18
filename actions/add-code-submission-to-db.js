@@ -10,8 +10,6 @@ const main = async () => {
 
   const { context } = github;
 
-  // const token = core.getInput('token');
-  console.log(process.env);
   const octokit = github.getOctokit(process.env.TOKEN);
 
   const { data } = await octokit.repos.listPullRequestsAssociatedWithCommit({
@@ -22,7 +20,7 @@ const main = async () => {
 
   const prBody = data[0].body;
 
-  core.groupEnd();
+  core.endGroup();
 
   core.startGroup('Parse PR body');
 
@@ -40,7 +38,7 @@ const main = async () => {
   const submission = JSON.parse(`{${json}}`);
   console.log(submission);
 
-  core.groupEnd();
+  core.endGroup();
 
 
   const { language } = submission;
@@ -50,7 +48,7 @@ const main = async () => {
   core.startGroup('Establish connection with faunaDB');
   const q = faunadb.query;
   const client = new faunadb.Client({ secret: context.secrets.FAUNA_KEY });
-  core.groupEnd();
+  core.endGroup();
 
   core.startGroup('Add file entry to database');
   client.query(
