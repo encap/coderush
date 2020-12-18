@@ -10,8 +10,8 @@ const main = async () => {
 
   const { context } = github;
 
-  console.log(context.token.slice(5));
-  const octokit = github.getOctokit(context.token);
+  const token = core.getInput('token');
+  const octokit = github.getOctokit(token);
 
   const { data } = await octokit.repos.listPullRequestsAssociatedWithCommit({
     owner: context.repo.owner,

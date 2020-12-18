@@ -21,6 +21,9 @@ jobs:
     - name: Process submission 
       run: |
         node actions/process-code-submission.js
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
       with:
