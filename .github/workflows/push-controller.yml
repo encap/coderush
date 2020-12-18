@@ -124,6 +124,8 @@ jobs:
       if: env.code_submission
       run: |
         node actions/add-code-submission-to-db.js
+      env:
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Push backend to Heroku
       if: env.backend || env.all
