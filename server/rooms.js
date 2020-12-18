@@ -51,7 +51,7 @@ module.exports = (http) => {
         rooms[data.roomName] = {
           players: {},
           options: data.options,
-          languageIndex: data.langaugeIndex,
+          languageIndex: data.languageIndex,
         };
 
         const playerData = {

@@ -17,13 +17,13 @@ try {
     if (typeof submission === 'object' && submission.language.index < 40 && submission.name.length >= 2 && submission.author.length >= 2 && submission.tabSize % 2 === 0 && submission.lines >= 4) {
       core.endGroup();
 
-      core.info(`Added "${submission.name}" to ${submission.langauge.name}`);
+      core.info(`Added "${submission.name}" to ${submission.language.name}`);
 
-      const filePath = `public/code/${submission.langauge.name.replace('#', '_sharp')}/${submission.name}.${submission.language.ext}`;
+      const filePath = `public/code/${submission.language.name.replace('#', '_sharp')}/${submission.name}.${submission.language.ext}`;
 
       core.startGroup('Removing trailing whitespace');
       const lines = submission.code.split('\n');
-      const trimmedLines = submission.langauge.name === 'Whitespace' ? lines : lines.map((line) => line.trimEnd());
+      const trimmedLines = submission.language.name === 'Whitespace' ? lines : lines.map((line) => line.trimEnd());
       const code = trimmedLines.join('\n');
       core.endGroup();
 
@@ -31,14 +31,13 @@ try {
       fs.writeFileSync(filePath, code);
       core.endGroup();
 
-      core.exportVariable('LANGUAGE_INDEX', submission.langauge.index);
-      core.exportVariable('LANGUAGE_NAME', submission.langauge.name);
+      core.exportVariable('LANGUAGE_INDEX', submission.language.index);
+      core.exportVariable('LANGUAGE_NAME', submission.language.name);
       core.exportVariable('NAME', submission.name);
       core.exportVariable('EXT', submission.language.ext);
       core.exportVariable('AUTHOR', submission.author);
       core.exportVariable('LINES', submission.lines);
       core.exportVariable('TAB_SIZE', submission.tabSize);
-
     } else {
       core.endGroup();
       throw new Error('Invalid Submission!');
