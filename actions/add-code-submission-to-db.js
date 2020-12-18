@@ -43,7 +43,7 @@ const main = async () => {
   core.endGroup();
 
 
-  const { language } = submission;
+  const { languageIndex } = submission;
 
   delete submission.language;
 
@@ -56,7 +56,7 @@ const main = async () => {
   client.query(
     q.Let(
       {
-        ref: q.Match(q.Index('languageByIndex'), language.index),
+        ref: q.Match(q.Index('languageByIndex'), languageIndex),
         lang: q.Get(q.Var('ref')),
         filesArr: q.Select(['data', 'files'], q.Var('lang')),
       },
