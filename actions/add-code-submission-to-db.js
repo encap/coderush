@@ -56,21 +56,23 @@ const main = async () => {
   client.query(
     q.Let(
       {
-        ref: q.Match(q.Index('languageByIndex'), languageIndex),
+        ref: q.Select(['data', 0], q.Map(q.Paginate(q.Match(q.Index('languageByIndex'), languageIndex)), q.Lambda('X', q.Var('X')))),
         lang: q.Get(q.Var('ref')),
         filesArr: q.Select(['data', 'files'], q.Var('lang')),
       },
       q.Update(q.Var('ref'), {
         data: {
-          files: q.Append(q.Select(['data', 'files'], q.Var('lang')), submission),
+          files: q.Append(q.Var('filesArr'), [submission]),
         },
       }),
     ),
   )
     .then((ret) => {
-      debugger;
-      core.endGroup();
       console.log(JSON.stringify(ret, null, 2));
+    })
+    .catch((err) => {
+      console.log(JSON.stringify(err, null, 2));
+      throw err;
     });
 };
 
