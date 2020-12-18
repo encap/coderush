@@ -381,23 +381,6 @@ if (process.env.AUTO_PROMOTE) {
 
 
   app.use(express.static(path.join(__dirname, '../dist')));
-
-
-  const shutdown = () => {
-    console.warn('Server is pending shutdown');
-    server.close();
-    if (PROD) {
-      toggleMaintanceMode(true);
-      setTimeout(() => {
-        console.warn('Ready for shutdown');
-        process.exit(0);
-      }, 2000);
-    } else {
-      process.exit(0);
-    }
-  };
-
-  process.on('SIGTERM', shutdown).on('SIGINT', shutdown);
 }
 
 const PORT = process.env.PORT || 3000;
@@ -405,3 +388,19 @@ const PORT = process.env.PORT || 3000;
 const server = http.listen(PORT, () => {
   console.log('\x1b[36m%s\x1b[0m', `Server listening on port ${PORT}!`);
 });
+
+const shutdown = () => {
+  console.warn('Server is pending shutdown');
+  server.close();
+  if (PROD) {
+    toggleMaintanceMode(true);
+    setTimeout(() => {
+      console.warn('Ready for shutdown');
+      process.exit(0);
+    }, 2000);
+  } else {
+    process.exit(0);
+  }
+};
+
+process.on('SIGTERM', shutdown).on('SIGINT', shutdown);

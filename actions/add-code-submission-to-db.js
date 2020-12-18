@@ -37,9 +37,9 @@ const main = async () => {
   core.groupEnd();
 
 
-  const { languageIndex } = submission;
+  const { language } = submission;
 
-  delete submission.languageIndex;
+  delete submission.language;
 
   core.startGroup('Establish connection with faunaDB');
   const q = faunadb.query;
@@ -50,7 +50,7 @@ const main = async () => {
   client.query(
     q.Let(
       {
-        ref: q.Match(q.Index('languageByIndex'), languageIndex),
+        ref: q.Match(q.Index('languageByIndex'), language.index),
         lang: q.Get(q.Var('ref')),
         filesArr: q.Select(['data', 'files'], q.Var('lang')),
       },
