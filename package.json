@@ -7,7 +7,7 @@
     "dev": "concurrently -r \"npm:serve\" \"npm:server\"",
     "vue-ui": "vue ui",
     "build": "vue-cli-service build",
-    "build:dev": "VUE_APP_API_URL=localhost:3000 vue-cli-service build",
+    "build:dev": "VUE_APP_API_URL=http://localhost:3000 vue-cli-service build",
     "heroku-postbuild": "echo SKIP",
     "lint": "vue-cli-service lint",
     "server": "kill $(lsof -ti :3000) & DEBUG=socket.io:client* nodemon -V -w server/ -e js --inspect ./server/server.js",

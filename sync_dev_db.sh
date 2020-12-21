@@ -9,4 +9,4 @@ read_var() {
 FAUNA_KEY=$(read_var FAUNA_KEY .env.local)
 FAUNA_DEV_KEY=$(read_var FAUNA_DEV_KEY .env.local)
 
-cd /home/fdm && exec ./fdm --verbose -source key=$FAUNA_KEY -dest key=$FAUNA_DEV_KEY
+cd /home/fdm && exec ./fdm --verbose -source key=$FAUNA_KEY -dest key=$FAUNA_DEV_KEY index=ignore
