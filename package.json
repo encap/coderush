@@ -63,6 +63,7 @@
     "eslint-plugin-vue-scoped-css": "^0.3.4",
     "node-sass": "^4.14.1",
     "nodemon": "^2.0.4",
+    "prerender-spa-plugin": "^3.4.0",
     "progress-bar-webpack-plugin": "^2.1.0",
     "sass": "^1.26.11",
     "sass-loader": "^8.0.2",

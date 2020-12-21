@@ -1,6 +1,11 @@
+const path = require('path');
+const PrerenderSPAPlugin = require('prerender-spa-plugin');
+
 const zopfli = require('@gfx/zopfli');
+
 // const fs = require('fs');
 // const StatsPlugin = require('stats-webpack-plugin');
+
 
 module.exports = {
   productionSourceMap: false,
@@ -48,6 +53,12 @@ module.exports = {
     },
     plugins: [
       // new StatsPlugin('stats.json'),
+      new PrerenderSPAPlugin({
+        // Required - The path to the webpack-outputted app to prerender.
+        staticDir: path.join(__dirname, 'dist'),
+        // Required - Routes to render.
+        routes: ['/', '/about', '/contribute'],
+      }),
     ],
   },
   chainWebpack(config) {

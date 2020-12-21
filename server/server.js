@@ -135,6 +135,14 @@ if (process.env.AUTO_PROMOTE) {
       }
     });
 
+    app.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', 'https://coderush.xyz');
+      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+      res.header('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
+
+      next();
+    });
+
     // redirect to https
     // app.use((req, res, next) => {
     //   if (req.protocol === 'http') {
