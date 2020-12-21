@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "VUE_APP_API_URL=localhost:3000 vue-cli-service serve --port 80",
+    "serve": "vue-cli-service serve --port 80",
     "dev": "concurrently -r \"npm:serve\" \"npm:server\"",
     "vue-ui": "vue ui",
     "build": "vue-cli-service build",
