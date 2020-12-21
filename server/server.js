@@ -148,13 +148,13 @@ if (process.env.AUTO_PROMOTE) {
     toggleMaintanceMode(false);
 
     // redirect to coderush.xyz
-    app.use((req, res, next) => {
-      if (req.subdomains[0] === 'coderush') {
-        res.redirect(301, `https://coderush.xyz${req.path}`);
-      } else {
-        next();
-      }
-    });
+    // app.use((req, res, next) => {
+    //   if (req.subdomains[0] === 'coderush') {
+    //     res.redirect(301, `https://coderush.xyz${req.path}`);
+    //   } else {
+    //     next();
+    //   }
+    // });
 
     // redirect to https
     app.use((req, res, next) => {
