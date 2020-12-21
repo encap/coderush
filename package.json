@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --port 80",
+    "serve": "VUE_APP_API_URL=localhost:3000 vue-cli-service serve --port 80",
     "dev": "concurrently -r \"npm:serve\" \"npm:server\"",
     "vue-ui": "vue ui",
-    "build:prod": "vue-cli-service build",
-    "build": "VUE_APP_ASSETS_PATH=\"\" vue-cli-service build",
+    "build": "vue-cli-service build",
+    "build:dev": "VUE_APP_API_URL=localhost:3000 vue-cli-service build",
     "heroku-postbuild": "echo SKIP",
     "lint": "vue-cli-service lint",
     "server": "kill $(lsof -ti :3000) & DEBUG=socket.io:client* nodemon -V -w server/ -e js --inspect ./server/server.js",
-    "report": "VUE_APP_ASSETS_PATH=\"\" vue-cli-service build --report"
+    "report": "vue-cli-service build --report"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",

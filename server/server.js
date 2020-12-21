@@ -82,22 +82,6 @@ if (process.env.AUTO_PROMOTE) {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
 
-
-  let cachedIndexHtml = '';
-
-  const updateIndexHtmlCache = async () => {
-    try {
-      const res = await axios.get(process.env.INDEX_HTML_URL);
-      cachedIndexHtml = res.data;
-    } catch (err) {
-      console.log('Failed to get index.html from cdn.');
-      console.error(err);
-      process.exit(1);
-    }
-  };
-
-  updateIndexHtmlCache();
-
   let database = null;
   let stringifiedDB = '';
 
@@ -157,26 +141,26 @@ if (process.env.AUTO_PROMOTE) {
     });
 
     // redirect to https
-    app.use((req, res, next) => {
-      if (req.protocol === 'http') {
-        if (req.method === 'GET' || req.method === 'HEAD') {
-          console.log('Redirecting client to https');
-          res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
-        } else {
-          res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
-        }
-      } else {
-        next();
-      }
-    });
+    // app.use((req, res, next) => {
+    //   if (req.protocol === 'http') {
+    //     if (req.method === 'GET' || req.method === 'HEAD') {
+    //       console.log('Redirecting client to https');
+    //       res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
+    //     } else {
+    //       res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
+    //     }
+    //   } else {
+    //     next();
+    //   }
+    // });
 
     // heroku free tier goes to sleep after 30 minutes of network inactivity
-    app.get('/api/ping', (req, res) => {
+    app.get('/ping', (req, res) => {
       res.sendStatus(200);
     });
 
     setInterval(() => {
-      axios.get('https://coderush.xyz/api/ping').catch((err) => console.error(`Ping Error: ${err}`));
+      axios.get('https://coderushapi.ddns.net/ping').catch((err) => console.error(`Ping Error: ${err}`));
     }, 1000 * 60 * 10);
   } else {
     app.use((req, res, next) => {
@@ -204,24 +188,13 @@ if (process.env.AUTO_PROMOTE) {
     }
   });
 
-  // send cached index.html when possible
-  app.use((req, res, next) => {
-    const match = req.originalUrl.match(/\.\w+$/);
-    const ext = match ? match[0][0] : '';
-    if ((req.method === 'GET' || req.method === 'HEAD') && (ext === '' || ext === 'html')) {
-      res.send(cachedIndexHtml);
-    } else {
-      next();
-    }
-  });
-
-  app.get('/database.json', (req, res) => {
+  app.get('/data', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(stringifiedDB);
   });
 
 
-  app.post('/api/upload', (req, res) => {
+  app.post('/upload', (req, res) => {
     if (typeof req.body.code === 'string' && req.body.code.length > 20) {
       axios({
         url: 'https://api.github.com/repos/encap/coderush/dispatches',
@@ -250,7 +223,7 @@ if (process.env.AUTO_PROMOTE) {
     }
   });
 
-  app.post('/api/stats', async (req, res) => {
+  app.post('/stats', async (req, res) => {
     const { main, misc } = req.body;
 
     try {

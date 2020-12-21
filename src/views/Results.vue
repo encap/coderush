@@ -221,7 +221,7 @@ export default {
           deletingTime: this.format(deletingTime, 0),
         },
       };
-      const url = `${window.location.origin}/api/stats`;
+      const url = `${process.env.VUE_APP_API_URL}/stats`;
       axios.post(url, data)
         .then(() => {
           // console.log('Stats sent');
