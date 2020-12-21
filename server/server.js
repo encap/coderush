@@ -155,9 +155,11 @@ if (process.env.AUTO_PROMOTE) {
     });
 
     setInterval(() => {
-      axios.get('https://coderushapi.ddns.net/ping').catch((err) => console.error(`Ping Error: ${err}`));
+      axios.get('https://api.coderush.xyz/ping').catch((err) => console.error(`Ping Error: ${err}`));
     }, 1000 * 60 * 10);
   } else {
+    // DEV
+
     app.use((req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
@@ -165,6 +167,7 @@ if (process.env.AUTO_PROMOTE) {
 
       next();
     });
+
     app.use((req, res, next) => {
       if (!req.path.includes('code/') && (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css')) {
         res.header('content-encoding', 'gzip');
