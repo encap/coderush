@@ -127,16 +127,16 @@ if (process.env.AUTO_PROMOTE) {
     toggleMaintanceMode(false);
 
     // redirect to coderush.xyz
-    app.use((req, res, next) => {
-      if (req.subdomains[0] === 'coderush') {
-        res.redirect(301, `https://coderush.xyz${req.path}`);
-      } else {
-        next();
-      }
-    });
+    // app.use((req, res, next) => {
+    //   if (req.subdomains[0] === 'coderush') {
+    //     res.redirect(301, `https://coderush.xyz${req.path}`);
+    //   } else {
+    //     next();
+    //   }
+    // });
 
     app.use((req, res, next) => {
-      res.header('Access-Control-Allow-Origin', 'https://coderush.xyz');
+      res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
       res.header('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
 
