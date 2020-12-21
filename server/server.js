@@ -148,27 +148,27 @@ if (process.env.AUTO_PROMOTE) {
     toggleMaintanceMode(false);
 
     // redirect to coderush.xyz
-    // app.use((req, res, next) => {
-    //   if (req.subdomains[0] === 'coderush') {
-    //     res.redirect(301, `https://coderush.xyz${req.path}`);
-    //   } else {
-    //     next();
-    //   }
-    // });
-
-    // redirect to https
     app.use((req, res, next) => {
-      if (req.protocol === 'http') {
-        if (req.method === 'GET' || req.method === 'HEAD') {
-          console.log('Redirecting client to https');
-          res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
-        } else {
-          res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
-        }
+      if (req.subdomains[0] === 'coderush') {
+        res.redirect(301, `https://coderush.xyz${req.path}`);
       } else {
         next();
       }
     });
+
+    // redirect to https
+    // app.use((req, res, next) => {
+    //   if (req.protocol === 'http') {
+    //     if (req.method === 'GET' || req.method === 'HEAD') {
+    //       console.log('Redirecting client to https');
+    //       res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
+    //     } else {
+    //       res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
+    //     }
+    //   } else {
+    //     next();
+    //   }
+    // });
 
     // heroku free tier goes to sleep after 30 minutes of network inactivity
     app.get('/api/ping', (req, res) => {
