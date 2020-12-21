@@ -126,7 +126,7 @@ if (process.env.AUTO_PROMOTE) {
   if (PROD) {
     toggleMaintanceMode(false);
 
-    // redirect to coderush.xyz
+    // redirect from coderush.herokuapp.com
     app.use((req, res, next) => {
       if (req.subdomains[0] === 'coderush') {
         res.redirect(301, `https://coderush.xyz${req.path}`);
