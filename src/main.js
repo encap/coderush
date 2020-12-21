@@ -22,7 +22,7 @@ library.add(faUsers, faPlay, faInfo, faFileCode, faShareAlt, faTimes, faLink, fa
 Vue.component('fa', FontAwesomeIcon);
 Vue.component('faStack', FontAwesomeLayers);
 
-const socket = io('/', {
+const socket = io(process.env.VUE_APP_API_URL, {
   autoConnect: false,
   reconnectionAttempts: 3,
   timeout: 10000,

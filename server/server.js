@@ -78,29 +78,8 @@ if (process.env.AUTO_PROMOTE) {
   const q = faunadb.query;
   const client = new faunadb.Client({ secret: PROD ? process.env.FAUNA_KEY : process.env.FAUNA_DEV_KEY });
 
-  app.enable('trust proxy'); // trust heroku and cloudflare
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
-
-
-  let cachedIndexHtml = '';
-
-  const updateIndexHtmlCache = async () => {
-    try {
-      const res = await axios.get(process.env.INDEX_HTML_URL);
-      cachedIndexHtml = res.data;
-    } catch (err) {
-      console.log('Failed to get index.html from cdn.');
-      console.error(err);
-      process.exit(1);
-    }
-  };
-
-  updateIndexHtmlCache();
-
   let database = null;
   let stringifiedDB = '';
-
 
   const updateDatabaseCache = () => {
     stringifiedDB = JSON.stringify(database);
@@ -171,29 +150,37 @@ if (process.env.AUTO_PROMOTE) {
     // });
 
     // heroku free tier goes to sleep after 30 minutes of network inactivity
-    app.get('/api/ping', (req, res) => {
+    app.get('/ping', (req, res) => {
       res.sendStatus(200);
     });
 
     setInterval(() => {
-      axios.get('https://coderush.xyz/api/ping').catch((err) => console.error(`Ping Error: ${err}`));
+      axios.get('https://api.coderush.xyz/ping').catch((err) => console.error(`Ping Error: ${err}`));
     }, 1000 * 60 * 10);
   } else {
+    // DEV
+
+    app.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+      res.header('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
+
+      next();
+    });
+
     app.use((req, res, next) => {
       if (!req.path.includes('code/') && (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css')) {
         res.header('content-encoding', 'gzip');
+        console.log('gzip');
       }
+      console.log('not gzip');
       next();
     });
   }
 
-  app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
-    if (updateIndexHtmlCache()) {
-      res.sendStatus(201);
-    } else {
-      res.sendStatus(400);
-    }
-  });
+  app.enable('trust proxy'); // trust heroku and cloudflare
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
 
   app.post(process.env.DATABASE_UPDATE_URL, (req, res) => {
     if (fetchDatabase()) {
@@ -204,24 +191,13 @@ if (process.env.AUTO_PROMOTE) {
     }
   });
 
-  // send cached index.html when possible
-  app.use((req, res, next) => {
-    const match = req.originalUrl.match(/\.\w+$/);
-    const ext = match ? match[0][0] : '';
-    if ((req.method === 'GET' || req.method === 'HEAD') && (ext === '' || ext === 'html')) {
-      res.send(cachedIndexHtml);
-    } else {
-      next();
-    }
-  });
-
-  app.get('/database.json', (req, res) => {
+  app.get('/data', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(stringifiedDB);
   });
 
 
-  app.post('/api/upload', (req, res) => {
+  app.post('/upload', (req, res) => {
     if (typeof req.body.code === 'string' && req.body.code.length > 20) {
       axios({
         url: 'https://api.github.com/repos/encap/coderush/dispatches',
@@ -250,7 +226,7 @@ if (process.env.AUTO_PROMOTE) {
     }
   });
 
-  app.post('/api/stats', async (req, res) => {
+  app.post('/stats', async (req, res) => {
     const { main, misc } = req.body;
 
     try {

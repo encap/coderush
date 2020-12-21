@@ -58,7 +58,7 @@ CodeMirror.requireMode = (mode, cont, reject) => {
     const script = document.createElement('script');
     script.onerror = () => reject(Error('No internet'));
     script.async = true;
-    script.src = `${process.env.VUE_APP_ASSETS_PATH || ''}/cm/mode/${mode}/${mode}.js`;
+    script.src = `/cm/mode/${mode}/${mode}.js`;
     const others = document.getElementsByTagName('script')[0];
     loading[mode] = [cont];
 
@@ -108,7 +108,7 @@ const loadTheme = (name = 'material-darker') => {
 
     if (!existing) {
       const link = document.createElement('link');
-      link.href = `${process.env.VUE_APP_ASSETS_PATH || ''}/cm/theme/${name}.css`;
+      link.href = `/cm/theme/${name}.css`;
       link.rel = 'stylesheet';
       link.id = name;
       document.head.appendChild(link);

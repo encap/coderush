@@ -106,7 +106,7 @@ export default {
   methods: {
     async loadExampleResults() {
       if (!this.exampleStats) {
-        const response = await axios.get(`${process.env.VUE_APP_ASSETS_PATH || ''}/exampleResults.json`);
+        const response = await axios.get('/exampleResults.json');
         this.exampleStats = response.data;
       }
 

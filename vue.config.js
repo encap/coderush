@@ -2,11 +2,8 @@ const zopfli = require('@gfx/zopfli');
 // const fs = require('fs');
 // const StatsPlugin = require('stats-webpack-plugin');
 
-const assetsPath = process.env.VUE_APP_ASSETS_PATH || '';
-
 module.exports = {
   productionSourceMap: false,
-  publicPath: assetsPath || '/',
   css: {
     loaderOptions: {
       sass: {
@@ -69,7 +66,12 @@ module.exports = {
     // config.plugins.delete('prefetch');
   },
   devServer: {
-    proxy: 'http://localhost:3000',
+    progress: true,
+    clientLogLevel: 'info',
+
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
     before(app) {
       app.use((req, res, next) => {
         if (req.path.slice(0, 4) === '/cm/') {
@@ -79,13 +81,11 @@ module.exports = {
       });
     },
 
-    progress: true,
-    compress: false,
-    // https: assetsPath ? false : {
+    // compress: false,
+    // https: {
     //   key: fs.readFileSync(`${process.env.HOME}/localhost.key`),
     //   cert: fs.readFileSync(`${process.env.HOME}/localhost.crt`),
     //   ca: fs.readFileSync(`${process.env.HOME}/rootCA.crt`),
     // },
   },
-
 };

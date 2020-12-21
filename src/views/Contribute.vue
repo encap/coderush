@@ -133,7 +133,7 @@ export default {
             ext: this.language.ext,
           },
         };
-        const url = `${window.location.origin}/api/upload`;
+        const url = `${process.env.VUE_APP_API_URL}/upload`;
         axios.post(url, data)
           .then(() => {
             this.sent = true;
