@@ -1,5 +1,4 @@
-![Build][build-shield]
-![Deploy][deploy-shield]
+![Build & Deploy][build-shield]
 [![Website status][website-shield]][main-url]
 [![GitHub issues][issues-shield]][issues-url]
 [![GPLv3 License][license-shield]][license-url]
@@ -64,9 +63,9 @@ On CodeRush you can create a private multiplayer server, so that you can compete
 * [Vue.js 2](https://vuejs.org/)
 * [CodeMirror 5](https://codemirror.net/)
 * [Chart.js 2](https://www.chartjs.org/)
-* [Node.js 12](https://nodejs.org/en/)
 * [Express 4](https://expressjs.com/)
 * [Socket.io 2](https://socket.io/)
+* [FaunaDB](https://fauna.com/)
 
 
 ## Getting Started
@@ -137,9 +136,6 @@ I made CodeRush open source because without other OS projects I wouldn't be able
 
 Source code is distributed under the [GNU GPL v3][license-url] License. However, I would advise against looking here for the best solutions or forking it because this was my first Vue.js project.
 
-## Miscellaneous
-  I am aware that the use of CDN and multiple steps in GitHub Actions is probably an overkill for this project, but I just wanted to play with it.
-
 
 ## Contact
 Łukasz Wielgus
@@ -165,6 +161,5 @@ Donate on PayPal: https://paypal.me/encap
 [issues-shield]: https://img.shields.io/github/issues/encap/coderush
 [main-screenshot]: .github/images/main-screenshot.webp
 [results-screenshot]: .github/images/results-screenshot.webp
-[deploy-shield]: https://github.com/encap/coderush/workflows/Deploy%20Controller/badge.svg
 [build-shield]: https://github.com/encap/coderush/workflows/Push%20Controller/badge.svg
 [os-shield]: https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github
