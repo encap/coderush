@@ -176,14 +176,14 @@ if (process.env.AUTO_PROMOTE) {
       next();
     });
 
-    app.use((req, res, next) => {
-      if (!req.path.includes('code/') && (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css')) {
-        res.header('content-encoding', 'gzip');
-        console.log('gzip');
-      }
-      console.log('not gzip');
-      next();
-    });
+    // app.use((req, res, next) => {
+    //   if (!req.path.includes('code/') && (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css')) {
+    //     res.header('content-encoding', 'gzip');
+    //     console.log('gzip');
+    //   }
+    //   console.log('not gzip');
+    //   next();
+    // });
   }
 
   app.enable('trust proxy'); // trust heroku and cloudflare

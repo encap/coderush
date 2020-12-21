@@ -1,7 +1,7 @@
 const path = require('path');
 const PrerenderSPAPlugin = require('prerender-spa-plugin');
 
-const zopfli = require('@gfx/zopfli');
+// const zopfli = require('@gfx/zopfli');
 
 // const fs = require('fs');
 // const StatsPlugin = require('stats-webpack-plugin');
@@ -25,19 +25,19 @@ module.exports = {
     },
   },
   pluginOptions: {
-    compression: {
-      zopfli: {
-        filename: '[path]',
-        include: /\.js$|\.css$/,
-        exclude: /cm\/|code\//,
-        compressionOptions: {
-          numiterations: 15,
-        },
-        algorithm(input, compressionOptions, callback) {
-          return zopfli.gzip(input, compressionOptions, callback);
-        },
-      },
-    },
+    // compression: {
+    //   zopfli: {
+    //     filename: '[path]',
+    //     include: /\.js$|\.css$/,
+    //     exclude: /cm\/|code\//,
+    //     compressionOptions: {
+    //       numiterations: 15,
+    //     },
+    //     algorithm(input, compressionOptions, callback) {
+    //       return zopfli.gzip(input, compressionOptions, callback);
+    //     },
+    //   },
+    // },
   },
   configureWebpack: {
     output: {
