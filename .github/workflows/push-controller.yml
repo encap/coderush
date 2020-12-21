@@ -69,7 +69,7 @@ jobs:
     - name: Vue build
       if: env.all || env.frontend
       run: |
-        npm run build:prod
+        npm run build
     - name: Copy submitted code
       if: env.code_examples && !env.frontend
       run: |

@@ -78,13 +78,8 @@ if (process.env.AUTO_PROMOTE) {
   const q = faunadb.query;
   const client = new faunadb.Client({ secret: PROD ? process.env.FAUNA_KEY : process.env.FAUNA_DEV_KEY });
 
-  app.enable('trust proxy'); // trust heroku and cloudflare
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
-
   let database = null;
   let stringifiedDB = '';
-
 
   const updateDatabaseCache = () => {
     stringifiedDB = JSON.stringify(database);
@@ -164,20 +159,25 @@ if (process.env.AUTO_PROMOTE) {
     }, 1000 * 60 * 10);
   } else {
     app.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+      res.header('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
+
+      next();
+    });
+    app.use((req, res, next) => {
       if (!req.path.includes('code/') && (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css')) {
         res.header('content-encoding', 'gzip');
+        console.log('gzip');
       }
+      console.log('not gzip');
       next();
     });
   }
 
-  app.post(process.env.INDEX_HTML_UPDATE_URL, (req, res) => {
-    if (updateIndexHtmlCache()) {
-      res.sendStatus(201);
-    } else {
-      res.sendStatus(400);
-    }
-  });
+  app.enable('trust proxy'); // trust heroku and cloudflare
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
 
   app.post(process.env.DATABASE_UPDATE_URL, (req, res) => {
     if (fetchDatabase()) {

@@ -66,30 +66,26 @@ module.exports = {
     // config.plugins.delete('prefetch');
   },
   devServer: {
-    proxy: {
-      '/data': {
-        target: 'http://localhost:3000',
-        secure: false,
-        changeOrigin: true,
-      },
-    },
-    // proxy: 'http://localhost:3000',
-    // before(app) {
-    //   app.use((req, res, next) => {
-    //     if (req.path.slice(0, 4) === '/cm/') {
-    //       res.header('content-encoding', 'gzip');
-    //     }
-    //     next();
-    //   });
-    // },
-
     progress: true,
-    compress: false,
+    clientLogLevel: 'info',
+
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+    before(app) {
+      app.use((req, res, next) => {
+        if (req.path.slice(0, 4) === '/cm/') {
+          res.header('content-encoding', 'gzip');
+        }
+        next();
+      });
+    },
+
+    // compress: false,
     // https: {
     //   key: fs.readFileSync(`${process.env.HOME}/localhost.key`),
     //   cert: fs.readFileSync(`${process.env.HOME}/localhost.crt`),
     //   ca: fs.readFileSync(`${process.env.HOME}/rootCA.crt`),
     // },
   },
-
 };
