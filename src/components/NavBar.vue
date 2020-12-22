@@ -132,7 +132,6 @@ nav
   background: linear-gradient(340deg, $navy-grey, $navy-grey 20%, $washed-purple)
   padding: 6% 0
   height: 100%
-  z-index: 10
 
 nav:after
   @include pos0
@@ -170,6 +169,7 @@ nav:after
   position: sticky
   top: 0
   padding-bottom: 2em
+  z-index: 10
 
 .links
   margin: 6% 0 10% 0
