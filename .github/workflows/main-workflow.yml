@@ -23,10 +23,12 @@ jobs:
     steps:
     - id: changes
       name: Get changed files
+      if: env.workflow_dispatch == 'false'
       uses: trilom/file-changes-action@v1.2.4
       with:
         output: ','
     - name: 'Analyze changes'
+      if: env.workflow_dispatch == 'false'
       continue-on-error: true
       # regex lookahead and lookbehind, \w don't work here
       run: |
