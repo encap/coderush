@@ -92,7 +92,7 @@ jobs:
         echo "changes=$changes";   
 
     - name: Deploy to Firebase live channel
-      if: env.live && (env.changes && env.fronend || env.all)
+      if: env.live && env.changes && (env.fronend || env.all)
       uses: FirebaseExtended/action-hosting-deploy@v0
       with:
         repoToken: '${{ secrets.GITHUB_TOKEN }}'
@@ -101,7 +101,7 @@ jobs:
         projectId: coderush-287723
 
     - name: Deploy to Firebase dev channel
-      if: (env.changes && env.fronend || env.all) && !env.live
+      if: env.changes && (env.fronend || env.all) && !env.live
       uses: FirebaseExtended/action-hosting-deploy@v0
       with:
         repoToken: '${{ secrets.GITHUB_TOKEN }}'

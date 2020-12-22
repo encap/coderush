@@ -56,7 +56,7 @@
         ]
       },
       {
-        "source": "/css/**|/css/**|/exampleResults.json",
+        "source": "/js/**|/css/**|/exampleResults.json",
         "headers": [
           {
             "key": "Cache-Control",
