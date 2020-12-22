@@ -47,7 +47,16 @@
         ]
       },
       {
-        "source": "**/*.@(jpg|jpeg|png|webp)|404.html|cm/mode/**",
+        "source": "**/@(404.html|*.@(jpg|jpeg|png|webp))",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=2592000"
+          }
+        ]
+      },
+      {
+        "source": "/cm/mode/**",
         "headers": [
           {
             "key": "Cache-Control",
