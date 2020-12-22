@@ -1,4 +1,4 @@
-![Build & Deploy][build-shield]
+![Main Workflow][build-shield]
 [![Website status][website-shield]][main-url]
 [![GitHub issues][issues-shield]][issues-url]
 [![GPLv3 License][license-shield]][license-url]
@@ -161,5 +161,5 @@ Donate on PayPal: https://paypal.me/encap
 [issues-shield]: https://img.shields.io/github/issues/encap/coderush
 [main-screenshot]: .github/images/main-screenshot.webp
 [results-screenshot]: .github/images/results-screenshot.webp
-[build-shield]: https://github.com/encap/coderush/workflows/Push%20Controller/badge.svg
+[workflow-shield]: https://github.com/encap/coderush/workflows/Main%20Workflow/badge.svg
 [os-shield]: https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github
