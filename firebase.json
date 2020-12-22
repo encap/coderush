@@ -65,7 +65,23 @@
         ]
       },
       {
-        "source": "/js/**|/css/**|/exampleResults.json",
+        "source": "/js/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000 immutable"
+          }
+        ]
+      },      {
+        "source": "/css/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000 immutable"
+          }
+        ]
+      },      {
+        "source": "/exampleResults.json",
         "headers": [
           {
             "key": "Cache-Control",
@@ -83,7 +99,7 @@
         ]
       }
     ],
-    
+
     "trailingSlash": false
   }
 }
