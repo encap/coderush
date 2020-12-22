@@ -201,6 +201,8 @@ if (process.env.AUTO_PROMOTE) {
 
   app.get('/data', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'max-age=1800');
+
     res.send(stringifiedDB);
   });
 
