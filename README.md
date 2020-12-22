@@ -5,7 +5,6 @@
 [![Ask Me Anything !][ama-shield]][email-link]
 ![Open Source? Yes!][os-shield]
 
-# coderush.xyz will be down for 24 hours due to DNS propagation and migration to Firebase
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
