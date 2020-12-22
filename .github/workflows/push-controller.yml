@@ -41,6 +41,7 @@ jobs:
         # env variables are available only in next steps
       run: |
         [[ $workflow_dispatch == true ]] || [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
+        $workflow_dispatch && echo "changes=true" >> $GITHUB_ENV;
         exit 0;
     - name: DEBUG
       run: |
