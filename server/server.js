@@ -126,36 +126,36 @@ if (process.env.AUTO_PROMOTE) {
   if (PROD) {
     toggleMaintanceMode(false);
 
-    // redirect to coderush.xyz
-    // app.use((req, res, next) => {
-    //   if (req.subdomains[0] === 'coderush') {
-    //     res.redirect(301, `https://coderush.xyz${req.path}`);
-    //   } else {
-    //     next();
-    //   }
-    // });
-
+    // redirect from coderush.herokuapp.com
     app.use((req, res, next) => {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-      res.header('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
-
-      next();
+      if (req.subdomains[0] === 'coderush') {
+        res.redirect(301, `https://coderush.xyz${req.path}`);
+      } else {
+        next();
+      }
     });
 
-    // redirect to https
     // app.use((req, res, next) => {
-    //   if (req.protocol === 'http') {
-    //     if (req.method === 'GET' || req.method === 'HEAD') {
-    //       console.log('Redirecting client to https');
-    //       res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
-    //     } else {
-    //       res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
-    //     }
-    //   } else {
-    //     next();
-    //   }
+    //   res.header('Access-Control-Allow-Origin', '*');
+    //   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    //   res.header('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
+
+    //   next();
     // });
+
+    // redirect to https
+    app.use((req, res, next) => {
+      if (req.protocol === 'http') {
+        if (req.method === 'GET' || req.method === 'HEAD') {
+          console.log('Redirecting client to https');
+          res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
+        } else {
+          res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
+        }
+      } else {
+        next();
+      }
+    });
 
     // heroku free tier goes to sleep after 30 minutes of network inactivity
     app.get('/ping', (req, res) => {
@@ -176,14 +176,14 @@ if (process.env.AUTO_PROMOTE) {
       next();
     });
 
-    app.use((req, res, next) => {
-      if (!req.path.includes('code/') && (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css')) {
-        res.header('content-encoding', 'gzip');
-        console.log('gzip');
-      }
-      console.log('not gzip');
-      next();
-    });
+    // app.use((req, res, next) => {
+    //   if (!req.path.includes('code/') && (req.path.slice(-2) === 'js' || req.path.slice(-3) === 'css')) {
+    //     res.header('content-encoding', 'gzip');
+    //     console.log('gzip');
+    //   }
+    //   console.log('not gzip');
+    //   next();
+    // });
   }
 
   app.enable('trust proxy'); // trust heroku and cloudflare
