@@ -2,7 +2,6 @@
 node_modules
 dist
 playground.js
-.firebaserc
 
 # local env files
 .env.local

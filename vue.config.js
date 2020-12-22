@@ -1,7 +1,7 @@
 const path = require('path');
 const PrerenderSPAPlugin = require('prerender-spa-plugin');
 
-const zopfli = require('@gfx/zopfli');
+// const zopfli = require('@gfx/zopfli');
 
 // const fs = require('fs');
 // const StatsPlugin = require('stats-webpack-plugin');

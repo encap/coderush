@@ -1,4 +1,4 @@
-name: Push Controller
+name: Main Workflow
 
 on:
   push:
@@ -7,15 +7,19 @@ on:
     paths-ignore:
       - '**.md'
       - 'package-lock.json'
+  pull_request:
+    branches:
+      - master
+
   workflow_dispatch:
 
 jobs:
-  dispatch-push:
-    name: Dispatch Push
+  dispatch-push-pr:
+    name: Dispatch Push or PR
     runs-on: ubuntu-latest
     env:
       workflow_dispatch: ${{ contains(github.event_name, 'workflow_dispatch') }}
-      GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
+
     steps:
     - id: changes
       name: Get changed files
@@ -23,25 +27,25 @@ jobs:
       with:
         output: ','
     - name: 'Analyze changes'
+      continue-on-error: true
       # regex lookahead and lookbehind, \w don't work here
       run: |
-        [[ "${{ steps.changes.outputs.files }}" =~ server/[a-zA-Z/].+\.js ]] && echo "backend=true" >> $GITHUB_ENV;
-        [[  "$(echo "${{ steps.changes.outputs.files }}" | sed "s/public\/code//")" =~ src/|config\.js|eslintrc|\.env|public/ ]] && echo "frontend=true" >> $GITHUB_ENV;
-        [[ "${{ steps.changes.outputs.files }}" =~ public/code ]] && echo "code_examples=true" >> $GITHUB_ENV;
+        [[ "${{ github.event_name }}" == "push" ]] && echo "live=true" >> $GITHUB_ENV;
+        [[ "${{ steps.changes.outputs.files }}" =~ server/ ]] && echo "backend=true" >> $GITHUB_ENV;
+        [[ "${{ steps.changes.outputs.files }}" =~ src/|config\.js|eslintrc|\.env|public/ ]] && echo "frontend=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ package\.json ]] && echo "package_json=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ \.github/|actions/ ]] && echo "github_actions=true" >> $GITHUB_ENV;
+        ${{ contains(github.event.head_commit.message, '[Code submission]') }} && echo "code_submission=true" >> $GITHUB_ENV;
         exit 0;
     - name: 'Setup other env variables'
         # env variables are available only in next steps
       run: |
         [[ $workflow_dispatch == true ]] || [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
-        [[ $code_examples ]] && ${{ contains(github.event.head_commit.message, '[Code submission]') }} && echo "code_submission=true" >> $GITHUB_ENV;
         exit 0;
     - name: DEBUG
       run: |
         echo "backend=$backend";
         echo "frontend=$frontend";
-        echo "code_examples=$code_examples";
         echo "package_json=$package_json";
         echo "github_actions=$github_actions";
         echo "all=$all";
@@ -65,71 +69,76 @@ jobs:
       if: env.all || env.frontend
       run: |
         npm install
-
+    - name: Set API URL for testing
+      if: (env.all || env.frontend) && !env.live
+      run: |
+        echo "VUE_APP_API_URL=https://coderush-pr-$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH").herokuapp.com" > .env.production
     - name: Vue build
       if: env.all || env.frontend
       run: |
         npm run build
-    - name: Copy submitted code
-      if: env.code_examples && !env.frontend
-      run: |
-        mkdir -p dist
-        cp -r public/code dist/code
-
     - name: Stage all changes
+      if: env.all || env.frontend
       run: |
         git add .
     - name: Check for changes
+      if: env.all || env.frontend
       continue-on-error: true
       run: |
         ! git diff-index --quiet HEAD -- && echo "changes=true" >> $GITHUB_ENV;
         exit 0;
     - name: DEBUG
       run: |
-        echo "changes=$changes";
+        echo "changes=$changes";   
 
-    - name: Setup - gcloud / gsutil
-      if: env.all || env.frontend || env.code_examples
-      uses: google-github-actions/setup-gcloud@v0.2.0
+    - name: Deploy to Firebase live channel
+      if: env.live && (env.changes && env.fronend || env.all)
+      uses: FirebaseExtended/action-hosting-deploy@v0
       with:
-        service_account_key: ${{ secrets.GCS_SA_KEY }}
-        project_id: ${{ secrets.GCS_PROJECT_ID }}
-        export_default_credentials: true
+        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CODERUSH_287723 }}'
+        channelId: live
+        projectId: coderush-287723
 
-    - name: Upload frontend without code examples
-      if: env.all || env.frontend
-      run: |
-        gsutil -m -h "Cache-Control:no-store" rsync -r -d -x "dist/code.*$" dist gs://$GCS_BUCKET 
-    - name: Upload code examples
-      if: env.code_examples
-      run: |
-        gsutil -m -h "Cache-Control:no-store" rsync -r -d dist/code gs://$GCS_BUCKET/code
+    - name: Deploy to Firebase dev channel
+      if: (env.changes && env.fronend || env.all) && !env.live
+      uses: FirebaseExtended/action-hosting-deploy@v0
+      with:
+        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CODERUSH_287723 }}'
+        channelId: dev
+        projectId: coderush-287723
+      env:
+        FIREBASE_CLI_PREVIEWS: hostingchannels
 
-    - name: Set headers
-      if: env.frontend || env.all
-      run: |
-        gsutil -m setmeta -h "Content-Encoding:gzip" gs://${GCS_BUCKET}/*/*
-        gsutil -m setmeta -h "Content-Encoding:gzip" gs://${GCS_BUCKET}/cm/**/*
-
-    - name: Hot update index.html
-      if: env.frontend && !env.backend && !env.all
-      run: |
-        curl -X POST ${{ secrets.INDEX_HTML_UPDATE_URL }}
 
     - name: Install packages for code submission
       if: env.code_submission
       run: |
         npm install --no-package-lock --no-save @actions/core @actions/github faunadb
     - name: Accept code submission
-      if: env.code_submission
+      if: env.code_submission && env.live
       run: |
         node actions/add-code-submission-to-db.js && curl -X POST ${{ secrets.DATABASE_UPDATE_URL }}
       env:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
         FAUNA_KEY: ${{ secrets.FAUNA_KEY }}
+    - name: Accept code submission on dev database
+      if: env.code_submission && !env.live
+      run: |
+        node actions/add-code-submission-to-db.js
+      env:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        FAUNA_KEY: ${{ secrets.FAUNA_DEV_KEY }}
 
+    
+      # heroku will auto deploy pull request
+    - name: 'Remove unnecessary files'
+      if: env.live && env.backend
+      run: |
+        rm -rfdv !("server/**"|"package.json|Procfile")
     - name: Push backend to Heroku
-      if: env.backend || env.all
+      if: env.live && env.backend
       uses: akhileshns/heroku-deploy@v3.6.8
       with:
         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
