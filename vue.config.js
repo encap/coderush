@@ -18,11 +18,11 @@ module.exports = {
         },
       },
     },
-    sourceMap: true,
-    extract: {
-      filename: 'css/[name].css',
-      chunkFilename: 'css/[name].css',
-    },
+    sourceMap: false,
+    // extract: {
+    //   filename: 'css/[name].css',
+    //   chunkFilename: 'css/[name].css',
+    // },
   },
   pluginOptions: {
     // compression: {
@@ -40,10 +40,10 @@ module.exports = {
     // },
   },
   configureWebpack: {
-    output: {
-      filename: 'js/[name].js',
-      chunkFilename: 'js/[name].js',
-    },
+    // output: {
+    //   filename: 'js/[name].js',
+    //   chunkFilename: 'js/[name].js',
+    // },
     resolve: {
       alias: {
         // bundle size optimatization
@@ -79,7 +79,6 @@ module.exports = {
   devServer: {
     progress: true,
     clientLogLevel: 'info',
-
     headers: {
       'Access-Control-Allow-Origin': '*',
     },

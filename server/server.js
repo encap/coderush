@@ -135,27 +135,27 @@ if (process.env.AUTO_PROMOTE) {
       }
     });
 
-    app.use((req, res, next) => {
-      res.header('Access-Control-Allow-Origin', 'https://coderush.xyz');
-      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-      res.header('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
+    // app.use((req, res, next) => {
+    //   res.header('Access-Control-Allow-Origin', '*');
+    //   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    //   res.header('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
 
-      next();
-    });
+    //   next();
+    // });
 
     // redirect to https
-    // app.use((req, res, next) => {
-    //   if (req.protocol === 'http') {
-    //     if (req.method === 'GET' || req.method === 'HEAD') {
-    //       console.log('Redirecting client to https');
-    //       res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
-    //     } else {
-    //       res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
-    //     }
-    //   } else {
-    //     next();
-    //   }
-    // });
+    app.use((req, res, next) => {
+      if (req.protocol === 'http') {
+        if (req.method === 'GET' || req.method === 'HEAD') {
+          console.log('Redirecting client to https');
+          res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
+        } else {
+          res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
+        }
+      } else {
+        next();
+      }
+    });
 
     // heroku free tier goes to sleep after 30 minutes of network inactivity
     app.get('/ping', (req, res) => {

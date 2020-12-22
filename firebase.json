@@ -1,16 +1,79 @@
 {
   "hosting": {
-    "public": "dist",
+    "public": "dist/",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
+    "redirects": [
+      {
+        "source": "/upload",
+        "destination": "/contribute",
+        "type": 301
+      }
+    ],
     "rewrites": [
       {
         "source": "**",
         "destination": "/index.html"
+      },
+      {
+        "source": "/join/:room",
+        "destination": "/index.html"
       }
-    ]
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000 immutable"
+          }
+        ]
+      },
+      {
+        "source": "/code/**|/cm/theme/**|",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=604800"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(jpg|jpeg|png|webp)|404.html|cm/mode/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=2592000"
+          }
+        ]
+      },
+      {
+        "source": "/css/**|/css/**|/exampleResults.json",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000 immutable"
+          }
+        ]
+      },
+      {
+        "source": "**/*.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=3600"
+          }
+        ]
+      }
+    ],
+    "trailingSlash": false
   }
 }
