@@ -82,14 +82,14 @@ module.exports = {
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
-    before(app) {
-      app.use((req, res, next) => {
-        if (req.path.slice(0, 4) === '/cm/') {
-          res.header('content-encoding', 'gzip');
-        }
-        next();
-      });
-    },
+    // before(app) {
+    //   app.use((req, res, next) => {
+    //     if (req.path.slice(0, 4) === '/cm/') {
+    //       res.header('content-encoding', 'gzip');
+    //     }
+    //     next();
+    //   });
+    // },
 
     // compress: false,
     // https: {
