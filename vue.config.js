@@ -18,32 +18,32 @@ module.exports = {
         },
       },
     },
-    sourceMap: true,
-    extract: {
-      filename: 'css/[name].css',
-      chunkFilename: 'css/[name].css',
-    },
+    sourceMap: false,
+    // extract: {
+    //   filename: 'css/[name].css',
+    //   chunkFilename: 'css/[name].css',
+    // },
   },
   pluginOptions: {
-    compression: {
-      zopfli: {
-        filename: '[path]',
-        include: /\.js$|\.css$/,
-        exclude: /cm\/|code\//,
-        compressionOptions: {
-          numiterations: 15,
-        },
-        algorithm(input, compressionOptions, callback) {
-          return zopfli.gzip(input, compressionOptions, callback);
-        },
-      },
-    },
+    // compression: {
+    //   zopfli: {
+    //     filename: '[path]',
+    //     include: /\.js$|\.css$/,
+    //     exclude: /cm\/|code\//,
+    //     compressionOptions: {
+    //       numiterations: 15,
+    //     },
+    //     algorithm(input, compressionOptions, callback) {
+    //       return zopfli.gzip(input, compressionOptions, callback);
+    //     },
+    //   },
+    // },
   },
   configureWebpack: {
-    output: {
-      filename: 'js/[name].js',
-      chunkFilename: 'js/[name].js',
-    },
+    // output: {
+    //   filename: 'js/[name].js',
+    //   chunkFilename: 'js/[name].js',
+    // },
     resolve: {
       alias: {
         // bundle size optimatization
@@ -79,7 +79,6 @@ module.exports = {
   devServer: {
     progress: true,
     clientLogLevel: 'info',
-
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
