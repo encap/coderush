@@ -44,6 +44,7 @@ jobs:
         exit 0;
     - name: DEBUG
       run: |
+        echo "live=$live";
         echo "backend=$backend";
         echo "frontend=$frontend";
         echo "package_json=$package_json";
