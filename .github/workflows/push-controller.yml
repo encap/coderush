@@ -41,7 +41,6 @@ jobs:
         # env variables are available only in next steps
       run: |
         [[ "${{ steps.changes.outputs.files }}" =~ firebase.json ]] || [[ $workflow_dispatch == true ]] || [[ $github_actions ]] || [[ $package_json ]] || { [[ $backend ]] && [[ $frontend ]]; } && echo "all=true" >> $GITHUB_ENV;
-        $workflow_dispatch && echo "changes=true" >> $GITHUB_ENV;
         exit 0;
     - name: DEBUG
       run: |
@@ -87,6 +86,8 @@ jobs:
       continue-on-error: true
       run: |
         ! git diff-index --quiet HEAD -- && echo "changes=true" >> $GITHUB_ENV;
+        $workflow_dispatch && echo "changes=true" >> $GITHUB_ENV;
+        $all && echo "changes=true" >> $GITHUB_ENV;
         exit 0;
     - name: DEBUG
       run: |
