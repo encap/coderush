@@ -14,9 +14,6 @@ const main = async () => {
 
   let prBody;
 
-  console.log(JSON.stringify(context, null, 2));
-  console.log(JSON.stringify(context.pull_request, null, 2));
-
   if (context.payload.pull_request) {
     prBody = context.payload.pull_request.body;
   } else {
