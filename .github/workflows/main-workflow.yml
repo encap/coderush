@@ -40,6 +40,7 @@ jobs:
         [[ "${{ steps.changes.outputs.files }}" =~ package\.json ]] && echo "package_json=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ \.github/|actions/ ]] && echo "github_actions=true" >> $GITHUB_ENV;
         [[ "${{ contains(github.event.head_commit.message, '[Code submission]') }}" == "true" || "${{ contains(github.head_ref, 'code-submission') }}" == "true" ]] && echo "code_submission=true" >> $GITHUB_ENV;
+        $pull_request && echo "heroku_review_app_url=https://coderush-pr-$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH").herokuapp.com" >> $GITHUB_ENV;
         exit 0;
     - name: 'Setup other env variables'
         # env variables are available only in next steps
@@ -55,7 +56,7 @@ jobs:
         echo "github_actions=$github_actions";
         echo "all=$all";
         echo "code_submission=$code_submission";
-        echo "commit_msg=${{ github.event.head_commit.message }}";
+        echo "heroku_review_app_url=$heroku_review_app_url";
         echo "base_ref=${{ github.base_ref }}";
         echo "head_ref=${{ github.head_ref }}";
 
@@ -81,7 +82,7 @@ jobs:
     - name: Set API URL for testing
       if: (env.all || env.frontend) && !env.live
       run: |
-        echo "VUE_APP_API_URL=https://coderush-pr-$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH").herokuapp.com" > .env.production
+        echo "VUE_APP_API_URL=$HEROKU_REVIEW_APP_URL" > .env.production
     - name: Vue build
       if: env.all || env.frontend
       run: |
@@ -130,14 +131,14 @@ jobs:
     - name: Accept code submission
       if: env.code_submission && env.live
       run: |
-        node actions/add-code-submission-to-db.js && curl -X POST ${{ secrets.DB_CACHE_UPDATE_URL }}
+        node actions/add-code-submission-to-db.js && curl -X POST https://api.coderush.xyz${{ secrets.DB_CACHE_UPDATE_URL }}
       env:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
         FAUNA_KEY: ${{ secrets.FAUNA_KEY }}
     - name: Accept code submission on dev database
       if: env.code_submission && !env.live
       run: |
-        node actions/add-code-submission-to-db.js
+        node actions/add-code-submission-to-db.js && curl -X POST $heroku_review_app_url${{ secrets.DB_CACHE_UPDATE_URL }}
       env:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
         FAUNA_KEY: ${{ secrets.FAUNA_DEV_KEY }}
