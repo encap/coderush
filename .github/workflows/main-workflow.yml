@@ -59,10 +59,10 @@ jobs:
         echo "base_ref=${{ github.base_ref }}";
         echo "head_ref=${{ github.head_ref }}";
 
-
-    - name: Clone repository
-      run: |
-        git clone --depth 1 --no-single-branch https://${{ secrets.GH_PERSONAL_TOKEN }}@github.com/encap/coderush.git .
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GH_PERSONAL_TOKEN }}
 
     - name: Setup Node.js
       if: env.all || env.frontend || env.code_submission
