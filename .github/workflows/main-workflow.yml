@@ -126,7 +126,7 @@ jobs:
     - name: Accept code submission
       if: env.code_submission && env.live
       run: |
-        node actions/add-code-submission-to-db.js && curl -X POST ${{ secrets.DATABASE_UPDATE_URL }}
+        node actions/add-code-submission-to-db.js && curl -X POST ${{ secrets.DB_CACHE_UPDATE_URL }}
       env:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
         FAUNA_KEY: ${{ secrets.FAUNA_KEY }}
