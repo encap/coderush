@@ -82,7 +82,7 @@ jobs:
     - name: Set API URL for testing
       if: (env.all || env.frontend) && !env.live
       run: |
-        echo "VUE_APP_API_URL=$HEROKU_REVIEW_APP_URL" > .env.production
+        echo "VUE_APP_API_URL=$heroku_review_app_url" > .env.production
     - name: Vue build
       if: env.all || env.frontend
       run: |
