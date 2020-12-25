@@ -180,7 +180,7 @@ export default {
       }
 
       if (!this.error) { // second click ignores error
-        if (this.showEditor && (this.customCode.text.length < 30 || this.customCode.lines < 4)) {
+        if (this.showEditor && this.customCode.short) {
           this.error = 'Provided code is too short too produce accurate results.';
           return;
         }
