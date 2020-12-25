@@ -178,7 +178,7 @@ export default {
       seconds: this.seconds,
       correct: this.stats.correctInputs,
     });
-    console.log(this.stats);
+
     // if (this.stats.file.index !== -1) {
     if (this.$route.path !== '/about' && !this.stats.file.short) {
       this.sendStats();
