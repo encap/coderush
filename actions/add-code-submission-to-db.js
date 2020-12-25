@@ -10,18 +10,23 @@ const main = async () => {
 
   const { context } = github;
 
-  console.log(`Commit: "${context.sha}`);
-  console.log(JSON.stringify(context));
+  console.log(`Commit: "${context.sha}"`);
 
-  const octokit = github.getOctokit(process.env.TOKEN);
+  let prBody;
 
-  const { data } = await octokit.repos.listPullRequestsAssociatedWithCommit({
-    owner: context.repo.owner,
-    repo: context.repo.repo,
-    commit_sha: context.sha,
-  });
+  if (context.pull_request) {
+    prBody = context.pull_request.body;
+  } else {
+    const octokit = github.getOctokit(process.env.TOKEN);
 
-  const prBody = data[0].body;
+    const { data } = await octokit.repos.listPullRequestsAssociatedWithCommit({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      commit_sha: context.sha,
+    });
+
+    prBody = data[0].body;
+  }
 
   core.endGroup();
 
