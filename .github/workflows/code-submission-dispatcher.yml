@@ -34,5 +34,7 @@ jobs:
           TabSize: ${{ env.TAB_SIZE }}
           LanguageIndex: ${{ env.LANGUAGE_INDEX }}
         delete-branch: true
+        branch: code-submission/patch
         branch-suffix: short-commit-hash
+
         
