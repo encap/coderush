@@ -55,6 +55,8 @@ jobs:
         echo "github_actions=$github_actions";
         echo "all=$all";
         echo "code_submission=$code_submission";
+        echo "commit_msg=${{ github.event.head_commit.message }}";
+        echo "base_ref=${{ github.base_ref }}";
 
     - name: Clone repository
       run: |
