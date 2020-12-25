@@ -232,123 +232,126 @@ if (process.env.AUTO_PROMOTE) {
 
   app.post('/stats', async (req, res) => {
     const { main, misc } = req.body;
+    misc.total = 1;
 
+
+    console.log(`langTotalBefore: ${database.languages[main.languageIndex].total}`);
+    console.log(`bestBefore: ${database.stats.best}`);
+    console.log(`avgBefore: ${database.stats.avg}`);
     try {
-    // console.log(`langTotalBefore: ${database.languages[main.languageIndex].total}`);
-      database.languages[main.languageIndex].total = await client.query(
-        q.Select(['data', 'total'],
-          q.Let({
-            lang: q.Get(q.Match(q.Index('languageByIndex'), main.languageIndex)),
-            ref: q.Select(['ref'], q.Var('lang')),
-          },
-          q.Update(q.Var('ref'),
-            {
-              data: {
-                total: q.Add(q.Select(['data', 'total'], q.Var('lang')), 1),
-              },
-            }))),
-      );
-      // console.log(`langTotalAfter: ${database.languages[main.languageIndex].total}`);
-
-      // save run
-      client.query(
-        q.Create(
-          q.Collection('runs'),
-          {
-            data: main,
-          },
-        ),
-      );
-
-      // console.log(`bestBefore: ${database.stats.best}`);
-      database.stats.best = await client.query(
-        q.Select(['data', 'value'],
-          q.Let(
-            {
-              doc: q.Get(q.Match(q.Index('statByName'), 'best')),
-              ref: q.Select(['ref'], q.Var('doc')),
-            },
-            q.Update(q.Var('ref'),
-              {
-                data: {
-                  value: q.Max([q.Select(['data', 'value'], q.Var('doc')), main.wpm]),
-                },
-              },
-            ),
-          ),
-        ),
-      );
-      // console.log(`bestAfter: ${database.stats.best}`);
-
-      // console.log(`avgBefore: ${database.stats.avg}`);
-      database.stats.avg = await client.query(
-        q.Select(['data', 'value'],
-          q.Let(
-            {
-              doc: q.Get(q.Match(q.Index('statByName'), 'avg')),
-              ref: q.Select(['ref'], q.Var('doc')),
-            },
-            q.Update(q.Var('ref'),
-              {
-                data: {
-                  value: q.Round(
-                    q.Select(
-                      ['data', 0],
-                      q.Mean(
-                        q.Map(
-                          q.Paginate(q.Match(q.Index('runsWpmByDate')), { size: 100 }),
-                          q.Lambda(['ts', 'wpm'], q.Var('wpm')),
-                        ),
-                      ),
-                    ),
-                    1, // precision
-                  ),
-                },
-              },
-            ),
-          ),
-        ),
-      );
-      // console.log(`avgAfter: ${database.stats.avg}`);
-
-      // to simplify next query
-      misc.total = 1;
-
-      const statsResponse = await client.query(
-        q.Map(
-          Object.entries(misc),
-          q.Lambda(
-            ['name', 'value'],
-            // q.Var('value'),
+      const qResponse = await client.query(
+        [
+          q.Select(['data', 'total'],
             q.Let(
               {
-                ret: q.Let(
-                  {
-                    doc: q.Get(q.Match(q.Index('statByName'), q.Var('name'))),
-                    ref: q.Select(['ref'], q.Var('doc')),
-                  },
-                  q.Update(q.Var('ref'),
-                    {
-                      data: {
-                        value: q.Add(q.Select(['data', 'value'], q.Var('doc')), q.Var('value')),
-                      },
-                    },
-                  ),
-                ),
+                lang: q.Get(q.Match(q.Index('languageByIndex'), main.languageIndex)),
+                ref: q.Select(['ref'], q.Var('lang')),
               },
-              [
-                q.Select(['data', 'name'], q.Var('ret')),
-                q.Select(['data', 'value'], q.Var('ret')),
-              ],
+              q.Update(q.Var('ref'),
+                {
+                  data: {
+                    total: q.Add(q.Select(['data', 'total'], q.Var('lang')), 1),
+                  },
+                },
+              ),
             ),
           ),
-        ),
+
+          // recalculate max
+          q.Select(['data', 'value'],
+            q.Let(
+              {
+                doc: q.Get(q.Match(q.Index('statByName'), 'best')),
+                ref: q.Select(['ref'], q.Var('doc')),
+              },
+              q.Update(q.Var('ref'),
+                {
+                  data: {
+                    value: q.Max([q.Select(['data', 'value'], q.Var('doc')), main.wpm]),
+                  },
+                },
+              ),
+            ),
+          ),
+
+          // save run
+          q.Create(
+            q.Collection('runs'),
+            {
+              data: main,
+            },
+          ),
+
+          // calculate avg
+          q.Select(['data', 'value'],
+            q.Let(
+              {
+                doc: q.Get(q.Match(q.Index('statByName'), 'avg')),
+                ref: q.Select(['ref'], q.Var('doc')),
+              },
+              q.Update(q.Var('ref'),
+                {
+                  data: {
+                    value: q.Round(
+                      q.Select(
+                        ['data', 0],
+                        q.Mean(
+                          q.Map(
+                            q.Paginate(q.Match(q.Index('runsWpmByDate')), { size: 100 }),
+                            q.Lambda(['ts', 'wpm'], q.Var('wpm')),
+                          ),
+                        ),
+                      ),
+                      1, // precision
+                    ),
+                  },
+                },
+              ),
+            ),
+          ),
+
+          // totalStats
+          q.Map(
+            Object.entries(misc),
+            q.Lambda(
+              ['name', 'value'],
+              q.Let(
+                {
+                  ret: q.Let(
+                    {
+                      doc: q.Get(q.Match(q.Index('statByName'), q.Var('name'))),
+                      ref: q.Select(['ref'], q.Var('doc')),
+                    },
+                    q.Update(q.Var('ref'),
+                      {
+                        data: {
+                          value: q.Add(q.Select(['data', 'value'], q.Var('doc')), q.Var('value')),
+                        },
+                      },
+                    ),
+                  ),
+                },
+                [
+                  q.Select(['data', 'name'], q.Var('ret')),
+                  q.Select(['data', 'value'], q.Var('ret')),
+                ],
+              ),
+            ),
+          ),
+        ],
       );
+
+      let statsResponse;
+      [database.languages[main.languageIndex].total, database.stats.best, , database.stats.avg, statsResponse] = qResponse;
 
       database.stats = {
         ...database.stats,
         ...Object.fromEntries(statsResponse),
       };
+
+      console.log(`langTotalAfter: ${database.languages[main.languageIndex].total}`);
+      console.log(`bestAfter: ${database.stats.best}`);
+      console.log(`avgAfter: ${database.stats.avg}`);
 
       updateDatabaseCache();
       res.sendStatus(200);
