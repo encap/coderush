@@ -74,7 +74,7 @@ export default {
         plugins: {
           datalabels: {
             color: '#fff',
-            align: 'end',
+            align: 'start',
             anchor: 'end',
             formatter(value) {
               return `${value} wpm`;
