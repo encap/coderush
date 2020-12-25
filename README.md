@@ -1,4 +1,4 @@
-![Main Workflow][build-shield]
+![Main Workflow][workflow-shield]
 [![Website status][website-shield]][main-url]
 [![GitHub issues][issues-shield]][issues-url]
 [![GPLv3 License][license-shield]][license-url]
