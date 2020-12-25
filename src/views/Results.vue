@@ -178,8 +178,9 @@ export default {
       seconds: this.seconds,
       correct: this.stats.correctInputs,
     });
+
     // if (this.stats.file.index !== -1) {
-    if (this.$route.path !== '/about') {
+    if (this.$route.path !== '/about' && !this.stats.file.short) {
       this.sendStats();
     }
     // }

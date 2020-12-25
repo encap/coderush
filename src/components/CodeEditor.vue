@@ -563,7 +563,7 @@ export default {
             if ((Date.now() - initTime) / 1000 < 5) {
               this.popUpText = 'Waiting for download...';
             } else {
-              this.popUpText = 'Something propably crashed but you can wait a few seconds just in case';
+              this.popUpText = 'Something probably crashed but you can wait a few seconds just in case';
             }
           }
         } else if (this.countdown === 0) {

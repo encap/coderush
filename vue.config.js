@@ -53,12 +53,12 @@ module.exports = {
     },
     plugins: [
       // new StatsPlugin('stats.json'),
-      new PrerenderSPAPlugin({
+      process.env.NODE_ENV ? new PrerenderSPAPlugin({
         // Required - The path to the webpack-outputted app to prerender.
         staticDir: path.join(__dirname, 'dist'),
         // Required - Routes to render.
         routes: ['/', '/about', '/contribute'],
-      }),
+      }) : null,
     ],
   },
   chainWebpack(config) {

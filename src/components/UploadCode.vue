@@ -181,6 +181,7 @@ export default {
           tabSize: this.selectedSize,
           lines: this.numberOfLines,
           showEditor: true,
+          short: this.customCode.text.length < 30 || this.customCode.lines < 4,
         };
         this.$store.commit('SET_CUSTOM_CODE', data);
         if (this.room.owner) {

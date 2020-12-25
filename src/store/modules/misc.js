@@ -48,6 +48,7 @@ const actions = {
     if (fileIndex === -1) {
       codeInfo.tabSize = state.customCode.lines;
       codeInfo.lines = state.customCode.lines;
+      codeInfo.short = state.customCode.short;
     } else {
       codeInfo = rootState.options.language.files[fileIndex];
     }

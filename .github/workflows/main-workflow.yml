@@ -39,7 +39,7 @@ jobs:
         [[ "${{ steps.changes.outputs.files }}" =~ src/|config\.js|eslintrc|\.env|public/ ]] && echo "frontend=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ package\.json ]] && echo "package_json=true" >> $GITHUB_ENV;
         [[ "${{ steps.changes.outputs.files }}" =~ \.github/|actions/ ]] && echo "github_actions=true" >> $GITHUB_ENV;
-        ${{ contains(github.event.head_commit.message, '[Code submission]') }} && echo "code_submission=true" >> $GITHUB_ENV;
+        [[ ${{ contains(github.event.head_commit.message, '[Code submission]') }} || ${{ contains(github.base_ref, 'create-pull-request') ]] && echo "code_submission=true" >> $GITHUB_ENV;
         exit 0;
     - name: 'Setup other env variables'
         # env variables are available only in next steps
@@ -126,7 +126,7 @@ jobs:
     - name: Accept code submission
       if: env.code_submission && env.live
       run: |
-        node actions/add-code-submission-to-db.js && curl -X POST ${{ secrets.DATABASE_UPDATE_URL }}
+        node actions/add-code-submission-to-db.js && curl -X POST ${{ secrets.DB_CACHE_UPDATE_URL }}
       env:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
         FAUNA_KEY: ${{ secrets.FAUNA_KEY }}
