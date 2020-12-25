@@ -279,6 +279,7 @@ export default {
 
 
               if (this.currentLine + 1 === this.codeInfo.lines && this.correctCharsInLine === this.cm.getLine(this.currentLine).length) {
+                this.stats.history.push(this.currentChange);
                 this.completed();
               } else if (this.options.underScore) {
                 if (this.currentChar !== lineText.length) {
@@ -471,6 +472,7 @@ export default {
       }
 
       if (this.currentChange.type !== 'initialType') {
+        this.stats.history.push(this.currentChange);
         if (this.options.selectedMode === 2 && this.currentChange.type !== 'correct') {
           if (this.stats.history.length < 30) {
             this.cm.setOption('readOnly', 'nocursor');
@@ -479,7 +481,6 @@ export default {
             this.completed();
           }
         }
-        this.stats.history.push(this.currentChange);
       } else {
         console.red('Current change type equals initial type');
         console.log(JSON.parse(JSON.stringify(this.currentChange)));
@@ -604,9 +605,7 @@ export default {
         this.$socket.client.emit('completed');
       }
 
-      const correctInputs = this.stats.history.reduce((acc, event) => (event.type === 'correct' ? acc + 1 : acc), 0);
-
-      const complete = correctInputs === this.codeText.length;
+      const complete = this.currentLine + 1 >= this.codeInfo.lines;
 
       const endMsgList = ['Too long, uh?', 'Time is over', 'Game over'];
       this.popUp(true, complete ? 'Congratulations' : endMsgList[this.options.selectedMode]);
@@ -625,7 +624,6 @@ export default {
           file: this.codeInfo,
           mode: this.options.selectedMode,
           complete,
-          correctInputs,
         };
       }
 

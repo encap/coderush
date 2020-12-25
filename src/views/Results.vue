@@ -34,7 +34,7 @@
                   Characters
                 </p>
                 <h2 class="value">
-                  {{ stats.correctInputs }}
+                  {{ correctInputs }}
                 </h2>
               </div>
             </div>
@@ -47,8 +47,8 @@
                   <p>Longest correction time: {{ format(longestTimeOfCorrection) }} s</p>
                 </template>
                 <template v-else>
-                  <p>You made a mistake after {{ stats.correctInputs }} correct characters</p>
-                  <p>{{ stats.codeLength - stats.correctInputs }} characters left</p>
+                  <p>You made a mistake after {{ correctInputs }} correct characters</p>
+                  <p>{{ stats.file.lines - stats.correctLines }} lines left</p>
                   <p>{{ percentCompleted }}% completed</p>
                 </template>
               </div>
@@ -116,6 +116,9 @@ export default {
     mistakes() {
       return this.history.filter((change) => change.type === 'mistake');
     },
+    correctInputs() {
+      return this.history.reduce((acc, event) => (event.type === 'correct' ? acc + 1 : acc), 0);
+    },
     minutes() {
       return Math.floor(this.stats.timeFromFirstInput / 1000 / 60);
     },
@@ -123,13 +126,13 @@ export default {
       return Math.round((this.stats.timeFromFirstInput / 1000) % 60);
     },
     CPM() {
-      return this.stats.correctInputs / this.format(this.stats.timeFromFirstInput, 4) * 60;
+      return this.correctInputs / this.format(this.stats.timeFromFirstInput, 4) * 60;
     },
     WPM() {
       return this.CPM / 5;
     },
     percentCompleted() {
-      return this.format(this.stats.correctInputs / this.stats.codeLength, 1, 100);
+      return this.format(this.correctLines / this.stats.file.lines, 1, 100);
     },
     mostMistakesInARow() {
       return this.mistakes.map((obj) => obj.fixQueuePos)
@@ -156,7 +159,7 @@ export default {
       return timesAcc;
     },
     WPMWithoutTimeLost() {
-      return this.stats.correctInputs / this.format(this.stats.timeFromFirstInput - this.totalTimeLost, 4) * 60 / 5;
+      return this.correctInputs / this.format(this.stats.timeFromFirstInput - this.totalTimeLost, 4) * 60 / 5;
     },
     totalTimeLost() {
       return this.correctionTimes.reduce((acc, value) => acc + value, 0);
@@ -176,7 +179,7 @@ export default {
       wpm: this.format(this.WPM, 0, 1),
       minutes: this.minutes,
       seconds: this.seconds,
-      correct: this.stats.correctInputs,
+      correct: this.correctInputs,
     });
 
     // if (this.stats.file.index !== -1) {
@@ -216,7 +219,7 @@ export default {
           percentCompleted: this.percentCompleted,
         },
         misc: {
-          correctClicks: this.stats.correctInputs,
+          correctClicks: this.correctInputs,
           correctLines: this.stats.correctLines,
           backspaceClicks,
           deletingTime: this.format(deletingTime, 0),

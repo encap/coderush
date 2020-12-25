@@ -1914,7 +1914,7 @@
   "lastThirdStartTime": 61622,
   "timeFromFirstInput": 76782,
   "codeLength": 216,
-  "correctInputs": 216,
+  "correctLines": 12,
   "mode": 0,
   "file": {
     "languageName": "R",
