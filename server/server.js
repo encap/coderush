@@ -162,6 +162,8 @@ if (process.env.AUTO_PROMOTE) {
 
     app.use((req, res, next) => {
       res.header('Access-Control-Allow-Origin', 'https://coderush.xyz');
+
+
       next();
     });
   } else {
@@ -181,6 +183,12 @@ if (process.env.AUTO_PROMOTE) {
     //   next();
     // });
   }
+
+  app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Headers', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    next();
+  });
 
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
