@@ -143,12 +143,12 @@ jobs:
     
       # heroku will auto deploy pull request
     - name: 'Remove unnecessary files'
-      if: env.live && env.backend
+      if: env.live && (env.backend || env.all)
       run: |
         shopt -s extglob
         rm -rfdv !("server"|"package.json"|"Procfile")
     - name: Push backend to Heroku
-      if: env.live && env.backend
+      if: env.live && (env.backend || env.all)
       uses: akhileshns/heroku-deploy@v3.6.8
       with:
         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
