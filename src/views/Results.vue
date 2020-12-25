@@ -26,7 +26,7 @@
                   Time
                 </p>
                 <h2 class="value">
-                  {{ minutes ? `${minutes}:${seconds}` : `${seconds}s` }}
+                  {{ minutes ? `${minutes}:${('0' + seconds).slice(-2)}` : `${seconds}s` }}
                 </h2>
               </div>
               <div v-else class="characters">

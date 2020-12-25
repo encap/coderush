@@ -39,10 +39,6 @@ export default {
         data[score.name].value = score.value;
       });
 
-      if (Math.round(data.player.value) === data.avg.value || Math.round(data.player.value) === data.best.value) {
-        data.barWidth = true;
-      }
-
       return data;
     },
     options() {
@@ -65,7 +61,6 @@ export default {
             },
           }],
           yAxes: [{
-            barPercentage: 0.7,
             gridLines: {
               display: false,
             },
@@ -74,7 +69,7 @@ export default {
         plugins: {
           datalabels: {
             color: '#fff',
-            align: 'end',
+            align: 'start',
             anchor: 'end',
             formatter(value) {
               return `${value} wpm`;
@@ -88,7 +83,7 @@ export default {
       return {
         datasets: [
           {
-            barPercentage: this.chartData.barWidth ? 0.75 : 0.9,
+            barPercentage: 0.75,
             label: 'You',
             backgroundColor: this.backgroundColors[this.chartData.player.order],
             data: [this.chartData.player.value],
@@ -99,12 +94,14 @@ export default {
             backgroundColor: this.backgroundColors[this.chartData.avg.order],
             data: [this.chartData.avg.value],
             order: this.chartData.avg.order,
+            barPercentage: 0.7,
           },
           {
             label: 'Best',
             backgroundColor: this.backgroundColors[this.chartData.best.order],
             data: [this.chartData.best.value],
             order: this.chartData.best.order,
+            barPercentage: 0.7,
           },
         ],
       };

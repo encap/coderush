@@ -1,11 +1,17 @@
 const path = require('path');
 const PrerenderSPAPlugin = require('prerender-spa-plugin');
 
-// const zopfli = require('@gfx/zopfli');
-
 // const fs = require('fs');
 // const StatsPlugin = require('stats-webpack-plugin');
-
+const plugins = [
+  // new StatsPlugin('stats.json')
+];
+if (process.env.VUE_APP_API_URL === 'https://api.coderush.xyz') {
+  plugins.push(new PrerenderSPAPlugin({
+    staticDir: path.join(__dirname, 'dist'),
+    routes: ['/', '/about', '/contribute'],
+  }));
+}
 
 module.exports = {
   productionSourceMap: false,
@@ -19,31 +25,8 @@ module.exports = {
       },
     },
     sourceMap: false,
-    // extract: {
-    //   filename: 'css/[name].css',
-    //   chunkFilename: 'css/[name].css',
-    // },
-  },
-  pluginOptions: {
-    // compression: {
-    //   zopfli: {
-    //     filename: '[path]',
-    //     include: /\.js$|\.css$/,
-    //     exclude: /cm\/|code\//,
-    //     compressionOptions: {
-    //       numiterations: 15,
-    //     },
-    //     algorithm(input, compressionOptions, callback) {
-    //       return zopfli.gzip(input, compressionOptions, callback);
-    //     },
-    //   },
-    // },
   },
   configureWebpack: {
-    // output: {
-    //   filename: 'js/[name].js',
-    //   chunkFilename: 'js/[name].js',
-    // },
     resolve: {
       alias: {
         // bundle size optimatization
@@ -51,15 +34,7 @@ module.exports = {
         'chart.js$': 'chart.js/dist/Chart.min.js',
       },
     },
-    plugins: [
-      // new StatsPlugin('stats.json'),
-      process.env.NODE_ENV ? new PrerenderSPAPlugin({
-        // Required - The path to the webpack-outputted app to prerender.
-        staticDir: path.join(__dirname, 'dist'),
-        // Required - Routes to render.
-        routes: ['/', '/about', '/contribute'],
-      }) : null,
-    ],
+    plugins,
   },
   chainWebpack(config) {
     config.optimization.minimizer('terser').tap((args) => {
@@ -82,16 +57,6 @@ module.exports = {
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
-    // before(app) {
-    //   app.use((req, res, next) => {
-    //     if (req.path.slice(0, 4) === '/cm/') {
-    //       res.header('content-encoding', 'gzip');
-    //     }
-    //     next();
-    //   });
-    // },
-
-    // compress: false,
     // https: {
     //   key: fs.readFileSync(`${process.env.HOME}/localhost.key`),
     //   cert: fs.readFileSync(`${process.env.HOME}/localhost.crt`),
