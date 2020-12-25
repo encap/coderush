@@ -151,7 +151,7 @@ if (process.env.AUTO_PROMOTE) {
       }
     });
 
-    // heroku free tier goes to sleep after 30 minutes of network inactivity
+    // heroku free tier goes to sleep after about 30 minutes of network inactivity
     app.get('/ping', (req, res) => {
       res.sendStatus(200);
     });
