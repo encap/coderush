@@ -10,6 +10,9 @@ const main = async () => {
 
   const { context } = github;
 
+  console.log(`Commit: "${context.sha}`);
+  console.log(JSON.stringify(context));
+
   const octokit = github.getOctokit(process.env.TOKEN);
 
   const { data } = await octokit.repos.listPullRequestsAssociatedWithCommit({
