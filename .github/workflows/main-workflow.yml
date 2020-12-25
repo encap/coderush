@@ -77,7 +77,7 @@ jobs:
     - name: Set API URL for testing
       if: (env.all || env.frontend) && !env.live
       run: |
-        echo "VUE_APP_API_URL=https://coderush-pr-$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH").herokuapp.com" > .env.production
+        echo "VUE_APP_API_URL=https://coderush-pr-$(($(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")+1)).herokuapp.com" > .env.production
     - name: Vue build
       if: env.all || env.frontend
       run: |
