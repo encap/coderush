@@ -3,7 +3,15 @@ const PrerenderSPAPlugin = require('prerender-spa-plugin');
 
 // const fs = require('fs');
 // const StatsPlugin = require('stats-webpack-plugin');
-
+const plugins = [
+  // new StatsPlugin('stats.json')
+];
+if (process.env.VUE_APP_API_URL === 'https://api.coderush.xyz') {
+  plugins.push(new PrerenderSPAPlugin({
+    staticDir: path.join(__dirname, 'dist'),
+    routes: ['/', '/about', '/contribute'],
+  }));
+}
 
 module.exports = {
   productionSourceMap: false,
@@ -26,13 +34,7 @@ module.exports = {
         'chart.js$': 'chart.js/dist/Chart.min.js',
       },
     },
-    plugins: [
-      // new StatsPlugin('stats.json'),
-      process.env.NODE_ENV ? new PrerenderSPAPlugin({
-        staticDir: path.join(__dirname, 'dist'),
-        routes: ['/', '/about', '/contribute'],
-      }) : null,
-    ],
+    plugins,
   },
   chainWebpack(config) {
     config.optimization.minimizer('terser').tap((args) => {

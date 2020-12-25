@@ -3,7 +3,7 @@
     <main class="middle">
       <h1>Contribute</h1>
 
-      <article :class="{shrink: expand || sent}">
+      <article :class="{shrink: expand}">
         <p>
           Our mission is to ensure the diversity and quality of the code on which our users practice and test their skills. We do our best to ensure that there are no errors in the code but with that many languages and technologies available on CodeRush, it is not possible without your help.
         </p>
@@ -49,6 +49,7 @@
         class="editor-wrapper"
         @expand="(value) => expand = value"
       />
+
       <p v-show="sent">
         Thank you for your contribution. Your submission will soon be listed <a href="https://github.com/encap/coderush/pulls">here</a>.
       </p>
@@ -166,7 +167,6 @@ export default {
 
 .middle
   display: flex
-  justify-content: space-between
   flex-basis: 0
   flex-direction: column
   flex-grow: 2
@@ -250,7 +250,7 @@ article p
   display: flex
   align-items: flex-end
   justify-content: space-between
-  margin-top: 1em
+  margin-top: auto
   margin-bottom: $thin-gap
 
 .button
@@ -270,7 +270,7 @@ article p
   &:first-child
     margin-right: $gap
 
-  &:hover
+  &:hover:not(:disabled)
     background-color: $purple
 
   &:active
