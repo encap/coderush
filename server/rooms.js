@@ -111,8 +111,13 @@ module.exports = (http) => {
     });
 
     socket.on('start', () => {
+      rooms[roomName].playersCompleted = 0;
       io.in(roomName).emit('reset');
       socket.to(roomName).emit('start');
+    });
+
+    socket.on('requestNewGame', () => {
+      socket.to(roomName).emit('requestNewGame');
     });
 
     socket.on('completed', () => {
@@ -143,8 +148,6 @@ module.exports = (http) => {
     });
 
     socket.on('reset', () => {
-      rooms[roomName].playersCompleted = 0;
-
       if (rooms[roomName].players[socket.id].owner) {
         console.warn(`room "${roomName}" reset`);
         io.in(roomName).emit('reset');

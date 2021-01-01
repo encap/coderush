@@ -106,6 +106,8 @@ export default {
     }
   },
   beforeRouteUpdate(to, from, next) {
+    console.red('routeUpdate');
+
     if (to.path === '/results') {
       setTimeout(() => {
         this.$refs.results.scrollIntoView({
@@ -121,6 +123,10 @@ export default {
   beforeDestroy() {
     if (this.intervalId) {
       window.clearInterval(this.intervalId);
+    }
+    if (this.room.connected) {
+      // reset players locally but let them finish and view results until admin clicks start again
+      this.$store.dispatch('socket_reset');
     }
   },
   methods: {

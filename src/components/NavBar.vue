@@ -7,7 +7,7 @@
     <div class="sticky-container">
       <div class="links" :class="{'room-connected': room.connected}">
         <button class="link" @click="mainPage(true)">
-          <fa :icon="['fas', 'play']" :class="{flip: $route.path === '/run'}" />
+          <fa :icon="['fas', $route.path === '/' ? 'play' : 'home']" />
           <span class="btn-text">
             Start
           </span>
@@ -89,7 +89,7 @@ export default {
   methods: {
     mainPage(action = false) {
       if (this.$route.path === '/') {
-        if (action && this.language.name && !this.room.connected) {
+        if (action && this.language.name) {
           this.$emit('start');
         }
       } else {

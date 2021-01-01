@@ -174,8 +174,8 @@ export default {
       }
 
       if (this.room.connected && !this.playersInLobby) {
-        this.error = 'To start a new game all of the players must be in lobby';
-        this.$socket.client.emit('reset');
+        this.error = 'To start a new game all players must be in lobby';
+        this.$socket.client.emit('requestNewGame');
         return;
       }
 
@@ -276,6 +276,8 @@ export default {
   width: 150px
   height: 47px
   max-width: 250px
+  &:disabled
+    cursor: not-allowed
 
 .start-btn, .ready-btn
   background: linear-gradient(to right, $purple, $dark-pink 50%, $navy-grey 50% 100%)

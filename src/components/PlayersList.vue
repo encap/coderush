@@ -95,19 +95,22 @@ export default {
       // dont mutate original
       return [...this.playersArray].sort((p1, p2) => {
         console.log(p1.name, p2.name);
-        if (p1.place && p2.place) {
-          if (this.options.selectedMode === 0) {
-            return p1.place - p2.place;
+        if (this.$route.path === '/results') {
+          if (p1.place && p2.place) {
+            if (this.options.selectedMode === 0) {
+              return p1.place - p2.place;
+            }
+            return p2.stats.correct - p1.stats.correct;
           }
-          return p2.stats.correct - p1.stats.correct;
+          if (!p2.place) {
+            return -1;
+          }
         }
         if (p1.owner) {
           console.log('owner');
           return -1;
         }
-        if (this.$route.path === '/results') {
-          return 1;
-        }
+
         return 0;
       });
     },
