@@ -10,7 +10,7 @@
         </div>
         <div class="codeInfo">
           <p v-if="codeInfo.name">
-            {{ codeInfo.name }}.{{ language.ext }}
+            {{ codeInfo.name }}.{{ codeInfo.language.ext }}
           </p>
           <p>{{ codeSource }}</p>
         </div>
@@ -36,7 +36,7 @@
 
     <!-- Changing key remounts component -->
     <CodeEditor
-      v-if="language.name"
+      v-if="languageName"
       ref="codeEditor"
       :key="resetEditorKey"
       class="code-editor"
@@ -83,7 +83,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['language', 'customCode', 'codeInfo', 'room', 'options']),
+    ...mapGetters(['codeInfo', 'room']),
     codeSource() {
       if (this.codeInfo.name) {
         return this.codeInfo.source === 'own' ? 'Łukasz Wielgus archive' : this.codeInfo.source;
@@ -93,21 +93,19 @@ export default {
       return 'Code provided by You';
     },
     languageName() {
-      if (this.language) {
-        return this.language.name.replace('_', ' ');
-      }
-      return '';
+      return this.codeInfo.language.name.replace('_', ' ');
     },
 
   },
   created() {
-    if (this.language.index === null) {
+    console.log(JSON.parse(JSON.stringify(this.codeInfo)));
+
+    if (this.codeInfo && !this.codeInfo.lines) {
+      // if user opened /run directly
       this.$router.push('/');
     }
   },
   beforeRouteUpdate(to, from, next) {
-    console.red('routeUpdate');
-
     if (to.path === '/results') {
       setTimeout(() => {
         this.$refs.results.scrollIntoView({

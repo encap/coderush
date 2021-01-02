@@ -1911,18 +1911,21 @@
   "oneThirdCharsCount": 103,
   "oneThirdTime": 34888,
   "lastThirdCharsCount": 53,
-  "lastThirdStartTime": 61622,
+  "lastThirdStartTime": 50622,
   "timeFromFirstInput": 61782,
-  "codeLength": 216,
   "correctLines": 12,
   "mode": 0,
-  "file": {
-    "languageName": "R",
-    "languageIndex": 20,
-    "index": 0,
+  "codeInfo": {
+    "language": {
+      "name": "R",
+      "index": 20,
+      "ext": "r"
+    },
+    "fileIndex": 0,
     "name": "factorial_of_a_number",
     "source": "datamentor.io",
     "tabSize": 2,
-    "lines": 12
+    "lines": 12,
+    "length": 216
   }
 }

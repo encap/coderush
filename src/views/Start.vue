@@ -127,7 +127,6 @@ export default {
     }
 
     if (this.room.connected && !this.room.owner) {
-      console.log('IF');
       this.$socket.client.emit('playerInLobby', true);
     }
   },

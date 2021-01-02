@@ -75,7 +75,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['room', 'language', 'userLanguage']),
+    ...mapGetters(['room', 'language']),
   },
   watch: {
     showCopyConfirmation(current) {

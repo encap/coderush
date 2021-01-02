@@ -18,10 +18,13 @@ const getters = {
 const actions = {
   socket_playerDisconnected({ commit }, msg) {
     if (msg.owner) {
-      commit('SET_ROOM_PROPERTY', ['connected', false]);
-
       console.log('admin disconnected');
       this._vm.$socket.client.disconnect();
+      commit('SET_ROOM_PROPERTY', ['connected', false]);
+      commit('SET_ROOM_PROPERTY', ['name', '']);
+      commit('SET_ROOM_PROPERTY', ['owner', false]);
+      commit('SET_ROOM_PROPERTY', ['newGameRequest', false]);
+      commit('SET_ROOM_PROPERTY', ['players', {}]);
     }
 
     commit('PLAYER_LOST_CONNECTION', {

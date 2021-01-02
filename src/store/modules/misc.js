@@ -44,17 +44,20 @@ const actions = {
     });
   },
   generateCodeInfo: ({ state, rootState, commit }, fileIndex) => {
-    let codeInfo = {};
+    let codeInfo = { language: rootState.options.language }; // copy without reference
+    delete codeInfo.files;
+
     if (fileIndex === -1) {
-      codeInfo.tabSize = state.customCode.lines;
+      codeInfo.tabSize = state.customCode.tabSize;
       codeInfo.lines = state.customCode.lines;
       codeInfo.short = state.customCode.short;
     } else {
-      codeInfo = rootState.options.language.files[fileIndex];
+      codeInfo = {
+        ...codeInfo,
+        ...rootState.options.language.files[fileIndex],
+      };
     }
-    codeInfo.index = fileIndex;
-    codeInfo.languageIndex = rootState.options.language.index;
-    codeInfo.languageName = rootState.options.language.name;
+    codeInfo.fileIndex = fileIndex;
 
     commit('SET_CODE_INFO', codeInfo);
   },

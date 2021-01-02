@@ -261,6 +261,7 @@ export default {
       this.$store.commit('SET_ROOM_PROPERTY', ['name', '']);
       this.$store.commit('SET_ROOM_PROPERTY', ['owner', false]);
       this.$store.commit('SET_ROOM_PROPERTY', ['newGameRequest', false]);
+      this.$store.commit('SET_ROOM_PROPERTY', ['players', {}]);
       if (action) {
         this.askForPlayerName = false;
         this.roomName = '';

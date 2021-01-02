@@ -48,7 +48,7 @@
                 </template>
                 <template v-else>
                   <p>You made a mistake after {{ correctInputs }} correct characters</p>
-                  <p>{{ stats.file.lines - stats.correctLines }} lines left</p>
+                  <p>{{ stats.codeInfo.lines - stats.correctLines }} lines left</p>
                   <p>{{ percentCompleted }}% completed</p>
                 </template>
               </div>
@@ -132,7 +132,7 @@ export default {
       return this.CPM / 5;
     },
     percentCompleted() {
-      return this.format(this.correctLines / this.stats.file.lines, 1, 100);
+      return this.format(this.correctLines / this.stats.codeInfo.lines, 1, 100);
     },
     mostMistakesInARow() {
       return this.mistakes.map((obj) => obj.fixQueuePos)
@@ -182,8 +182,8 @@ export default {
       correct: this.correctInputs,
     });
 
-    // if (this.stats.file.index !== -1) {
-    if (this.$route.path !== '/about' && !this.stats.file.short) {
+    // if (this.stats.codeInfo.index !== -1) {
+    if (this.$route.path !== '/about' && !this.stats.codeInfo.short) {
       this.sendStats();
     }
     // }
@@ -212,9 +212,9 @@ export default {
       }
       const data = {
         main: {
-          languageIndex: this.stats.file.languageIndex,
-          languageName: this.stats.file.languageName,
-          fileIndex: this.stats.file.index,
+          languageIndex: this.stats.codeInfo.language.index,
+          languageName: this.stats.codeInfo.language.name,
+          fileIndex: this.stats.codeInfo.fileIndex,
           wpm: this.format(this.WPM, 0, 1),
           percentCompleted: this.percentCompleted,
         },

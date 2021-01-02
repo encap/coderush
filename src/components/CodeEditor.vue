@@ -9,7 +9,7 @@
         ref="codemirror"
         v-model="codeText"
         class="codemirror"
-        :class="{showInvisibles: language.name === 'Whitespace'}"
+        :class="{showInvisibles: codeInfo.language.name === 'Whitespace'}"
         :options="cmOptions"
         @ready="onCmReady"
         @blur="onUnFocus"
@@ -84,13 +84,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['language', 'options', 'codeInfo', 'customCode', 'room']),
+    ...mapGetters(['options', 'codeInfo', 'customCode', 'room']),
     cmOptions() {
       return {
-        showInvisibles: this.language.name === 'Whitespace',
+        showInvisibles: this.codeInfo.language.name === 'Whitespace',
         maxInvisibles: 2,
         undoDepth: 0,
-        tabSize: this.tabWidth,
+        tabSize: this.codeInfo.tabSize,
         styleActiveLine: false,
         lineNumbers: this.options.lineNumbers,
         styleSelectedText: true,
@@ -108,9 +108,6 @@ export default {
         cursorScrollMargin: 100,
         readOnly: true,
       };
-    },
-    tabWidth() {
-      return this.customCode.tabSize ? this.customCode.tabSize : this.codeInfo.tabSize;
     },
     roomPlace() {
       if (this.room.connected && this.isCompleted) {
@@ -159,6 +156,7 @@ export default {
 
       const handleEnter = () => {
         const expectedText = this.cm.getLine(this.currentLine);
+
         if (this.correctCharsInLine === expectedText.length) {
           this.cm.execCommand('goCharRight');
           this.currentLine += 1;
@@ -190,6 +188,14 @@ export default {
             this.stats.lastThirdStartTime = this.timeElapsed();
           }
 
+          console.blue(this.currentLine);
+          console.red(this.cm.getLine(this.currentLine));
+          if (this.currentLine + 1 === this.codeInfo.lines && this.cm.getLine(this.currentLine).trim().length === 0) {
+            console.red('Last line is empty');
+            this.stats.history.push(this.currentChange);
+            this.completed();
+          }
+
           if (this.options.autoIndent) {
             this.cm.execCommand('goLineStartSmart');
             this.currentChar = this.cm.getCursor().ch;
@@ -200,8 +206,8 @@ export default {
           }
           if (this.options.underScore) {
             let underScoreWidth = 1;
-            if (!this.options.autoIndent && this.cm.getLine(this.currentLine).slice(0, this.tabWidth) === Array(this.tabWidth).fill(' ').join('')) {
-              underScoreWidth = this.tabWidth;
+            if (!this.options.autoIndent && this.cm.getLine(this.currentLine).slice(0, this.codeInfo.tabSize) === Array(this.codeInfo.tabSize).fill(' ').join('')) {
+              underScoreWidth = this.codeInfo.tabSize;
             }
             this.cm.markText(
               { line: this.currentLine, ch: this.currentChar },
@@ -229,11 +235,11 @@ export default {
           let text = key;
 
           if (key === 'Tab') {
-            text = Array(this.tabWidth).fill(' ').join('');
+            text = Array(this.codeInfo.tabSize).fill(' ').join('');
             // console.log(`tabText: '${text}'`);
 
-            if (expectedText === ' ' && this.language.name !== 'Whitespace') {
-              if (lineText.slice(this.currentChar, this.currentChar + this.tabWidth) === text) {
+            if (expectedText === ' ' && this.codeInfo.language.name !== 'Whitespace') {
+              if (lineText.slice(this.currentChar, this.currentChar + this.codeInfo.tabSize) === text) {
                 console.log('tab exception');
                 expectedText = text;
               }
@@ -284,8 +290,8 @@ export default {
               } else if (this.options.underScore) {
                 if (this.currentChar !== lineText.length) {
                   let underScoreWidth = 1;
-                  if (!this.options.autoIndent && this.cm.getLine(this.currentLine).slice(this.currentChar, this.tabWidth + this.currentChar) === Array(this.tabWidth).fill(' ').join('')) {
-                    underScoreWidth = this.tabWidth;
+                  if (!this.options.autoIndent && this.cm.getLine(this.currentLine).slice(this.currentChar, this.codeInfo.tabSize + this.currentChar) === Array(this.codeInfo.tabSize).fill(' ').join('')) {
+                    underScoreWidth = this.codeInfo.tabSize;
                   }
                   this.cm.markText(
                     { line: this.currentLine, ch: this.currentChar },
@@ -449,8 +455,8 @@ export default {
 
             if (this.options.underScore) {
               let underScoreWidth = 1;
-              if (!this.options.autoIndent && this.cm.getLine(this.currentLine).slice(this.currentChar, this.tabWidth + this.currentChar) === Array(this.tabWidth).fill(' ').join('')) {
-                underScoreWidth = this.tabWidth;
+              if (!this.options.autoIndent && this.cm.getLine(this.currentLine).slice(this.currentChar, this.codeInfo.tabSize + this.currentChar) === Array(this.codeInfo.tabSize).fill(' ').join('')) {
+                underScoreWidth = this.codeInfo.tabSize;
               }
               this.cm.markText(
                 { line: this.currentLine, ch: this.currentChar },
@@ -515,7 +521,7 @@ export default {
       if (!this.codeInfo.name) {
         return this.customCode.text;
       }
-      const url = `/code/${this.language.name.replace('#', '_sharp')}/${this.codeInfo.name}.${this.language.ext}`;
+      const url = `/code/${this.codeInfo.language.name.replace('#', '_sharp')}/${this.codeInfo.name}.${this.codeInfo.language.ext}`;
       try {
         const resp = await axios.get(url);
         return resp.data;
@@ -572,7 +578,7 @@ export default {
         }
       }, DEV ? 10 : 500);
 
-      Promise.all([this.getCode(), loadTheme(this.options.selectedTheme), loadMode(this.cm, this.language.mode, this.language.mime)])
+      Promise.all([this.getCode(), loadTheme(this.options.selectedTheme), loadMode(this.cm, this.codeInfo.language.mode, this.codeInfo.language.mime)])
         .then((resp) => {
           [this.codeText] = resp;
           this.cmReady = true;
@@ -589,7 +595,7 @@ export default {
         });
     },
     async completed(devStats = false) {
-      if (this.$route.path === '/results' || (!devStats && this.stats.history.length < 10)) {
+      if (this.$route.path === '/results' || (!devStats && !this.codeInfo.fileIndex !== -1 && this.stats.history.length < 10)) {
         // TODO: disable Finish now button in Run component
         return;
       }
@@ -619,9 +625,11 @@ export default {
         this.stats = {
           ...this.stats,
           timeFromFirstInput: this.timeElapsed(),
-          codeLength: this.codeText.length,
           correctLines: this.currentLine + 1,
-          file: this.codeInfo,
+          codeInfo: {
+            ...this.codeInfo,
+            length: this.codeText.length,
+          },
           mode: this.options.selectedMode,
           complete,
         };

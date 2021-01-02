@@ -166,21 +166,15 @@ export default {
 
       this.$nextTick(() => {
         const gridComputedStyle = window.getComputedStyle(this.$refs.languagesList);
-        console.warn(gridComputedStyle.getPropertyValue('grid-template-columns'));
 
         const columns = gridComputedStyle.getPropertyValue('grid-template-columns')
-          .replace(/ 0px/g, '') // webkit bug return 0px for non existing columns
+          .replace(/ 0px/g, '') // webkit bug returns 0px for non existing columns
           .split(' ').length;
 
-        console.log(`cells: ${this.filteredList.length + 1}`);
-        console.log(`columns: ${columns}`);
-
         const mod = (this.filteredList.length + 1) % columns;
-        console.log(`mod: ${mod}`);
 
         if (mod) {
           const emptyCells = columns - mod;
-          console.blue(emptyCells);
 
           this.randomBtnColSpan = emptyCells + 1;
         }

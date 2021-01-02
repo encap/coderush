@@ -1,7 +1,6 @@
 import { getField, updateField } from 'vuex-map-fields';
 
 const state = {
-  userLanguage: false,
   language: {
     index: null,
     name: '',
@@ -17,7 +16,6 @@ const state = {
 };
 
 const getters = {
-  userLanguage: (state) => state.userLanguage,
   language: (state) => state.language,
   options: (state) => state.options,
   getLanguage: (state) => getField(state),
@@ -27,9 +25,6 @@ const getters = {
 const actions = {};
 
 const mutations = {
-  USER_LANGUAGE: (state) => {
-    state.userLanguage = !state.userLanguage;
-  },
   SET_LANGUAGE: (state, languageObj) => {
     state.language = languageObj;
   },
