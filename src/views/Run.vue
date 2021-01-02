@@ -9,19 +9,19 @@
           <h2>{{ languageName }}</h2>
         </div>
         <div class="codeInfo">
-          <p v-if="codeInfo.name">
-            {{ codeInfo.name }}.{{ codeInfo.language.ext }}
+          <p>
+            {{ codeInfo.name || '*' }}.{{ codeInfo.language.ext }}
           </p>
           <p>{{ codeSource }}</p>
         </div>
       </div>
 
-      <div v-show="!completed" class="counters">
+      <div v-show="$route.path === '/run'" class="counters">
         <span v-show="!pause && timer !== null">
           {{ timer > 120 ? Math.floor(timer / 60) + ' min ' + timer % 60 : timer }} s {{ options.selectedMode === 1 ? 'remaining' : '' }}
         </span>
         <span v-show="pause">paused</span>
-        <span v-show="timer === null">waiting</span>
+        <span v-show="!pause && timer === null">waiting</span>
 
         <ICountUp
           :key="resetEditorKey"
@@ -160,6 +160,8 @@ export default {
       this.stats = false;
       this.resetEditorKey += 1;
       this.liveWpmInstance = null;
+      this.completed = false;
+      this.pause = false;
       if (this.intervalId) {
         window.clearInterval(this.intervalId);
         this.timer = null;
@@ -177,7 +179,6 @@ export default {
     },
     startTimer() {
       console.log('timer start');
-      this.completed = false; // after reset or try again
       this.timer = this.options.selectedMode === 1 ? 100 : 0;
       this.intervalId = setInterval(() => {
         if (!this.pause) {
@@ -247,6 +248,8 @@ main
   animation: opacity-enter .5s ease-out forwards .7s
   animation-fill-mode: both
   position: relative
+  white-space: nowrap
+
   .info
     display: flex
     align-items: center

@@ -52,7 +52,7 @@ const codemirror = () => import(/* webpackChunkName: "cmLoader" */ '@/cmLoader.j
   return module.default;
 });
 
-const DEV = process.env.NODE_ENV !== 'production';
+const DEV = process.env.NODE_ENV === 'production'; // dev
 
 
 export default {
@@ -69,6 +69,7 @@ export default {
       cm: {},
       codeText: '',
       started: false,
+      pauseTime: 0,
       isCompleted: false,
       cmReady: false,
       toFix: 0,
@@ -82,6 +83,7 @@ export default {
       currentChange: {},
       stats: {
         history: [],
+        wpmOverTime: [],
         firstCharTime: 0,
       },
     };
@@ -147,9 +149,6 @@ export default {
         this.cm.focus();
       }
 
-      if (this.popUpText === 'resume') {
-        this.$emit('pause', action);
-      }
       this.showPopUp = action;
     },
     onCmReady(cm) {
@@ -175,27 +174,6 @@ export default {
             type: 'correct',
             text: 'Enter',
           };
-
-          if (!this.stats.oneThirdTime && this.currentLine === Math.floor(this.codeInfo.lines / 3)) {
-            console.log('one third');
-            const oneThirdText = this.cm.getRange(
-              { line: 0, ch: 0 },
-              { line: this.currentLine, ch: 0 },
-            );
-
-            this.stats.oneThirdCharsCount = oneThirdText.length;
-            this.stats.oneThirdTime = this.timeElapsed();
-          } else if (!this.stats.lastThirdStartTime && this.currentLine === Math.floor(this.codeInfo.lines / 3 * 2)) {
-            console.log('last third');
-
-            const lastThirdText = this.cm.getRange(
-              { line: this.currentLine, ch: 0 },
-              { line: this.codeInfo.lines + 1, ch: 0 },
-            );
-
-            this.stats.lastThirdCharsCount = lastThirdText.length;
-            this.stats.lastThirdStartTime = this.timeElapsed();
-          }
 
           if (this.currentLine + 1 === this.codeInfo.lines && this.cm.getLine(this.currentLine).trim().length === 0) {
             console.red('Last line is empty');
@@ -508,6 +486,12 @@ export default {
     },
     onFocus() {
       console.log('cmFocus');
+      if (this.pauseStart) {
+        this.$emit('pause', false);
+        this.pauseTime += Date.now() - this.pauseStart;
+        this.pauseStart = null;
+      }
+
       console.log(this.liveWpmInterval);
       if (this.liveWpmInterval === null) {
         this.liveWpmInterval = setInterval(this.updateLiveWpm, this.options.liveWpmRefreshRate);
@@ -518,6 +502,7 @@ export default {
         if (DEV) ev.preventDefault();
         clearInterval(this.liveWpmInterval);
         this.liveWpmInterval = null;
+        this.pauseStart = Date.now();
         if (!this.isCompleted && this.popUpText !== 'Try again' && ev) {
           if (DEV) this.cm.focus();
           if (ev.relatedTarget !== null) {
@@ -529,6 +514,8 @@ export default {
           } else {
           // eslint-disable-next-line no-lonely-if
             if (!DEV) this.popUp(true, 'Resume');
+
+            this.$emit('pause', true);
           }
         }
       }
@@ -555,15 +542,18 @@ export default {
       }
     },
     timeElapsed() {
-      return Date.now() - this.stats.firstCharTime;
+      return Date.now() - this.stats.firstCharTime - this.pauseTime;
     },
     updateLiveWpm() {
-      console.log('correct: ', this.freshCorrect);
-      const currentWpm = this.freshCorrect / (this.options.liveWpmRefreshRate / 1000 / 60) / 5;
-      console.blue(`wpm: ${currentWpm}`);
-      this.$emit('liveWpmUpdate', currentWpm || 0);
+      if (this.stats.firstCharTime) {
+        console.log('correct: ', this.freshCorrect);
+        const currentWpm = (this.freshCorrect / (this.options.liveWpmRefreshRate / 1000 / 60) / 5) || 0;
+        console.blue(`wpm: ${currentWpm}`);
+        this.$emit('liveWpmUpdate', currentWpm);
 
-      this.freshCorrect = 0;
+        this.stats.wpmOverTime.push([this.timeElapsed(), Math.round(currentWpm)]);
+        this.freshCorrect = 0;
+      }
     },
     start(interval) {
       clearInterval(interval);
@@ -652,7 +642,7 @@ export default {
       } else {
         this.stats = {
           ...this.stats,
-          timeFromFirstInput: this.timeElapsed(),
+          time: this.timeElapsed(),
           correctLines: this.currentLine + 1,
           codeInfo: {
             ...this.codeInfo,

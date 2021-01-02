@@ -1908,11 +1908,7 @@
   "firstCharTime": 1597688868017,
   "complete": true,
   "startTime": 1597688867022,
-  "oneThirdCharsCount": 103,
-  "oneThirdTime": 34888,
-  "lastThirdCharsCount": 53,
-  "lastThirdStartTime": 50622,
-  "timeFromFirstInput": 61782,
+  "time": 61782,
   "correctLines": 12,
   "mode": 0,
   "codeInfo": {

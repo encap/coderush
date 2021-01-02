@@ -120,13 +120,13 @@ export default {
       return this.history.reduce((acc, event) => (event.type === 'correct' ? acc + 1 : acc), 0);
     },
     minutes() {
-      return Math.floor(this.stats.timeFromFirstInput / 1000 / 60);
+      return Math.floor(this.stats.time / 1000 / 60);
     },
     seconds() {
-      return Math.round((this.stats.timeFromFirstInput / 1000) % 60);
+      return Math.round((this.stats.time / 1000) % 60);
     },
     CPM() {
-      return this.correctInputs / this.format(this.stats.timeFromFirstInput, 4) * 60;
+      return this.correctInputs / this.format(this.stats.time, 4) * 60;
     },
     WPM() {
       return this.CPM / 5;
@@ -159,7 +159,7 @@ export default {
       return timesAcc;
     },
     WPMWithoutTimeLost() {
-      return this.correctInputs / this.format(this.stats.timeFromFirstInput - this.totalTimeLost, 4) * 60 / 5;
+      return this.correctInputs / this.format(this.stats.time - this.totalTimeLost, 4) * 60 / 5;
     },
     totalTimeLost() {
       return this.correctionTimes.reduce((acc, value) => acc + value, 0);
@@ -169,7 +169,7 @@ export default {
     },
   },
   beforeMount() {
-    if (!this.stats.timeFromFirstInput) {
+    if (!this.stats.time) {
       this.$router.push('/');
     }
   },
@@ -231,7 +231,7 @@ export default {
           // console.log('Stats sent');
         })
         .catch((err) => {
-          console.eror('Sending stats failed');
+          console.error('Sending stats failed');
           console.error(err.response);
         });
     },

@@ -37,6 +37,10 @@ export default {
           }
         }
       }
+      acc.points.push({
+        x: this.history[this.history.length - 1].time,
+        y: acc.totalTime,
+      });
       return acc.points;
     },
     mistakesPoints() {
@@ -104,8 +108,8 @@ export default {
             },
             ticks: {
               fontColor: '#aaa',
-
-              stepSize: 10000,
+              autoSkip: true,
+              autoSkipPadding: 100,
               max: this.timePoints[this.timePoints.length - 1].x,
               callback: (time) => {
                 const seconds = Math.ceil(time / 1000);

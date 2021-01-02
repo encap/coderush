@@ -27,24 +27,23 @@ export default {
     },
     avgInputIntervals() {
       const avg = Math.round(this.inputIntervalsPoints.reduce((acc, point) => acc + point.y, 0) / this.inputIntervalsPoints.length);
-      return [{ x: 0, y: avg }, { x: this.stats.timeFromFirstInput, y: avg }];
+      return [{ x: 0, y: avg }, { x: this.stats.time, y: avg }];
     },
     wpmPoints() {
-      const oneThirdTime = this.format(this.stats.oneThirdTime);
-      const oneThirdWPM = this.stats.oneThirdCharsCount / oneThirdTime * 60 / 5;
+      const points = this.stats.wpmOverTime.map((wpmEvent) => ({
+        x: wpmEvent[0],
+        y: wpmEvent[1],
+      }));
+      points.unshift({
+        x: 0,
+        y: points[0].y,
+      });
+      points.push({
+        x: this.stats.time,
+        y: points[points.length - 1].y,
+      });
 
-      const halfCharsCount = this.stats.codeInfo.length - this.stats.oneThirdCharsCount - this.stats.lastThirdCharsCount;
-      const halfTime = this.format(this.stats.lastThirdStartTime - this.stats.oneThirdTime);
-      const halfWPM = halfCharsCount / halfTime * 60 / 5;
-
-      const lastThirdTime = this.format(this.stats.timeFromFirstInput - this.stats.lastThirdStartTime);
-      const lastThirdWPM = this.stats.lastThirdCharsCount / lastThirdTime * 60 / 5;
-
-      return [
-        { x: 0, y: this.format(oneThirdWPM, 1, 1) },
-        { x: this.format(this.stats.timeFromFirstInput / 2, 0, 1), y: this.format(halfWPM, 1, 1) },
-        { x: this.stats.timeFromFirstInput, y: this.format(lastThirdWPM, 1, 1) },
-      ];
+      return points;
     },
     options() {
       return {
@@ -94,21 +93,36 @@ export default {
           },
         },
         scales: {
-          xAxes: [{
-            type: 'linear',
-            ticks: {
-              stepSize: 10000,
-              fontColor: '#aaa',
-
-              max: this.avgInputIntervals[this.avgInputIntervals.length - 1].x,
-              callback: (time) => {
-                const seconds = Math.ceil(time / 1000);
-                const minutes = Math.floor(seconds / 60);
-                return `${minutes ? `${minutes}min` : ''} ${seconds ? `${seconds % 60}s` : '0'}`;
+          xAxes: [
+            {
+              type: 'linear',
+              ticks: {
+                autoSkip: true,
+                autoSkipPadding: 100,
+                fontColor: '#aaa',
+                max: this.avgInputIntervals[this.avgInputIntervals.length - 1].x,
+                callback: (time) => {
+                  const seconds = Math.ceil(time / 1000);
+                  const minutes = Math.floor(seconds / 60);
+                  return `${minutes ? `${minutes}min` : ''} ${seconds ? `${seconds % 60}s` : '0'}`;
+                },
               },
             },
-          }],
+
+          ],
           yAxes: [
+            {
+              id: 'wpm',
+              type: 'linear',
+              position: 'right',
+              gridLines: {
+                display: false,
+              },
+              ticks: {
+                fontColor: '#aaa',
+                min: 0,
+              },
+            },
             {
               id: 'inputIntervals',
               type: 'linear',
@@ -122,19 +136,7 @@ export default {
               },
 
             },
-            {
-              id: 'wpm',
-              type: 'linear',
-              position: 'right',
-              gridLines: {
-                display: false,
-              },
-              ticks: {
-                fontColor: '#aaa',
 
-                min: 0,
-              },
-            },
           ],
         },
       };
@@ -169,9 +171,8 @@ export default {
             cubicInterpolationMode: 'default',
             borderColor: '#c957e0',
             pointBackgroundColor: '#ddd',
-            pointBorderColor: '#ddd',
             pointRadius: 2,
-            borderWidth: 2,
+            pointHoverRadius: 1,
             backgroundColor: this.pinkGradient,
             order: 1,
             yAxisID: 'wpm',
