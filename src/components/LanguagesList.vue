@@ -83,9 +83,9 @@ export default {
         const filtered = this.languagesList
           .filter((language) => language.name.toLowerCase().includes(search))
           .sort((a, b) => (b.name.toLowerCase().startsWith(search) ? 1 : -1));
-        return filtered.length > 0 ? filtered : this.languagesList;
+        return filtered.length === 0 || (this.room.connected && !this.room.admin) ? this.languagesList : filtered;
       }
-      return [...Array(29)].map(() => ({ name: 'Loading...' }));
+      return [...Array(33)].map(() => ({ name: '...' }));
     },
     fillEmptyCellsReference() {
       // .bind spawns new reference and will not work with removeEventListener without saving it here
