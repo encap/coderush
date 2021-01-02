@@ -14,7 +14,7 @@ const faunadb = require('faunadb');
 require('./rooms.js')(http);
 
 const PROD = process.env.PRODUCTION;
-console.log(`Environment ${PROD || 'DEV'}`);
+console.log(`Environment ${PROD ? 'PRODUCTION' : 'DEVELOPMENT'}`);
 
 
 const toggleMaintanceMode = async (action) => {
@@ -32,7 +32,7 @@ const toggleMaintanceMode = async (action) => {
         maintenance: action,
       },
     });
-    console.log('Toogle maintance mode succeded');
+    console.log(`Toogle maintance mode succeded, status: ${action}`);
   } catch (e) {
     console.error('Toggle maintance mode failed');
   }
@@ -67,7 +67,7 @@ if (process.env.AUTO_PROMOTE) {
     },
   }).then(async () => {
     console.log('Auto promotion succeded');
-    await toggleMaintanceMode(true);
+    // await toggleMaintanceMode(true);
 
     // cannot process.exit(0) becouse heroku will restart anyway
   }).catch(() => {
