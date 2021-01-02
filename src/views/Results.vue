@@ -43,7 +43,7 @@
                 <template v-if="stats.mode !== 2">
                   <p>Time wasted by mistakes: {{ format(totalTimeLost) }} s</p>
                   <p>Speed counting down that time {{ format(WPMWithoutTimeLost, 0, 1) }} WPM</p>
-                  <p>Most mistakes in a row: {{ mostMistakesInARow }} mistakes</p>
+                  <p>Most mistakes in a row: {{ mostMistakesInARow }} mistake{{ mostMistakesInARow === 1 ? '' : 's' }}</p>
                   <p>Longest correction time: {{ format(longestTimeOfCorrection) }} s</p>
                 </template>
                 <template v-else>
@@ -132,7 +132,7 @@ export default {
       return this.CPM / 5;
     },
     percentCompleted() {
-      return this.format(this.correctLines / this.stats.codeInfo.lines, 1, 100);
+      return this.format(this.stats.correctLines / this.stats.codeInfo.lines, 1, 100);
     },
     mostMistakesInARow() {
       return this.mistakes.map((obj) => obj.fixQueuePos)
