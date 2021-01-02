@@ -123,7 +123,6 @@ export default {
   },
   deactivated() {
     this.$store.commit('REMOVE_TRACKED_CONTAINER', this.$refs.languagesList.className);
-    console.log('DEACTIVATED');
     window.removeEventListener('resize', this.fillEmptyCellsReference);
   },
   methods: {
