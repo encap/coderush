@@ -6,6 +6,7 @@
         type="text"
         placeholder="Search"
         class="searchInput"
+        :disabled="room.connected && !room.admin"
         maxlength="12"
         autofocus
         @keydown.enter.stop="selectFirstFromSearch"
@@ -83,7 +84,7 @@ export default {
         const filtered = this.languagesList
           .filter((language) => language.name.toLowerCase().includes(search))
           .sort((a, b) => (b.name.toLowerCase().startsWith(search) ? 1 : -1));
-        return filtered.length === 0 || (this.room.connected && !this.room.admin) ? this.languagesList : filtered;
+        return filtered.length === 0 ? this.languagesList : filtered;
       }
       return [...Array(33)].map(() => ({ name: '...' }));
     },

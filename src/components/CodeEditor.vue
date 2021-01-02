@@ -15,7 +15,7 @@
         @blur="onUnFocus"
       />
     </div>
-    <div class="pop-up" :class="{hidden: !showPopUp, clickable: popUpClickable, 'small-font': popUpText.length > 15}">
+    <div class="pop-up" :class="{hidden: !showPopUp || room.newGameRequest, clickable: popUpClickable && !room.newGameRequest, 'small-font': popUpText.length > 15}">
       <div>
         <p v-show="popUpText === 'Try again'" class="hardcore-info">
           We can't generate accurate results from this round.
@@ -490,7 +490,7 @@ export default {
     },
     onUnFocus(_, ev) {
       if (ev) {
-        if (DEV) ev.preventDefault();
+        if (!DEV) ev.preventDefault(); // dev
         if (!this.isCompleted && this.popUpText !== 'Try again' && ev) {
           if (DEV) this.cm.focus();
           if (ev.relatedTarget !== null) {
@@ -501,7 +501,7 @@ export default {
             }
           } else {
           // eslint-disable-next-line no-lonely-if
-            if (!DEV) this.popUp(true, 'Resume');
+            if (DEV) this.popUp(true, 'Resume'); // dev
           }
         }
       }
