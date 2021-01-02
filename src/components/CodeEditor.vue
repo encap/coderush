@@ -595,7 +595,7 @@ export default {
         });
     },
     async completed(devStats = false) {
-      if (this.$route.path === '/results' || (!devStats && !this.codeInfo.fileIndex !== -1 && this.stats.history.length < 10)) {
+      if (this.$route.path === '/results' || (!devStats && this.codeInfo.fileIndex !== -1 && this.stats.history.length < 10)) {
         // TODO: disable Finish now button in Run component
         return;
       }

@@ -34,7 +34,7 @@ export default {
       const oneThirdWPM = this.stats.oneThirdCharsCount / oneThirdTime * 60 / 5;
 
       const halfCharsCount = this.stats.codeInfo.length - this.stats.oneThirdCharsCount - this.stats.lastThirdCharsCount;
-      const halfTime = this.format(this.stats.lastThirdStartTime - this.stats.oneThirdTime, 2, 1);
+      const halfTime = this.format(this.stats.lastThirdStartTime - this.stats.oneThirdTime);
       const halfWPM = halfCharsCount / halfTime * 60 / 5;
 
       const lastThirdTime = this.format(this.stats.timeFromFirstInput - this.stats.lastThirdStartTime);
@@ -42,7 +42,7 @@ export default {
 
       return [
         { x: 0, y: this.format(oneThirdWPM, 1, 1) },
-        { x: this.format(this.stats.timeFromFirstInput / 2, 0, 1), y: this.format(halfWPM) },
+        { x: this.format(this.stats.timeFromFirstInput / 2, 0, 1), y: this.format(halfWPM, 1, 1) },
         { x: this.stats.timeFromFirstInput, y: this.format(lastThirdWPM, 1, 1) },
       ];
     },
@@ -74,7 +74,7 @@ export default {
           callbacks: {
             title: ([item]) => {
               if (item.datasetIndex !== 0) {
-                const event = this.history[item.index];
+                const event = this.history[item.index + 1];
 
 
                 const buffer = [`${event.type === 'mistake' ? 'Wrong' : 'Correct'}: ${event.text.replace(' ', 'Space')}`];

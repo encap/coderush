@@ -51,7 +51,6 @@ export default {
 
       this.$store.commit('ADD_TRACKED_CONTAINER', this.$refs.navLeft);
     }
-    console.log('mounted');
 
     window.addEventListener('resize', () => {
       this.innerWidth = window.innerWidth;
