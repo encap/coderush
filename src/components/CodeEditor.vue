@@ -490,7 +490,7 @@ export default {
     },
     onUnFocus(_, ev) {
       if (ev) {
-        if (!DEV) ev.preventDefault(); // dev
+        if (DEV) ev.preventDefault();
         if (!this.isCompleted && this.popUpText !== 'Try again' && ev) {
           if (DEV) this.cm.focus();
           if (ev.relatedTarget !== null) {
@@ -501,7 +501,7 @@ export default {
             }
           } else {
           // eslint-disable-next-line no-lonely-if
-            if (DEV) this.popUp(true, 'Resume'); // dev
+            if (!DEV) this.popUp(true, 'Resume');
           }
         }
       }
