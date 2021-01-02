@@ -6,6 +6,7 @@
         type="text"
         placeholder="Search"
         class="searchInput"
+        :disabled="room.connected && !room.admin"
         maxlength="12"
         autofocus
         @keydown.enter.stop="selectFirstFromSearch"
@@ -26,8 +27,9 @@
     >
       <button
         :disabled="room.connected && !room.owner"
-        class="language random"
+        class="language random-btn"
         :class="{'selected': language.index === null}"
+        :style="{'--col-span': randomBtnColSpan}"
         @click="selectRandom"
       >
         <span class="language-name">
@@ -70,6 +72,7 @@ export default {
     return {
       searchText: '',
       forceStats: false,
+      randomBtnColSpan: 1,
     };
   },
   computed: {
@@ -81,9 +84,13 @@ export default {
         const filtered = this.languagesList
           .filter((language) => language.name.toLowerCase().includes(search))
           .sort((a, b) => (b.name.toLowerCase().startsWith(search) ? 1 : -1));
-        return filtered.length > 0 ? filtered : this.languagesList;
+        return filtered.length === 0 ? this.languagesList : filtered;
       }
-      return [...Array(29)].map(() => ({ name: 'Loading...' }));
+      return [...Array(33)].map(() => ({ name: '...' }));
+    },
+    fillEmptyCellsReference() {
+      // .bind spawns new reference and will not work with removeEventListener without saving it here
+      return this.fillEmptyCells.bind(this);
     },
   },
   watch: {
@@ -106,12 +113,18 @@ export default {
         }
       },
     },
+    filteredList() {
+      this.fillEmptyCells();
+    },
   },
   activated() {
     this.$store.commit('ADD_TRACKED_CONTAINER', this.$refs.languagesList);
+    window.addEventListener('resize', this.fillEmptyCellsReference);
   },
   deactivated() {
     this.$store.commit('REMOVE_TRACKED_CONTAINER', this.$refs.languagesList.className);
+    console.log('DEACTIVATED');
+    window.removeEventListener('resize', this.fillEmptyCellsReference);
   },
   methods: {
     clear() {
@@ -146,6 +159,32 @@ export default {
       if (this.room.owner) {
         this.$nextTick(() => this.$socket.client.emit('languageChange', ev.target.getAttribute('data-index')));
       }
+    },
+    fillEmptyCells() {
+      // randomBtn prevents shrinking
+      this.randomBtnColSpan = 1;
+
+      this.$nextTick(() => {
+        const gridComputedStyle = window.getComputedStyle(this.$refs.languagesList);
+        console.warn(gridComputedStyle.getPropertyValue('grid-template-columns'));
+
+        const columns = gridComputedStyle.getPropertyValue('grid-template-columns')
+          .replace(/ 0px/g, '') // webkit bug return 0px for non existing columns
+          .split(' ').length;
+
+        console.log(`cells: ${this.filteredList.length + 1}`);
+        console.log(`columns: ${columns}`);
+
+        const mod = (this.filteredList.length + 1) % columns;
+        console.log(`mod: ${mod}`);
+
+        if (mod) {
+          const emptyCells = columns - mod;
+          console.blue(emptyCells);
+
+          this.randomBtnColSpan = emptyCells + 1;
+        }
+      });
     },
     toggleStats() {
       this.forceStats = !this.forceStats;
@@ -211,11 +250,14 @@ export default {
 .language-radio
   display: none
 
-.showStats .language:hover:not(.random), .forceStats .language:not(.random)
+.showStats .language:hover:not(.random-btn), .forceStats .language:not(.random-btn)
   & > .language-name
     transform: translateX(-25%)
   & > .stat
     opacity: 1
+
+.random-btn
+  grid-column-start: span var(--col-span)
 
 .language
   display: flex

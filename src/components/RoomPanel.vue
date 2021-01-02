@@ -52,7 +52,7 @@
               @keydown.enter="handleEnter"
             >
           </div>
-          <p v-if="roomInfoMsg" class="info">
+          <p v-if="roomInfoMsg && popUp" class="info">
             {{ roomInfoMsg }}
           </p>
           <div class="buttons">
@@ -117,7 +117,7 @@
 
     <PlayersList v-if="room.connected && $route.path !== '/run'" class="playersList" />
 
-    <div v-if="requestNewGame && $route.path !== '/' && !room.owner" class="moveToLobby popUp">
+    <div v-if="room.newGameRequest && !room.owner" class="moveToLobby popUp">
       <div class="wrapper">
         <h2>Room owner wants to start a new game.</h2>
         <h3>If you want to stay on current page {{ $route.path === '/results' ? 'and continue reading the results' : '' }} you have to leave the room. You can always join again later.</h3>
@@ -156,7 +156,6 @@ export default {
       origin: window.location.origin,
       popUp: false,
       hidePopUp: false,
-      requestNewGame: false,
     };
   },
   computed: {
@@ -202,11 +201,6 @@ export default {
     player_name_taken() {
       console.error('PLAYER NAME TAKEN');
       this.roomInfoMsg = `Nick "${this.playerName}" is already taken.`;
-    },
-    reset() {
-      if (this.$route.path === '/results' || this.$route.path === '/run') {
-        this.requestNewGame = true;
-      }
     },
   },
   mounted() {
@@ -266,6 +260,7 @@ export default {
       this.$store.commit('SET_ROOM_PROPERTY', ['connected', false]);
       this.$store.commit('SET_ROOM_PROPERTY', ['name', '']);
       this.$store.commit('SET_ROOM_PROPERTY', ['owner', false]);
+      this.$store.commit('SET_ROOM_PROPERTY', ['newGameRequest', false]);
       if (action) {
         this.askForPlayerName = false;
         this.roomName = '';
@@ -281,7 +276,7 @@ export default {
       this.roomInfoMsg = '';
     },
     acceptNewGame() {
-      this.requestNewGame = false;
+      this.$store.commit('SET_ROOM_PROPERTY', ['newGameRequest', false]);
       this.$router.push('/');
     },
   },
@@ -312,33 +307,33 @@ input
 
 
 .popUp
+  display: flex
+  align-items: center
+  justify-content: space-around
+  position: fixed
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  background-color: rgba($navy-grey, .7)
+  transition: opacity 2s ease-in-out
+  z-index: 10
+  user-select: none
+  pointer-events: all
+
+  &.hide-popUp
+    opacity: 0
+
+  .wrapper
     display: flex
     align-items: center
-    justify-content: space-around
-    position: fixed
-    top: 0
-    bottom: 0
-    left: 0
-    right: 0
-    background-color: rgba($navy-grey, .7)
-    transition: opacity 2s ease-in-out
-    z-index: 10
-    user-select: none
-    pointer-events: all
+    flex-direction: column
+    flex-wrap: wrap
+    text-align: center
+    width: 50vw
 
-    &.hide-popUp
-      opacity: 0
-
-    .wrapper
-      display: flex
-      align-items: center
-      flex-direction: column
-      flex-wrap: wrap
-      text-align: center
-      width: 50vw
-
-    h2
-      font-size: 2.5rem
+  h2
+    font-size: 2.5rem
 
 
 .roomNotConnected

@@ -15,7 +15,7 @@
         @blur="onUnFocus"
       />
     </div>
-    <div class="pop-up" :class="{hidden: !showPopUp, clickable: popUpClickable, 'small-font': popUpText.length > 15}">
+    <div class="pop-up" :class="{hidden: !showPopUp || room.newGameRequest, clickable: popUpClickable && !room.newGameRequest, 'small-font': popUpText.length > 15}">
       <div>
         <p v-show="popUpText === 'Try again'" class="hardcore-info">
           We can't generate accurate results from this round.

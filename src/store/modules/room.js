@@ -51,7 +51,7 @@ const actions = {
     commit('SET_ROOM_PROPERTY', ['players', playersObject]);
 
     if (roomState.languageIndex) {
-      commit('SET_LANGUAGE', rootState.other.languagesList[roomState.languageIndex]);
+      commit('SET_LANGUAGE', rootState.misc.languagesList[roomState.languageIndex]);
     } else {
       commit('SET_LANGUAGE', {
         index: null,
@@ -84,7 +84,7 @@ const actions = {
     commit('SET_OPTION', option);
   },
   socket_languageChange({ commit, rootState }, languageIndex) {
-    commit('SET_LANGUAGE', rootState.other.languagesList[languageIndex]);
+    commit('SET_LANGUAGE', rootState.misc.languagesList[languageIndex]);
   },
   socket_fileIndex({ dispatch }, fileIndex) {
     dispatch('generateCodeInfo', fileIndex);
@@ -99,6 +99,11 @@ const actions = {
     Object.keys(state.room.players).forEach((playerName) => {
       commit('RESET_PLAYER', playerName);
     });
+  },
+  socket_requestNewGame({ commit, state }) {
+    if (!state.room.players[state.room.myName].inLobby) {
+      commit('SET_ROOM_PROPERTY', ['newGameRequest', true]);
+    }
   },
 };
 

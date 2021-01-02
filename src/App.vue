@@ -32,9 +32,9 @@ export default {
   computed: {
     ...mapGetters(['room', 'trackedContainers', 'smallScreen']),
     isThin() {
-      console.log('UPDATE');
       const { path } = this.$route;
-      return path === '/run' || (this.innerWidth < 1300 && !this.room.connected && path !== '/');
+      // newGameRequest exception because of webkit bug with position: fixed and transfrom http://code.google.com/p/chromium/issues/detail?id=20574
+      return !this.room.newGameRequest && (path === '/run' || (this.innerWidth < 1300 && !this.room.connected && path !== '/'));
     },
   },
   created() {
