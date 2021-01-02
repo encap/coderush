@@ -87,8 +87,8 @@ export default {
     codeSource() {
       if (this.codeInfo.name) {
         return this.codeInfo.source === 'own' ? 'Łukasz Wielgus archive' : this.codeInfo.source;
-      } if (this.room.connected && !this.room.owner) {
-        return 'Code provided by room owner';
+      } if (this.room.connected && !this.room.admin) {
+        return 'Code provided by room admin';
       }
       return 'Code provided by You';
     },

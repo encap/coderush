@@ -31,7 +31,7 @@
             @change="toggleExpand"
           >
         </label>
-        <span v-show="!language.index && !(room.connected && !room.owner)" class="language-warning">
+        <span v-show="!language.index && !(room.connected && !room.admin)" class="language-warning">
           Choose language <fa class="arrow" :icon="['fas', 'play']" />
         </span>
       </div>
@@ -83,7 +83,7 @@ export default {
     cmOptions() {
       return {
         tabSize: this.selectedSize,
-        readOnly: this.room.connected && !this.room.owner,
+        readOnly: this.room.connected && !this.room.admin,
         lineNumbers: true,
         mathBrackets: true,
         styleSelectedText: true,
@@ -108,13 +108,13 @@ export default {
       immediate: true,
       deep: true,
       handler(current) {
-        if (this.room.connected && !this.room.owner) {
+        if (this.room.connected && !this.room.admin) {
           this.code = current.text;
           this.selectedSize = current.tabSize || 2;
         }
       },
     },
-    'room.owner': {
+    'room.admin': {
       deep: true,
       handler(current) {
         if (current) {
@@ -128,7 +128,7 @@ export default {
       },
     },
     selectedSize() {
-      if (this.room.owner) {
+      if (this.room.admin) {
         this.$socket.client.emit('customCodeData', {
           text: this.code,
           tabSize: this.selectedSize,
@@ -184,7 +184,7 @@ export default {
           short: this.customCode.text.length < 30 || this.customCode.lines < 4,
         };
         this.$store.commit('SET_CUSTOM_CODE', data);
-        if (this.room.owner) {
+        if (this.room.admin) {
           this.$socket.client.emit('customCodeData', data);
         }
       }, 50);

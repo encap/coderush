@@ -21,12 +21,12 @@
           <span>{{ uploadCodeText }}</span>
           <input
             :checked="customCode.showEditor"
-            :disabled="room.connected && !room.owner"
+            :disabled="room.connected && !room.admin"
             type="checkbox"
             @input="useCustomCode($event.target.checked)"
           >
         </label>
-        <label v-if="room.connected && !room.owner" class="button ready-btn" :class="{ highlight: isReady }">
+        <label v-if="room.connected && !room.admin" class="button ready-btn" :class="{ highlight: isReady }">
           <span>Ready</span>
           <input
             v-model="isReady"
@@ -36,9 +36,9 @@
           >
         </label>
         <button
-          :disabled="room.connected && !room.owner"
+          :disabled="room.connected && !room.admin"
           class="button start-btn"
-          :class="{ highlight: language.name && !(room.connected && !room.owner) }"
+          :class="{ highlight: language.name && !(room.connected && !room.admin) }"
           @click="run"
         >
           START
@@ -87,7 +87,7 @@ export default {
         this.error = '';
       }
     },
-    'room.owner': {
+    'room.admin': {
       deep: true,
       handler(current) {
         if (current) {
@@ -99,7 +99,7 @@ export default {
       immediate: true,
       deep: true,
       handler(current) {
-        if (this.room.connected && !this.room.owner) {
+        if (this.room.connected && !this.room.admin) {
           if (current.showEditor) {
             this.showEditor = current.showEditor;
           } else {
@@ -126,13 +126,13 @@ export default {
       });
     }
 
-    if (this.room.connected && !this.room.owner) {
+    if (this.room.connected && !this.room.admin) {
       this.$socket.client.emit('playerInLobby', true);
     }
   },
   methods: {
     handleEnter() {
-      if (!(this.room.connected && !this.room.owner) && !this.showEditor) {
+      if (!(this.room.connected && !this.room.admin) && !this.showEditor) {
         this.run();
       }
     },
@@ -160,7 +160,7 @@ export default {
           this.showEditor = value;
         }, 500);
       }
-      if (this.room.owner) {
+      if (this.room.admin) {
         this.$socket.client.emit('useCustomCode', value);
       }
 
@@ -191,12 +191,12 @@ export default {
         }
       }
 
-      if (this.showEditor && this.room.owner) {
+      if (this.showEditor && this.room.admin) {
         this.$socket.client.emit('customCodeData', this.customCode);
       }
 
       this.prepareCodeInfo();
-      if (this.room.owner) {
+      if (this.room.admin) {
         this.$socket.client.emit('start', Date.now());
       }
 
@@ -211,7 +211,7 @@ export default {
         fileIndex = Math.floor(Math.random() * this.language.files.length);
       }
       this.$store.dispatch('generateCodeInfo', fileIndex);
-      if (this.room.owner) {
+      if (this.room.admin) {
         this.$socket.client.emit('fileIndex', fileIndex);
       }
     },
