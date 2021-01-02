@@ -160,6 +160,7 @@ export default {
         if (this.correctCharsInLine === expectedText.length) {
           this.cm.execCommand('goCharRight');
           this.currentLine += 1;
+          console.log(`next line ${this.currentLine}`);
 
           this.currentChange = {
             ...this.currentChange,

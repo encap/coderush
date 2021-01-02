@@ -96,6 +96,14 @@ export default {
     numberOfLines() {
       return this.code.split(/\r\n|\r|\n/).length;
     },
+    customCodeData() {
+      return {
+        text: this.language.name === 'Whitespace' ? this.code : this.code.trim().split('\n').map((line) => line.trimEnd()).join('\n'),
+        tabSize: this.selectedSize,
+        lines: this.numberOfLines,
+        showEditor: true,
+      };
+    },
   },
   watch: {
     async language() {
@@ -118,24 +126,9 @@ export default {
       deep: true,
       handler(current) {
         if (current) {
-          this.$socket.client.emit('customCodeData', {
-            text: this.code,
-            tabSize: this.selectedSize,
-            lines: this.numberOfLines,
-            showEditor: this.customCode.showEditor,
-          });
+          this.emitCustomCode();
         }
       },
-    },
-    selectedSize() {
-      if (this.room.admin) {
-        this.$socket.client.emit('customCodeData', {
-          text: this.code,
-          tabSize: this.selectedSize,
-          lines: this.numberOfLines,
-          showEditor: true,
-        });
-      }
     },
   },
   mounted() {
@@ -177,20 +170,22 @@ export default {
       if (this.timeout) clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
         const data = {
-          text: this.code,
-          tabSize: this.selectedSize,
-          lines: this.numberOfLines,
-          showEditor: true,
+          ...this.customCodeData,
           short: this.customCode.text.length < 30 || this.customCode.lines < 4,
         };
         this.$store.commit('SET_CUSTOM_CODE', data);
         if (this.room.admin) {
-          this.$socket.client.emit('customCodeData', data);
+          this.emitCustomCode();
         }
       }, 50);
     },
     clear() {
       this.code = '';
+    },
+    emitCustomCode() {
+      this.$socket.client.emit('customCodeData', {
+        ...this.customCodeData,
+      });
     },
   },
 };

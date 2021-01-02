@@ -98,8 +98,6 @@ export default {
 
   },
   created() {
-    console.log(JSON.parse(JSON.stringify(this.codeInfo)));
-
     if (this.codeInfo && !this.codeInfo.lines) {
       // if user opened /run directly
       this.$router.push('/');
