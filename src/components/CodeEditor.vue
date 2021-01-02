@@ -11,6 +11,7 @@
         class="codemirror"
         :class="{showInvisibles: codeInfo.language.name === 'Whitespace'}"
         :options="cmOptions"
+        @focus="onFocus"
         @ready="onCmReady"
         @blur="onUnFocus"
       />
@@ -76,6 +77,8 @@ export default {
       currentLine: 0,
       currentChar: 0,
       correctCharsInLine: 0,
+      freshCorrect: 0,
+      liveWpmInterval: null,
       currentChange: {},
       stats: {
         history: [],
@@ -121,6 +124,11 @@ export default {
       }
       return {};
     },
+  },
+  beforeDestroy() {
+    if (this.liveWpmInterval) {
+      clearInterval(this.liveWpmInterval);
+    }
   },
   methods: {
     popUp(action, text = this.popUpText) {
@@ -391,7 +399,9 @@ export default {
       }
       if (this.started && !this.stats.firstCharTime) {
         this.stats.firstCharTime = Date.now();
+        this.$emit('start');
       }
+
       this.currentChange = {
         time: this.timeElapsed(),
         type: 'initialType',
@@ -478,7 +488,9 @@ export default {
 
       if (this.currentChange.type !== 'initialType') {
         this.stats.history.push(this.currentChange);
-        if (this.options.selectedMode === 2 && this.currentChange.type !== 'correct') {
+        if (this.currentChange.type === 'correct') {
+          this.freshCorrect += 1;
+        } else if (this.options.selectedMode === 2) {
           if (this.stats.history.length < 30) {
             this.cm.setOption('readOnly', 'nocursor');
             this.popUp(true, 'Try again');
@@ -491,11 +503,21 @@ export default {
         console.log(JSON.parse(JSON.stringify(this.currentChange)));
       }
 
+
       this.currentChange = {};
+    },
+    onFocus() {
+      console.log('cmFocus');
+      console.log(this.liveWpmInterval);
+      if (this.liveWpmInterval === null) {
+        this.liveWpmInterval = setInterval(this.updateLiveWpm, this.options.liveWpmRefreshRate);
+      }
     },
     onUnFocus(_, ev) {
       if (ev) {
         if (DEV) ev.preventDefault();
+        clearInterval(this.liveWpmInterval);
+        this.liveWpmInterval = null;
         if (!this.isCompleted && this.popUpText !== 'Try again' && ev) {
           if (DEV) this.cm.focus();
           if (ev.relatedTarget !== null) {
@@ -535,6 +557,14 @@ export default {
     timeElapsed() {
       return Date.now() - this.stats.firstCharTime;
     },
+    updateLiveWpm() {
+      console.log('correct: ', this.freshCorrect);
+      const currentWpm = this.freshCorrect / (this.options.liveWpmRefreshRate / 1000 / 60) / 5;
+      console.blue(`wpm: ${currentWpm}`);
+      this.$emit('liveWpmUpdate', currentWpm || 0);
+
+      this.freshCorrect = 0;
+    },
     start(interval) {
       clearInterval(interval);
       this.cm.markText(
@@ -553,9 +583,6 @@ export default {
       this.started = true;
       this.cm.focus();
       console.log('START');
-      if (this.options.selectedMode === 1) {
-        this.$emit('start');
-      }
       this.stats.startTime = Date.now();
     },
     init() {
@@ -609,6 +636,8 @@ export default {
       if (this.room.connected) {
         this.$socket.client.emit('completed');
       }
+
+      clearInterval(this.liveWpmInterval);
 
       const complete = this.currentLine + 1 >= this.codeInfo.lines;
 

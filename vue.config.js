@@ -52,7 +52,6 @@ module.exports = {
     // config.plugins.delete('prefetch');
   },
   devServer: {
-    progress: true,
     clientLogLevel: 'info',
     headers: {
       'Access-Control-Allow-Origin': '*',

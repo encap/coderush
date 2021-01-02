@@ -12,6 +12,7 @@ const state = {
     selectedMode: 0,
     autoIndent: true,
     underScore: false,
+    liveWpmRefreshRate: 2000,
   },
 };
 
