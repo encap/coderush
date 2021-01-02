@@ -188,8 +188,6 @@ export default {
             this.stats.lastThirdStartTime = this.timeElapsed();
           }
 
-          console.blue(this.currentLine);
-          console.red(this.cm.getLine(this.currentLine));
           if (this.currentLine + 1 === this.codeInfo.lines && this.cm.getLine(this.currentLine).trim().length === 0) {
             console.red('Last line is empty');
             this.stats.history.push(this.currentChange);
