@@ -486,8 +486,8 @@ export default {
     },
     onFocus() {
       console.log('cmFocus');
+      this.$emit('pause', false);
       if (this.pauseStart) {
-        this.$emit('pause', false);
         this.pauseTime += Date.now() - this.pauseStart;
         this.pauseStart = null;
       }
@@ -502,7 +502,9 @@ export default {
         if (DEV) ev.preventDefault();
         clearInterval(this.liveWpmInterval);
         this.liveWpmInterval = null;
-        this.pauseStart = Date.now();
+        if (this.stats.firstCharTime) {
+          this.pauseStart = Date.now();
+        }
         if (!this.isCompleted && this.popUpText !== 'Try again' && ev) {
           if (DEV) this.cm.focus();
           if (ev.relatedTarget !== null) {

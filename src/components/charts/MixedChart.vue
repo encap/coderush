@@ -1,5 +1,6 @@
 <script>
 import { Bar } from 'vue-chartjs';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'MixedChart',
@@ -11,15 +12,16 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(['options']),
     history() {
       return this.stats.history.filter((event) => event.text);
     },
     inputIntervalsPoints() {
       const points = [];
-      for (let i = 1; i < this.history.length; i += 1) {
+      for (let i = 0; i < this.history.length; i += 1) {
         points.push({
           x: this.history[i].time,
-          y: this.history[i].time - this.history[i - 1].time,
+          y: i === 0 ? this.stats.firstCharTime - this.stats.startTime : this.history[i].time - this.history[i - 1].time,
           type: this.history[i].type,
         });
       }
@@ -31,7 +33,7 @@ export default {
     },
     wpmPoints() {
       const points = this.stats.wpmOverTime.map((wpmEvent) => ({
-        x: wpmEvent[0],
+        x: wpmEvent[0] - (this.options.liveWpmRefreshRate / 3),
         y: wpmEvent[1],
       }));
       points.unshift({
@@ -43,9 +45,9 @@ export default {
         y: points[points.length - 1].y,
       });
 
-      return points;
+      return points.filter(({ x }) => x >= 0);
     },
-    options() {
+    chartOptions() {
       return {
         responsive: true,
         maintainAspectRatio: false,
@@ -73,7 +75,7 @@ export default {
           callbacks: {
             title: ([item]) => {
               if (item.datasetIndex !== 0) {
-                const event = this.history[item.index + 1];
+                const event = this.history[item.index];
 
 
                 const buffer = [`${event.type === 'mistake' ? 'Wrong' : 'Correct'}: ${event.text.replace(' ', 'Space')}`];
@@ -182,49 +184,49 @@ export default {
             label: 'Input intervals',
             data: this.inputIntervalsPoints,
             pointStyle(ctx) {
-              const event = ctx.dataset.data[ctx.dataIndex - 1];
+              const event = ctx.dataset.data[ctx.dataIndex];
               if (event && event.type === 'mistake') {
                 return 'crossRot';
               }
               return 'circle';
             },
             pointBackgroundColor(ctx) {
-              const event = ctx.dataset.data[ctx.dataIndex - 1];
+              const event = ctx.dataset.data[ctx.dataIndex];
               if (event && event.type === 'mistake') {
                 return '#eee';
               }
               return '#266eb7';
             },
             pointBorderColor(ctx) {
-              const event = ctx.dataset.data[ctx.dataIndex - 1];
+              const event = ctx.dataset.data[ctx.dataIndex];
               if (event && event.type === 'mistake') {
                 return '#eee';
               }
               return 'transparent';
             },
             pointBorderWidth(ctx) {
-              const event = ctx.dataset.data[ctx.dataIndex - 1];
+              const event = ctx.dataset.data[ctx.dataIndex];
               if (event && event.type === 'mistake') {
                 return 2;
               }
               return 0;
             },
             pointRadius(ctx) {
-              const event = ctx.dataset.data[ctx.dataIndex - 1];
+              const event = ctx.dataset.data[ctx.dataIndex];
               if (event && event.type === 'mistake') {
                 return 5;
               }
               return 2;
             },
             pointHoverRadius(ctx) {
-              const event = ctx.dataset.data[ctx.dataIndex - 1];
+              const event = ctx.dataset.data[ctx.dataIndex];
               if (event && event.type === 'mistake') {
                 return 5;
               }
               return 2;
             },
             pointHoverBorderWidth(ctx) {
-              const event = ctx.dataset.data[ctx.dataIndex - 1];
+              const event = ctx.dataset.data[ctx.dataIndex];
               if (event && event.type === 'mistake') {
                 return 2;
               }
@@ -252,7 +254,7 @@ export default {
     },
   },
   mounted() {
-    this.renderChart(this.chartDatasets, this.options);
+    this.renderChart(this.chartDatasets, this.chartOptions);
   },
   methods: {
     format(number, precision = 2, scaler = 0.001) {
