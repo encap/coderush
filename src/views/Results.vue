@@ -114,7 +114,7 @@ export default {
       return this.stats.history;
     },
     mistakes() {
-      return this.history.filter((change) => change.type === 'mistake');
+      return this.history.filter((change) => change.type === 'mistake' || change.type === 'blockedEnter');
     },
     correctInputs() {
       return this.history.reduce((acc, event) => (event.type === 'correct' ? acc + 1 : acc), 0);
@@ -135,7 +135,7 @@ export default {
       return this.format(this.stats.correctLines / this.stats.codeInfo.lines, 1, 100);
     },
     mostMistakesInARow() {
-      return this.mistakes.map((obj) => obj.fixQueuePos)
+      return this.mistakes.map((obj) => obj.fixQueuePos || 1)
         .reduce((acc, value) => Math.max(acc, value), 0);
     },
     correctionTimes() {
