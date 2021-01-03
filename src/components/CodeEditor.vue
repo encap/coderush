@@ -391,6 +391,12 @@ export default {
 
       if (ev.key === 'Escape' || ev.key === 'Pause') {
         this.popUp(true, 'Resume');
+        clearInterval(this.liveWpmInterval);
+        this.liveWpmInterval = null;
+        if (this.stats.firstCharTime) {
+          this.pauseStart = Date.now();
+        }
+        this.$emit('pause', true);
       } else if (ev.key === 'Enter') {
         handleEnter();
       } else if (ev.key === 'Backspace') {
