@@ -52,7 +52,7 @@ const codemirror = () => import(/* webpackChunkName: "cmLoader" */ '@/cmLoader.j
   return module.default;
 });
 
-const DEV = process.env.NODE_ENV === 'production'; // dev
+const DEV = process.env.NODE_ENV !== 'production';
 
 
 export default {
