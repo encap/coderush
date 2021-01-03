@@ -44,8 +44,14 @@ const actions = {
     });
   },
   generateCodeInfo: ({ state, rootState, commit }, fileIndex) => {
-    let codeInfo = { language: rootState.options.language }; // copy without reference
-    delete codeInfo.files;
+    // copy without reference and files
+    let codeInfo = { language: {} };
+    Object.keys(rootState.options.language)
+      .filter((key) => key !== 'files')
+      .forEach((key) => {
+        codeInfo.language[key] = rootState.options.language[key];
+      });
+
 
     if (fileIndex === -1) {
       codeInfo.tabSize = state.customCode.tabSize;
