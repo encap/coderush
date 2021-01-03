@@ -43,12 +43,12 @@
                 <template v-if="stats.mode !== 2">
                   <p>Time wasted by mistakes: {{ format(totalTimeLost) }} s</p>
                   <p>Speed counting down that time {{ format(WPMWithoutTimeLost, 0, 1) }} WPM</p>
-                  <p>Most mistakes in a row: {{ mostMistakesInARow }} mistakes</p>
+                  <p>Most mistakes in a row: {{ mostMistakesInARow }} mistake{{ mostMistakesInARow === 1 ? '' : 's' }}</p>
                   <p>Longest correction time: {{ format(longestTimeOfCorrection) }} s</p>
                 </template>
                 <template v-else>
                   <p>You made a mistake after {{ correctInputs }} correct characters</p>
-                  <p>{{ stats.file.lines - stats.correctLines }} lines left</p>
+                  <p>{{ stats.codeInfo.lines - stats.correctLines }} lines left</p>
                   <p>{{ percentCompleted }}% completed</p>
                 </template>
               </div>
@@ -114,28 +114,28 @@ export default {
       return this.stats.history;
     },
     mistakes() {
-      return this.history.filter((change) => change.type === 'mistake');
+      return this.history.filter((change) => change.type === 'mistake' || change.type === 'blockedEnter');
     },
     correctInputs() {
       return this.history.reduce((acc, event) => (event.type === 'correct' ? acc + 1 : acc), 0);
     },
     minutes() {
-      return Math.floor(this.stats.timeFromFirstInput / 1000 / 60);
+      return Math.floor(this.stats.time / 1000 / 60);
     },
     seconds() {
-      return Math.round((this.stats.timeFromFirstInput / 1000) % 60);
+      return Math.round((this.stats.time / 1000) % 60);
     },
     CPM() {
-      return this.correctInputs / this.format(this.stats.timeFromFirstInput, 4) * 60;
+      return this.correctInputs / this.format(this.stats.time, 4) * 60;
     },
     WPM() {
       return this.CPM / 5;
     },
     percentCompleted() {
-      return this.format(this.correctLines / this.stats.file.lines, 1, 100);
+      return this.format(this.stats.correctLines / this.stats.codeInfo.lines, 1, 100);
     },
     mostMistakesInARow() {
-      return this.mistakes.map((obj) => obj.fixQueuePos)
+      return this.mistakes.map((obj) => obj.fixQueuePos || 1)
         .reduce((acc, value) => Math.max(acc, value), 0);
     },
     correctionTimes() {
@@ -159,7 +159,7 @@ export default {
       return timesAcc;
     },
     WPMWithoutTimeLost() {
-      return this.correctInputs / this.format(this.stats.timeFromFirstInput - this.totalTimeLost, 4) * 60 / 5;
+      return this.correctInputs / this.format(this.stats.time - this.totalTimeLost, 4) * 60 / 5;
     },
     totalTimeLost() {
       return this.correctionTimes.reduce((acc, value) => acc + value, 0);
@@ -169,7 +169,7 @@ export default {
     },
   },
   beforeMount() {
-    if (!this.stats.timeFromFirstInput) {
+    if (!this.stats.time) {
       this.$router.push('/');
     }
   },
@@ -182,8 +182,8 @@ export default {
       correct: this.correctInputs,
     });
 
-    // if (this.stats.file.index !== -1) {
-    if (this.$route.path !== '/about' && !this.stats.file.short) {
+    // if (this.stats.codeInfo.index !== -1) {
+    if (this.$route.path !== '/about' && !this.stats.codeInfo.short) {
       this.sendStats();
     }
     // }
@@ -212,9 +212,9 @@ export default {
       }
       const data = {
         main: {
-          languageIndex: this.stats.file.languageIndex,
-          languageName: this.stats.file.languageName,
-          fileIndex: this.stats.file.index,
+          languageIndex: this.stats.codeInfo.language.index,
+          languageName: this.stats.codeInfo.language.name,
+          fileIndex: this.stats.codeInfo.fileIndex,
           wpm: this.format(this.WPM, 0, 1),
           percentCompleted: this.percentCompleted,
         },
@@ -231,7 +231,7 @@ export default {
           // console.log('Stats sent');
         })
         .catch((err) => {
-          console.eror('Sending stats failed');
+          console.error('Sending stats failed');
           console.error(err.response);
         });
     },

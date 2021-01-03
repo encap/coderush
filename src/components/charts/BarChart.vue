@@ -90,14 +90,14 @@ export default {
             order: this.chartData.player.order,
           },
           {
-            label: 'AVG',
+            label: 'Global AVG',
             backgroundColor: this.backgroundColors[this.chartData.avg.order],
             data: [this.chartData.avg.value],
             order: this.chartData.avg.order,
             barPercentage: 0.7,
           },
           {
-            label: 'Best',
+            label: 'Global Best',
             backgroundColor: this.backgroundColors[this.chartData.best.order],
             data: [this.chartData.best.value],
             order: this.chartData.best.order,

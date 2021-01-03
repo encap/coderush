@@ -22,11 +22,11 @@
       ref="languagesList"
       tabindex="0"
       class="languages list"
-      :class="{'showStats': !($route.path !== '/' || (room.connected && !room.owner)), 'forceStats': forceStats} "
+      :class="{'showStats': !($route.path !== '/' || (room.connected && !room.admin)), 'forceStats': forceStats} "
       @keydown.shift.capture.prevent="toggleStats"
     >
       <button
-        :disabled="room.connected && !room.owner"
+        :disabled="room.connected && !room.admin"
         class="language random-btn"
         :class="{'selected': language.index === null}"
         :style="{'--col-span': randomBtnColSpan}"
@@ -47,7 +47,7 @@
           v-model="language"
           type="radio"
           class="language-radio"
-          :disabled="room.connected && !room.owner"
+          :disabled="room.connected && !room.admin"
           :value="languagesList[filteredLanguage.index]"
           :data-index="filteredLanguage.index"
           @input="setRoomLanguage"
@@ -94,7 +94,7 @@ export default {
     },
   },
   watch: {
-    'room.owner': {
+    'room.admin': {
       deep: true,
       handler(current) {
         if (current && this.language.index) {
@@ -105,7 +105,7 @@ export default {
     'language.index': {
       deep: true,
       handler(current) {
-        if (this.room.connected && !this.room.owner && current) {
+        if (this.room.connected && !this.room.admin && current) {
           this.$refs.languagesList.querySelector(`label[data-index="${current}"]`).scrollIntoView({
             block: 'center',
             behavior: 'smooth',
@@ -123,7 +123,6 @@ export default {
   },
   deactivated() {
     this.$store.commit('REMOVE_TRACKED_CONTAINER', this.$refs.languagesList.className);
-    console.log('DEACTIVATED');
     window.removeEventListener('resize', this.fillEmptyCellsReference);
   },
   methods: {
@@ -139,7 +138,7 @@ export default {
           this.selectRandom();
         }
         this.language = this.filteredList[index];
-        if (this.room.owner) {
+        if (this.room.admin) {
           this.$socket.client.emit('languageChange', index);
         }
         this.$refs.languagesList.querySelector(`label[data-index="${index}"]`).scrollIntoView({
@@ -156,7 +155,7 @@ export default {
       }
     },
     setRoomLanguage(ev) {
-      if (this.room.owner) {
+      if (this.room.admin) {
         this.$nextTick(() => this.$socket.client.emit('languageChange', ev.target.getAttribute('data-index')));
       }
     },
@@ -166,21 +165,15 @@ export default {
 
       this.$nextTick(() => {
         const gridComputedStyle = window.getComputedStyle(this.$refs.languagesList);
-        console.warn(gridComputedStyle.getPropertyValue('grid-template-columns'));
 
         const columns = gridComputedStyle.getPropertyValue('grid-template-columns')
-          .replace(/ 0px/g, '') // webkit bug return 0px for non existing columns
+          .replace(/ 0px/g, '') // webkit bug returns 0px for non existing columns
           .split(' ').length;
 
-        console.log(`cells: ${this.filteredList.length + 1}`);
-        console.log(`columns: ${columns}`);
-
         const mod = (this.filteredList.length + 1) % columns;
-        console.log(`mod: ${mod}`);
 
         if (mod) {
           const emptyCells = columns - mod;
-          console.blue(emptyCells);
 
           this.randomBtnColSpan = emptyCells + 1;
         }

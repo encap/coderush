@@ -1,6 +1,6 @@
 require 'net/pop'
 
-mail_server = Net::POP3.new('mail.encap.pl')
+mail_server = Net::POP3.new('mail.coderush.xyz')
 
 begin
   mail_server.start('username','password')

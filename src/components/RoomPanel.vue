@@ -87,7 +87,7 @@
           <fa :icon="['fas', 'sign-out-alt']" size="lg" />
         </button>
       </div>
-      <div v-if="room.owner && showRoomLink && $route.path === '/'" class="linkContainer">
+      <div v-if="room.admin && showRoomLink && $route.path === '/'" class="linkContainer">
         <p>
           Share this link with other players:
         </p>
@@ -117,7 +117,7 @@
 
     <PlayersList v-if="room.connected && $route.path !== '/run'" class="playersList" />
 
-    <div v-if="room.newGameRequest && !room.owner" class="moveToLobby popUp">
+    <div v-if="room.newGameRequest && !room.admin" class="moveToLobby popUp">
       <div class="wrapper">
         <h2>Room owner wants to start a new game.</h2>
         <h3>If you want to stay on current page {{ $route.path === '/results' ? 'and continue reading the results' : '' }} you have to leave the room. You can always join again later.</h3>
@@ -170,7 +170,7 @@ export default {
       this.$store.commit('SET_ROOM_PROPERTY', ['connected', true]);
       this.$store.commit('SET_ROOM_PROPERTY', ['name', this.roomName]);
       this.$store.commit('SET_ROOM_PROPERTY', ['myName', this.playerName]);
-      this.$store.commit('SET_ROOM_PROPERTY', ['owner', true]);
+      this.$store.commit('SET_ROOM_PROPERTY', ['admin', true]);
       setTimeout(() => this.$refs.closeInfoBtn.focus(), 100);
     },
     room_exist() {
@@ -230,7 +230,7 @@ export default {
     },
     createRoom() {
       this.$socket.client.emit('createRoom', {
-        ownerName: this.playerName,
+        adminName: this.playerName,
         roomName: this.roomName,
         options: {
           codeLength: this.options.codeLength,
@@ -259,8 +259,9 @@ export default {
       this.$socket.client.close();
       this.$store.commit('SET_ROOM_PROPERTY', ['connected', false]);
       this.$store.commit('SET_ROOM_PROPERTY', ['name', '']);
-      this.$store.commit('SET_ROOM_PROPERTY', ['owner', false]);
+      this.$store.commit('SET_ROOM_PROPERTY', ['admin', false]);
       this.$store.commit('SET_ROOM_PROPERTY', ['newGameRequest', false]);
+      this.$store.commit('SET_ROOM_PROPERTY', ['players', {}]);
       if (action) {
         this.askForPlayerName = false;
         this.roomName = '';

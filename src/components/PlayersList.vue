@@ -27,19 +27,19 @@
             </span>
             <div class="icons">
               <fa
-                v-if="player.owner && $route.path !== '/results'"
+                v-if="player.admin && $route.path !== '/results'"
                 class="icon"
                 :icon="['fas', 'user-cog']"
                 size="xs"
               />
               <fa
-                v-show="player.inLobby && player.ready && !player.owner"
+                v-show="player.inLobby && player.ready && !player.admin"
                 class="icon"
                 :icon="['fas', 'check']"
                 size="xs"
               />
               <fa
-                v-show="($route.path === '/results' && !player.place) || ($route.path !== '/results' && !player.inLobby && !player.owner)"
+                v-show="($route.path === '/results' && !player.place) || ($route.path !== '/results' && !player.inLobby && !player.admin)"
                 class="icon"
                 :icon="['fas', 'hourglass-end']"
                 size="xs"
@@ -106,8 +106,8 @@ export default {
             return -1;
           }
         }
-        if (p1.owner) {
-          console.log('owner');
+        if (p1.admin) {
+          console.log('admin');
           return -1;
         }
 

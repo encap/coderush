@@ -9,15 +9,30 @@
           <h2>{{ languageName }}</h2>
         </div>
         <div class="codeInfo">
-          <p v-if="codeInfo.name">
-            {{ codeInfo.name }}.{{ language.ext }}
+          <p>
+            {{ codeInfo.name || '*' }}.{{ codeInfo.language.ext }}
           </p>
           <p>{{ codeSource }}</p>
         </div>
       </div>
-      <h2 v-if="timer !== null && $route.path === '/run'" class="timer">
-        {{ timer }}
-      </h2>
+
+      <div v-show="$route.path === '/run'" class="counters">
+        <span v-show="!pause && timer !== null">
+          {{ timer > 120 ? Math.floor(timer / 60) + ' min ' + timer % 60 : timer }} s {{ options.selectedMode === 1 ? 'remaining' : '' }}
+        </span>
+        <span v-show="pause">paused</span>
+        <span v-show="!pause && timer === null">waiting</span>
+
+        <ICountUp
+          :key="resetEditorKey"
+          class="live-wpm"
+          :end-val="endWpm"
+          :options="liveWpmOptions"
+          @ready="onLiveWpmReady"
+        />
+      </div>
+
+
       <div class="buttons">
         <button v-show="!room.connected" class="reset" @click="reset">
           Restart
@@ -36,14 +51,15 @@
 
     <!-- Changing key remounts component -->
     <CodeEditor
-      v-if="language.name"
+      v-if="languageName"
       ref="codeEditor"
       :key="resetEditorKey"
       class="code-editor"
       @reset="reset"
-      @completed="completed"
+      @completed="onCompleted"
       @start="startTimer"
       @pause="(action) => {pause = action}"
+      @liveWpmUpdate="updateLiveWpm"
     />
 
     <div
@@ -62,6 +78,7 @@
 <script>
 import { mapGetters } from 'vuex';
 
+import ICountUp from 'vue-countup-v2';
 import CodeEditor from '@/components/CodeEditor.vue';
 
 const Results = () => import(/* webpackChunkName: "results" */ '@/views/Results.vue');
@@ -69,6 +86,7 @@ const Results = () => import(/* webpackChunkName: "results" */ '@/views/Results.
 export default {
   name: 'Run',
   components: {
+    ICountUp,
     CodeEditor,
     Results,
   },
@@ -77,37 +95,45 @@ export default {
       resetSelfKey: 1,
       resetEditorKey: 1,
       stats: false,
+      completed: false,
       timer: null,
       pause: false,
       intervalId: null,
+      endWpm: 0,
     };
   },
   computed: {
-    ...mapGetters(['language', 'customCode', 'codeInfo', 'room', 'options']),
+    ...mapGetters(['codeInfo', 'room', 'options']),
+    liveWpmOptions() {
+      return {
+        duration: this.options.liveWpmRefreshRate / 1000,
+        useEasing: false,
+        useGrouping: false,
+        decimalPlaces: 0,
+        decimal: '.',
+        suffix: ' WPM',
+      };
+    },
     codeSource() {
       if (this.codeInfo.name) {
         return this.codeInfo.source === 'own' ? 'Łukasz Wielgus archive' : this.codeInfo.source;
-      } if (this.room.connected && !this.room.owner) {
-        return 'Code provided by room owner';
+      } if (this.room.connected && !this.room.admin) {
+        return 'Code provided by room admin';
       }
       return 'Code provided by You';
     },
     languageName() {
-      if (this.language) {
-        return this.language.name.replace('_', ' ');
-      }
-      return '';
+      return this.codeInfo.language.name.replace('_', ' ');
     },
 
   },
   created() {
-    if (this.language.index === null) {
+    if (this.codeInfo && !this.codeInfo.lines) {
+      // if user opened /run directly
       this.$router.push('/');
     }
   },
   beforeRouteUpdate(to, from, next) {
-    console.red('routeUpdate');
-
     if (to.path === '/results') {
       setTimeout(() => {
         this.$refs.results.scrollIntoView({
@@ -133,8 +159,12 @@ export default {
     reset() {
       this.stats = false;
       this.resetEditorKey += 1;
+      this.liveWpmInstance = null;
+      this.completed = false;
+      this.pause = false;
       if (this.intervalId) {
         window.clearInterval(this.intervalId);
+        this.timer = null;
       }
 
       if (this.$route.path === '/results') {
@@ -148,20 +178,38 @@ export default {
       }
     },
     startTimer() {
-      this.timer = 100;
-      this.intervalId = window.setInterval(() => {
-        if (this.timer === 0) {
-          this.$refs.codeEditor.completed();
-        } else if (!this.pause) {
-          this.timer -= 1;
+      console.log('timer start');
+      this.timer = this.options.selectedMode === 1 ? 100 : 0;
+      this.intervalId = setInterval(() => {
+        if (!this.pause) {
+          if (this.options.selectedMode === 1) {
+            if (this.timer === 0) {
+              this.$refs.codeEditor.completed();
+            } else {
+              this.timer -= 1;
+            }
+          } else {
+            this.timer += 1;
+          }
         }
       }, 1000);
+    },
+    onLiveWpmReady(instance) {
+      if (!this.liveWpmInstance) {
+        console.warn('LIVEWPM READY');
+        this.liveWpmInstance = instance;
+      }
+    },
+    updateLiveWpm(wpm) {
+      console.log(`updating to ${wpm}`);
+      this.liveWpmInstance.update(wpm);
     },
     finish() {
       this.$refs.codeEditor.completed();
     },
-    completed(stats) {
+    onCompleted(stats) {
       this.stats = stats;
+      this.completed = true;
       if (this.intervalId) {
         window.clearInterval(this.intervalId);
       }
@@ -190,7 +238,7 @@ main
     max-width: none
 
   .code-editor
-    flex-grow: 1
+    flex-grow: 1 //dev
     margin: 1rem 0
 
 .top-bar
@@ -200,10 +248,12 @@ main
   animation: opacity-enter .5s ease-out forwards .7s
   animation-fill-mode: both
   position: relative
+  white-space: nowrap
 
   .info
     display: flex
     align-items: center
+    flex-grow: 1
     flex-shrink: 2
     position: relative
     min-width: 0
@@ -217,25 +267,28 @@ main
         overflow: hidden
         text-overflow: ellipsis
 
-    .codeInfo
-      display: flex
-      justify-content: space-between
-      flex-direction: column
-      flex-shrink: 2
-      min-width: 0
+  .codeInfo, .counters
+    display: flex
+    justify-content: space-between
+    flex-direction: column
+    flex-shrink: 2
+    min-width: 0
 
-      p
-        margin-bottom: $thin-gap
-        overflow: hidden
-        min-width: 0
-        text-overflow: ellipsis
+    p, span
+      margin-bottom: $thin-gap
+      overflow: hidden
+      min-width: 0
+      text-overflow: ellipsis
+
+  .counters
+    text-align: right
 
   .buttons
     flex-shrink: 0
     button
       background: $navy-grey
       padding: 0 0.5em
-      margin-left: max(10px, calc(20vw - 210px))
+      margin-left: min(5em, max(1em, calc(20vw - 210px)))
       text-align: center
       height: 47px
       min-width: 150px

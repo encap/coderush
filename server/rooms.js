@@ -56,8 +56,8 @@ module.exports = (http) => {
 
         const playerData = {
           ...playerDataTemplate,
-          name: data.ownerName,
-          owner: true,
+          name: data.adminName,
+          admin: true,
           ready: true,
         };
 
@@ -148,7 +148,7 @@ module.exports = (http) => {
     });
 
     socket.on('reset', () => {
-      if (rooms[roomName].players[socket.id].owner) {
+      if (rooms[roomName].players[socket.id].admin) {
         console.warn(`room "${roomName}" reset`);
         io.in(roomName).emit('reset');
       }
@@ -161,9 +161,9 @@ module.exports = (http) => {
 
         socket.to(roomName).emit('player_disconnected', {
           playerName: player.name,
-          owner: player.owner,
+          admin: player.admin,
         });
-        if (player.owner) {
+        if (player.admin) {
           delete rooms[roomName];
           console.warn(`room ${roomName} deleted`);
         } else {

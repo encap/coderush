@@ -106,11 +106,11 @@ export default {
     ...mapGetters(['room']),
     ...mapFields(['selectedTheme', 'selectedMode', 'underScore', 'codeLength', 'lineNumbers', 'autoIndent']),
     block() {
-      return this.room.connected && !this.room.owner;
+      return this.room.connected && !this.room.admin;
     },
   },
   watch: {
-    'room.owner': {
+    'room.admin': {
       deep: true,
       handler(current) {
         if (current) {
@@ -133,7 +133,7 @@ export default {
   },
   methods: {
     updateOption(ev) {
-      if (this.room.owner && ev.target.name) {
+      if (this.room.admin && ev.target.name) {
         const payload = {
           name: ev.target.name,
           value: ev.target.checked,

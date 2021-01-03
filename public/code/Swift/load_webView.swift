@@ -10,7 +10,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
 
         myWebView.delegate = self
 
-        let myURL = URL(string: "https://encap.pl")
+        let myURL = URL(string: "https://coderush.xyz")
         let myURLRequest:URLRequest = URLRequest(url: myURL!)
         myWebView.loadRequest(myURLRequest)
 

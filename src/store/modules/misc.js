@@ -44,17 +44,26 @@ const actions = {
     });
   },
   generateCodeInfo: ({ state, rootState, commit }, fileIndex) => {
-    let codeInfo = {};
+    // copy without reference and files
+    let codeInfo = { language: {} };
+    Object.keys(rootState.options.language)
+      .filter((key) => key !== 'files')
+      .forEach((key) => {
+        codeInfo.language[key] = rootState.options.language[key];
+      });
+
+
     if (fileIndex === -1) {
-      codeInfo.tabSize = state.customCode.lines;
+      codeInfo.tabSize = state.customCode.tabSize;
       codeInfo.lines = state.customCode.lines;
       codeInfo.short = state.customCode.short;
     } else {
-      codeInfo = rootState.options.language.files[fileIndex];
+      codeInfo = {
+        ...codeInfo,
+        ...rootState.options.language.files[fileIndex],
+      };
     }
-    codeInfo.index = fileIndex;
-    codeInfo.languageIndex = rootState.options.language.index;
-    codeInfo.languageName = rootState.options.language.name;
+    codeInfo.fileIndex = fileIndex;
 
     commit('SET_CODE_INFO', codeInfo);
   },

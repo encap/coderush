@@ -3,213 +3,13 @@
     {
       "time": 0,
       "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 78,
-      "text": "n"
-    },
-    {
-      "time": 61,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 85,
-      "text": "u"
-    },
-    {
-      "time": 237,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 77,
-      "text": "m"
-    },
-    {
-      "time": 709,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 789,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 187,
-      "text": "="
-    },
-    {
-      "time": 901,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 1301,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 65,
-      "text": "a"
-    },
-    {
-      "time": 1405,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 83,
-      "text": "s"
-    },
-    {
-      "time": 1677,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 190,
-      "text": "."
-    },
-    {
-      "time": 1901,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 73,
-      "text": "i"
-    },
-    {
-      "time": 2005,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 78,
-      "text": "n"
-    },
-    {
-      "time": 2062,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 84,
-      "text": "t"
-    },
-    {
-      "time": 2159,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 69,
-      "text": "e"
-    },
-    {
-      "time": 2357,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 71,
-      "text": "g"
-    },
-    {
-      "time": 2501,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 69,
-      "text": "e"
-    },
-    {
-      "time": 2965,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 82,
-      "text": "r"
-    },
-    {
-      "time": 3269,
-      "type": "correct",
       "shift": true,
       "alt": false,
-      "keyCode": 57,
-      "text": "("
+      "keyCode": 50,
+      "text": "@"
     },
     {
-      "time": 3573,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 82,
-      "text": "r"
-    },
-    {
-      "time": 3686,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 69,
-      "text": "e"
-    },
-    {
-      "time": 3757,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 65,
-      "text": "a"
-    },
-    {
-      "time": 3885,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 68,
-      "text": "d"
-    },
-    {
-      "time": 3997,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 76,
-      "text": "l"
-    },
-    {
-      "time": 4173,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 73,
-      "text": "i"
-    },
-    {
-      "time": 4238,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 78,
-      "text": "n"
-    },
-    {
-      "time": 4350,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 69,
-      "text": "e"
-    },
-    {
-      "time": 4509,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 57,
-      "text": "("
-    },
-    {
-      "time": 4742,
+      "time": 232,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -217,7 +17,7 @@
       "text": "p"
     },
     {
-      "time": 4870,
+      "time": 352,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -225,7 +25,7 @@
       "text": "r"
     },
     {
-      "time": 4966,
+      "time": 408,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -233,15 +33,7 @@
       "text": "o"
     },
     {
-      "time": 5053,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 77,
-      "text": "m"
-    },
-    {
-      "time": 5189,
+      "time": 536,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -249,73 +41,7 @@
       "text": "p"
     },
     {
-      "time": 5318,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 84,
-      "text": "t"
-    },
-    {
-      "time": 5558,
-      "type": "mistake",
-      "shift": true,
-      "alt": false,
-      "keyCode": 187,
-      "fixQueuePos": 1,
-      "expectedText": "=",
-      "text": "+"
-    },
-    {
-      "time": 6238,
-      "type": "backspace",
-      "shift": false,
-      "alt": false,
-      "keyCode": 8,
-      "fixQueuePos": 0
-    },
-    {
-      "time": 6494,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 187,
-      "text": "="
-    },
-    {
-      "time": 6942,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 222,
-      "text": "\""
-    },
-    {
-      "time": 7270,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 69,
-      "text": "E"
-    },
-    {
-      "time": 7462,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 78,
-      "text": "n"
-    },
-    {
-      "time": 7566,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 84,
-      "text": "t"
-    },
-    {
-      "time": 7670,
+      "time": 616,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -323,7 +49,7 @@
       "text": "e"
     },
     {
-      "time": 7798,
+      "time": 712,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -331,31 +57,7 @@
       "text": "r"
     },
     {
-      "time": 8086,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 8262,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 73,
-      "text": "i"
-    },
-    {
-      "time": 8350,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 78,
-      "text": "n"
-    },
-    {
-      "time": 8454,
+      "time": 912,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -363,15 +65,47 @@
       "text": "t"
     },
     {
-      "time": 8934,
+      "time": 1120,
       "type": "correct",
-      "shift": true,
+      "shift": false,
       "alt": false,
-      "keyCode": 186,
-      "text": ":"
+      "keyCode": 89,
+      "text": "y"
     },
     {
-      "time": 9478,
+      "time": 1288,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 13,
+      "text": "Enter"
+    },
+    {
+      "time": 1472,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 68,
+      "text": "d"
+    },
+    {
+      "time": 1616,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 1728,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 70,
+      "text": "f"
+    },
+    {
+      "time": 1840,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -379,7 +113,2102 @@
       "text": " "
     },
     {
-      "time": 10310,
+      "time": 1920,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 80,
+      "text": "p"
+    },
+    {
+      "time": 2088,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 2128,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 2288,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 2528,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 57,
+      "text": "("
+    },
+    {
+      "time": 2720,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 83,
+      "text": "s"
+    },
+    {
+      "time": 2832,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 2968,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 76,
+      "text": "l"
+    },
+    {
+      "time": 3080,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 70,
+      "text": "f"
+    },
+    {
+      "time": 3248,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 48,
+      "text": ")"
+    },
+    {
+      "time": 3568,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 186,
+      "text": ":"
+    },
+    {
+      "time": 3816,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 13,
+      "text": "Enter"
+    },
+    {
+      "time": 4064,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 80,
+      "text": "p"
+    },
+    {
+      "time": 4224,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 4312,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 4456,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 4544,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 4632,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 187,
+      "text": "="
+    },
+    {
+      "time": 4728,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 4865,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 83,
+      "text": "s"
+    },
+    {
+      "time": 4960,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 5112,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 76,
+      "text": "l"
+    },
+    {
+      "time": 5240,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 70,
+      "text": "f"
+    },
+    {
+      "time": 5416,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 190,
+      "text": "."
+    },
+    {
+      "time": 5784,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 189,
+      "text": "_"
+    },
+    {
+      "time": 6088,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 72,
+      "text": "h"
+    },
+    {
+      "time": 6168,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 6265,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 83,
+      "text": "s"
+    },
+    {
+      "time": 6401,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 6656,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 73,
+      "text": "i"
+    },
+    {
+      "time": 6752,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 78,
+      "text": "n"
+    },
+    {
+      "time": 6840,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 70,
+      "text": "f"
+    },
+    {
+      "time": 7000,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 7456,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 219,
+      "text": "["
+    },
+    {
+      "time": 7624,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 49,
+      "text": "1"
+    },
+    {
+      "time": 7800,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 221,
+      "text": "]"
+    },
+    {
+      "time": 8192,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 13,
+      "text": "Enter"
+    },
+    {
+      "time": 8560,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 73,
+      "text": "i"
+    },
+    {
+      "time": 8681,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 70,
+      "text": "f"
+    },
+    {
+      "time": 8816,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 8928,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 80,
+      "text": "p"
+    },
+    {
+      "time": 9065,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 9088,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 9240,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 9304,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 9432,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 73,
+      "text": "i"
+    },
+    {
+      "time": 9528,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 83,
+      "text": "s"
+    },
+    {
+      "time": 9632,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 9736,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 78,
+      "text": "n"
+    },
+    {
+      "time": 9784,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 9944,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 10184,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 10400,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 78,
+      "text": "N"
+    },
+    {
+      "time": 10568,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 10632,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 78,
+      "text": "n"
+    },
+    {
+      "time": 10752,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 11008,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 186,
+      "text": ":"
+    },
+    {
+      "time": 11328,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 13,
+      "text": "Enter"
+    },
+    {
+      "time": 11800,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 12128,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 12232,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 89,
+      "text": "y"
+    },
+    {
+      "time": 12520,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 186,
+      "text": ":"
+    },
+    {
+      "time": 12776,
+      "type": "lineEnd",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32
+    },
+    {
+      "time": 13032,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 13,
+      "text": "Enter"
+    },
+    {
+      "time": 13312,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 80,
+      "text": "p"
+    },
+    {
+      "time": 13512,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 13600,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 13760,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 13824,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 13936,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 187,
+      "text": "="
+    },
+    {
+      "time": 14016,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 14224,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 73,
+      "text": "i"
+    },
+    {
+      "time": 14304,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 78,
+      "text": "n"
+    },
+    {
+      "time": 14376,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 14688,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 57,
+      "text": "("
+    },
+    {
+      "time": 14976,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 80,
+      "text": "p"
+    },
+    {
+      "time": 15120,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 15160,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 15296,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 15400,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 188,
+      "text": ","
+    },
+    {
+      "time": 15560,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 15624,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 49,
+      "text": "1"
+    },
+    {
+      "time": 15712,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 48,
+      "text": "0"
+    },
+    {
+      "time": 16016,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 48,
+      "text": ")"
+    },
+    {
+      "time": 16304,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 13,
+      "text": "Enter"
+    },
+    {
+      "time": 16698,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 16888,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 88,
+      "text": "x"
+    },
+    {
+      "time": 17104,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 67,
+      "text": "c"
+    },
+    {
+      "time": 17176,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 17304,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 80,
+      "text": "p"
+    },
+    {
+      "time": 17392,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 17512,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 17720,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 86,
+      "text": "V"
+    },
+    {
+      "time": 17928,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 65,
+      "text": "a"
+    },
+    {
+      "time": 18008,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 76,
+      "text": "l"
+    },
+    {
+      "time": 18185,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 85,
+      "text": "u"
+    },
+    {
+      "time": 18297,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 18512,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 69,
+      "text": "E"
+    },
+    {
+      "time": 18720,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 18904,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 19049,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 19160,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 19424,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 186,
+      "text": ":"
+    },
+    {
+      "time": 19624,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 13,
+      "text": "Enter"
+    },
+    {
+      "time": 19872,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 77,
+      "text": "m"
+    },
+    {
+      "time": 20024,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 20192,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 83,
+      "text": "s"
+    },
+    {
+      "time": 20376,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 83,
+      "text": "s"
+    },
+    {
+      "time": 20497,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 65,
+      "text": "a"
+    },
+    {
+      "time": 20600,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 71,
+      "text": "g"
+    },
+    {
+      "time": 20682,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 20808,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 20912,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 187,
+      "text": "="
+    },
+    {
+      "time": 21016,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 21408,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 70,
+      "text": "f"
+    },
+    {
+      "time": 21632,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 222,
+      "text": "'"
+    },
+    {
+      "time": 22232,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 80,
+      "text": "P"
+    },
+    {
+      "time": 22417,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 22473,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 22624,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 22713,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 22840,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 67,
+      "text": "c"
+    },
+    {
+      "time": 22912,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 23065,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 85,
+      "text": "u"
+    },
+    {
+      "time": 23209,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 76,
+      "text": "l"
+    },
+    {
+      "time": 23288,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 68,
+      "text": "d"
+    },
+    {
+      "time": 23400,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 23440,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 78,
+      "text": "n"
+    },
+    {
+      "time": 23513,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 23600,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 23729,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 23793,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 66,
+      "text": "b"
+    },
+    {
+      "time": 23889,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 23969,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 24057,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 67,
+      "text": "c"
+    },
+    {
+      "time": 24144,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 65,
+      "text": "a"
+    },
+    {
+      "time": 24241,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 83,
+      "text": "s"
+    },
+    {
+      "time": 24353,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 24497,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 24609,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 24721,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 24801,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 24929,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 73,
+      "text": "i"
+    },
+    {
+      "time": 25105,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 78,
+      "text": "n"
+    },
+    {
+      "time": 25201,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 25282,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 25393,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 71,
+      "text": "g"
+    },
+    {
+      "time": 25489,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 25585,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 25769,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 26217,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 86,
+      "text": "v"
+    },
+    {
+      "time": 26313,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 65,
+      "text": "a"
+    },
+    {
+      "time": 26985,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 76,
+      "text": "l"
+    },
+    {
+      "time": 27177,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 85,
+      "text": "u"
+    },
+    {
+      "time": 27297,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 27489,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 27577,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 65,
+      "text": "a"
+    },
+    {
+      "time": 27666,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 83,
+      "text": "s"
+    },
+    {
+      "time": 27969,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 28209,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 219,
+      "text": "{"
+    },
+    {
+      "time": 28817,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 80,
+      "text": "p"
+    },
+    {
+      "time": 29009,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 29066,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 29209,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 29777,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 49,
+      "text": "!"
+    },
+    {
+      "time": 30089,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 30441,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 221,
+      "text": "}"
+    },
+    {
+      "time": 30841,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 222,
+      "text": "'"
+    },
+    {
+      "time": 31201,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 13,
+      "text": "Enter"
+    },
+    {
+      "time": 31753,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 31857,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 65,
+      "text": "a"
+    },
+    {
+      "time": 32009,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 73,
+      "text": "i"
+    },
+    {
+      "time": 32121,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 83,
+      "text": "s"
+    },
+    {
+      "time": 32209,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 32257,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 32433,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 86,
+      "text": "V"
+    },
+    {
+      "time": 32625,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 65,
+      "text": "a"
+    },
+    {
+      "time": 32697,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 76,
+      "text": "l"
+    },
+    {
+      "time": 32849,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 85,
+      "text": "u"
+    },
+    {
+      "time": 32897,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 33089,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 69,
+      "text": "E"
+    },
+    {
+      "time": 33353,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 33521,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 33649,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 33745,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 34249,
+      "type": "mistake",
+      "shift": true,
+      "alt": false,
+      "keyCode": 56,
+      "fixQueuePos": 1,
+      "expectedText": "(",
+      "text": "*"
+    },
+    {
+      "time": 34777,
+      "type": "backspace",
+      "shift": false,
+      "alt": false,
+      "keyCode": 8,
+      "fixQueuePos": 0
+    },
+    {
+      "time": 35049,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 57,
+      "text": "("
+    },
+    {
+      "time": 35649,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 77,
+      "text": "m"
+    },
+    {
+      "time": 35761,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 35937,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 83,
+      "text": "s"
+    },
+    {
+      "time": 36097,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 83,
+      "text": "s"
+    },
+    {
+      "time": 36193,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 65,
+      "text": "a"
+    },
+    {
+      "time": 36289,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 71,
+      "text": "g"
+    },
+    {
+      "time": 36369,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 36761,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 48,
+      "text": ")"
+    },
+    {
+      "time": 37138,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 37257,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 70,
+      "text": "f"
+    },
+    {
+      "time": 37425,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 37473,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 37537,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 77,
+      "text": "m"
+    },
+    {
+      "time": 37633,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 37785,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 78,
+      "text": "N"
+    },
+    {
+      "time": 37985,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 38361,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 78,
+      "text": "n"
+    },
+    {
+      "time": 38489,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 38769,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 13,
+      "text": "Enter"
+    },
+    {
+      "time": 39017,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 73,
+      "text": "i"
+    },
+    {
+      "time": 39105,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 70,
+      "text": "f"
+    },
+    {
+      "time": 39201,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 39321,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 78,
+      "text": "n"
+    },
+    {
+      "time": 39393,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 39482,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 39641,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 39833,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 57,
+      "text": "("
+    },
+    {
+      "time": 40513,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 40601,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 48,
+      "text": "0"
+    },
+    {
+      "time": 40737,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 41033,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 188,
+      "text": "<"
+    },
+    {
+      "time": 41489,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 187,
+      "text": "="
+    },
+    {
+      "time": 41866,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 41969,
+      "type": "mistake",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "fixQueuePos": 1,
+      "expectedText": "p",
+      "text": "o"
+    },
+    {
+      "time": 42161,
+      "type": "mistake",
+      "shift": false,
+      "alt": false,
+      "keyCode": 73,
+      "fixQueuePos": 2,
+      "expectedText": "o",
+      "text": "i"
+    },
+    {
+      "time": 42241,
+      "type": "unfixed",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 42537,
+      "type": "backspace",
+      "shift": false,
+      "alt": false,
+      "keyCode": 8,
+      "fixQueuePos": 1
+    },
+    {
+      "time": 42650,
+      "type": "backspace",
+      "shift": false,
+      "alt": false,
+      "keyCode": 8,
+      "fixQueuePos": 0
+    },
+    {
+      "time": 42937,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 80,
+      "text": "p"
+    },
+    {
+      "time": 43097,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 43153,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 43329,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 43441,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 43673,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 188,
+      "text": "<"
+    },
+    {
+      "time": 44025,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 187,
+      "text": "="
+    },
+    {
+      "time": 44537,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 44825,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 54,
+      "text": "6"
+    },
+    {
+      "time": 44969,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 53,
+      "text": "5"
+    },
+    {
+      "time": 45161,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 53,
+      "text": "5"
+    },
+    {
+      "time": 45801,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 51,
+      "text": "3"
+    },
+    {
+      "time": 45898,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 53,
+      "text": "5"
+    },
+    {
+      "time": 46145,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 48,
+      "text": ")"
+    },
+    {
+      "time": 46809,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 186,
+      "text": ":"
+    },
+    {
+      "time": 47162,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 13,
+      "text": "Enter"
+    },
+    {
+      "time": 47449,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 47545,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 65,
+      "text": "a"
+    },
+    {
+      "time": 47705,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 73,
+      "text": "i"
+    },
+    {
+      "time": 47818,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 83,
+      "text": "s"
+    },
+    {
+      "time": 47889,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 47961,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 32,
+      "text": " "
+    },
+    {
+      "time": 48161,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 86,
+      "text": "V"
+    },
+    {
+      "time": 48353,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 65,
+      "text": "a"
+    },
+    {
+      "time": 48441,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 76,
+      "text": "l"
+    },
+    {
+      "time": 48601,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 85,
+      "text": "u"
+    },
+    {
+      "time": 48641,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 69,
+      "text": "e"
+    },
+    {
+      "time": 48889,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 69,
+      "text": "E"
+    },
+    {
+      "time": 49129,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 49289,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 49441,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 79,
+      "text": "o"
+    },
+    {
+      "time": 49498,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 49786,
+      "type": "mistake",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "fixQueuePos": 1,
+      "expectedText": "(",
+      "text": "r"
+    },
+    {
+      "time": 50241,
+      "type": "backspace",
+      "shift": false,
+      "alt": false,
+      "keyCode": 8,
+      "fixQueuePos": 0
+    },
+    {
+      "time": 50433,
+      "type": "correct",
+      "shift": true,
+      "alt": false,
+      "keyCode": 57,
+      "text": "("
+    },
+    {
+      "time": 50866,
       "type": "mistake",
       "shift": false,
       "alt": false,
@@ -389,25 +2218,7 @@
       "text": "'"
     },
     {
-      "time": 10678,
-      "type": "mistake",
-      "shift": true,
-      "alt": false,
-      "keyCode": 222,
-      "fixQueuePos": 2,
-      "expectedText": ")",
-      "text": "\""
-    },
-    {
-      "time": 11158,
-      "type": "backspace",
-      "shift": false,
-      "alt": false,
-      "keyCode": 8,
-      "fixQueuePos": 1
-    },
-    {
-      "time": 11504,
+      "time": 51306,
       "type": "backspace",
       "shift": false,
       "alt": false,
@@ -415,7 +2226,7 @@
       "fixQueuePos": 0
     },
     {
-      "time": 12071,
+      "time": 51466,
       "type": "correct",
       "shift": true,
       "alt": false,
@@ -423,62 +2234,15 @@
       "text": "\""
     },
     {
-      "time": 12799,
+      "time": 51866,
       "type": "correct",
       "shift": true,
       "alt": false,
-      "keyCode": 48,
-      "text": ")"
+      "keyCode": 80,
+      "text": "P"
     },
     {
-      "time": 13127,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 48,
-      "text": ")"
-    },
-    {
-      "time": 13623,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 13
-    },
-    {
-      "time": 14095,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 70,
-      "text": "f"
-    },
-    {
-      "time": 14175,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 65,
-      "text": "a"
-    },
-    {
-      "time": 14311,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 67,
-      "text": "c"
-    },
-    {
-      "time": 14583,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 84,
-      "text": "t"
-    },
-    {
-      "time": 14663,
+      "time": 52578,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -486,7 +2250,7 @@
       "text": "o"
     },
     {
-      "time": 14799,
+      "time": 52898,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -494,31 +2258,15 @@
       "text": "r"
     },
     {
-      "time": 14919,
+      "time": 53034,
       "type": "correct",
       "shift": false,
       "alt": false,
-      "keyCode": 73,
-      "text": "i"
+      "keyCode": 84,
+      "text": "t"
     },
     {
-      "time": 15039,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 65,
-      "text": "a"
-    },
-    {
-      "time": 15167,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 76,
-      "text": "l"
-    },
-    {
-      "time": 15327,
+      "time": 53283,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -526,15 +2274,31 @@
       "text": " "
     },
     {
-      "time": 15447,
+      "time": 53426,
       "type": "correct",
       "shift": false,
       "alt": false,
-      "keyCode": 187,
-      "text": "="
+      "keyCode": 79,
+      "text": "o"
     },
     {
-      "time": 15679,
+      "time": 53586,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 85,
+      "text": "u"
+    },
+    {
+      "time": 53650,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 84,
+      "text": "t"
+    },
+    {
+      "time": 53762,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -542,48 +2306,15 @@
       "text": " "
     },
     {
-      "time": 15759,
-      "type": "mistake",
-      "shift": false,
-      "alt": false,
-      "keyCode": 50,
-      "fixQueuePos": 1,
-      "expectedText": "1",
-      "text": "2"
-    },
-    {
-      "time": 16151,
-      "type": "backspace",
-      "shift": false,
-      "alt": false,
-      "keyCode": 8,
-      "fixQueuePos": 0
-    },
-    {
-      "time": 16911,
+      "time": 53842,
       "type": "correct",
       "shift": false,
       "alt": false,
-      "keyCode": 49,
-      "text": "1"
+      "keyCode": 79,
+      "text": "o"
     },
     {
-      "time": 17359,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 13
-    },
-    {
-      "time": 17943,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 73,
-      "text": "i"
-    },
-    {
-      "time": 18039,
+      "time": 53938,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -591,69 +2322,31 @@
       "text": "f"
     },
     {
-      "time": 18175,
-      "type": "mistake",
+      "time": 54074,
+      "type": "correct",
       "shift": false,
       "alt": false,
       "keyCode": 32,
-      "fixQueuePos": 1,
-      "expectedText": "(",
       "text": " "
     },
     {
-      "time": 18391,
-      "type": "mistake",
-      "shift": true,
-      "alt": false,
-      "keyCode": 57,
-      "fixQueuePos": 2,
-      "expectedText": "n",
-      "text": "("
-    },
-    {
-      "time": 18855,
-      "type": "backspace",
-      "shift": false,
-      "alt": false,
-      "keyCode": 8,
-      "fixQueuePos": 1
-    },
-    {
-      "time": 18959,
-      "type": "backspace",
-      "shift": false,
-      "alt": false,
-      "keyCode": 8,
-      "fixQueuePos": 0
-    },
-    {
-      "time": 19183,
+      "time": 54194,
       "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 57,
-      "text": "("
-    },
-    {
-      "time": 19560,
-      "type": "mistake",
       "shift": false,
       "alt": false,
-      "keyCode": 85,
-      "fixQueuePos": 1,
-      "expectedText": "n",
-      "text": "u"
+      "keyCode": 82,
+      "text": "r"
     },
     {
-      "time": 19879,
-      "type": "backspace",
+      "time": 54290,
+      "type": "correct",
       "shift": false,
       "alt": false,
-      "keyCode": 8,
-      "fixQueuePos": 0
+      "keyCode": 65,
+      "text": "a"
     },
     {
-      "time": 20136,
+      "time": 54410,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -661,39 +2354,23 @@
       "text": "n"
     },
     {
-      "time": 20224,
+      "time": 54538,
       "type": "correct",
       "shift": false,
       "alt": false,
-      "keyCode": 85,
-      "text": "u"
+      "keyCode": 71,
+      "text": "g"
     },
     {
-      "time": 20440,
+      "time": 54634,
       "type": "correct",
       "shift": false,
       "alt": false,
-      "keyCode": 77,
-      "text": "m"
+      "keyCode": 69,
+      "text": "e"
     },
     {
-      "time": 20608,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 20760,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 188,
-      "text": "<"
-    },
-    {
-      "time": 21872,
+      "time": 55202,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -701,7 +2378,7 @@
       "text": " "
     },
     {
-      "time": 22080,
+      "time": 55506,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -709,86 +2386,55 @@
       "text": "0"
     },
     {
-      "time": 22656,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 48,
-      "text": ")"
-    },
-    {
-      "time": 22888,
+      "time": 56466,
       "type": "correct",
       "shift": false,
       "alt": false,
-      "keyCode": 32,
-      "text": " "
+      "keyCode": 189,
+      "text": "-"
     },
     {
-      "time": 23208,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 219,
-      "text": "{"
-    },
-    {
-      "time": 23552,
+      "time": 56930,
       "type": "correct",
       "shift": false,
       "alt": false,
-      "keyCode": 13
+      "keyCode": 54,
+      "text": "6"
     },
     {
-      "time": 24080,
+      "time": 57500,
       "type": "correct",
       "shift": false,
       "alt": false,
-      "keyCode": 80,
-      "text": "p"
+      "keyCode": 53,
+      "text": "5"
     },
     {
-      "time": 24256,
+      "time": 57667,
       "type": "correct",
       "shift": false,
       "alt": false,
-      "keyCode": 82,
-      "text": "r"
+      "keyCode": 53,
+      "text": "5"
     },
     {
-      "time": 24408,
+      "time": 58306,
       "type": "correct",
       "shift": false,
       "alt": false,
-      "keyCode": 73,
-      "text": "i"
+      "keyCode": 51,
+      "text": "3"
     },
     {
-      "time": 24568,
+      "time": 58442,
       "type": "correct",
       "shift": false,
       "alt": false,
-      "keyCode": 78,
-      "text": "n"
+      "keyCode": 53,
+      "text": "5"
     },
     {
-      "time": 24712,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 84,
-      "text": "t"
-    },
-    {
-      "time": 25640,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 57,
-      "text": "("
-    },
-    {
-      "time": 26737,
+      "time": 58874,
       "type": "correct",
       "shift": true,
       "alt": false,
@@ -796,71 +2442,47 @@
       "text": "\""
     },
     {
-      "time": 27321,
+      "time": 59162,
       "type": "correct",
       "shift": true,
+      "alt": false,
+      "keyCode": 48,
+      "text": ")"
+    },
+    {
+      "time": 59762,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 13,
+      "text": "Enter"
+    },
+    {
+      "time": 60338,
+      "type": "correct",
+      "shift": false,
+      "alt": false,
+      "keyCode": 82,
+      "text": "r"
+    },
+    {
+      "time": 60578,
+      "type": "correct",
+      "shift": false,
       "alt": false,
       "keyCode": 69,
-      "text": "E"
+      "text": "e"
     },
     {
-      "time": 27585,
+      "time": 60746,
       "type": "correct",
       "shift": false,
       "alt": false,
-      "keyCode": 82,
-      "text": "r"
+      "keyCode": 84,
+      "text": "t"
     },
     {
-      "time": 27745,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 82,
-      "text": "r"
-    },
-    {
-      "time": 27833,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 79,
-      "text": "o"
-    },
-    {
-      "time": 27938,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 82,
-      "text": "r"
-    },
-    {
-      "time": 28897,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 186,
-      "text": ":"
-    },
-    {
-      "time": 29153,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 29257,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 77,
-      "text": "m"
-    },
-    {
-      "time": 29441,
+      "time": 61002,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -868,191 +2490,15 @@
       "text": "u"
     },
     {
-      "time": 29578,
+      "time": 61290,
       "type": "correct",
       "shift": false,
       "alt": false,
-      "keyCode": 83,
-      "text": "s"
+      "keyCode": 82,
+      "text": "r"
     },
     {
-      "time": 29777,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 84,
-      "text": "t"
-    },
-    {
-      "time": 29937,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 30049,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 66,
-      "text": "b"
-    },
-    {
-      "time": 30193,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 69,
-      "text": "e"
-    },
-    {
-      "time": 30642,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 31210,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 187,
-      "text": "+"
-    },
-    {
-      "time": 32258,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 222,
-      "text": "\""
-    },
-    {
-      "time": 33274,
-      "type": "mistake",
-      "shift": true,
-      "alt": false,
-      "keyCode": 57,
-      "fixQueuePos": 1,
-      "expectedText": ")",
-      "text": "("
-    },
-    {
-      "time": 33922,
-      "type": "backspace",
-      "shift": false,
-      "alt": false,
-      "keyCode": 8,
-      "fixQueuePos": 0
-    },
-    {
-      "time": 34242,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 48,
-      "text": ")"
-    },
-    {
-      "time": 34874,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 13
-    },
-    {
-      "time": 35994,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 221,
-      "text": "}"
-    },
-    {
-      "time": 36386,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 13
-    },
-    {
-      "time": 37642,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 38267,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 69,
-      "text": "e"
-    },
-    {
-      "time": 38418,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 76,
-      "text": "l"
-    },
-    {
-      "time": 38579,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 83,
-      "text": "s"
-    },
-    {
-      "time": 38667,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 69,
-      "text": "e"
-    },
-    {
-      "time": 39211,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 39699,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 73,
-      "text": "i"
-    },
-    {
-      "time": 39795,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 70,
-      "text": "f"
-    },
-    {
-      "time": 40851,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 57,
-      "text": "("
-    },
-    {
-      "time": 41443,
+      "time": 61378,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -1060,23 +2506,7 @@
       "text": "n"
     },
     {
-      "time": 41579,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 85,
-      "text": "u"
-    },
-    {
-      "time": 41827,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 77,
-      "text": "m"
-    },
-    {
-      "time": 42371,
+      "time": 61506,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -1084,70 +2514,7 @@
       "text": " "
     },
     {
-      "time": 42579,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 187,
-      "text": "="
-    },
-    {
-      "time": 42707,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 187,
-      "text": "="
-    },
-    {
-      "time": 43459,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 43572,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 48,
-      "text": "0"
-    },
-    {
-      "time": 44556,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 48,
-      "text": ")"
-    },
-    {
-      "time": 44844,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 45076,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 219,
-      "text": "{"
-    },
-    {
-      "time": 45428,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 13
-    },
-    {
-      "time": 46036,
+      "time": 61602,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -1155,172 +2522,7 @@
       "text": "p"
     },
     {
-      "time": 46182,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 82,
-      "text": "r"
-    },
-    {
-      "time": 46284,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 73,
-      "text": "i"
-    },
-    {
-      "time": 46364,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 78,
-      "text": "n"
-    },
-    {
-      "time": 46492,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 84,
-      "text": "t"
-    },
-    {
-      "time": 47412,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 57,
-      "text": "("
-    },
-    {
-      "time": 47724,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 222,
-      "text": "\""
-    },
-    {
-      "time": 48468,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 49,
-      "text": "1"
-    },
-    {
-      "time": 48932,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 222,
-      "text": "\""
-    },
-    {
-      "time": 49420,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 48,
-      "text": ")"
-    },
-    {
-      "time": 49884,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 13
-    },
-    {
-      "time": 50524,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 221,
-      "text": "}"
-    },
-    {
-      "time": 51341,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 13
-    },
-    {
-      "time": 52885,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 53613,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 69,
-      "text": "e"
-    },
-    {
-      "time": 53725,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 76,
-      "text": "l"
-    },
-    {
-      "time": 53853,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 83,
-      "text": "s"
-    },
-    {
-      "time": 54004,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 69,
-      "text": "e"
-    },
-    {
-      "time": 54453,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 54733,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 219,
-      "text": "{"
-    },
-    {
-      "time": 55133,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 13
-    },
-    {
-      "time": 55765,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 70,
-      "text": "f"
-    },
-    {
-      "time": 55869,
+      "time": 61746,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -1328,7 +2530,7 @@
       "text": "o"
     },
     {
-      "time": 56013,
+      "time": 61810,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -1336,168 +2538,7 @@
       "text": "r"
     },
     {
-      "time": 56285,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 57,
-      "text": "("
-    },
-    {
-      "time": 56861,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 73,
-      "text": "i"
-    },
-    {
-      "time": 57149,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 57317,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 73,
-      "text": "i"
-    },
-    {
-      "time": 57405,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 78,
-      "text": "n"
-    },
-    {
-      "time": 57829,
-      "type": "mistake",
-      "shift": false,
-      "alt": false,
-      "keyCode": 49,
-      "fixQueuePos": 1,
-      "expectedText": " ",
-      "text": "1"
-    },
-    {
-      "time": 58069,
-      "type": "backspace",
-      "shift": false,
-      "alt": false,
-      "keyCode": 8,
-      "fixQueuePos": 0
-    },
-    {
-      "time": 58197,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 58302,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 49,
-      "text": "1"
-    },
-    {
-      "time": 58653,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 186,
-      "text": ":"
-    },
-    {
-      "time": 58973,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 78,
-      "text": "n"
-    },
-    {
-      "time": 59093,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 85,
-      "text": "u"
-    },
-    {
-      "time": 59325,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 77,
-      "text": "m"
-    },
-    {
-      "time": 60222,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 48,
-      "text": ")"
-    },
-    {
-      "time": 60454,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 61294,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 219,
-      "text": "{"
-    },
-    {
-      "time": 61606,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 13
-    },
-    {
-      "time": 62070,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 70,
-      "text": "f"
-    },
-    {
-      "time": 62158,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 65,
-      "text": "a"
-    },
-    {
-      "time": 62270,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 67,
-      "text": "c"
-    },
-    {
-      "time": 62478,
+      "time": 61922,
       "type": "correct",
       "shift": false,
       "alt": false,
@@ -1505,424 +2546,48 @@
       "text": "t"
     },
     {
-      "time": 62542,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 79,
-      "text": "o"
-    },
-    {
-      "time": 62670,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 82,
-      "text": "r"
-    },
-    {
-      "time": 62758,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 73,
-      "text": "i"
-    },
-    {
-      "time": 62926,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 65,
-      "text": "a"
-    },
-    {
-      "time": 63045,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 76,
-      "text": "l"
-    },
-    {
-      "time": 63230,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 63334,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 187,
-      "text": "="
-    },
-    {
-      "time": 63486,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 63731,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 70,
-      "text": "f"
-    },
-    {
-      "time": 63794,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 65,
-      "text": "a"
-    },
-    {
-      "time": 63898,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 67,
-      "text": "c"
-    },
-    {
-      "time": 64137,
+      "time": 61922,
       "type": "correct",
       "shift": false,
       "alt": false,
       "keyCode": 84,
       "text": "t"
-    },
-    {
-      "time": 64190,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 79,
-      "text": "o"
-    },
-    {
-      "time": 64334,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 82,
-      "text": "r"
-    },
-    {
-      "time": 64454,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 73,
-      "text": "i"
-    },
-    {
-      "time": 64609,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 65,
-      "text": "a"
-    },
-    {
-      "time": 64726,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 76,
-      "text": "l"
-    },
-    {
-      "time": 65710,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 66072,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 56,
-      "text": "*"
-    },
-    {
-      "time": 66775,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 32,
-      "text": " "
-    },
-    {
-      "time": 66878,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 73,
-      "text": "i"
-    },
-    {
-      "time": 67191,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 13
-    },
-    {
-      "time": 68007,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 221,
-      "text": "}"
-    },
-    {
-      "time": 68359,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 13
-    },
-    {
-      "time": 68895,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 80,
-      "text": "p"
-    },
-    {
-      "time": 69031,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 82,
-      "text": "r"
-    },
-    {
-      "time": 69111,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 73,
-      "text": "i"
-    },
-    {
-      "time": 69231,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 78,
-      "text": "n"
-    },
-    {
-      "time": 69383,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 84,
-      "text": "t"
-    },
-    {
-      "time": 69719,
-      "type": "mistake",
-      "shift": true,
-      "alt": false,
-      "keyCode": 56,
-      "fixQueuePos": 1,
-      "expectedText": "(",
-      "text": "*"
-    },
-    {
-      "time": 70487,
-      "type": "backspace",
-      "shift": false,
-      "alt": false,
-      "keyCode": 8,
-      "fixQueuePos": 0
-    },
-    {
-      "time": 71127,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 57,
-      "text": "("
-    },
-    {
-      "time": 72127,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 80,
-      "text": "p"
-    },
-    {
-      "time": 72247,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 65,
-      "text": "a"
-    },
-    {
-      "time": 72295,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 83,
-      "text": "s"
-    },
-    {
-      "time": 72479,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 84,
-      "text": "t"
-    },
-    {
-      "time": 72543,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 69,
-      "text": "e"
-    },
-    {
-      "time": 73399,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 57,
-      "text": "("
-    },
-    {
-      "time": 73767,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 70,
-      "text": "f"
-    },
-    {
-      "time": 73847,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 65,
-      "text": "a"
-    },
-    {
-      "time": 73983,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 67,
-      "text": "c"
-    },
-    {
-      "time": 74175,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 84,
-      "text": "t"
-    },
-    {
-      "time": 74255,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 79,
-      "text": "o"
-    },
-    {
-      "time": 74383,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 82,
-      "text": "r"
-    },
-    {
-      "time": 74488,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 73,
-      "text": "i"
-    },
-    {
-      "time": 74616,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 65,
-      "text": "a"
-    },
-    {
-      "time": 74751,
-      "type": "correct",
-      "shift": false,
-      "alt": false,
-      "keyCode": 76,
-      "text": "l"
-    },
-    {
-      "time": 75376,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 48,
-      "text": ")"
-    },
-    {
-      "time": 75528,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 48,
-      "text": ")"
-    },
-    {
-      "time": 76080,
-      "type": "correct",
-      "shift": true,
-      "alt": false,
-      "keyCode": 221,
-      "text": "}"
     }
   ],
-  "firstCharTime": 1597688868017,
-  "complete": true,
-  "startTime": 1597688867022,
-  "oneThirdCharsCount": 103,
-  "oneThirdTime": 34888,
-  "lastThirdCharsCount": 53,
-  "lastThirdStartTime": 61622,
-  "timeFromFirstInput": 61782,
-  "codeLength": 216,
+  "wpmOverTime": [
+    [4558, 74],
+    [9550, 72],
+    [14545, 62],
+    [19546, 70],
+    [24548, 86],
+    [29547, 60],
+    [34541, 50],
+    [39548, 62],
+    [44562, 38],
+    [49542, 58],
+    [54563, 43],
+    [59546, 26]
+  ],
+  "firstCharTime": 1609630870178,
+  "startTime": 1609630869718,
+  "time": 61952,
   "correctLines": 12,
+  "codeInfo": {
+    "language": {
+      "ext": "py",
+      "mode": "python",
+      "total": 121,
+      "mime": "text/x-python",
+      "name": "Python",
+      "index": 20
+    },
+    "tabSize": 4,
+    "name": "UrlParser",
+    "source": "Python_boss",
+    "lines": 12,
+    "fileIndex": 1,
+    "length": 433
+  },
   "mode": 0,
-  "file": {
-    "languageName": "R",
-    "languageIndex": 20,
-    "index": 0,
-    "name": "factorial_of_a_number",
-    "source": "datamentor.io",
-    "tabSize": 2,
-    "lines": 12
-  }
+  "complete": true
 }

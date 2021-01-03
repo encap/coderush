@@ -336,7 +336,7 @@ export default {
   align-itemes: center
 
   p
-    font-size: 1.1em
+    font-size: 1.05em
     max-width: 60%
     min-width: 50%
 

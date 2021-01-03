@@ -9,8 +9,9 @@
         ref="codemirror"
         v-model="codeText"
         class="codemirror"
-        :class="{showInvisibles: language.name === 'Whitespace'}"
+        :class="{showInvisibles: codeInfo.language.name === 'Whitespace'}"
         :options="cmOptions"
+        @focus="onFocus"
         @ready="onCmReady"
         @blur="onUnFocus"
       />
@@ -68,6 +69,7 @@ export default {
       cm: {},
       codeText: '',
       started: false,
+      pauseTime: 0,
       isCompleted: false,
       cmReady: false,
       toFix: 0,
@@ -76,21 +78,24 @@ export default {
       currentLine: 0,
       currentChar: 0,
       correctCharsInLine: 0,
+      freshCorrect: 0,
+      liveWpmInterval: null,
       currentChange: {},
       stats: {
         history: [],
+        wpmOverTime: [],
         firstCharTime: 0,
       },
     };
   },
   computed: {
-    ...mapGetters(['language', 'options', 'codeInfo', 'customCode', 'room']),
+    ...mapGetters(['options', 'codeInfo', 'customCode', 'room']),
     cmOptions() {
       return {
-        showInvisibles: this.language.name === 'Whitespace',
+        showInvisibles: this.codeInfo.language.name === 'Whitespace',
         maxInvisibles: 2,
         undoDepth: 0,
-        tabSize: this.tabWidth,
+        tabSize: this.codeInfo.tabSize,
         styleActiveLine: false,
         lineNumbers: this.options.lineNumbers,
         styleSelectedText: true,
@@ -109,9 +114,6 @@ export default {
         readOnly: true,
       };
     },
-    tabWidth() {
-      return this.customCode.tabSize ? this.customCode.tabSize : this.codeInfo.tabSize;
-    },
     roomPlace() {
       if (this.room.connected && this.isCompleted) {
         const { place } = this.room.players[this.room.myName];
@@ -124,6 +126,11 @@ export default {
       }
       return {};
     },
+  },
+  beforeDestroy() {
+    if (this.liveWpmInterval) {
+      clearInterval(this.liveWpmInterval);
+    }
   },
   methods: {
     popUp(action, text = this.popUpText) {
@@ -142,9 +149,6 @@ export default {
         this.cm.focus();
       }
 
-      if (this.popUpText === 'resume') {
-        this.$emit('pause', action);
-      }
       this.showPopUp = action;
     },
     onCmReady(cm) {
@@ -159,9 +163,11 @@ export default {
 
       const handleEnter = () => {
         const expectedText = this.cm.getLine(this.currentLine);
+
         if (this.correctCharsInLine === expectedText.length) {
           this.cm.execCommand('goCharRight');
           this.currentLine += 1;
+          console.log(`next line ${this.currentLine}`);
 
           this.currentChange = {
             ...this.currentChange,
@@ -169,25 +175,10 @@ export default {
             text: 'Enter',
           };
 
-          if (!this.stats.oneThirdTime && this.currentLine === Math.floor(this.codeInfo.lines / 3)) {
-            console.log('one third');
-            const oneThirdText = this.cm.getRange(
-              { line: 0, ch: 0 },
-              { line: this.currentLine, ch: 0 },
-            );
-
-            this.stats.oneThirdCharsCount = oneThirdText.length;
-            this.stats.oneThirdTime = this.timeElapsed();
-          } else if (!this.stats.lastThirdStartTime && this.currentLine === Math.floor(this.codeInfo.lines / 3 * 2)) {
-            console.log('last third');
-
-            const lastThirdText = this.cm.getRange(
-              { line: this.currentLine, ch: 0 },
-              { line: this.codeInfo.lines + 1, ch: 0 },
-            );
-
-            this.stats.lastThirdCharsCount = lastThirdText.length;
-            this.stats.lastThirdStartTime = this.timeElapsed();
+          if (this.currentLine + 1 === this.codeInfo.lines && this.cm.getLine(this.currentLine).trim().length === 0) {
+            console.red('Last line is empty');
+            this.stats.history.push(this.currentChange);
+            this.completed();
           }
 
           if (this.options.autoIndent) {
@@ -200,8 +191,8 @@ export default {
           }
           if (this.options.underScore) {
             let underScoreWidth = 1;
-            if (!this.options.autoIndent && this.cm.getLine(this.currentLine).slice(0, this.tabWidth) === Array(this.tabWidth).fill(' ').join('')) {
-              underScoreWidth = this.tabWidth;
+            if (!this.options.autoIndent && this.cm.getLine(this.currentLine).slice(0, this.codeInfo.tabSize) === Array(this.codeInfo.tabSize).fill(' ').join('')) {
+              underScoreWidth = this.codeInfo.tabSize;
             }
             this.cm.markText(
               { line: this.currentLine, ch: this.currentChar },
@@ -229,11 +220,11 @@ export default {
           let text = key;
 
           if (key === 'Tab') {
-            text = Array(this.tabWidth).fill(' ').join('');
+            text = Array(this.codeInfo.tabSize).fill(' ').join('');
             // console.log(`tabText: '${text}'`);
 
-            if (expectedText === ' ' && this.language.name !== 'Whitespace') {
-              if (lineText.slice(this.currentChar, this.currentChar + this.tabWidth) === text) {
+            if (expectedText === ' ' && this.codeInfo.language.name !== 'Whitespace') {
+              if (lineText.slice(this.currentChar, this.currentChar + this.codeInfo.tabSize) === text) {
                 console.log('tab exception');
                 expectedText = text;
               }
@@ -284,8 +275,8 @@ export default {
               } else if (this.options.underScore) {
                 if (this.currentChar !== lineText.length) {
                   let underScoreWidth = 1;
-                  if (!this.options.autoIndent && this.cm.getLine(this.currentLine).slice(this.currentChar, this.tabWidth + this.currentChar) === Array(this.tabWidth).fill(' ').join('')) {
-                    underScoreWidth = this.tabWidth;
+                  if (!this.options.autoIndent && this.cm.getLine(this.currentLine).slice(this.currentChar, this.codeInfo.tabSize + this.currentChar) === Array(this.codeInfo.tabSize).fill(' ').join('')) {
+                    underScoreWidth = this.codeInfo.tabSize;
                   }
                   this.cm.markText(
                     { line: this.currentLine, ch: this.currentChar },
@@ -386,7 +377,9 @@ export default {
       }
       if (this.started && !this.stats.firstCharTime) {
         this.stats.firstCharTime = Date.now();
+        this.$emit('start');
       }
+
       this.currentChange = {
         time: this.timeElapsed(),
         type: 'initialType',
@@ -398,6 +391,12 @@ export default {
 
       if (ev.key === 'Escape' || ev.key === 'Pause') {
         this.popUp(true, 'Resume');
+        clearInterval(this.liveWpmInterval);
+        this.liveWpmInterval = null;
+        if (this.stats.firstCharTime) {
+          this.pauseStart = Date.now();
+        }
+        this.$emit('pause', true);
       } else if (ev.key === 'Enter') {
         handleEnter();
       } else if (ev.key === 'Backspace') {
@@ -449,8 +448,8 @@ export default {
 
             if (this.options.underScore) {
               let underScoreWidth = 1;
-              if (!this.options.autoIndent && this.cm.getLine(this.currentLine).slice(this.currentChar, this.tabWidth + this.currentChar) === Array(this.tabWidth).fill(' ').join('')) {
-                underScoreWidth = this.tabWidth;
+              if (!this.options.autoIndent && this.cm.getLine(this.currentLine).slice(this.currentChar, this.codeInfo.tabSize + this.currentChar) === Array(this.codeInfo.tabSize).fill(' ').join('')) {
+                underScoreWidth = this.codeInfo.tabSize;
               }
               this.cm.markText(
                 { line: this.currentLine, ch: this.currentChar },
@@ -473,7 +472,9 @@ export default {
 
       if (this.currentChange.type !== 'initialType') {
         this.stats.history.push(this.currentChange);
-        if (this.options.selectedMode === 2 && this.currentChange.type !== 'correct') {
+        if (this.currentChange.type === 'correct') {
+          this.freshCorrect += 1;
+        } else if (this.options.selectedMode === 2) {
           if (this.stats.history.length < 30) {
             this.cm.setOption('readOnly', 'nocursor');
             this.popUp(true, 'Try again');
@@ -486,11 +487,30 @@ export default {
         console.log(JSON.parse(JSON.stringify(this.currentChange)));
       }
 
+
       this.currentChange = {};
+    },
+    onFocus() {
+      console.log('cmFocus');
+      this.$emit('pause', false);
+      if (this.pauseStart) {
+        this.pauseTime += Date.now() - this.pauseStart;
+        this.pauseStart = null;
+      }
+
+      console.log(this.liveWpmInterval);
+      if (this.liveWpmInterval === null) {
+        this.liveWpmInterval = setInterval(this.updateLiveWpm, this.options.liveWpmRefreshRate);
+      }
     },
     onUnFocus(_, ev) {
       if (ev) {
         if (DEV) ev.preventDefault();
+        clearInterval(this.liveWpmInterval);
+        this.liveWpmInterval = null;
+        if (this.stats.firstCharTime) {
+          this.pauseStart = Date.now();
+        }
         if (!this.isCompleted && this.popUpText !== 'Try again' && ev) {
           if (DEV) this.cm.focus();
           if (ev.relatedTarget !== null) {
@@ -502,6 +522,8 @@ export default {
           } else {
           // eslint-disable-next-line no-lonely-if
             if (!DEV) this.popUp(true, 'Resume');
+
+            this.$emit('pause', true);
           }
         }
       }
@@ -515,7 +537,7 @@ export default {
       if (!this.codeInfo.name) {
         return this.customCode.text;
       }
-      const url = `/code/${this.language.name.replace('#', '_sharp')}/${this.codeInfo.name}.${this.language.ext}`;
+      const url = `/code/${this.codeInfo.language.name.replace('#', '_sharp')}/${this.codeInfo.name}.${this.codeInfo.language.ext}`;
       try {
         const resp = await axios.get(url);
         return resp.data;
@@ -528,7 +550,18 @@ export default {
       }
     },
     timeElapsed() {
-      return Date.now() - this.stats.firstCharTime;
+      return Date.now() - this.stats.firstCharTime - this.pauseTime;
+    },
+    updateLiveWpm() {
+      if (this.stats.firstCharTime) {
+        console.log('correct: ', this.freshCorrect);
+        const currentWpm = (this.freshCorrect / (this.options.liveWpmRefreshRate / 1000 / 60) / 5) || 0;
+        console.blue(`wpm: ${currentWpm}`);
+        this.$emit('liveWpmUpdate', currentWpm);
+
+        this.stats.wpmOverTime.push([this.timeElapsed(), Math.round(currentWpm)]);
+        this.freshCorrect = 0;
+      }
     },
     start(interval) {
       clearInterval(interval);
@@ -548,9 +581,6 @@ export default {
       this.started = true;
       this.cm.focus();
       console.log('START');
-      if (this.options.selectedMode === 1) {
-        this.$emit('start');
-      }
       this.stats.startTime = Date.now();
     },
     init() {
@@ -572,7 +602,7 @@ export default {
         }
       }, DEV ? 10 : 500);
 
-      Promise.all([this.getCode(), loadTheme(this.options.selectedTheme), loadMode(this.cm, this.language.mode, this.language.mime)])
+      Promise.all([this.getCode(), loadTheme(this.options.selectedTheme), loadMode(this.cm, this.codeInfo.language.mode, this.codeInfo.language.mime)])
         .then((resp) => {
           [this.codeText] = resp;
           this.cmReady = true;
@@ -589,7 +619,7 @@ export default {
         });
     },
     async completed(devStats = false) {
-      if (this.$route.path === '/results' || (!devStats && this.stats.history.length < 10)) {
+      if (this.$route.path === '/results' || (!devStats && this.codeInfo.fileIndex !== -1 && this.stats.history.length < 10)) {
         // TODO: disable Finish now button in Run component
         return;
       }
@@ -605,6 +635,8 @@ export default {
         this.$socket.client.emit('completed');
       }
 
+      clearInterval(this.liveWpmInterval);
+
       const complete = this.currentLine + 1 >= this.codeInfo.lines;
 
       const endMsgList = ['Too long, uh?', 'Time is over', 'Game over'];
@@ -618,10 +650,12 @@ export default {
       } else {
         this.stats = {
           ...this.stats,
-          timeFromFirstInput: this.timeElapsed(),
-          codeLength: this.codeText.length,
+          time: this.timeElapsed(),
           correctLines: this.currentLine + 1,
-          file: this.codeInfo,
+          codeInfo: {
+            ...this.codeInfo,
+            length: this.codeText.length,
+          },
           mode: this.options.selectedMode,
           complete,
         };
