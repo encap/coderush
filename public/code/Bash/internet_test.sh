@@ -20,7 +20,7 @@ if [ $? -ne 0 ]; then
         reboot
     fi
 else
-	  FAILS=0
+    FAILS=0
 fi
 
 sleep 20
