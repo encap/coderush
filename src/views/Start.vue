@@ -299,4 +299,9 @@ export default {
   flex-grow: 4
   position: relative
   max-width: 40%
+
+
+@media (max-width: 900px), (max-height: 700px)
+  .start
+    height: calc(100vh - 2 * 1em)
 </style>
