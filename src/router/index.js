@@ -14,7 +14,7 @@ const routes = [
     path: '/',
     name: 'Start',
     component: Start,
-    meta: { title: 'CodeRush · The best typing speed test for programmers' },
+    meta: { title: 'CodeRush · The best typing test for programmers' },
   },
   {
     path: '/about',
