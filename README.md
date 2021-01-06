@@ -15,7 +15,7 @@
   <h1 align="center">CodeRush</h1>
 
   <p align="center">
-    The best typing speed test for programmers
+    The best typing test for programmers
     <br />
     <br />
     <a href="https://coderush.xyz">View Live</a>
