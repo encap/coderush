@@ -1,0 +1,3 @@
+# Vendored files and directories are excluded from github language statistics.
+
+- (^|/)public/cm/
