@@ -34,7 +34,7 @@
     "express-history-api-fallback": "^2.2.1",
     "faunadb": "^4.0.0",
     "prune": "0.0.2",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "socket.io-client": "^2.3.0",
     "vue": "^2.6.12",
     "vue-chartjs": "^3.5.1",
