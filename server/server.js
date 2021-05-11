@@ -16,28 +16,6 @@ require('./rooms.js')(http);
 const PROD = process.env.PRODUCTION;
 console.log(`Environment ${PROD ? 'PRODUCTION' : 'DEVELOPMENT'}`);
 
-
-const toggleMaintanceMode = async (action) => {
-  try {
-    await axios({
-      url: 'https://api.heroku.com/apps/coderush',
-      method: 'PATCH',
-      headers: {
-        Accept: 'application/vnd.heroku+json; version=3',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.HEROKU_API_KEY}`,
-      },
-      withCredentials: true,
-      data: {
-        maintenance: action,
-      },
-    });
-    console.log(`Toogle maintance mode succeded, status: ${action}`);
-  } catch (e) {
-    console.error('Toggle maintance mode failed');
-  }
-};
-
 if (process.env.AUTO_PROMOTE) {
   axios({
     url: 'https://api.heroku.com/pipeline-promotions',
@@ -65,18 +43,21 @@ if (process.env.AUTO_PROMOTE) {
         },
       ],
     },
-  }).then(async () => {
-    console.log('Auto promotion succeded');
-    // await toggleMaintanceMode(true);
+  })
+    .then(async () => {
+      console.log('Auto promotion succeded');
 
-    // cannot process.exit(0) becouse heroku will restart anyway
-  }).catch(() => {
-    console.error('Auto promotion failed');
-    process.exit(1);
-  });
+      // cannot process.exit(0) becouse heroku will restart anyway
+    })
+    .catch(() => {
+      console.error('Auto promotion failed');
+      process.exit(1);
+    });
 } else {
   const q = faunadb.query;
-  const client = new faunadb.Client({ secret: PROD ? process.env.FAUNA_KEY : process.env.FAUNA_DEV_KEY });
+  const client = new faunadb.Client({
+    secret: PROD ? process.env.FAUNA_KEY : process.env.FAUNA_DEV_KEY,
+  });
 
   let database = null;
   let stringifiedDB = '';
@@ -87,26 +68,25 @@ if (process.env.AUTO_PROMOTE) {
 
   const fetchDatabase = async () => {
     try {
-      const [languagesRet, statsRet] = await client.query(
-        [
-          q.Map(
-            q.Paginate(q.Match(q.Index('allLanguagesByIndex'))),
-            q.Lambda('ret',
-              q.Select(['data'], q.Get(q.Select([1], q.Var('ret')))),
-            ),
-          ),
-          q.Map(
-            q.Paginate(q.Documents(q.Collection('totalStats'))),
-            q.Lambda('ref',
-              q.Select(['data'], q.Get(q.Var('ref'))),
-            ),
-          ),
-        ],
-      );
+      const [languagesRet, statsRet] = await client.query([
+        q.Map(
+          q.Paginate(q.Match(q.Index('allLanguagesByIndex'))),
+          q.Lambda(
+            'ret',
+            q.Select(['data'], q.Get(q.Select([1], q.Var('ret'))))
+          )
+        ),
+        q.Map(
+          q.Paginate(q.Documents(q.Collection('totalStats'))),
+          q.Lambda('ref', q.Select(['data'], q.Get(q.Var('ref'))))
+        ),
+      ]);
 
       database = {
         languages: languagesRet.data,
-        stats: Object.fromEntries(statsRet.data.map((entry) => ([entry.name, entry.value]))),
+        stats: Object.fromEntries(
+          statsRet.data.map((entry) => [entry.name, entry.value])
+        ),
       };
       updateDatabaseCache();
       console.log('Fetched database');
@@ -124,8 +104,6 @@ if (process.env.AUTO_PROMOTE) {
   fetchDatabase();
 
   if (PROD) {
-    toggleMaintanceMode(false);
-
     // redirect from coderush.herokuapp.com
     app.use((req, res, next) => {
       if (req.subdomains[0] === 'coderush') {
@@ -135,7 +113,6 @@ if (process.env.AUTO_PROMOTE) {
       }
     });
 
-
     // redirect to https
     app.enable('trust proxy'); // trust heroku and cloudflare
     app.use((req, res, next) => {
@@ -144,7 +121,9 @@ if (process.env.AUTO_PROMOTE) {
           console.log('Redirecting client to https');
           res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
         } else {
-          res.status(403).send('Only HTTPS is allowed when submitting data to this server.');
+          res
+            .status(403)
+            .send('Only HTTPS is allowed when submitting data to this server.');
         }
       } else {
         next();
@@ -157,12 +136,13 @@ if (process.env.AUTO_PROMOTE) {
     });
 
     setInterval(() => {
-      axios.get('https://api.coderush.xyz/ping').catch((err) => console.error(`Ping Error: ${err}`));
+      axios
+        .get('https://api.coderush.xyz/ping')
+        .catch((err) => console.error(`Ping Error: ${err}`));
     }, 1000 * 60 * 10);
 
     app.use((req, res, next) => {
       res.header('Access-Control-Allow-Origin', 'https://coderush.xyz');
-
 
       next();
     });
@@ -200,7 +180,6 @@ if (process.env.AUTO_PROMOTE) {
     res.send(stringifiedDB);
   });
 
-
   app.post('/upload', (req, res) => {
     if (typeof req.body.code === 'string' && req.body.code.length > 20) {
       axios({
@@ -234,122 +213,131 @@ if (process.env.AUTO_PROMOTE) {
     const { main, misc } = req.body;
     misc.total = 1;
 
-
-    console.log(`langTotalBefore: ${database.languages[main.languageIndex].total}`);
+    console.log(
+      `langTotalBefore: ${database.languages[main.languageIndex].total}`
+    );
     console.log(`bestBefore: ${database.stats.best}`);
     console.log(`avgBefore: ${database.stats.avg}`);
     try {
-      const qResponse = await client.query(
-        [
-          q.Select(['data', 'total'],
-            q.Let(
-              {
-                lang: q.Get(q.Match(q.Index('languageByIndex'), main.languageIndex)),
-                ref: q.Select(['ref'], q.Var('lang')),
-              },
-              q.Update(q.Var('ref'),
-                {
-                  data: {
-                    total: q.Add(q.Select(['data', 'total'], q.Var('lang')), 1),
-                  },
-                },
-              ),
-            ),
-          ),
-
-          // recalculate max
-          q.Select(['data', 'value'],
-            q.Let(
-              {
-                doc: q.Get(q.Match(q.Index('statByName'), 'best')),
-                ref: q.Select(['ref'], q.Var('doc')),
-              },
-              q.Update(q.Var('ref'),
-                {
-                  data: {
-                    value: q.Max([q.Select(['data', 'value'], q.Var('doc')), main.wpm]),
-                  },
-                },
-              ),
-            ),
-          ),
-
-          // save run
-          q.Create(
-            q.Collection('runs'),
+      const qResponse = await client.query([
+        q.Select(
+          ['data', 'total'],
+          q.Let(
             {
-              data: main,
+              lang: q.Get(
+                q.Match(q.Index('languageByIndex'), main.languageIndex)
+              ),
+              ref: q.Select(['ref'], q.Var('lang')),
             },
-          ),
+            q.Update(q.Var('ref'), {
+              data: {
+                total: q.Add(q.Select(['data', 'total'], q.Var('lang')), 1),
+              },
+            })
+          )
+        ),
 
-          // calculate avg
-          q.Select(['data', 'value'],
+        // recalculate max
+        q.Select(
+          ['data', 'value'],
+          q.Let(
+            {
+              doc: q.Get(q.Match(q.Index('statByName'), 'best')),
+              ref: q.Select(['ref'], q.Var('doc')),
+            },
+            q.Update(q.Var('ref'), {
+              data: {
+                value: q.Max([
+                  q.Select(['data', 'value'], q.Var('doc')),
+                  main.wpm,
+                ]),
+              },
+            })
+          )
+        ),
+
+        // save run
+        q.Create(q.Collection('runs'), {
+          data: main,
+        }),
+
+        // calculate avg
+        q.Select(
+          ['data', 'value'],
+          q.Let(
+            {
+              doc: q.Get(q.Match(q.Index('statByName'), 'avg')),
+              ref: q.Select(['ref'], q.Var('doc')),
+            },
+            q.Update(q.Var('ref'), {
+              data: {
+                value: q.Round(
+                  q.Select(
+                    ['data', 0],
+                    q.Mean(
+                      q.Map(
+                        q.Paginate(q.Match(q.Index('runsWpmByDate')), {
+                          size: 100,
+                        }),
+                        q.Lambda(['ts', 'wpm'], q.Var('wpm'))
+                      )
+                    )
+                  ),
+                  1 // precision
+                ),
+              },
+            })
+          )
+        ),
+
+        // totalStats
+        q.Map(
+          Object.entries(misc),
+          q.Lambda(
+            ['name', 'value'],
             q.Let(
               {
-                doc: q.Get(q.Match(q.Index('statByName'), 'avg')),
-                ref: q.Select(['ref'], q.Var('doc')),
-              },
-              q.Update(q.Var('ref'),
-                {
-                  data: {
-                    value: q.Round(
-                      q.Select(
-                        ['data', 0],
-                        q.Mean(
-                          q.Map(
-                            q.Paginate(q.Match(q.Index('runsWpmByDate')), { size: 100 }),
-                            q.Lambda(['ts', 'wpm'], q.Var('wpm')),
-                          ),
-                        ),
-                      ),
-                      1, // precision
-                    ),
+                ret: q.Let(
+                  {
+                    doc: q.Get(q.Match(q.Index('statByName'), q.Var('name'))),
+                    ref: q.Select(['ref'], q.Var('doc')),
                   },
-                },
-              ),
-            ),
-          ),
-
-          // totalStats
-          q.Map(
-            Object.entries(misc),
-            q.Lambda(
-              ['name', 'value'],
-              q.Let(
-                {
-                  ret: q.Let(
-                    {
-                      doc: q.Get(q.Match(q.Index('statByName'), q.Var('name'))),
-                      ref: q.Select(['ref'], q.Var('doc')),
+                  q.Update(q.Var('ref'), {
+                    data: {
+                      value: q.Add(
+                        q.Select(['data', 'value'], q.Var('doc')),
+                        q.Var('value')
+                      ),
                     },
-                    q.Update(q.Var('ref'),
-                      {
-                        data: {
-                          value: q.Add(q.Select(['data', 'value'], q.Var('doc')), q.Var('value')),
-                        },
-                      },
-                    ),
-                  ),
-                },
-                [
-                  q.Select(['data', 'name'], q.Var('ret')),
-                  q.Select(['data', 'value'], q.Var('ret')),
-                ],
-              ),
-            ),
-          ),
-        ],
-      );
+                  })
+                ),
+              },
+              [
+                q.Select(['data', 'name'], q.Var('ret')),
+                q.Select(['data', 'value'], q.Var('ret')),
+              ]
+            )
+          )
+        ),
+      ]);
 
       let statsResponse;
-      [database.languages[main.languageIndex].total, database.stats.best, , database.stats.avg, statsResponse] = qResponse;
+      [
+        database.languages[main.languageIndex].total,
+        database.stats.best,
+        ,
+        database.stats.avg,
+        statsResponse,
+      ] = qResponse;
 
       database.stats = {
         ...database.stats,
         ...Object.fromEntries(statsResponse),
       };
 
-      console.log(`langTotalAfter: ${database.languages[main.languageIndex].total}`);
+      console.log(
+        `langTotalAfter: ${database.languages[main.languageIndex].total}`
+      );
       console.log(`bestAfter: ${database.stats.best}`);
       console.log(`avgAfter: ${database.stats.avg}`);
 
@@ -361,7 +349,6 @@ if (process.env.AUTO_PROMOTE) {
       res.sendStatus(500);
     }
   });
-
 
   app.use(express.static(path.join(__dirname, '../dist')));
 }
@@ -376,7 +363,6 @@ const shutdown = () => {
   console.warn('Server is pending shutdown');
   server.close();
   if (PROD) {
-    toggleMaintanceMode(true);
     setTimeout(() => {
       console.warn('Ready for shutdown');
       process.exit(0);
