@@ -48,7 +48,7 @@
     "vuex-map-fields": "^1.4.0"
   },
   "devDependencies": {
-    "@actions/core": "^1.2.6",
+    "@actions/core": "^1.9.1",
     "@gfx/zopfli": "^1.0.15",
     "@vue/cli-plugin-eslint": "~4.2.0",
     "@vue/cli-plugin-router": "~4.2.0",
